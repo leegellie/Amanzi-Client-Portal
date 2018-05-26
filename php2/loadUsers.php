@@ -1,7 +1,7 @@
 <?PHP
 $servername = '172.30.200.249';
-$username = 'user001';
-$password = 'cL4MpUjCtNdNRoYY';
+define('db_user','user553');
+define('db_password','Tjl3Pf72Ct6HUqvX');
 $database = 'Portal';
 
 
