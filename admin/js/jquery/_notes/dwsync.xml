@@ -5,9 +5,9 @@
 <file name="jquery.min.js" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
 <file name="jquery.mousewheel.js" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
 <file name="jquery.widget.min.js" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
-<file name="jquery.dataTables.js" server="ssh.us-02.live-paas.net/html/" local="130897872000000000" remote="131621798560000000" Dst="1" />
-<file name="jquery.easing.1.3.min.js" server="ssh.us-02.live-paas.net/html/" local="130897872000000000" remote="131621798570000000" Dst="1" />
-<file name="jquery.min.js" server="ssh.us-02.live-paas.net/html/" local="130897872000000000" remote="131621798570000000" Dst="1" />
-<file name="jquery.mousewheel.js" server="ssh.us-02.live-paas.net/html/" local="130897872000000000" remote="131621798580000000" Dst="1" />
-<file name="jquery.widget.min.js" server="ssh.us-02.live-paas.net/html/" local="130897872000000000" remote="131621798580000000" Dst="1" />
+<file name="jquery.dataTables.js" server="ssh.us-02.live-paas.net/html/" local="131718107570000000" remote="131718107570000000" Dst="2" />
+<file name="jquery.easing.1.3.min.js" server="ssh.us-02.live-paas.net/html/" local="131718107570000000" remote="131718107570000000" Dst="2" />
+<file name="jquery.min.js" server="ssh.us-02.live-paas.net/html/" local="131718107570000000" remote="131718107570000000" Dst="2" />
+<file name="jquery.mousewheel.js" server="ssh.us-02.live-paas.net/html/" local="131718107570000000" remote="131718107570000000" Dst="2" />
+<file name="jquery.widget.min.js" server="ssh.us-02.live-paas.net/html/" local="131718107570000000" remote="131718107570000000" Dst="2" />
 </dwsync>

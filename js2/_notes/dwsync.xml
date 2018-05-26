@@ -11,15 +11,15 @@
 <file name="functions-marbgran.js" server="home608135127.1and1-data.host" local="131575005140147572" remote="131575005160000000" Dst="1" />
 <file name="functions-quartz.js" server="home608135127.1and1-data.host" local="131576487799192125" remote="131576487820000000" Dst="1" />
 <file name="functions-marbgran2.js" server="home608135127.1and1-data.host/Amanzi/calc/" local="131579442654556109" remote="131579442680000000" Dst="1" />
-<file name="addtohomescreen.js" server="ssh.us-02.live-paas.net/html/" local="131539500587380398" remote="131582717620000000" Dst="1" />
-<file name="addtohomescreen.min.js" server="ssh.us-02.live-paas.net/html/" local="131539500587671166" remote="131582717620000000" Dst="1" />
-<file name="bootstrap.js" server="ssh.us-02.live-paas.net/html/" local="131539500588415910" remote="131582717630000000" Dst="1" />
-<file name="bootstrap.min.js" server="ssh.us-02.live-paas.net/html/" local="131539500588876879" remote="131582717630000000" Dst="1" />
-<file name="functions-marbgran.js" server="ssh.us-02.live-paas.net/html/" local="131579445795813885" remote="131582717630000000" Dst="1" />
-<file name="functions-marbgran2.js" server="ssh.us-02.live-paas.net/html/" local="131579442654556109" remote="131582717640000000" Dst="1" />
-<file name="functions-quartz.js" server="ssh.us-02.live-paas.net/html/" local="131576487799192125" remote="131582717640000000" Dst="1" />
-<file name="functions.js" server="ssh.us-02.live-paas.net/html/" local="131575123426886999" remote="131582717640000000" Dst="1" />
-<file name="functions1.js" server="ssh.us-02.live-paas.net/html/" local="131539500589663512" remote="131582717640000000" Dst="1" />
-<file name="ie10.js" server="ssh.us-02.live-paas.net/html/" local="131539500589783766" remote="131582717650000000" Dst="1" />
-<file name="popper.min.js" server="ssh.us-02.live-paas.net/html/" local="131539500589984032" remote="131582717650000000" Dst="1" />
+<file name="addtohomescreen.js" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="addtohomescreen.min.js" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="bootstrap.js" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="bootstrap.min.js" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="functions-marbgran.js" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="functions-marbgran2.js" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="functions-quartz.js" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="functions.js" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="functions1.js" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="ie10.js" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="popper.min.js" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
 </dwsync>

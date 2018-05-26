@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name=".gitattributes" server="ssh.us-02.live-paas.net/html/" local="130897872000000000" remote="131577676160000000" Dst="1" />
-<file name=".gitignore" server="ssh.us-02.live-paas.net/html/" local="130897872000000000" remote="131577676160000000" Dst="1" />
-<file name="bower.json" server="ssh.us-02.live-paas.net/html/" local="130897872000000000" remote="131577676160000000" Dst="1" />
-<file name="CHANGELOG.md" server="ssh.us-02.live-paas.net/html/" local="130897872000000000" remote="131577676210000000" Dst="1" />
-<file name="Gruntfile.js" server="ssh.us-02.live-paas.net/html/" local="130897872000000000" remote="131577676240000000" Dst="1" />
+<file name=".gitattributes" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name=".gitignore" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="bower.json" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="CHANGELOG.md" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="Gruntfile.js" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="README.md" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="package.json" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="LICENSE" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
+<file name="metro.nuspec" server="ssh.us-02.live-paas.net/html/" local="131718107580000000" remote="131718107580000000" Dst="2" />
 </dwsync>
