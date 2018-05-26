@@ -3,3 +3,4 @@ error_log
 /.htaccess
 Thumbs.db
 /php/db_connect.php
+php/_notes/dwsync.xml
