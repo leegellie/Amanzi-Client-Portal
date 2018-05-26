@@ -4,3 +4,4 @@ error_log
 Thumbs.db
 /php/db_connect.php
 php/_notes/dwsync.xml
+include/config.php
