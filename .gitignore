@@ -2,4 +2,4 @@
 error_log
 /.htaccess
 Thumbs.db
-account-key.txt
+/php/db_connect.php
