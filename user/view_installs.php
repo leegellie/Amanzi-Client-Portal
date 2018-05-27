@@ -48,6 +48,5 @@ foreach ($project_list_array as $project_list_row) {
 echo '</table>';
 ?>
 
-<?PHP include('globalscripts.php'); ?>
 </body>
 </html>

@@ -42,7 +42,7 @@ include('includes.php');
 
     <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
-	<script src="/js/jquery-form-validate/javascripts/jquery.validate.js" type="text/javascript"></script>
+	<script src="/js/jquery.validate.js" type="text/javascript"></script>
     <script src="/admin/js/users.js"></script>
 <script>
 <?PHP 

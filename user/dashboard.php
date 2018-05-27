@@ -20,7 +20,6 @@ USER'S EMAIL = <?= $user_email ?>
 <meta charset="utf-8">
 <meta name="robots" content="noindex,nofollow">
 <title>User Dashboard</title>
-<?PHP include('globalscripts.php'); ?>
 </head>
 <body>
 <p><?= "Welcome $first_name $last_name"; ?>. <a href="/logout.php">Log Out</a></p>

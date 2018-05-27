@@ -74,7 +74,6 @@ if ($check_if_logged_in->is_logged_in()) {
     <link rel="stylesheet" type="text/css" href="css2/styles.css">
     <link rel="stylesheet" type="text/css" href="css2/font-awesome.min.css">
 
-    <script type="text/javascript" src="/js2/addtohomescreen.min.js"></script>
 	<style>
     input[name=users]{
         font-size: 2rem;
