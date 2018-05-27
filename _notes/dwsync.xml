@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
 <file name=".ftpquota" server="ssh.us-02.live-paas.net/html/" local="131602792250000000" remote="131602792250000000" Dst="2" />
+<<<<<<< HEAD
 <file name=".gitignore" server="ssh.us-02.live-paas.net/html/" local="131717298480000000" remote="131717298480000000" Dst="2" />
 <file name=".htaccess" server="ssh.us-02.live-paas.net/html/" local="131602790870000000" remote="131602790870000000" Dst="2" />
+=======
+<file name=".gitattributes" server="ssh.us-02.live-paas.net/html/" local="131716965480000000" remote="131716965480000000" Dst="2" />
+<file name=".gitignore" server="ssh.us-02.live-paas.net/html/" local="131717298480000000" remote="131717298480000000" Dst="2" />
+<file name=".htaccess" server="ssh.us-02.live-paas.net/html/" local="131602790870000000" remote="131602790870000000" Dst="2" />
+<file name="1.php" server="ssh.us-02.live-paas.net/html/" local="131603276970000000" remote="131603276970000000" Dst="2" />
+<file name="2.php" server="ssh.us-02.live-paas.net/html/" local="131602792430000000" remote="131602792430000000" Dst="2" />
+>>>>>>> 015181cf5ef1fdfc40aeebda8291b02b9485e505
 <file name="account-key.txt" server="ssh.us-02.live-paas.net/html/" local="131602792440000000" remote="131602792440000000" Dst="2" />
 <file name="android-chrome-192x192.png" server="ssh.us-02.live-paas.net/html/" local="131577507930000000" remote="131577507930000000" Dst="2" />
 <file name="android-chrome-512x512.png" server="ssh.us-02.live-paas.net/html/" local="131577507940000000" remote="131577507940000000" Dst="2" />
@@ -30,6 +38,10 @@
 <file name="config.php" server="ssh.us-02.live-paas.net/html/" local="131578160720000000" remote="131578160720000000" Dst="2" />
 <file name="config2.php" server="ssh.us-02.live-paas.net/html/" local="131578160760000000" remote="131578160760000000" Dst="2" />
 <file name="drivers.php" server="ssh.us-02.live-paas.net/html/" local="131580880650000000" remote="131580880650000000" Dst="2" />
+<<<<<<< HEAD
+=======
+<file name="extra.png" server="ssh.us-02.live-paas.net/html/" local="131690715880000000" remote="131690715880000000" Dst="2" />
+>>>>>>> 015181cf5ef1fdfc40aeebda8291b02b9485e505
 <file name="favicon-16x16.png" server="ssh.us-02.live-paas.net/html/" local="131577508030000000" remote="131577508030000000" Dst="2" />
 <file name="favicon-32x32.png" server="ssh.us-02.live-paas.net/html/" local="131577508030000000" remote="131577508030000000" Dst="2" />
 <file name="favicon-96x96.png" server="ssh.us-02.live-paas.net/html/" local="131577508040000000" remote="131577508040000000" Dst="2" />
@@ -42,6 +54,11 @@
 <file name="login.php" server="ssh.us-02.live-paas.net/html/" local="131719276500000000" remote="131719276500000000" Dst="2" />
 <file name="logout.php" server="ssh.us-02.live-paas.net/html/" local="131577644180000000" remote="131577644180000000" Dst="2" />
 <file name="manifest.json" server="ssh.us-02.live-paas.net/html/" local="131644909270000000" remote="131644909270000000" Dst="2" />
+<<<<<<< HEAD
+=======
+<file name="marker.png" server="ssh.us-02.live-paas.net/html/" local="131687980970000000" remote="131687980970000000" Dst="2" />
+<file name="marker1.png" server="ssh.us-02.live-paas.net/html/" local="131687988760000000" remote="131687988760000000" Dst="2" />
+>>>>>>> 015181cf5ef1fdfc40aeebda8291b02b9485e505
 <file name="ms-icon-144x144.png" server="ssh.us-02.live-paas.net/html/" local="131577571630000000" remote="131577571630000000" Dst="2" />
 <file name="ms-icon-150x150.png" server="ssh.us-02.live-paas.net/html/" local="131577571630000000" remote="131577571630000000" Dst="2" />
 <file name="ms-icon-310x310.png" server="ssh.us-02.live-paas.net/html/" local="131577571630000000" remote="131577571630000000" Dst="2" />
@@ -52,6 +69,13 @@
 <file name="phpinfo.php" server="ssh.us-02.live-paas.net/html/" local="131569818120000000" remote="131569818120000000" Dst="2" />
 <file name="rotate.gif" server="ssh.us-02.live-paas.net/html/" local="131577644530000000" remote="131577644530000000" Dst="2" />
 <file name="sendquote.php" server="ssh.us-02.live-paas.net/html/" local="131577644530000000" remote="131577644530000000" Dst="2" />
+<<<<<<< HEAD
 <file name="test-conn.php" server="ssh.us-02.live-paas.net/html/" local="131651703720000000" remote="131651703720000000" Dst="2" />
+=======
+<file name="Server=70.63.215.99;Database=AMANZI" server="ssh.us-02.live-paas.net/html/" local="131644839820000000" remote="131644839820000000" Dst="2" />
+<file name="Server=70.63.215.99;Database=AMANZI_Dashboards" server="ssh.us-02.live-paas.net/html/" local="131651640270000000" remote="131651640270000000" Dst="2" />
+<file name="test-conn.php" server="ssh.us-02.live-paas.net/html/" local="131651703720000000" remote="131651703720000000" Dst="2" />
+<file name="test-conn2.php" server="ssh.us-02.live-paas.net/html/" local="131578401890000000" remote="131578401890000000" Dst="2" />
+>>>>>>> 015181cf5ef1fdfc40aeebda8291b02b9485e505
 <file name="test-page.php" server="ssh.us-02.live-paas.net/html/" local="131651722310000000" remote="131651722310000000" Dst="2" />
 </dwsync>
