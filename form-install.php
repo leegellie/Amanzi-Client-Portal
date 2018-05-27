@@ -36,7 +36,7 @@
 										</div>
 										<div class="form-check form-check-inline">
 											<label for="tear-outb">
-													<input class="form-check-input with-font" id="tear-outb" name="tear-out" type="radio" value="No">
+													<input class="form-check-input with-font" id="tear-outb" name="tear-out" type="radio" value="no">
 													<p>No</p>
 											</label>
 										</div>
@@ -67,7 +67,7 @@
 										</div>
 										<div class="form-check form-check-inline">
 											<label for="selectedb">
-												<input class="form-check-input with-font" id="selectedb" name="selected" type="radio" value="No">
+												<input class="form-check-input with-font" id="selectedb" name="selected" type="radio" value="no">
 												<p>No</p>
 											</label>
 										</div>

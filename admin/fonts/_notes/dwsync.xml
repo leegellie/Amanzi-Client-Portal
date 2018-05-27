@@ -1,29 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <dwsync>
-<file name="OpenSans-Bold.woff" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
-<file name="OpenSans-Light.woff" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
-<file name="OpenSans.woff" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
-<file name="PTSerif-Caption.woff" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
-<file name="iconFont.dev.svg" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
-<file name="iconFont.eot" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
-<file name="iconFont.json" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
-<file name="iconFont.svg" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
-<file name="iconFont.ttf" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
-<file name="iconFont.woff" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
-<file name="metroSysIcons.svg" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
-<file name="metroSysIcons.ttf" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
-<file name="metroSysIcons.woff" server="forward4.com/public_html/" local="130897872000000000" remote="130897872000000000" Dst="-1" />
-<file name="iconFont.dev.svg" server="ssh.us-02.live-paas.net/html/" local="131718107560000000" remote="131718107560000000" Dst="2" />
-<file name="iconFont.eot" server="ssh.us-02.live-paas.net/html/" local="131718107560000000" remote="131718107560000000" Dst="2" />
-<file name="iconFont.json" server="ssh.us-02.live-paas.net/html/" local="131718107560000000" remote="131718107560000000" Dst="2" />
-<file name="iconFont.svg" server="ssh.us-02.live-paas.net/html/" local="131718107560000000" remote="131718107560000000" Dst="2" />
-<file name="iconFont.ttf" server="ssh.us-02.live-paas.net/html/" local="131718107560000000" remote="131718107560000000" Dst="2" />
-<file name="iconFont.woff" server="ssh.us-02.live-paas.net/html/" local="131718107560000000" remote="131718107560000000" Dst="2" />
-<file name="metroSysIcons.svg" server="ssh.us-02.live-paas.net/html/" local="131718107560000000" remote="131718107560000000" Dst="2" />
-<file name="metroSysIcons.ttf" server="ssh.us-02.live-paas.net/html/" local="131718107560000000" remote="131718107560000000" Dst="2" />
-<file name="metroSysIcons.woff" server="ssh.us-02.live-paas.net/html/" local="131718107560000000" remote="131718107560000000" Dst="2" />
-<file name="OpenSans-Bold.woff" server="ssh.us-02.live-paas.net/html/" local="131718107560000000" remote="131718107560000000" Dst="2" />
-<file name="OpenSans-Light.woff" server="ssh.us-02.live-paas.net/html/" local="131718107560000000" remote="131718107560000000" Dst="2" />
-<file name="OpenSans.woff" server="ssh.us-02.live-paas.net/html/" local="131718107560000000" remote="131718107560000000" Dst="2" />
-<file name="PTSerif-Caption.woff" server="ssh.us-02.live-paas.net/html/" local="131718107560000000" remote="131718107560000000" Dst="2" />
+<file name="metroSysIcons.woff" server="ssh.us-02.live-paas.net/html/" local="131577572170000000" remote="131577572170000000" Dst="2" />
+<file name="metroSysIcons.ttf" server="ssh.us-02.live-paas.net/html/" local="131577572170000000" remote="131577572170000000" Dst="2" />
+<file name="iconFont.dev.svg" server="ssh.us-02.live-paas.net/html/" local="131577572030000000" remote="131577572030000000" Dst="2" />
+<file name="iconFont.eot" server="ssh.us-02.live-paas.net/html/" local="131577572030000000" remote="131577572030000000" Dst="2" />
+<file name="metroSysIcons.svg" server="ssh.us-02.live-paas.net/html/" local="131577572170000000" remote="131577572170000000" Dst="2" />
+<file name="OpenSans.woff" server="ssh.us-02.live-paas.net/html/" local="131577572180000000" remote="131577572180000000" Dst="2" />
+<file name="OpenSans-Light.woff" server="ssh.us-02.live-paas.net/html/" local="131577572180000000" remote="131577572180000000" Dst="2" />
+<file name="OpenSans-Bold.woff" server="ssh.us-02.live-paas.net/html/" local="131577572180000000" remote="131577572180000000" Dst="2" />
+<file name="iconFont.ttf" server="ssh.us-02.live-paas.net/html/" local="131577572160000000" remote="131577572160000000" Dst="2" />
+<file name="iconFont.json" server="ssh.us-02.live-paas.net/html/" local="131577572120000000" remote="131577572120000000" Dst="2" />
+<file name="iconFont.woff" server="ssh.us-02.live-paas.net/html/" local="131577572170000000" remote="131577572170000000" Dst="2" />
+<file name="iconFont.svg" server="ssh.us-02.live-paas.net/html/" local="131577572160000000" remote="131577572160000000" Dst="2" />
+<file name="PTSerif-Caption.woff" server="ssh.us-02.live-paas.net/html/" local="131577572190000000" remote="131577572190000000" Dst="2" />
 </dwsync>

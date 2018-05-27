@@ -31,7 +31,7 @@ include('includes.php');
 
     <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-	<script src="/js/jquery-form-validate/javascripts/jquery.validate.js" type="text/javascript"></script>
+	<script src="/js/jquery.validate.js" type="text/javascript"></script>
     <script src="js/projects.js"></script>
     <script src="js/project_edit.js"></script>
     <script src="js/time_off.js"></script>
