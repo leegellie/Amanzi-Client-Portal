@@ -1,4 +1,5 @@
 <?PHP
+echo '<!-- Lee -->';
 if(!session_id()) session_start();
 // ini_set('session.gc_maxlifetime', 0);
 // ini_set('cookie_secure','1');
