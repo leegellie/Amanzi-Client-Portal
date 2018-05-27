@@ -23,7 +23,6 @@ Else, generate a fresh token for the login form and session.
 */
 $check_if_logged_in = new login;
 $errorMsg ="";
-echo '<!-- top -->';
 if ($check_if_logged_in->is_logged_in()) {
 	$check_if_logged_in->set_access_headers();
 } elseif (isset($_POST['token']) && isset($_POST['uname']) && isset($_POST['upass'])) {
