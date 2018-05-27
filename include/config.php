@@ -11,5 +11,4 @@ ini_set('html_errors', 0);
 
 //SITE BASE DIR
 define('base_dir','/var/www/html/');
-//define('base_dir','/home/forward4/public_html/');
 ?>
