@@ -1532,6 +1532,10 @@ a:not([href]):not([tabindex]), a:not([href]):not([tabindex]):focus, a:not([href]
   border-radius: 0.125rem;
   background-color: #fff; }
 
+.bg-alert {
+  background-color: #d0d002 !important; }
+
+
 .bg-primary {
   background-color: #4285f4 !important; }
 

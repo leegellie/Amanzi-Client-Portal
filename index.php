@@ -1,5 +1,4 @@
 <?PHP
-echo '<!-- Lee -->';
 if(!session_id()) session_start();
 // ini_set('session.gc_maxlifetime', 0);
 // ini_set('cookie_secure','1');
@@ -68,12 +67,13 @@ if ($check_if_logged_in->is_logged_in()) {
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
 
+    <link rel="manifest" href="/manifest.json">
+
     <link rel="stylesheet" type="text/css" href="css2/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css2/ie10.css">
     <link rel="stylesheet" type="text/css" href="css2/styles.css">
     <link rel="stylesheet" type="text/css" href="css2/font-awesome.min.css">
 
-    <script type="text/javascript" src="/js2/addtohomescreen.min.js"></script>
 	<style>
     input[name=users]{
         font-size: 2rem;

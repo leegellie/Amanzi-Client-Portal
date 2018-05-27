@@ -1,0 +1,385 @@
+/*
+ * Globals
+ */
+ 
+.hidden {
+    display: none;
+}
+.close {
+    z-index: 3;
+}
+canvas {
+    background-color: azure !important;
+    border: 1px solid #ccc !important;
+    display: inline-block;
+    vertical-align: baseline;
+    /*min-height: 172px;*/
+}
+.row {
+    margin-right: 0 !important;
+}
+/* Links */
+a,
+a:focus,
+a:hover {
+  color: #fff;
+}
+
+/* Custom default button */
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary:focus {
+  color: #333;
+  text-shadow: none; /* Prevent inheritance from `body` */
+  background-color: #fff;
+  border: .05rem solid #fff;
+}
+
+/*
+ * Base structure
+ */
+
+html,
+body {
+    height: 100vh;
+    background: url(../images/marble.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-width: 100vw;
+}
+body {
+    color: #fff;
+    text-align: center;
+    text-shadow: 0 .05rem .1rem rgba(0,0,0,.5);
+}
+
+/* Extra markup and styles for table-esque vertical and horizontal centering */
+.site-wrapper {
+    display: table;
+    width: 100%;
+    height: 100%; /* For at least Firefox */
+    min-height: 100%;
+    -webkit-box-shadow: inset 0 0 5rem rgba(0,0,0,.5);
+            box-shadow: inset 0 0 5rem rgba(0,0,0,.5);
+}
+.site-wrapper-inner {
+    display: table-cell;
+    vertical-align: top;
+    max-width: 100vw;
+}
+.cover-container {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* Padding for spacing */
+.inner {
+    padding: 2rem;
+}
+
+
+/*
+ * Header
+ */
+.call i, .web i {
+}
+.call p, .web p {
+    padding-left:10px;
+    display:inline-block;
+    margin-bottom: 0;
+    font-size: 24px;
+}
+.web {
+    margin-right: 12px;
+}
+.web, .call {
+    border-color: #ccc;
+    width: 48%;
+    margin-top: 10px;
+}
+.masthead {
+	/*margin-bottom: 2rem;*/
+}
+
+.masthead-brand {
+    margin-bottom: 0;
+}
+.masthead-brand img {
+    max-width: 80%;
+	max-height: 15vh;
+}
+.nav-masthead .nav-link {
+    padding: .25rem 0;
+    font-weight: bold;
+    color: rgba(255,255,255,.5);
+    background-color: transparent;
+    border-bottom: .25rem solid transparent;
+}
+
+.nav-masthead .nav-link:hover,
+.nav-masthead .nav-link:focus {
+    border-bottom-color: rgba(255,255,255,.25);
+}
+
+.nav-masthead .nav-link + .nav-link {
+    margin-left: 1rem;
+}
+
+.nav-masthead .active {
+    color: #fff;
+    border-bottom-color: #fff;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 13px 13px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+
+
+/*
+ * Cover
+ */
+
+.cover {
+    padding: 0 1.5rem;
+}
+.cover .btn-lg {
+    padding: .75rem 1.25rem;
+    font-weight: bold;
+}
+.cover-container {
+	/*padding-bottom: 50px;*/
+}
+
+/*
+ * Footer
+ */
+
+.mastfoot, .mastfoot a {
+    color: rgba(0,0,0,.5);
+}
+
+
+/*
+ * Affix and center
+ */
+section:not(#select-form) h1 {
+    margin-top: 2rem;
+}
+#select-form .head-text {
+    padding-bottom: 15px;
+}
+.head-text {
+    color: rgba(225, 223, 234, .2);
+    text-shadow: 1px 1px 0px rgba(255,255,255,.3), -1px -1px 0px rgba(0,0,0,.7);
+    font-size: 4rem;
+    opacity: 0.8;
+}
+
+.card-holder {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.card {
+    display: table;
+    height: 100%;
+    min-height: 150px;
+    width: 100%;
+    background-image:url(../images/4.jpg);
+    background-repeat: no-repeat;
+    background-size: 300%;
+    cursor: pointer;
+    box-shadow: -2px 2px 4px #000;
+    border: none;
+    background-position: 50%;
+    border-radius: .2rem;
+    background-color: rgb(61, 57, 54);
+    border: 8px outset rgba(200,200,200,0.1);
+}
+.card:hover {
+    border: 8px inset rgba(200,200,200,0.3);
+}
+.card-holder:first-of-type .card {
+    background-position: 2%;
+}
+.card-holder:last-of-type .card {
+    background-position: 98%;
+}
+.card h2 {
+    display: table-cell;
+    vertical-align: middle;
+    text-shadow: 0px 0px 7px #000, -1px -1px 0px #000;
+    font-size: 2.5rem;
+}
+
+hr {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 0;
+    border-top: 1px solid rgba(0,0,0,.1);
+    height: 1px;
+    width: 100%;
+}
+
+.sect-remove {
+    margin-bottom: -40px;
+}
+
+input[type=radio],
+input[type=checkbox] {
+    width: 1px;
+}
+
+input[type=radio].with-font:before,
+input[type=checkbox].with-font:before {
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f10c";
+    letter-spacing: 10px;
+    font-size: 2em;
+    line-height: 1;
+    color: #535353;
+    width: 1.4em;
+    margin-top: -7px;
+    color: #999;
+}
+input[type=radio].with-font:checked:before,
+input[type=checkbox].with-font:checked:before {
+    font-family: FontAwesome;
+    display: inline-block;
+    content: "\f00c";
+    letter-spacing: 10px;
+    font-size: 2em;
+    line-height: 1;
+    color: #535353;
+    width: 1.4em;
+    color: #44ce44;
+}
+label p {
+    margin-left: 14px;
+}
+.sink-box {
+}
+.sb1 {
+    background-color: transparent;
+    border: none;
+}
+.sb2 {
+    background-color: rgba(0,0,0,0.1);
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+.btn-surround {
+    z-index: 45;
+    cursor: pointer;
+}
+.btn-secondary {
+    background-color: #ccc;
+    color: #999;
+}
+.btn-secondary:hover {
+    background-color: red;
+    color: white;
+}
+.fa-xl {
+    font-size: 2rem !important;
+    line-height: 1 !important;
+}
+#thank-you {
+    color: #666;
+}
+@media (max-width: 40em) {
+	.sect-add span, .sect-remove span {
+    	display: none;
+	}
+	.head-text {
+	    font-size: 3.1rem;
+    	padding-bottom: 20px;
+	    color: #48484a;
+	}
+	.masthead {
+	}
+}
+
+@media (max-width: 62em) {
+
+    .call p, .web p {
+        display:none;
+    }
+}
+
+@media (min-width: 40em) {
+    /* Pull out the header and footer */
+    .masthead {
+        position: relative;
+        top: 0;
+        margin-bottom: 0;
+    }
+    .masthead-brand {
+        float: left;
+    }
+    .head-text {
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-family: serif;
+        font-size: 3.7rem;
+    }
+    .mastfoot {
+    	/*position: fixed;*/
+        bottom: 0;
+    }
+    /* Start the vertical centering */
+    .site-wrapper-inner {
+        vertical-align: middle;
+    }
+    /* Handle the widths */
+    .masthead,
+    .mastfoot,
+    .cover-container {
+        width: 100%; /* Must be percentage or pixels for horizontal alignment */
+    }
+}
+@media (min-width: 48em) {
+    .masthead {
+        /*position: absolute;*/
+    }
+    .masthead-brand {
+        float: left;
+    }
+    .nav-masthead {
+        float: right;
+    }
+}
+@media (min-width: 62em) {
+    .masthead,
+    .mastfoot,
+    .cover-container {
+        width: 72rem;
+        max-width: 100vw;
+    }
+    .head-text {
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 9px;
+        font-family: serif;
+        font-size: 4rem;
+    }
+}

@@ -32,7 +32,7 @@ include('includes.php');
 
     <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-	<script src="/js/jquery-form-validate/javascripts/jquery.validate.js" type="text/javascript"></script>
+	<script src="/js/jquery.validate.js" type="text/javascript"></script>
     <script src="js/admin.js"></script>
     <script src="js/printThis.js"></script>
 	<script src="bootgrid/jquery.bootgrid.min.js"></script>
