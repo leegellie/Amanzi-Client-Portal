@@ -80,9 +80,9 @@ if ($access_level < 11) {
 				<li class="nav-item py-3 px-4 dropdown">
 					<a class="dropdown-toggle text-white" id="toolsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Materials</a>
 					<div class="dropdown-menu" aria-labelledby="toolsdropdown">
-						<a class="dropdown-item text-dark" href="https://amanziportal.com/admin/materials.php">Material Needed</a>
-						<a class="dropdown-item text-dark" href="https://amanziportal.com/admin/admin.php?marble">Marble/Granite</a>
-						<a class="dropdown-item text-dark" href="https://amanziportal.com/admin/admin.php?quartz">Quartz</a>
+						<a class="dropdown-item text-dark" href="/admin/materials.php">Material Needed</a>
+						<a class="dropdown-item text-dark" href="/admin/admin.php?marble">Marble/Granite</a>
+						<a class="dropdown-item text-dark" href="/admin/admin.php?quartz">Quartz</a>
 
 						<!--<a class="dropdown-item text-dark" onClick="window.open('/login.php')" href="#">Materials Pricing</a>-->
 					</div>
@@ -95,7 +95,7 @@ if ($access_level < 11) {
 				<li class="nav-item py-3 px-4 dropdown">
 					<a class="dropdown-toggle text-white" id="toolsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Staff</a>
 					<div class="dropdown-menu" aria-labelledby="toolsdropdown">
-						<a class="dropdown-item text-dark" href="https://amanziportal.com/admin/time_off.php">Time Off</a>
+						<a class="dropdown-item text-dark" href="/admin/time_off.php">Time Off</a>
 
 						<!--<a class="dropdown-item text-dark" onClick="window.open('/login.php')" href="#">Materials Pricing</a>-->
 					</div>
