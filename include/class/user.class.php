@@ -1,6 +1,6 @@
 <?PHP
 if(!session_id()) session_start();
-require_once(__DIR__ . '/../config.php');
+//require_once(__DIR__ . '/../config.php');
 define('db_host','172.30.200.249');
 define('db_user','user001');
 define('db_password','cL4MpUjCtNdNRoYY');
