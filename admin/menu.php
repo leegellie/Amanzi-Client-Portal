@@ -67,8 +67,8 @@ if ($access_level < 11) {
 				<li class="nav-item py-3 px-4 dropdown">
 					<a class="dropdown-toggle text-white" id="toolsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Prices</a>
 					<div class="dropdown-menu" aria-labelledby="toolsdropdown">
-						<a class="dropdown-item text-dark" href="https://amanziportal.com/admin/projects.php?marbgran">Marble/Granite</a>
-						<a class="dropdown-item text-dark" href="https://amanziportal.com/admin/projects.php?quartz">Quartz</a>
+						<a class="dropdown-item text-dark" href="/admin/projects.php?marbgran">Marble/Granite</a>
+						<a class="dropdown-item text-dark" href="/admin/projects.php?quartz">Quartz</a>
 
 						<!--<a class="dropdown-item text-dark" onClick="window.open('/login.php')" href="#">Materials Pricing</a>-->
 					</div>
