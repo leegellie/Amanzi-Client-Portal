@@ -1,0 +1,364 @@
+@charset "utf-8";
+/***********************
+GLOBAL
+***********************/
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,500,700");
+html, body {
+	width: 100%;
+	font-family: 'Raleway', san-serif;	
+	font-size: 18px;;
+	background: #EEE;
+	color: #333;
+}
+
+html,body,div,span,applet,object,iframe,h1,h2,
+h3,h4,h5,h6,p,blockquote,a,abbr,acronym,address,
+big,cite,del,dfn,em,img,ins,kbd,q,s,samp,small,
+strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,
+dd,ol,ul,li,fieldset,form,label,legend,table,caption,
+tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,
+embed,figure,figcaption,footer,header,hgroup,input,menu,
+nav,output,ruby,section,summary,time,mark,audio,video {
+	border: 0;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
+}
+
+* { 
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box; 
+}
+
+.wrap {
+	width: 100%;
+	text-align: center;
+}
+
+.wrap:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.innerWrap {
+	width: 100%;
+	max-width: 1200px;
+	margin: auto;
+}
+
+.splitPage {
+	display: inline-block;
+	width: 49%;
+	border: none;
+	margin: auto;
+}
+
+#quotelname,#lname {
+	display: none;
+}
+/***********************
+HEADER
+***********************/
+#topBar {
+	background: rgb(240,240,240);
+	border: solid 7px transparent;
+}
+
+#logoContainer {
+	text-align: left;
+}
+
+#logoContainer img {
+	height: 2.75vmin;
+	width: auto;
+}
+
+#topBar-infoContainer {
+	text-align: right;
+	font-size: .9rem;
+	font-weight: 500;
+}
+
+a#topBar-login {
+	text-decoration: none;
+	color: #333;
+}
+
+#splashContainer {
+	background: #2E2E2E;
+	height: 530px;
+}
+
+#splashInner {
+	background: url(/images/1/header-bg.jpg) right no-repeat;
+	background-size: contain;
+	height: 100%;
+	width: 100%;
+}
+
+#splashHighlight-bg {
+	background: rgba(153,153,153,.4);
+	width: 400px;
+	height: 100%;
+	text-align: left;
+}
+
+#splashHighlight-bg h1 {
+	color: #FFF;
+	font-size: 1.8rem;
+	padding: 50px 10px 10px 10px;
+	text-shadow: #000 2px 2px 15px;
+}
+
+#splashHighlight-bg span {
+	display: block;
+	color: #FFF;
+	padding: 10px 20px;
+	line-height: 1.5;
+	text-align: justify;
+}
+
+#freeDemo-Container {
+	width: 100%;
+	text-align: center;
+}
+
+.btninput {
+	font-size: 1.15rem;
+    padding: 7px 20px;
+    border-radius: 3px;
+	cursor: pointer;
+}
+
+#getQuoteBTN.btninput {
+    background: #333;
+    color: #ED1C24;
+	font-weight: bold;
+}
+
+#viewDemoBTN.btninput {
+    background: #ED1C24;
+    color: #333;
+    border: solid 1px #333;
+	font-weight: bold;
+}
+
+#demoForm-Container {
+	display: none;
+	width: 90%;
+	margin: 10px auto;
+	border: solid 2px #FFCC00;
+    background: rgba(255,204,0,.25);
+}
+
+.inputContainer {
+    width: 100%;
+    text-align: center;
+    padding: 3px;
+}
+
+.txtinput {
+    width: 80%;
+    font-size: 1rem;
+    padding: 3px;
+    color: #333;
+}
+
+#demoForm .btninput {
+    background: #FFCC00;
+    color: #000;
+    border: solid 1px #ECBD00;
+}
+
+#touchscreenIMGContainer {
+	display: none;
+}
+
+#demoForm-ThankYou,#demoForm2-ThankYou {
+	display: none;
+    background: rgba(20,180,40,.6);
+    color: #EEE;
+    text-align: center;
+}
+
+/***********************
+FEATURES
+***********************/
+#features .innerWrap {
+	padding: 30px 0;
+}
+
+#featuresTop {
+	font-size: 1.5rem;
+	display: block;
+}
+
+.featuredPoints {
+	display: inline-block;
+	padding-top: 20px;
+	width: 33%;
+	vertical-align: top;
+}
+
+.featuredPoints .fa {
+	font-size: 3rem;
+}
+
+.featuredTitle {
+	font-size: 1.25rem;
+}
+
+.featuredTXT {
+	text-align: center;
+	font-size: 1rem;
+	border: solid 10px transparent;
+	box-sizing: border-box;
+}
+
+/***********************
+REALITME STATS
+***********************/
+#statsContainer {
+	
+}
+
+#statsContainer .innerWrap {
+	height: 450px;
+}
+
+#statsTxtContainer {
+	width: 100%;
+	max-width: 500px;
+	padding-top: 30px;
+}
+
+#statsDescription {
+	text-align: justify;
+	font-size: .9rem;
+}
+
+#statsIMGcontainer {
+	position: absolute;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+	overflow: hidden;
+	margin-top: -60px;
+	text-align: right;
+}
+
+/***********************
+GET QUOTE STATS
+***********************/
+#quoteContainer {
+	background-color: #FFF;
+}
+
+#quoteContainer .innerWrap {
+	padding: 20px 0;
+}
+
+#whynot {
+	font-size: 1.3rem;
+	padding-bottom: 7px;
+}
+
+#whynotDescription {
+	font-size: .8rem;
+	padding-bottom: 15px;
+}
+
+ .quoteInputContainer {
+	display: inline-block;
+	width: 30%;
+	max-width: 300px;
+	vertical-align: top;
+ }
+ 
+ .quoteInputInnerContainer {
+	 padding: 5px;
+ }
+ 
+ .quoteInputInnerContainer .txtinput {
+	 border: solid 1px #999;
+	 border-radius: 5px;
+ }
+ 
+ #submitQuoteContainer {
+	width: 20%;
+	max-width: 150px;
+	height: 80px;
+ }
+ 
+ #quoteSubmit {
+	 background: #ED1C24;
+	 color: #ddd;
+	 padding: 15px 20px;
+	 margin-top: 12px;
+ }
+ 
+/***********************
+UNLIMITED USERS
+***********************/
+ #unlimitedContainer {
+	 background: url('/images/1/unlimited-gray-bg.png') bottom repeat-x;
+ }
+ 
+ #unlimitedContainer .innerWrap {
+	 height: 350px;
+ }
+ 
+ #unlimitedContainer h1 {
+	 font-size: 1.5rem;
+	 padding-top: 30px; 
+	 color: #333;
+ }
+ 
+ #unlinitedTXT {
+	 padding-top: 20px;
+ }
+ 
+ .unlimitedLines {
+	margin: auto;
+	display: block;
+ }
+ 
+ /***********************
+FOOTER
+***********************/
+#footerContainer {
+	background: #282627;
+}
+ 
+  #footerContainer .innerWrap {
+	 height: 200px; 
+}
+  
+#footerContainer h1 {
+	 font-size: 1.5rem;
+	 padding-top: 20px; 
+	 color: #DDD;
+	 cursor: pointer;
+}
+
+.footerSection {
+	display: inline-block;
+	width: 32%;
+	max-width: 300px;
+	vertical-align: top;
+	font-size: .75rem;
+	color: #AAA;
+	padding-bottom: 50px;
+}
+
+.footerSection img {
+	width: 32px;
+	height: auto;
+	padding: 3px;
+}
+
+.forwardColor {
+	color: #ED1C24;
+}

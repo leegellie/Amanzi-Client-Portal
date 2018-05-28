@@ -1,0 +1,210 @@
+%!Adobe-FontList 1.14
+%Locale:0x409
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Bold.eot
+FileModTime:1524960686
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Roboto-Bold
+FamilyName:Roboto
+StyleName:Bold
+FullName:Roboto Bold
+MenuName:Roboto
+StyleBits:2
+WritingScript:Roman
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Bold.ttf
+DataFormat:sfntData
+FileLength:127744
+FileModTime:1524960686
+WeightClass:700
+WidthClass:5
+AngleClass:0
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Bold.woff
+FileModTime:1524960686
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Bold.woff2
+FileModTime:1524960686
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Light.eot
+FileModTime:1524960686
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Roboto-Light
+FamilyName:Roboto
+StyleName:Light
+FullName:Roboto Light
+MenuName:Roboto
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Light.ttf
+DataFormat:sfntData
+FileLength:126792
+FileModTime:1524960686
+WeightClass:300
+WidthClass:5
+AngleClass:0
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Light.woff
+FileModTime:1524960686
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Light.woff2
+FileModTime:1524960686
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Medium.eot
+FileModTime:1524960686
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Roboto-Medium
+FamilyName:Roboto
+StyleName:Medium
+FullName:Roboto Medium
+MenuName:Roboto
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Medium.ttf
+DataFormat:sfntData
+FileLength:127488
+FileModTime:1524960686
+WeightClass:500
+WidthClass:5
+AngleClass:0
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Medium.woff
+FileModTime:1524960686
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Medium.woff2
+FileModTime:1524960687
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Regular.eot
+FileModTime:1524960687
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Roboto-Regular
+FamilyName:Roboto
+StyleName:Regular
+FullName:Roboto Regular
+MenuName:Roboto
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Regular.ttf
+DataFormat:sfntData
+FileLength:126072
+FileModTime:1524960687
+WeightClass:400
+WidthClass:5
+AngleClass:0
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Regular.woff
+FileModTime:1524960687
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Regular.woff2
+FileModTime:1524960687
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Thin.eot
+FileModTime:1524960687
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:TrueType
+FontName:Roboto-Thin
+FamilyName:Roboto
+StyleName:Thin
+FullName:Roboto Thin
+MenuName:Roboto
+StyleBits:0
+WritingScript:Roman
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Thin.ttf
+DataFormat:sfntData
+FileLength:127584
+FileModTime:1524960687
+WeightClass:250
+WidthClass:5
+AngleClass:0
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Thin.woff
+FileModTime:1524960687
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\Roboto-Thin.woff2
+FileModTime:1524960687
+%EndFont
+
+%BeginFont
+Handler:DirectoryHandler
+FontType:Invalid
+OutlineFileName:C:\Users\lee_g\OneDrive\Documents\Sites\Amanzi\Portal New\Font\roboto\_notes\dwsync.xml
+FileModTime:1525392937
+%EndFont
+
