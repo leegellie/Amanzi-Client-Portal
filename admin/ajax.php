@@ -3,9 +3,9 @@ if(!session_id()) session_start();
 require_once (__DIR__ . '/../include/class/user.class.php');
 require_once (__DIR__ . '/../include/class/project.class.php');
 require_once (__DIR__ . '/../include/class/materials.class.php');
-/*
-USER AJAX REQUESTS 
-*/
+
+/* USER AJAX REQUESTS */
+
 $action = trim(htmlspecialchars($_POST['action']));
 $to_cost = 7.5;
 $marbgran_rate = 5;
