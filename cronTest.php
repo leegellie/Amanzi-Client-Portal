@@ -2,7 +2,7 @@
 /**
  * This file contains the Backup_Database class wich performs
  * a partial or complete backup of any given MySQL database
- * @author Daniel López Azaña <daniloaz@gmail.com>
+ * @author Yang
  * @version 1.0
  */
 /**
