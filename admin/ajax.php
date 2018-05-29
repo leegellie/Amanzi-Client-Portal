@@ -1057,7 +1057,7 @@ if ($action=="update_job_status") {
 //			$Subject = 'Job Placed on Hold - ' . $jobName;
 //			// prepare email body text
 //			$Body = "<h2>" . $quoNum . " - " . $ordNum . "</h2>";
-//			$Body .= '<a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '"><button>View Project</button></a>';
+//			$Body .= '<a href="/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '"><button>View Project</button></a>';
 //			$Body .= "<br><br><p>Alert Version 1.2</p>";
 //			$headers = "From: Amanzi Portal <portal@amanziportal.com>\r\n";
 //			//$headers .= "Reply-To: " . $fname . " " . $lname . " <" . $EmailFrom . ">\r\n";
@@ -3390,7 +3390,7 @@ if ($action == "update_project_data") {
 //			// prepare email body text
 //			$Body = "<h2>Job Quote #: <b>" . $quoNum . "</b> - Order #: <b>" . $ordNum . "</b></h2>";
 //
-//			$Body .= '<a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $emailUid . '"><button>View Project</button></a>';
+//			$Body .= '<a href="/admin/projects.php?edit&pid=' . $pid . '&uid=' . $emailUid . '"><button>View Project</button></a>';
 //
 //			$Body .= "<br><br><p>Alert Version 1.0</p>";
 //			

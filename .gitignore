@@ -22,3 +22,5 @@
 *.xml
 */dwsync.xml
 /waiver/signature/signed
+cronTest.php
+/myphp-backup-files
