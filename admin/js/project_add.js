@@ -357,7 +357,7 @@ $(document).ready(function() {
 					// alert(data);
 					$pid = data;
 					$uid = $("#uid").val();
-					var $link = 'https://amanziportal.com/admin/projects.php?edit&pid=' + $pid + '&uid=' + $uid;
+					var $link = '/admin/projects.php?edit&pid=' + $pid + '&uid=' + $uid;
 					window.location.replace($link);
 
 

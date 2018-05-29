@@ -2115,7 +2115,7 @@ if ($action=="email_anya") {
 
 	// prepare email body text
 	$Body = "<h2>" . $quoNum . " - " . $ordNum . "</h2>";
-	$Body .= '<a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '"><button>View Project</button></a>';
+	$Body .= '<a href="/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '"><button>View Project</button></a>';
 	$Body .= "<br><br><p>Alert Version 1.2</p>";
 
 	$headers = "From: Amanzi Portal <portal@amanziportal.com>\r\n";
@@ -4085,7 +4085,7 @@ if ($action=="view_selected_inst") {
 				$html .= "<a class='btn btn-primary mb-2 mr-2 d-inline-block' href='/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/" . $_POST['instID'] . "/" . $filename . "' target='_blank'>" . $filename . "</a><p>";
 
 				// ========== Clipboard Attachments  ===========
-				$cbAttachments .= "<span style='font-size:0.1px;'> - &lt;a target='_blank' href='https://amanziportal.com/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/" . $_POST['instID'] . "/" . $filename . "'&gt;" . $filename . "&lt;/a&gt;</span>";
+				$cbAttachments .= "<span style='font-size:0.1px;'> - &lt;a target='_blank' href='/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/" . $_POST['instID'] . "/" . $filename . "'&gt;" . $filename . "&lt;/a&gt;</span>";
 				// ======== End Clipboard Attachments  =========
 
 			}

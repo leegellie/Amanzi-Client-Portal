@@ -106,13 +106,13 @@ if ($access_level < 11) {
 	if ($access_level == 1) {
 ?>
 <!-- 				<li class="nav-item py-3 px-4 dropdown">
-						<a class="" href="https://amanziportal.com/admin/testing.php">Testing</a>
+						<a class="" href="/admin/testing.php">Testing</a>
 				</li> -->
 
 				<!--<li class="nav-item py-3 px-4 dropdown">
 					<a class="dropdown-toggle text-white" id="toolsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tools</a>
 					<div class="dropdown-menu" aria-labelledby="toolsdropdown">
-						<a class="dropdown-item text-dark" target="_blank" href="https://amanziportal.com/waiver/">Visitor's Waiver</a>
+						<a class="dropdown-item text-dark" target="_blank" href="/waiver/">Visitor's Waiver</a>
 						<a class="dropdown-item text-dark" target="_blank" href="http://calc.amanzigranite.com/">Materials Calculator</a>
 						<a class="dropdown-item text-dark" target="_blank" href="http://price.amanzigranite.com/">Materials Pricing</a>
 

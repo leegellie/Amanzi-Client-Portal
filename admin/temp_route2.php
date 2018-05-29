@@ -235,7 +235,7 @@ function getLatLong($address){
     
 	function initializeMap() {
 		// Map options
-		var iconBase_home = 'https://amanziportal.com/images/map-icon.png';
+		var iconBase_home = '/images/map-icon.png';
 		var opts = {
 			center: new google.maps.LatLng(36.1181642, -80.0626623,59),
 			zoom: 9,
@@ -275,7 +275,7 @@ function getLatLong($address){
 			$('.rteBtn').removeClass('hidden');
 
 			// Map options
-			var iconBase_home = 'https://amanziportal.com/images/map-icon.png';
+			var iconBase_home = '/images/map-icon.png';
 			var opts = {
 				center: new google.maps.LatLng(36.1181642, -80.0626623,59),
 				zoom: 9,
@@ -336,10 +336,10 @@ function getLatLong($address){
 					}
 					// If there are directions being shown, clear them
 					clearDirections();
-					var iconBase = 'https://amanziportal.com/images/icon-normal.png';
-					var iconBase1 = 'https://amanziportal.com/images/icon-am.png';
-					var iconBase2 = 'https://amanziportal.com/images/icon-hold.png';
-					var iconBase3 = 'https://amanziportal.com/images/icon-future.png';
+					var iconBase = '/images/icon-normal.png';
+					var iconBase1 = '/images/icon-am.png';
+					var iconBase2 = '/images/icon-hold.png';
+					var iconBase3 = '/images/icon-future.png';
 	
 					var joblist_str = [];
 					for(var i=0;i<=100;i++){
@@ -439,7 +439,7 @@ function getLatLong($address){
 									html_str +=   "<div class='container-fluid'>";
 									html_str +=   "<div class='row'>";
 
-									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='https://amanziportal.com/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
+									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
 
 									<?
 									if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1449) {
@@ -536,7 +536,7 @@ function getLatLong($address){
 									html_str +=   "<div class='container-fluid'>";
 									html_str +=   "<div class='row'>";
 
-									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='https://amanziportal.com/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
+									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
 
 									<?
 									if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1449) {
@@ -674,7 +674,7 @@ modalPull += 						', ' + value['state'];
 modalPull += 						' ' + value['zip'];
 modalPull += 					'</b></p></div>';
 modalPull += '					<form class="row" id="form' + value['id'] + '">';
-modalPull += '					<a class="btn btn-primary col-3" target="_blank" href="https://amanziportal.com/admin/projects.php?edit&pid=' + value['id'] + '&uid=' + value['uid'] + '"><i class="fas fa-eye"></i></a>';
+modalPull += '					<a class="btn btn-primary col-3" target="_blank" href="/admin/projects.php?edit&pid=' + value['id'] + '&uid=' + value['uid'] + '"><i class="fas fa-eye"></i></a>';
 
 								<?php 
 								if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1449) {
@@ -754,7 +754,7 @@ modalPull += '</div>';
 									html_str +=   "<div class='container-fluid'>";
 									html_str +=   "<div class='row'>";
 
-									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='https://amanziportal.com/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
+									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
 
 									<?php 
 									if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1449) {
@@ -1410,7 +1410,7 @@ modalPull += '</div>';
 				<div class="row py-3">
 					<div class="datepicker_sec">
 						<div class="col-2 pr-0">
-							<a href="https://amanziportal.com/admin/dashboard.php">
+							<a href="/admin/dashboard.php">
 								<img class="img-fluid" src="../images/icon.png" alt="Amanzi">
 							</a>
 						</div>

@@ -184,7 +184,7 @@ function getLatLong($address){
     
     function initializeMap() {
         // Map options
-        var iconBase_home = 'https://amanziportal.com/home.png';
+        var iconBase_home = '/home.png';
         var opts = {
             center: new google.maps.LatLng(36.1181642, -80.0626623,59),
             zoom: 9,
@@ -222,7 +222,7 @@ function getLatLong($address){
       
         $('.get_info_btn').click(function(){
           // Map options
-          var iconBase_home = 'https://amanziportal.com/home.png';
+          var iconBase_home = '/home.png';
           var opts = {
               center: new google.maps.LatLng(36.1181642, -80.0626623,59),
               zoom: 9,
@@ -272,7 +272,7 @@ function getLatLong($address){
               }
               // If there are directions being shown, clear them
               clearDirections();
-              var iconBase = 'https://amanziportal.com/marker1.png';
+              var iconBase = '/marker1.png';
               var joblist_str = [];
               for(var i=0;i<=100;i++){
                 nodes_team[i] = [];

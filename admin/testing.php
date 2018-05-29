@@ -229,7 +229,7 @@ function getLatLong($address){
     
 	function initializeMap() {
 		// Map options
-		var iconBase_home = 'https://amanziportal.com/images/map-icon.png';
+		var iconBase_home = '/images/map-icon.png';
 		var opts = {
 			center: new google.maps.LatLng(36.1181642, -80.0626623,59),
 			zoom: 9,
@@ -267,7 +267,7 @@ function getLatLong($address){
 		
 		$('.get_info_btn').click(function(){
 			// Map options
-			var iconBase_home = 'https://amanziportal.com/images/map-icon.png';
+			var iconBase_home = '/images/map-icon.png';
 			var opts = {
 				center: new google.maps.LatLng(36.1181642, -80.0626623,59),
 				zoom: 9,
@@ -328,10 +328,10 @@ function getLatLong($address){
 					}
 					// If there are directions being shown, clear them
 					clearDirections();
-					var iconBase = 'https://amanziportal.com/images/icon-normal.png';
-					var iconBase1 = 'https://amanziportal.com/images/icon-am.png';
-					var iconBase2 = 'https://amanziportal.com/images/icon-hold.png';
-					var iconBase3 = 'https://amanziportal.com/images/icon-future.png';
+					var iconBase = '/images/icon-normal.png';
+					var iconBase1 = '/images/icon-am.png';
+					var iconBase2 = '/images/icon-hold.png';
+					var iconBase3 = '/images/icon-future.png';
 	
 					var joblist_str = [];
 					for(var i=0;i<=100;i++){
@@ -439,7 +439,7 @@ function getLatLong($address){
 									}
 									?>
 
-									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='https://amanziportal.com/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
+									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
 									html_str +=    "</div>";
 									html_str +=    "</div>";
 									html_str +=  "</div>";
@@ -530,7 +530,7 @@ function getLatLong($address){
 									html_str +=       " ><?php echo $row['temp_team_name']; ?></option>";
 									<?php } ?>
 									html_str +=     "</select>";
-									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='https://amanziportal.com/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
+									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
 									html_str +=    "</div>";
 									html_str +=    "</div>";
 									html_str +=  "</div>";
@@ -661,7 +661,7 @@ if (selectedTeam == value['template_team']) {modalPull += 'selected'};
 modalPull += 						' ><?php echo $row['temp_team_name']; ?></option>';
 <?php } ?>
 modalPull += '					</select>';
-modalPull += '					<a class="btn btn-primary col-3" target="_blank" href="https://amanziportal.com/admin/projects.php?edit&pid=' + value['id'] + '&uid=' + value['uid'] + '"><i class="fas fa-eye"></i></a>';
+modalPull += '					<a class="btn btn-primary col-3" target="_blank" href="/admin/projects.php?edit&pid=' + value['id'] + '&uid=' + value['uid'] + '"><i class="fas fa-eye"></i></a>';
 modalPull += '					</form>';
 modalPull += '				</div>';
 modalPull += '			</div>';
@@ -721,7 +721,7 @@ modalPull += '</div>';
 									html_str +=       " ><?php echo $row['temp_team_name']; ?></option>";
 									<?php } ?>
 									html_str +=     "</select>";
-									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='https://amanziportal.com/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
+									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
 									html_str +=    "</div>";
 									html_str +=    "</div>";
 									html_str +=  "</div>";

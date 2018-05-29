@@ -4,7 +4,7 @@
                 <div id="user-data" class="col-12">
 					<div class="row">
 						<h1 class="text-primary col-10">Installs Scheduled</h1>
-						<a class="btn btn-lg btn-success col-2" target="_blank" href="https://amanziportal.com/admin/inst_route.php"><i class="fas fa-map h1"></i></a>
+						<a class="btn btn-lg btn-success col-2" target="_blank" href="/admin/inst_route.php"><i class="fas fa-map h1"></i></a>
 					</div>
                     <div id="user-block" class="content">
 						<div class="col-12" id="tableResults">

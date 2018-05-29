@@ -60,7 +60,7 @@
 	$Body .= '<div style="display:flex"><div style="width:20%">Source: </div><div style="width:29%"><b>' . $source . '</b></div></div>';
 	$Body .= '<div style="display:flex"><div style="width:20%">Address: </div><div style="width:79%"><b>' . $address1 . '</b></div></div>';
 	$Body .= '<div style="display:flex"><div style="width:20%">Guests: </div><div style="width:79%"><b>' . $guests . '</b></div></div>';
-	$Body .= '<div style="display:flex"><div style="width:20%">Signature: </div><div style="width:79%"><a href="https://amanziportal.com/waiver/signature/signed/' . $recordName . '.svg" target="_blank">View Signature</a></b></div></div>';
+	$Body .= '<div style="display:flex"><div style="width:20%">Signature: </div><div style="width:79%"><a href="/waiver/signature/signed/' . $recordName . '.svg" target="_blank">View Signature</a></b></div></div>';
 
 	$Body .= "</div><br><br><p>For visitors to <a href='http://amanzigranite.com'>Amanzi Marble, Granite and Tile</a>. Version 1.4</p>";
 	
