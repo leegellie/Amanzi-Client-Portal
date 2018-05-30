@@ -4286,7 +4286,9 @@ if ($action=="view_selected_pjt") {
 			$html .= $results['address_2'] . ', ';
 		}
 		$html .= $results['city'] . ', ' . $results['state'] . ' ' . $results['zip'] . '</a></b></div>';
-		$html .= ' <iframe src="http://maps.google.com/maps?q="'.$results['address_1'] . ', ' . $html .= $results['address_2'] . ', ' . $results['city'] . ', ' . $results['state'] . ' ' . $results['zip'] . '" width="500" height="400"></iframe>';
+		$html .= ' <iframe src="http://maps.google.com/maps?q=';
+		$html .= $results['address_1'] . '+' . $results['address_2'] . '%2C+' . $results['city'] . '%2C+' . $results['state'] . '%2C+' . $results['zip'];
+		$html .= '" width="500" height="400"></iframe>';
 
 		$html .= '';
 		
