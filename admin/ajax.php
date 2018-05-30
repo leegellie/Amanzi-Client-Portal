@@ -4112,9 +4112,9 @@ if ($action=="view_selected_pjt") {
 			$html .= '<div id="rejectedDbBtn" class="btn btn-sm btn-danger d-inline ml-2 float-right d-print-none" onClick="entry_reject(' . $results['id'] . ');">Reject <i class="fas fa-thumbs-down"></i></div>';
 		}
 
-		if ( $results['order_num'] > 0 ) {
-			$html .= '<a target="_blank" id="viewMaster" class="btn btn-sm btn-info d-inline d-print-none ml-2 float-right" href="http://dashboard.amanzigranite.com/eFiles/' . $results['order_num'] . '/' . $results['order_num'] . '_shop_sheet.pdf">View Template <i class="fas fa-file-pdf"></i></a>';
-		}
+		//if ( $results['order_num'] > 0 ) {
+			//$html .= '<a target="_blank" id="viewMaster" class="btn btn-sm btn-info d-inline d-print-none ml-2 float-right" href="http://dashboard.amanzigranite.com/eFiles/' . $results['order_num'] . '/' . $results['order_num'] . '_shop_sheet.pdf">View Template <i class="fas fa-file-pdf"></i></a>';
+		//}
 
 		$html .= '<div id="sendAnya" class="btn btn-sm btn-success d-print-none ml-2 float-right ' . $noProg . '" onClick="sendQuoteData();">Send to Entry <i class="fas fa-paper-plane"></i></div>';
 		$html .= '<div id="editPjtBtn" class="btn btn-sm btn-primary d-print-none ml-2 float-right ' . $noProg . '" onClick="pullEditPjt(' . $results['id'] . ');">Edit <i class="fas fa-wrench"></i></div>';
@@ -4286,6 +4286,10 @@ if ($action=="view_selected_pjt") {
 			$html .= $results['address_2'] . ', ';
 		}
 		$html .= $results['city'] . ', ' . $results['state'] . ' ' . $results['zip'] . '</a></b></div>';
+		$html .= ' <iframe src="http://maps.google.com/maps?q="'.$results['address_1'] . ', ' . $html .= $results['address_2'] . ', ' . $results['city'] . ', ' . $results['state'] . ' ' . $results['zip'] . '" width="500" height="400"></iframe>';
+
+		$html .= '';
+		
 		$html .= '	</div>';
 		$html .= '</div>';
 
