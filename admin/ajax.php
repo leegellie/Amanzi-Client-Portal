@@ -4349,8 +4349,8 @@ if ($action=="view_selected_pjt") {
 			}
 		}
 		$html .= '<hr>';
+		$html .= '</div>';
 	}
-	$html .= '</div>';
 
 	echo $html;
 
