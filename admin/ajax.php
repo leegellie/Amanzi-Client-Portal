@@ -4327,13 +4327,12 @@ if ($action=="view_selected_pjt") {
 
 	$cmt_user = "'" . $_SESSION['id'] . "'";
 	$html .= '<div class="d-print-none">';
-	$html .= '<h4 class="d-inline">Comments</h4><div id="makeCommentBtn" class="btn btn-primary d-inline ml-2 float-right" cmt_type="pjt" onClick="makeComment(this,' . $cmt_user . ');"><i class="fas fa-comment"></i></div>';
-	$html .= '<hr>'; 
-	$html .= '<div id="commentList" class="col-12">';
+	$html .= '	<h4 class="d-inline">Comments</h4><div id="makeCommentBtn" class="btn btn-primary d-inline ml-2 float-right" cmt_type="pjt" onClick="makeComment(this,' . $cmt_user . ');"><i class="fas fa-comment"></i></div>';
+	$html .= '	<hr>'; 
+	$html .= '	<div id="commentList" class="col-12">';
 	$html .= $cList;
-	$html .= '</div>';
-	$html .= '<hr>'; 
-	$html .= '</div>';
+	$html .= '	</div>';
+	$html .= '	<hr>'; 
 
 	// Attachment Section
 	$folderPath = base_dir . "job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/";
@@ -4355,6 +4354,7 @@ if ($action=="view_selected_pjt") {
 	echo $html;
 
 	unset($_POST['userID']);
+	echo '';
 	echo '<hr class=" d-print-none" style="height:5px;margin-top:15px;background:magenta;">';
 	echo '<div id="pjtInstalls" class="row">';
 	echo '<div class="h1 col-12 col-md-9 d-print-none">Installs</div>';
