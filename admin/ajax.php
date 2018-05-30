@@ -4336,7 +4336,7 @@ if ($action=="view_selected_pjt") {
 	$html .= '	<hr>'; 
 
 	// Attachment Section
-	$folderPath = base_dir . "job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/";
+	$folderPath = "https://amanziportal.com/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/";
 	if (file_exists($folderPath)) {
 		$fileList = array_diff(scandir($folderPath), array('..', '.'));
 		if (!empty($fileList)) {
