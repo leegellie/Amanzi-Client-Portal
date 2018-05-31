@@ -2035,13 +2035,13 @@ $(document).ready(function() {
 	getLocation();
 
 	$("#p-install_date").click(function(e) {
-		if ( $('#p-job_sqft').val() < 1 || $('#p-order_num').indexOf('o') || $('#p-order_num').indexOf('r') ) {
+		if ( $('#p-job_sqft').val() < 1 || $('#p-order_num').val().indexOf('o') || $('#p-order_num').val().indexOf('r') ) {
 			alert("This job must have SqFt assigned before it can be scheduled.");
 			return;
 		}
 	});
 	$("#install_date").click(function(e) {
-		if ( $('#order_num').indexOf('o') || $('#order_num').indexOf('r') ) {
+		if ( $('#order_num').val().indexOf('o') || $('#order_num').val().indexOf('r') ) {
 			alert("This job must have SqFt assigned before it can be scheduled.");
 			return;
 		}
