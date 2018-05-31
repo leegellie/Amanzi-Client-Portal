@@ -572,7 +572,7 @@ class user_action {
 		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 		$sql = 'SELECT id, username, fname, lname, email FROM users WHERE company LIKE "Amanzi"';
 		if ( $a['user'] == 'manager' ) {
-			if ( $a['department'] == '0' ) {
+			if ( $a['department'] == 0 ) {
 				$sql .= ' AND division LIKE "' . $a['division'] . '"';
 			} else {
 				$sql .= ' AND department LIKE "' . $a['department'] . '"';

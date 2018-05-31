@@ -137,8 +137,8 @@ if ( $isManager == 1 ) {
 	}
 	echo $staffOptions;
 	$_POST = array();
-							?>
-
+	echo '<option value="'. $division .'">'.$_POST['user'].'</option>'
+	?>
 							</select>
 						</fieldset>
 						<fieldset class="form-group col-md-6">
@@ -195,7 +195,7 @@ if ( $isManager == 1 ) {
 						<fieldset class="form-group col-md-6">
 							<label for="quote-num">Staff Member:</label>
 							<select class="mdb-select" id="update_staff" name="staff" readonly >
-							<?
+	<?
 	$_POST = array();
 	$_POST['division'] = $division;
 	$_POST['department'] = $department;
@@ -206,13 +206,12 @@ if ( $isManager == 1 ) {
 	} else if ( $isManager == '1' ) {
 		$_POST['user'] = 'manager';
 	}
-
 	foreach ( $staffMember->get_staff_names( $_POST ) as $results ) {
 		$staffOptions .= '<option email="' . $results['email'] . '" value="' . $results['id'] . '">' . $results['username'] . ' - ' . $results['fname'] . ' ' . $results['lname'] . '</option>';
 	}
 	echo $staffOptions;
 	$_POST = array();
-							?>
+	?>
 							</select>
 						</fieldset>
 						<fieldset class="form-group col-md-6">
