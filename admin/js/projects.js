@@ -2035,21 +2035,21 @@ $(document).ready(function() {
 	getLocation();
 
 	$("#p-install_date").click(function(e) {
-		if ( $('#p-job_sqft').val() < 1 || $('#p-order_num').val().indexOf('o') || $('#p-order_num').val().indexOf('r') ) {
+		if ( $('#p-job_sqft').val() > 1 || $('#p-order_num').val().indexOf('o') || $('#p-order_num').val().indexOf('r') ) {
+			$("#p-install_date").prop('readonly', false);
+		} else {
 			alert("This job must have SqFt assigned before it can be scheduled.");
 			$("#p-install_date").prop('readonly', true);
 			return;
-		} else {
-			$("#p-install_date").prop('readonly', false);
 		}
 	});
 	$("#install_date").click(function(e) {
 		if ( $('#order_num').val().indexOf('o') || $('#order_num').val().indexOf('r') ) {
+			$("#install_date").prop('readonly', false);
+		} else {
 			alert("This job must have SqFt assigned before it can be scheduled.");
 			$("#install_date").prop('readonly', true);
 			return;
-		} else {
-			$("#install_date").prop('readonly', false);
 		}
 	});
 
