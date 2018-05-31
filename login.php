@@ -1,8 +1,8 @@
 <?PHP
-ini_set('session.gc_maxlifetime', 0);
-ini_set('cookie_secure','1');
-session_set_cookie_params(0,'/','',true,true);
-session_start();
+if(!session_id()) session_start();
+// ini_set('session.gc_maxlifetime', 0);
+// ini_set('cookie_secure','1');
+// session_set_cookie_params(0,'/','',true,true);
 require_once ('include/class/user.class.php');
 /*
 Checks if user login sessions exist. If they do, the session data
