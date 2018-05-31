@@ -2044,8 +2044,9 @@ $(document).ready(function() {
 		}
 	});
 	$("#install_date").focus(function(e) {
-		if ( $('#order_num').val().indexOf('o') || $('#order_num').val().indexOf('r') ) {
+		if ( $('#order_num').val().indexOf('O') || $('#order_num').val().indexOf('R') ) {
 			$("#install_date").prop('readonly', false);
+			alert('false');
 		} else {
 			alert("This job must have SqFt assigned before it can be scheduled.");
 			$("#install_date").prop('readonly', true);
