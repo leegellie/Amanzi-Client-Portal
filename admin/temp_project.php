@@ -1846,7 +1846,7 @@ if(isset($_GET['add'])){
 <script src="js/pikaday.js"></script>
 <script src="js/pikaday.jquery.js"></script>
 <script>
-    var res = '<?php echo json_encode($output); ?>'; //for the template_date 
+	var res = '<?php echo json_encode($output); ?>'; //for the template_date 
     var resforinstall = '<?php echo json_encode($outputforinstall); ?>'; //for the install_date 
     console.log(resforinstall);
     var holi = '<?php echo json_encode($holidays); ?>';
@@ -1873,17 +1873,27 @@ if(isset($_GET['add'])){
                .replace(/\\f/g, "\\f");
   // remove non-printable and other non-valid JSON chars
     resforinstall = resforinstall.replace(/[\u0000-\u0019]+/g,"");
-    
-    var obj = jQuery.parseJSON(res);
+
+	var obj = jQuery.parseJSON(res);
     var insobj = jQuery.parseJSON(resforinstall);
     //console.log(res);
   
     var holidays = jQuery.parseJSON(holi);
+  
+  // for template date
     var atr = 0;
     var cur_day = [];
     var approv_day = [];
     var cur_mo = [];
     var approv_mon = [];
+  
+  // for install date  
+    var atr_ins = 0;
+    var cur_day_ins = [];
+    var approv_day_ins = [];
+    var cur_mo_ins = [];
+    var approv_mon_ins = [];
+  
     var disable = false;
   
     function distance(lat1, lon1, lat2, lon2) {
@@ -1897,27 +1907,27 @@ if(isset($_GET['add'])){
         dist = dist * 60 * 1.1515;
         return dist
     }
-    var $datepicker = $('.datepicker').pikaday({
+
+	var $datepicker = $('.datepicker').pikaday({
         firstDay: 1,
         minDate: new Date(),
         maxDate: new Date(2020, 12, 31),
         yearRange: [2000,2020],
         disableDayFn: function(theDate) {
-          var formattedDate = new Date(theDate);
-          var jday = formattedDate.getDay();
-          var d = formattedDate.getDate();
-          var st_d = d;
-          
-          var m =  formattedDate.getMonth();
-          var st_m = m;
-          m += 1;  // JavaScript months are 0-11
-          var y = formattedDate.getFullYear();
-          if (d < 10) {
-              d = "0" + d;
-          }
-          if (m < 10) {
-              m = "0" + m;
-          }
+		var formattedDate = new Date(theDate);
+		var jday = formattedDate.getDay();
+		var d = formattedDate.getDate();
+		var st_d = d;
+		var m =  formattedDate.getMonth();
+		var st_m = m;
+		m += 1;  // JavaScript months are 0-11
+		var y = formattedDate.getFullYear();
+		if (d < 10) {
+			d = "0" + d;
+		}
+		if (m < 10) {
+			m = "0" + m;
+		}
           
           var job_day = formattedDate.getDay();
           
@@ -2050,16 +2060,16 @@ if(isset($_GET['add'])){
                     var temp_lang = v['job_long'];
                     var each_dis = distance(lat2, lon2, temp_lat, temp_lang);
                     if(each_dis < 15){
-                      atr = 1;
+                      atr_ins = 1;
                     }
                   })
-                  if ( atr == 1){
-                    cur_day.push(st_d);
-                    cur_mo.push(st_m);
-                    atr = 0;
+                  if ( atr_ins == 1){
+                    cur_day_ins.push(st_d);
+                    cur_mo_ins.push(st_m);
+                    atr_ins = 0;
                   }else{
-                    approv_day.push(st_d);
-                    approv_mon.push(st_m);
+                    approv_day_ins.push(st_d);
+                    approv_mon_ins.push(st_m);
                   }
                 }
               }
@@ -2082,18 +2092,18 @@ if(isset($_GET['add'])){
           var n = d.getMonth();
           //console.log(cur_day);
           //if(n == curmm){
-          for(var i=0;i<cur_day.length;i++){
-            if(curmm == cur_mo[i]){
-              var class_btn = ".pika-button[data-pika-day='"+cur_day[i]+"']";
+          for(var i=0;i<cur_day_ins.length;i++){
+            if(curmm == cur_mo_ins[i]){
+              var class_btn = ".pika-button[data-pika-day='"+cur_day_ins[i]+"']";
               $(class_btn).css({
                 "background":"rgb(144, 186, 255)",
                 "color":"black"
               });
             }
           }
-          for(var i=0;i<approv_day.length;i++){
-            if(curmm == approv_mon[i]){
-              var class_btn = ".pika-button[data-pika-day='"+approv_day[i]+"']";
+          for(var i=0;i<approv_day_ins.length;i++){
+            if(curmm == approv_mon_ins[i]){
+              var class_btn = ".pika-button[data-pika-day='"+approv_day_ins[i]+"']";
               $(class_btn).css({
                 "background":"rgb(244, 151, 159)",
                 "color":"black"

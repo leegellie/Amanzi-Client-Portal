@@ -170,14 +170,14 @@
 												<label for="address_notes"><b>Address Notes:</b></label>
 												<textarea class="form-control" id="address_notes" name="address_notes" type="text" rows="2"></textarea>
 											</fieldset>
-	
 										</div>
 									</div>
 									<fieldset class="form-group col-6 col-md-6">
 										<div class="container">
 											<div class="row">
 												<label class="col-5" for="template-date">Template Date:</label>
-												<input class="col-7 form-control" id="template_date" name="template_date" type="date">
+												<input class="col-md-7 form-control datepicker" type="text" id="p-template_date" name="template_date">
+												<!--<input class="col-7 form-control" id="template_date" name="template_date" type="date">-->
 											</div>
 										</div>
 									</fieldset>
@@ -198,7 +198,8 @@
 										<div class="container">
 											<div class="row">
 												<label class="col-5" for="install-date">Install Date:</label>
-												<input class="col-7 form-control" id="install_date" name="install_date" type="date">
+												<input class="col-md-7 form-control datepicker1" type="text" id="p-install_date" name="install_date">
+												<!--<input class="col-7 form-control" id="install_date" name="install_date" type="date">-->
 											</div>
 										</div>
 									</fieldset>

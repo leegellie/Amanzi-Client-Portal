@@ -2038,6 +2038,7 @@ $(document).ready(function() {
 		if ( $('#p-job_sqft').val() > 1 || $('#p-order_num').val().indexOf('o') || $('#p-order_num').val().indexOf('r') ) {
 			$("#p-install_date").prop('readonly', false);
 		} else {
+			$('#p-contact_name').focus();
 			alert("This job must have SqFt assigned before it can be scheduled.");
 			$("#p-install_date").prop('readonly', true);
 			return;
@@ -2053,5 +2054,4 @@ $(document).ready(function() {
 			return;
 		}
 	});
-
 });
