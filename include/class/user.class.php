@@ -469,7 +469,7 @@ class user_action {
 				if ( $a['department'] == 0 ) {
 					$sql .= " staff.division LIKE '" . $a['pull'] . "'";
 				} else {
-					$sql .= " staff.department LIKE " . $a['department'];
+					$sql .= ' staff.department LIKE "' . $a['department'] . '"';
 				}
 			} else {
 				$sql .= " 1";
