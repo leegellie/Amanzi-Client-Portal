@@ -7,8 +7,8 @@ require_once (__DIR__ . '/../include/class/user.class.php');
 require_once (__DIR__ . '/../include/class/project.class.php');
 require_once ('head_php.php');
 
-    GET THE INSTALLED JOBS BETWEEN TOADY AND 30 DAYS LATER.
-    */
+    //GET THE INSTALLED JOBS BETWEEN TOADY AND 30 DAYS LATER.
+    //*/
     $conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
