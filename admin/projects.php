@@ -130,9 +130,8 @@ if(isset($_GET['add'])){
 						<input type="hidden" id="p-uid" name="uid" value="">
 						<input type="hidden" id="p-job_lat" name="job_lat">
 						<input type="hidden" id="p-job_long" name="job_long">
+
 						<input type="hidden" id="p-job_sqft">
-
-
 
 
 						<div class="container pt-3 mb-3 border border-light border-right-0 border-left-0 blue lighten-5">
