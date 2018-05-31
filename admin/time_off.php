@@ -127,6 +127,7 @@ if ( $isManager == 1 ) {
 	$staffMember = new user_action;
 	$_POST['division'] = $division;
 	$_POST['department'] = $department;
+	$_POST['user'] = '';
 	if ( ($division=='7') || ($division=='3') || ($division=='1') ) {
 		$_POST['user'] = 'exec';
 	} else {
