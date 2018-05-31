@@ -151,7 +151,7 @@ if ($action=="viewRTOs") {
 			if ( $_POST['type'] == 'personal' || $r['staff'] == $_SESSION['id'] ) {
 				$html .= 'Not yet approved.';
 			} else {
-				$html .= '<div class="col-3 btn btn-lg btn-success"><i class="fas fa-check"></i> Approve</div>';
+				$html .= '<div class="col-3 btn btn-lg btn-success" onClick="approveRTO(' . $r['id'] . ',' . $uid . ')"><i class="fas fa-check"></i> Approve</div>';
 			}
 		}
 		$html .= '</div><hr class="col-12">';	
@@ -4082,6 +4082,30 @@ if ($action=="view_selected_pjt") {
 
 		$html .= $statList;
 		$html .= '</select>';
+		$rejectSale = '<div class="btn btn-sm btn-danger" onClick="statusUpdate(26)"><i class="fas fa-times"></i> Job Rejected</div>';
+		$rejectTempl = '<div class="btn btn-sm btn-danger" onClick="statusUpdate(19)"><i class="fas fa-times"></i> Template Hold</div>';
+
+//		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2) {
+//			if ($results['job_status'] == 10) {
+//				$html .= '<div class="btn btn-sm btn-success" onClick="statusUpdate(11)"><i class="fas fa-check"></i> Estimated</div>';
+//				$html .= $rejectSale;
+//			}
+//			if ($results['job_status'] == 11) {
+//				$html .= '<div class="btn btn-sm btn-success" onClick="statusUpdate(12)"><i class="fas fa-check"></i> Estimate Approved</div>';
+//				$html .= $rejectSale;
+//			}
+//		}
+//		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4) {
+//			if ($results['job_status'] == 10) {
+//				$html .= '<div class="btn btn-sm btn-success" onClick="statusUpdate(11)"><i class="fas fa-check"></i> Template Sc</div>';
+//
+//				$html .= $rejectTempl;
+//			}
+//			if ($results['job_status'] == 11) {
+//				$html .= '<div class="btn btn-sm btn-success" onClick="statusUpdate(12)"><i class="fas fa-check"></i> Estimate Approved</div>';
+//				$html .= $rejectTempl;
+//			}
+//		}
 
 
 		$html .= '<div id="progressStatus" class="w-100 d-print-none">';

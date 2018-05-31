@@ -545,14 +545,7 @@ class user_action {
 		return $row = $q->fetchAll();
 	}
 
-
-
-
-
-
-
 	public function submit_rto($a) {
-
 		$dbh = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 		if ( $a['approval'] == 1 ) {
@@ -562,15 +555,12 @@ class user_action {
 		}
 		$q = $dbh->prepare($sql);
 		$q->execute($a);
-
 	}
-
-
 
 	public function get_staff_names($a) {
 		$dbh = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-		$sql = 'SELECT id, username, fname, lname, email FROM users WHERE company LIKE "Amanzi"';
+		$sql = 'SELECT id, username, fname, lname, email FROM users WHERE company LIKE "Amanzi" AND isActive = 1';
 		if ( $a['user'] == 'manager' ) {
 			if ( $a['department'] == 0 ) {
 				$sql .= ' AND division LIKE ' . $a['division'];
@@ -578,7 +568,7 @@ class user_action {
 				$sql .= ' AND department LIKE "' . $a['department'] . '"';
 			}
 		}
-		$sql .= " AND isActive = 1 ORDER BY username ASC";
+		$sql .= " ORDER BY username ASC";
 		$q = $dbh->prepare($sql);
 		$q->execute();
 		return $row = $q->fetchAll();
@@ -587,7 +577,6 @@ class user_action {
 	public function get_staff_name() {
 		$dbh = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-
 		$q = $dbh->prepare("SELECT id, username, fname, lname, email FROM users WHERE id = :id AND isActive = 1");
 		$q->bindParam('id',$_SESSION['id']);
 		$q->execute();
@@ -597,25 +586,21 @@ class user_action {
 	public function get_staff_level() {
 		$dbh = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-
 		$q = $dbh->prepare("SELECT division, department, isManager FROM users WHERE id = :id");
 		$q->bindParam('id',$_SESSION['id']);
 		$q->execute();
 		return $row = $q->fetchAll();
 	}
 
-
 	public function get_new_user_name() {
 		$dbh = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-			
 		$q = $dbh->prepare("SELECT fname, lname, company FROM users WHERE id = :id");
 		$q->bindParam('id',$_POST['id']);
 		$q->execute();
 		$row = $q->fetch(PDO::FETCH_NUM);
 		return $row;	
 	}
-
 
 	// SET THE DESIRED USERNAME. QUERY DB IF USERNAME EXISTS. SETS VALUE OF _username_count
 	public function set_username_check($i) {

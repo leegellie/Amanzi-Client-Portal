@@ -54,6 +54,7 @@ include('includes.php');
    	<div class="row pageLook">
 		<div class="container">
 <?
+$uid = $_SESSION['id'];
 $division = '';
 $department = '';
 $isManager = '';
@@ -137,7 +138,6 @@ if ( $isManager == 1 ) {
 		$staffOptions .= '<option email="' . $results['email'] . '" value="' . $results['id'] . '">' . $results['username'] . ' - ' . $results['fname'] . ' ' . $results['lname'] . '</option>';
 	}
 	echo $staffOptions;
-	echo '<option value="' . $division . '">' . $_POST['user'] . '</option>';
 	$_POST = array();
 	?>
 							</select>
@@ -421,7 +421,7 @@ $('#view_time_off_btn').click( function() {
 })
 
 $('#view_timesheet_btn').click( function() {
-	var data = 'action=viewRTOs&type=personal&pull=<?= $_SESSION['id'] ?>&department=' + $department;
+	var data = 'action=viewRTOs&type=personal&pull=<?= $uid ?>&department=' + $department;
 	console.log(data);
 	$.ajax({
 		type: "POST",
@@ -538,6 +538,32 @@ $('#enter_time_off_btn').click( function() {
 		}
 	});
 })
+
+function approveRTO($rto,$uid) {
+	var datastring = 'action=approve_rto&rto=' + $rto + '&uid=' $uid;
+
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: data,
+		success: function(data) {
+			$('.mdb-select').material_select('destroy');
+			$('.summaryModal').html('');
+			$('.summaryModal').html(data);
+			$('.mdb-select').material_select();
+			$('.summaryModal').append('Success');
+		},
+		error: function(data) {
+			alert(JSON.stringify(data));
+			$('.mdb-select').material_select('destroy');
+			$('.summaryModal').html('');
+			$('.summaryModal').text(data);
+			$('.mdb-select').material_select();
+			$('.summaryModal').append('Failed');
+		}
+	});
+}
+
 
 $('#enter_staff').on('change', function() {
 	var $email = $('#enter_staff option:selected').attr('email');
