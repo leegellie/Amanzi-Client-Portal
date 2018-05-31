@@ -137,7 +137,7 @@ if ( $isManager == 1 ) {
 		$staffOptions .= '<option email="' . $results['email'] . '" value="' . $results['id'] . '">' . $results['username'] . ' - ' . $results['fname'] . ' ' . $results['lname'] . '</option>';
 	}
 	echo $staffOptions;
-	echo '<option value="' . $division . '">' . $_POST['user'] . '</option>'
+	echo '<option value="' . $division . '">' . $_POST['user'] . '</option>';
 	$_POST = array();
 	?>
 							</select>
