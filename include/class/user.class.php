@@ -503,7 +503,7 @@ class user_action {
 			} else {
 				$sql .= "";
 			}
-			$sql .= " ORDER BY lname ASC, fname ASC";
+			$sql .= " AND isActive = 1 ORDER BY lname ASC, fname ASC";
 	
 			$q = $dbh->prepare($sql);
 			$q->execute();
@@ -578,7 +578,7 @@ class user_action {
 				$sql .= ' AND department LIKE "' . $a['department'] . '"';
 			}
 		}
-		$sql .= " ORDER BY username ASC";
+		$sql .= " AND isActive = 1 ORDER BY username ASC";
 		$q = $dbh->prepare($sql);
 		$q->execute();
 		return $row = $q->fetchAll();
@@ -588,7 +588,7 @@ class user_action {
 		$dbh = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 
-		$q = $dbh->prepare("SELECT id, username, fname, lname, email FROM users WHERE id = :id");
+		$q = $dbh->prepare("SELECT id, username, fname, lname, email FROM users WHERE id = :id AND isActive = 1");
 		$q->bindParam('id',$_SESSION['id']);
 		$q->execute();
 		return $row = $q->fetchAll();
