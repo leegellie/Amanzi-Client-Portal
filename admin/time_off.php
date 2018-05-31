@@ -119,7 +119,7 @@ if ( $isManager == 1 ) {
 
 						<fieldset class="form-group col-md-6">
 							<label for="quote-num">Staff Member:</label>
-							<select class="form-control" id="enter_staff" name="staff">
+							<select class="mdb-select" id="enter_staff" name="staff">
 								<option value="0">Select Staff Member... </option>
 	<?
 	$staffOptions = '';
@@ -147,7 +147,7 @@ if ( $isManager == 1 ) {
 						</fieldset>
 						<fieldset class="form-group col-md-4">
 							<label for="respond_email">Time Off Type:</label>
-							<select class="form-control" id="enter_type" name="type">
+							<select class="mdb-select" id="enter_type" name="type">
 								<option value="Sick">Sick Day(s)</option>
 								<option value="Vacation">Vacation</option>
 							</select>
@@ -194,7 +194,7 @@ if ( $isManager == 1 ) {
 
 						<fieldset class="form-group col-md-6">
 							<label for="quote-num">Staff Member:</label>
-							<select class="form-control" id="update_staff" name="staff" readonly >
+							<select class="mdb-select" id="update_staff" name="staff" readonly >
 							<?
 	$_POST = array();
 	$_POST['division'] = $division;
@@ -221,7 +221,7 @@ if ( $isManager == 1 ) {
 						</fieldset>
 						<fieldset class="form-group col-md-4">
 							<label for="respond_email">Time Off Type:</label>
-							<select class="form-control" id="update_type" name="type">
+							<select class="mdb-select" id="update_type" name="type">
 								<option value="Sick">Sick Day(s)</option>
 								<option value="Vacation">Vacation</option>
 							</select>
@@ -267,7 +267,7 @@ if ( $isManager == 1 ) {
 
 						<fieldset class="form-group col-md-6">
 							<label for="quote-num">Staff Member:</label>
-							<select class="form-control" id="request_staff" name="staff" readonly>
+							<select class="mdb-select" id="request_staff" name="staff" readonly>
 							<?
 $staffOptions = '';
 $staffEmail = '';
@@ -286,7 +286,7 @@ echo $staffOptions;
 						</fieldset>
 						<fieldset class="form-group col-md-4">
 							<label for="respond_email">Time Off Type:</label>
-							<select class="form-control" id="request_type" name="type">
+							<select class="mdb-select" id="request_type" name="type">
 								<option value="Vacation">Vacation</option>
 								<option value="Sick">Sick Day(s)</option>
 							</select>
@@ -359,7 +359,7 @@ echo $staffOptions;
 			</div>
 			<div class="modal-body">
 				<form id="pullSummaryByYear" class="d-flex">
-					<select name="summaryYear" class="col-6 form-control">
+					<select name="summaryYear" class="col-6 mdb-select">
 						<option value="2017">2017</option>
 						<option value="2018" selected>2018</option>
 					</select>
@@ -404,13 +404,17 @@ $('#view_time_off_btn').click( function() {
 		data: datastring,
 		success: function(data) {
 			console.log(data);
+			$('.mdb-select').material_select('destroy');
 			$('.viewModal').html('');
 			$('.viewModal').html(data);
+			$('.mdb-select').material_select();
 			$('#viewRTOs').modal('show');
 		},
 		error: function(data) {
+			$('.mdb-select').material_select('destroy');
 			$('.viewModal').html('');
 			$('.viewModal').html(data);
+			$('.mdb-select').material_select();
 			$('#viewRTOs').modal('show');
 		}
 	});
@@ -424,14 +428,18 @@ $('#view_timesheet_btn').click( function() {
 		url: "ajax.php",
 		data: data,
 		success: function(data) {
+			$('.mdb-select').material_select('destroy');
 			$('.viewModal').html('');
 			$('.viewModal').html(data);
+			$('.mdb-select').material_select();
 			$('#viewRTOs').modal('show');
 		},
 		error: function(data) {
 			alert(JSON.stringify(data));
+			$('.mdb-select').material_select('destroy');
 			$('.viewModal').html('');
 			$('.viewModal').text(data);
+			$('.mdb-select').material_select();
 			$('#viewRTOs').modal('show');
 		}
 	});
@@ -459,14 +467,18 @@ function summaryPull() {
 		url: "ajax.php",
 		data: data,
 		success: function(data) {
+			$('.mdb-select').material_select('destroy');
 			$('.summaryModal').html('');
 			$('.summaryModal').html(data);
+			$('.mdb-select').material_select();
 			$('.summaryModal').append('Success');
 		},
 		error: function(data) {
 			alert(JSON.stringify(data));
+			$('.mdb-select').material_select('destroy');
 			$('.summaryModal').html('');
 			$('.summaryModal').text(data);
+			$('.mdb-select').material_select();
 			$('.summaryModal').append('Failed');
 		}
 	});
@@ -521,7 +533,7 @@ $('#enter_time_off_btn').click( function() {
 		complete: function(data) {
 			$('#enterRTO').modal('hide');
 			$('.successModal').html('');
-			$('.successModal').html('<h3 class="text-success">You have entered a Staff Member Time Off hours.</h3>');
+			$('.successModal').html('<h3 class="text-success">You have entered Staff Member Time Off hours.</h3>');
 			$('#successRTO').modal('show');
 		}
 	});
