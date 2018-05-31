@@ -386,7 +386,7 @@ function compareTime(time1, time2) {
 	return new Date(time1) > new Date(time2); // true if time1 is later
 }
 
-if ( $division == '7' || $division == '3' || $division == '1' ) {
+if ( $division == '7' || $division == '3' || ($division == '1' && $department == 0) ) {
 	$pullType = 'exec';
 	$pull = 0;
 } else  {
