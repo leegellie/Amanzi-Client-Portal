@@ -1525,9 +1525,9 @@ function compilePjtEdit(data) {
 	$('#p-alternate_email').val(obj.alternate_email);
 	$('#p-job_notes').val(obj.job_notes);
 	$('#p-job_status').val(obj.job_status);
-	$('#p-geo-lat').val(obj.job_lat);
-	$('#p-geo-long').val(obj.job_long);
-	$('#p-job-sqft').val(obj.job_sqft);
+	$('#p-geo_lat').val(obj.job_lat);
+	$('#p-geo_long').val(obj.job_long);
+	$('#p-job_sqft').val(obj.job_sqft);
 	//$('#p-isActive').val(obj.isActive);
 	if (obj.isActive == 1) {
 		$('#p-isActive').prop( "checked", true );
@@ -2033,5 +2033,18 @@ $(document).ready(function() {
     	});
 	});
 	getLocation();
-	
+
+	$("#p-install_date").click(function(e) {
+		if ( $('#p-job_sqft').val() < 1 || $('#p-order_num').indexOf('o') || $('#p-order_num').indexOf('r') ) {
+			alert("This job must have SqFt assigned before it can be scheduled.");
+			return;
+		}
+	});
+	$("#install_date").click(function(e) {
+		if ( $('#order_num').indexOf('o') || $('#order_num').indexOf('r') ) {
+			alert("This job must have SqFt assigned before it can be scheduled.");
+			return;
+		}
+	});
+
 });

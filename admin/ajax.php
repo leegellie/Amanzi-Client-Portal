@@ -1607,7 +1607,6 @@ if ($action=="installs_list") {
 		$days = array('Sunday', 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday');
 		echo $days[$dayOfWeek];
 	}
-
 	$results = "";
 	unset($_POST['action']);
 
@@ -1618,7 +1617,6 @@ if ($action=="installs_list") {
 			<h3><?= $today ?> : <? getWeekday($today) ?></h3>
 		</div>
 	<?
-
 	$get_entries = new project_action;
 		foreach($get_entries->get_installs($_SESSION['id']) as $results) {
 			if ($results['install_date'] == $today){

@@ -13,8 +13,11 @@ require_once ('head_php.php');
     $conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+    
     $startDate = date("Y-m-d");
     $limitDate = date('Y-m-d', strtotime($startDate. ' + 30 days'));
+
+    //Get the template date
     $q = $conn->prepare("SELECT * FROM projects 
                          WHERE template_date >= :startDate and template_date <= :limitDate
                          ORDER BY template_date");
@@ -26,7 +29,6 @@ require_once ('head_php.php');
 
     foreach($jobs as $job)
     {
-        //$tmp[$job['install_date']][] = $job['job_name'];
         $tmp[$job['template_date']][] = $job;
     }
     $output = array();
@@ -39,9 +41,40 @@ require_once ('head_php.php');
         );
     }
 
+    //Get the projects by install date
+    
+    $q = $conn->prepare("SELECT * FROM projects 
+                         WHERE install_date >= :startDate and install_date <= :limitDate
+                         ORDER BY install_date");
+    $q->bindParam('startDate', $startDate);
+    $q->bindParam('limitDate', $limitDate);
+    $q->execute();
+    $jobs = $q->fetchAll(PDO::FETCH_ASSOC);
+    $tmp = array();
+    foreach($jobs as $job)
+    {
+        $tmp[$job['install_date']][] = $job;
+    }
+    $outputforinstall = array();
+    
+    foreach($tmp as $type => $labels)
+    {
+        $outputforinstall[] = array(
+            'install_date' => $type,
+            'detail' => $labels
+        );
+    }
+
     $q = $conn->prepare("SELECT * FROM holidays");
     $q->execute();
     $holidays = $q->fetchAll(PDO::FETCH_ASSOC);
+
+    $id = 1;
+    $q = $conn->prepare("SELECT * FROM prod_limits where id = :id");
+    $q->bindParam('id',$id);
+    $q->execute();
+    $limitinfo = $q->fetchAll(PDO::FETCH_ASSOC); // get the currently sqft and projects limit
+
 /*
 HERE ARE THE CODE SNIPPETS TO DISPLAY USER INFO.
 WHAT TO DISPLAY = CODE TO INSERT THE VALUE
@@ -295,7 +328,7 @@ if(isset($_GET['add'])){
 						</div>
 
 						<div class="container pt-3 mb-3">
-              <div class="row">
+<!--               <div class="row">
                 <fieldset class="form-group col-6 col-md-6">
                   <div class="container">
                     <div class="row">
@@ -304,14 +337,18 @@ if(isset($_GET['add'])){
                     </div>
                   </div>
                 </fieldset>
-              </div>
+              </div> -->
 							<div class="row">
 								<fieldset class="form-group col-6 col-md-6">
 									<div class="container">
-										<div class="row">
+<!-- 										<div class="row">
 											<label class="col-md-5" for="template-date">Template Date:</label>
 											<input class="col-md-7 form-control" id="p-template_date" name="template_date" type="date">
-										</div>
+										</div> -->
+                    <div class="row">
+                      <label class="col-md-5" for="template-date">Template Date:</label>
+                      <input class="col-md-7 form-control datepicker" type="text" id="p-template_date" name="template_date">
+                    </div>
 									</div>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
@@ -330,10 +367,14 @@ if(isset($_GET['add'])){
 								<hr>
 								<fieldset class="form-group col-6 col-md-6">
 									<div class="container">
-										<div class="row">
+<!-- 										<div class="row">
 											<label class="col-md-5" for="install-date">Install Date:</label>
 											<input class="col-md-7 form-control" id="p-install_date" name="install_date" type="date">
-										</div>
+										</div> -->
+                    <div class="row">
+                      <label class="col-md-5" for="install-date">Install Date:</label>
+                      <input class="col-md-7 form-control datepicker1" type="text" id="p-install_date" name="install_date">
+                    </div>
 									</div>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
@@ -352,10 +393,10 @@ if(isset($_GET['add'])){
                 <div class="row">
                 <fieldset class="form-group col-6 col-md-6">
                   <div class="container">
-                    <div class="row">
+<!--                     <div class="row">
                       <label class="col-md-5" for="template-date">Install Date:</label>
                       <input class="col-md-7 form-control datepicker1" type="text" id="p-install_date" name="install_date">
-                    </div>
+                    </div> -->
                   </div>
                 </fieldset>
               </div>
@@ -1805,8 +1846,12 @@ if(isset($_GET['add'])){
 <script src="js/pikaday.js"></script>
 <script src="js/pikaday.jquery.js"></script>
 <script>
-    var res = '<?php echo json_encode($output); ?>';
+    var res = '<?php echo json_encode($output); ?>'; //for the template_date 
+    var resforinstall = '<?php echo json_encode($outputforinstall); ?>'; //for the install_date 
+    console.log(resforinstall);
     var holi = '<?php echo json_encode($holidays); ?>';
+    var currently_sqft = '<?php echo $limitinfo[0]['install_sqft']; ?>';
+    var template_num = '<?php echo $limitinfo[0]['templates_number']; ?>';
     res = res.replace(/\\n/g, "\\n")  
                .replace(/\\'/g, "\\'")
                .replace(/\\"/g, '\\"')
@@ -1816,9 +1861,21 @@ if(isset($_GET['add'])){
                .replace(/\\b/g, "\\b")
                .replace(/\\f/g, "\\f");
   // remove non-printable and other non-valid JSON chars
-    res = res.replace(/[\u0000-\u0019]+/g,""); 
+    res = res.replace(/[\u0000-\u0019]+/g,"");
+  
+    resforinstall = resforinstall.replace(/\\n/g, "\\n")  
+               .replace(/\\'/g, "\\'")
+               .replace(/\\"/g, '\\"')
+               .replace(/\\&/g, "\\&")
+               .replace(/\\r/g, "\\r")
+               .replace(/\\t/g, "\\t")
+               .replace(/\\b/g, "\\b")
+               .replace(/\\f/g, "\\f");
+  // remove non-printable and other non-valid JSON chars
+    resforinstall = resforinstall.replace(/[\u0000-\u0019]+/g,"");
     
     var obj = jQuery.parseJSON(res);
+    var insobj = jQuery.parseJSON(resforinstall);
     //console.log(res);
   
     var holidays = jQuery.parseJSON(holi);
@@ -1871,7 +1928,7 @@ if(isset($_GET['add'])){
           $.each(obj, function(key, value){
             if(value['template_date'] == curdate){
               var jobs_num = value['detail'].length;
-              if (jobs_num >= 15){
+              if (jobs_num >= template_num){
                 flag = true;
               }else{  
                 var lat1 = 36.1181642;
@@ -1968,8 +2025,8 @@ if(isset($_GET['add'])){
           //console.log(curdate,"-----", jday);          
           var flag = false;
           if(jday == 0 || jday == 6) flag = true;
-          $.each(obj, function(key, value){
-            if(value['template_date'] == curdate){
+          $.each(insobj, function(key, value){
+            if(value['install_date'] == curdate){
               var sum_sqft = 0;
               console.log(value['detail']);
               $.each(value['detail'], function(k,v){
@@ -1978,7 +2035,7 @@ if(isset($_GET['add'])){
               })
               var cur_sqft = $('#p-job-sqft').val();
               sum_sqft += parseInt(cur_sqft);
-              if (sum_sqft > 1500){
+              if (sum_sqft > currently_sqft){
                 flag = true;
               }else{  
                 var lat1 = 36.1181642;
