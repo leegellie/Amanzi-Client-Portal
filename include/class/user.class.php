@@ -570,7 +570,7 @@ class user_action {
 	public function get_staff_names($a) {
 		$dbh = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-		$sql = "SELECT id, username, fname, lname, email FROM users WHERE company LIKE '%Amanzi%'";
+		$sql = 'SELECT id, username, fname, lname, email FROM users WHERE company LIKE "Amanzi"';
 		if ( $a['user'] == 'manager' ){
 			if ( $a['department'] == 0 ) {
 				$sql .= ' AND division LIKE "' . $a['division'] . '"';
