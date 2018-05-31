@@ -2043,7 +2043,7 @@ $(document).ready(function() {
 			return;
 		}
 	});
-	$("#install_date").focusin(function(e) {
+	$("#install_date").focus(function(e) {
 		if ( $('#order_num').val().indexOf('o') || $('#order_num').val().indexOf('r') ) {
 			$("#install_date").prop('readonly', false);
 		} else {
