@@ -2047,6 +2047,7 @@ $(document).ready(function() {
 		if ( ($('#order_num').val().indexOf('O') || $('#order_num').val().indexOf('R')) > 0 ) {
 			$("#install_date").prop('readonly', false);
 		} else {
+			$('#contact_name').focus();
 			alert("This job must have SqFt assigned before it can be scheduled.");
 			$("#install_date").prop('readonly', true);
 			return;
