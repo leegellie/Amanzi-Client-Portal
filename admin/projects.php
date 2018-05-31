@@ -175,6 +175,9 @@ if(isset($_GET['add'])){
 								<fieldset class="form-group col-md-4">
 									<label for="job-name">Job Name:</label>
 									<input required class="form-control" id="p-job_name" name="job_name" type="text" data-required="true">
+                  <input type="text" class="form-control" id="p-geo-lat" name="lat_value" hidden>
+                  <input type="text" class="form-control" id="p-geo-long" name="long_value" hidden>
+                  <input type="text" class="form-control" id="p-job-sqft" name="sqft_value" hidden>
 								</fieldset>
 								<fieldset class="form-group col-md-3">
 									<label for="account-rep">Account Rep:</label>
@@ -2269,6 +2272,5 @@ $(document).ready(function(){
 <style>
   .pika-button.pika-day{font-weight:bold!important;color:grey;}
 </style>
-
 </body>
 </html>
