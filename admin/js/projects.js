@@ -2033,6 +2033,7 @@ $(document).ready(function() {
     	});
 	});
 	getLocation();
+
 	$("#p-install_date").click(function(e) {
 		if ( $('#p-job_sqft').val() > 1 || $('#p-order_num').val().indexOf('o') || $('#p-order_num').val().indexOf('r') ) {
 			$("#p-install_date").prop('readonly', false);
@@ -2044,17 +2045,17 @@ $(document).ready(function() {
 			return;
 		}
 	});
-		
+	
 
 	$("#install_date").focus(function(e) {
-		if ( $('#order_num').val().indexOf('O') > 0 || $('#order_num').val().indexOf('R') > 0 ) {
-			$("#install_date").prop('readonly', false);
-			console.log('true');
-		} else {
+		if ( $('#order_num').val().indexOf('O') == -1 || $('#order_num').val().indexOf('R')  == -1 ) {
 			$('#contact_name').focus();
 			alert("This job must have SqFt assigned before it can be scheduled.");
 			$("#install_date").prop('readonly', true);
 			return;
+		} else {
+			$("#install_date").prop('readonly', false);
+			console.log('true');
 		}
 	});
 
