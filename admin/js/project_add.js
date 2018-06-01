@@ -324,13 +324,21 @@ $(document).ready(function() {
 			$('input[name=install_date]').val('2200-01-01');
 		} else {
 			var iDate = new Date($('input[name=install_date]').val());
-			$('input[name=install_date]').val(iDate);
+			var year = iDate.getFullYear();
+			var month= ("0" + (iDate.getMonth()+1)).slice(-2);
+			var date = ("0" + iDate.getDate()).slice(-2);
+			var dateString = year + '-' + month + '-' + date;
+			$('input[name=install_date]').val(dateString);
 		}
 		if ($('input[name=template_date]').val() == '') {
 			$('input[name=template_date]').val('2200-01-01');
 		} else {
 			var tDate = new Date($('input[name=template_date]').val());
-			$('input[name=template_date]').val(tDate);
+			var year = tDate.getFullYear();
+			var month= ("0" + (tDate.getMonth()+1)).slice(-2);
+			var date = ("0" + tDate.getDate()).slice(-2);
+			var dateString = year + '-' + month + '-' + date;
+			$('input[name=template_date]').val(dateString);
 		}
 		if ($('input[name=po_cost]').val() != '') {
 			var cost = $('input[name=po_cost]').val();
