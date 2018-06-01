@@ -471,7 +471,6 @@ $(document).ready(function() {
 
 	$("#pjtUpdate").click(function(e) {
 		e.preventDefault();
-
 		$("#pjtUpdate").fadeOut(300);
 		if ($('input[name=install_date]').val() == '') {
 			$('input[name=install_date]').val('2200-01-01');
