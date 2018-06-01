@@ -2003,8 +2003,8 @@ $(document).ready(function(){
 <script src="js/pikaday.js"></script>
 <script src="js/pikaday.jquery.js"></script>
 <script>
-	var res = '<?php echo json_encode($output); ?>'; //for the template_date 
-    var resforinstall = '<?php echo json_encode($outputforinstall); ?>'; //for the install_date 
+	  var res = `<?php echo json_encode($output); ?>`; //for the template_date 
+    var resforinstall = `<?php echo json_encode($outputforinstall); ?>`; //for the install_date 
     console.log(resforinstall);
     var holi = '<?php echo json_encode($holidays); ?>';
     var currently_sqft = '<?php echo $limitinfo[0]['install_sqft']; ?>';
