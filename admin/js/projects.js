@@ -2042,7 +2042,9 @@ $(document).ready(function() {
 			alert("This job must have SqFt assigned before it can be scheduled.");
 			$("#p-install_date").prop('readonly', true);
 			return;
+		}
 	});
+		
 
 	$("#install_date").focus(function(e) {
 		if ( $('#order_num').val().indexOf('O') > 0 || $('#order_num').val().indexOf('R') > 0 ) {
