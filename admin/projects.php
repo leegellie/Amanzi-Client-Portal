@@ -16,8 +16,8 @@ require_once ('head_php.php');
     
     $startDate = date("Y-m-d");
 	$instStartDate = date('Y-m-d', strtotime($startDate. ' + 5 days'));
-echo 'Access Level' . $accs_level;
-	if ( $accs_level > 1 ) {
+echo 'Access Level' . $access_level ;
+	if ( $access_level  > 1 ) {
     	$instStartDate = date("Y-m-d");
 	}
     $limitDate = date('Y-m-d', strtotime($startDate. ' + 30 days'));
