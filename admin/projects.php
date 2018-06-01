@@ -15,11 +15,11 @@ require_once ('head_php.php');
 
     
     $startDate = date("Y-m-d");
-	$instStartDate = date('Y-m-d', strtotime($startDate. ' + 5 days'));
+	$instStartDate = date('Y-m-d', strtotime($startDate. ' + 7 days'));
 	if ( $access_level == 1 ) {
     	$instStartDate = date("Y-m-d");
 	}
-    $limitDate = date('Y-m-d', strtotime($startDate. ' + 30 days'));
+    $limitDate = date('Y-m-d', strtotime($startDate. ' + 60 days'));
 
     //Get the template date
     $q = $conn->prepare("SELECT * FROM projects 

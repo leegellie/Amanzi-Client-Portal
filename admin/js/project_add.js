@@ -322,9 +322,15 @@ $(document).ready(function() {
 
 		if ($('input[name=install_date]').val() == '') {
 			$('input[name=install_date]').val('2200-01-01');
+		} else {
+			var iDate = new Date($('input[name=install_date]').val());
+			$('input[name=install_date]').val(iDate);
 		}
 		if ($('input[name=template_date]').val() == '') {
 			$('input[name=template_date]').val('2200-01-01');
+		} else {
+			var tDate = new Date($('input[name=template_date]').val());
+			$('input[name=template_date]').val(tDate);
 		}
 		if ($('input[name=po_cost]').val() != '') {
 			var cost = $('input[name=po_cost]').val();
