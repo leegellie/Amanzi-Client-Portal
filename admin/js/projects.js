@@ -2045,7 +2045,7 @@ $(document).ready(function() {
 			return;
 	});
 	$("#install_date").focus(function(e) {
-		if ( $('#order_num').val().indexOf('O') == -1 && $('#order_num').val().indexOf('R') == -1 ) {
+		if ( $('#order_num').val().indexOf('O') > 0 || $('#order_num').val().indexOf('R') > 0 ) {
 			$("#install_date").prop('readonly', false);
 			console.log('true');
 		} else {
