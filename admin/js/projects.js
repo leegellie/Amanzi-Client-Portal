@@ -2044,6 +2044,7 @@ $(document).ready(function() {
 			$("#p-install_date").prop('readonly', true);
 			return;
 	});
+
 	$("#install_date").focus(function(e) {
 		if ( $('#order_num').val().indexOf('O') > 0 || $('#order_num').val().indexOf('R') > 0 ) {
 			$("#install_date").prop('readonly', false);
