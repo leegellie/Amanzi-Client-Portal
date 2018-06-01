@@ -2049,13 +2049,13 @@ $(document).ready(function() {
 
 	$("#install_date").click(function(e) {
 		if ( $('#order_num').val().indexOf('O') == -1 || $('#order_num').val().indexOf('R')  == -1 ) {
+			$("#install_date").prop('readonly', false);
+			console.log('true');
+		} else {
 			$('#contact_name').focus();
 			alert("This job must have SqFt assigned before it can be scheduled.");
 			$("#install_date").prop('readonly', true);
 			return;
-		} else {
-			$("#install_date").prop('readonly', false);
-			console.log('true');
 		}
 	});
 
