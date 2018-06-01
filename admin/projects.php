@@ -2196,7 +2196,7 @@ $(document).ready(function(){
               //console.log(value['detail']);
               $.each(value['detail'], function(k,v){
                 //console.log(v['job_sqft']);
-				  console.log(parseInt(v['job_sqft']);
+				  console.log( parseInt(v['job_sqft']) );
                 sum_sqft += parseInt(v['job_sqft']);
               })
               var cur_sqft = $('#p-job-sqft').val();
