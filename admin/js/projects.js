@@ -2043,12 +2043,11 @@ $(document).ready(function() {
 			alert("This job must have SqFt assigned before it can be scheduled.");
 			$("#p-install_date").prop('readonly', true);
 			return;
-		}
 	});
 	$("#install_date").focus(function(e) {
-		if ( ($('#order_num').val().indexOf('O') || $('#order_num').val().indexOf('R')) > 0 ) {
+		if ( ($('#order_num').val().indexOf('O') || $('#order_num').val().indexOf('R') ) > -1 ) {
 			$("#install_date").prop('readonly', false);
-			console.log('false');
+			console.log('true');
 		} else {
 			$('#contact_name').focus();
 			alert("This job must have SqFt assigned before it can be scheduled.");
