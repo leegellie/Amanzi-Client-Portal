@@ -2196,6 +2196,7 @@ $(document).ready(function(){
               //console.log(value['detail']);
               $.each(value['detail'], function(k,v){
                 //console.log(v['job_sqft']);
+				  console.log(v['job_sqft']);
                 sum_sqft += parseInt(v['job_sqft']);
               })
               var cur_sqft = $('#p-job-sqft').val();
@@ -2231,7 +2232,7 @@ $(document).ready(function(){
               }
             }
           });
-          
+
           $.each(holidays, function(k, v){
             var f_day = new Date(v['start_date']);
             var e_day = new Date(v['end_date']);
