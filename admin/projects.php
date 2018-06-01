@@ -15,6 +15,10 @@ require_once ('head_php.php');
 
     
     $startDate = date("Y-m-d");
+	$instStartDate = date('Y-m-d', strtotime($startDate. ' + 5 days'));
+	if ($_SESSION['accs_level']>1) {
+    	$instStartDate = date("Y-m-d");
+	}
     $limitDate = date('Y-m-d', strtotime($startDate. ' + 30 days'));
 
     //Get the template date
@@ -46,7 +50,7 @@ require_once ('head_php.php');
     $q = $conn->prepare("SELECT * FROM projects 
                          WHERE install_date >= :startDate and install_date <= :limitDate
                          ORDER BY install_date");
-    $q->bindParam('startDate', $startDate);
+    $q->bindParam('startDate', $instStartDate);
     $q->bindParam('limitDate', $limitDate);
     $q->execute();
     $jobs = $q->fetchAll(PDO::FETCH_ASSOC);
