@@ -2037,6 +2037,7 @@ $(document).ready(function() {
 	$("#p-install_date").click(function(e) {
 		if ( $('#p-job_sqft').val() > 1 || $('#p-order_num').val().indexOf('o') || $('#p-order_num').val().indexOf('r') ) {
 			$("#p-install_date").prop('readonly', false);
+			console.log('false');
 		} else {
 			$('#p-contact_name').focus();
 			alert("This job must have SqFt assigned before it can be scheduled.");
@@ -2047,6 +2048,7 @@ $(document).ready(function() {
 	$("#install_date").focus(function(e) {
 		if ( ($('#order_num').val().indexOf('O') || $('#order_num').val().indexOf('R')) > 0 ) {
 			$("#install_date").prop('readonly', false);
+			console.log('false');
 		} else {
 			$('#contact_name').focus();
 			alert("This job must have SqFt assigned before it can be scheduled.");
