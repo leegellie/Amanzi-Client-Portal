@@ -2099,7 +2099,7 @@ $(document).ready(function(){
                 var lon1 = -80.0626623;
                 var lat2 = $('#p-geo-lat').val();
                 var lon2 = $('#p-geo-long').val();
-                console.log(lat2,"************************", lon2);
+                //console.log(lat2,"************************", lon2);
                 var distan = distance(lat1,lon1,lat2,lon2);
                 if(distan > 25){
                   $.each(value['detail'], function(k,v){
@@ -2193,13 +2193,14 @@ $(document).ready(function(){
           $.each(insobj, function(key, value){
             if(value['install_date'] == curdate){
               var sum_sqft = 0;
-              console.log(value['detail']);
+              //console.log(value['detail']);
               $.each(value['detail'], function(k,v){
-                console.log(v['job_sqft']);
+                //console.log(v['job_sqft']);
                 sum_sqft += parseInt(v['job_sqft']);
               })
               var cur_sqft = $('#p-job-sqft').val();
               sum_sqft += parseInt(cur_sqft);
+				console.log(sum_sqft);
               if (sum_sqft > currently_sqft){
                 flag = true;
               }else{  
@@ -2207,7 +2208,7 @@ $(document).ready(function(){
                 var lon1 = -80.0626623;
                 var lat2 = $('#p-geo-lat').val();
                 var lon2 = $('#p-geo-long').val();
-                console.log(lat2,"************************", lon2);
+                //console.log(lat2,"************************", lon2);
                 var distan = distance(lat1,lon1,lat2,lon2);
                 if(distan > 25){
                   $.each(value['detail'], function(k,v){
