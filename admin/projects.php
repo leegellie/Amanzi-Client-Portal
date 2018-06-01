@@ -2196,11 +2196,11 @@ $(document).ready(function(){
               //console.log(value['detail']);
               $.each(value['detail'], function(k,v){
                 //console.log(v['job_sqft']);
-				  console.log( parseInt(v['job_sqft']) );
+				console.log( parseInt(v['job_sqft']) );
                 sum_sqft += parseInt(v['job_sqft']);
               })
               var cur_sqft = $('#p-job-sqft').val();
-              sum_sqft += parseInt(cur_sqft);
+              sum_sqft += parseInt(cur_sqft*1);
 				console.log('sum_sqft=' + sum_sqft);
               if (sum_sqft > currently_sqft){
                 flag = true;
