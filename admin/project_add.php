@@ -34,9 +34,9 @@
 											<fieldset class="form-group col-md-6">
 												<label for="job-name">Job Name:</label>
 												<input required class="form-control" id="job_name" name="job_name" type="text" data-required="true">
-                  <input type="text" class="form-control" id="p-geo-lat" hidden>
-                  <input type="text" class="form-control" id="p-geo-long" hidden>
-                  <input type="text" class="form-control" id="p-job-sqft" hidden>
+												<input type="text" class="form-control" id="p-geo-lat" hidden>
+												<input type="text" class="form-control" id="p-geo-long" hidden>
+												<input type="text" class="form-control" id="p-job-sqft" hidden>
 											</fieldset>
 											<fieldset class="form-group col-md-6">
 												<label for="account-rep">Account Rep:</label>

@@ -98,7 +98,6 @@ USER'S EMAIL = <?= $user_email ?>
 <?
 // INCLUDE THE JS and CSS files needed on all ADMIN PAGES
 include('includes.php');
-
 ?>
 
     <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
