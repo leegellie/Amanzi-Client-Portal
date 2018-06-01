@@ -2035,26 +2035,28 @@ $(document).ready(function() {
 	getLocation();
 
 	$("#p-install_date").click(function(e) {
-		if ( $('#p-job_sqft').val() > 1 || $('#p-order_num').val().indexOf('o') || $('#p-order_num').val().indexOf('r') ) {
+		if ( $('#p-job_sqft').val() > 1 || $('#p-order_num').val().indexOf('o') > 0 || $('#p-order_num').val().indexOf('r') > 0 || $('#p-order_num').val().indexOf('O') > 0 || $('#p-order_num').val().indexOf('R') > 0 ) {
 			$("#p-install_date").prop('readonly', false);
-			console.log('false');
+			console.log('true');
 		} else {
 			$('#p-contact_name').focus();
 			alert("This job must have SqFt assigned before it can be scheduled.");
-			$("#p-install_date").prop('readonly', true);
+			$("#p-install_date").prop('readonly', 'readonly');
+			console.log('false');
 			return;
 		}
 	});
 	
 
 	$("#install_date").click(function(e) {
-		if ( $('#order_num').val().indexOf('O') > 0 || $('#order_num').val().indexOf('R') > 0 ) {
+		console.log('repair=' + repair + ' rework='+rework);
+		if ( $('#p-order_num').val().indexOf('o') > 0 || $('#p-order_num').val().indexOf('r') > 0 || $('#order_num').val().indexOf('O') > 0 || $('#order_num').val().indexOf('R') > 0 ) {
 			$("#install_date").prop('readonly', false);
 			console.log('true');
 		} else {
 			$('#contact_name').focus();
 			alert("This job must have SqFt assigned before it can be scheduled.");
-			$("#install_date").prop('readonly', true);
+			$("#install_date").prop('readonly', 'readonly');
 			return;
 		}
 	});
