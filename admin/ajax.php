@@ -2453,43 +2453,42 @@ if ($action=="timelines_list") {
 				}
 			} 
 	echo		'	</div>';
-	echo		'</div>';
 
 
 
-	echo		'<div id="resultsTable4" class="col-sm-3 striped">';
-	echo		'	<h3>Installs</h3>';
-	echo 		'	<div class="row d-flex justify-content-between">';
+	echo		'	<div id="resultsTable4" class="col-sm-3 striped">';
+	echo		'		<h3>Installs</h3>';
+	echo 		'		<div class="row d-flex justify-content-between">';
 	$thisBtn = "'.polishdeliv'";
-	echo 		'		<div class="btn btn-primary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Ready to Install" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-container-storage"></i></div>';
+	echo 		'			<div class="btn btn-primary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Ready to Install" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-container-storage"></i></div>';
 	$thisBtn = "'.instsched'";
-	echo 			'	<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Scheduled" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');"><i class="far fa-calendar-alt"></i></div>';
+	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Scheduled" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');"><i class="far fa-calendar-alt"></i></div>';
 	$thisBtn = "'.insttruck'";
-	echo 			'	<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install In Truck" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-truck-container"></i></div>';
+	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install In Truck" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-truck-container"></i></div>';
 	$thisBtn = "'.instinroute'";
-	echo 			'	<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install in Route" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-truck"></i></div>';
+	echo 		'			<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install in Route" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-truck"></i></div>';
 	$thisBtn = "'.inststart'";
-	echo 			'	<div class="btn btn-secondary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Started" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-chess-clock-alt"></i></div>';
+	echo 		'			<div class="btn btn-secondary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Started" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-chess-clock-alt"></i></div>';
 	$thisBtn = "'.instincomp'";
-	echo 			'	<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Incomplete" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-exclamation-triangle"></i></div>';
+	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Incomplete" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-exclamation-triangle"></i></div>';
 	$thisBtn = "'.insthold'";
-	echo 			'	<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install On Hold" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-times-octagon"></i></div>';
-	echo 		'	</div><hr>';
+	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install On Hold" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-times-octagon"></i></div>';
+	echo 		'		</div><hr>';
 			foreach($install_list as $install) {
 				foreach($install['details'] as $in) {
-	echo		'	<div class="row">';
-	echo 		'		<button class="btn btn-sm text-left '.$install['button'].'" style="width:100%">';
+	echo		'		<div class="row">';
+	echo 		'			<button class="btn btn-sm text-left '.$install['button'].'" style="width:100%">';
 					if ($in['order_num'] > 0) {
 						echo 'O-'.$in['order_num'].' - ';
 					} elseif ($f['quote_num'] > 0) {
 						echo 'q-'.$in['quote_num'].' - ';
 					}
 	echo 					$in['job_name'].'</button>';
-	echo		'	</div>';
+	echo		'		</div>';
 				}
 			}
-	echo		'</div>';
-	echo 	'</div>';
+	echo		'	</div>';
+	echo 		'</div>';
 
 	echo	'<div class="tab-pane fade" id="panel_templates" role="tabpanel">';
 	echo 	'	<div class="col-12 col-md-3"><h3>Templates to Scedule</h3>';
