@@ -2267,10 +2267,10 @@ if ($action=="timelines_list") {
 	echo 		'	<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_fab" role="tab">Fabrication</a></li>';
 	echo 		'	<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_installs" role="tab">Installs</a></li>';
 	echo 		'</ul>';
-
+	echo 		'<div class="tab-content px-0">';
 	echo 		'<div class="tab-pane fade in show active" id="panel_overview" role="tabpanel">';
 	echo 		'	<div class="row">';
-	echo    	'	<div id="resultsTable1" class="col-sm-3 striped">';
+	echo    	'	<div id="resultsTable1" class="col-md-3 striped">';
 	echo       	'		<h3>Templating</h3>';
 	echo 		'		<div class="row d-flex justify-content-between">';
 	$thisBtn = "'.estapproved'";
@@ -2523,6 +2523,7 @@ if ($action=="timelines_list") {
 	echo	'<div class="tab-pane fade" id="panel_installs" role="tabpanel">';
 	echo 	'</div>';
 
+	echo '</div>';
 	echo '</div>';
 
 }
