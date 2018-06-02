@@ -2269,7 +2269,7 @@ if ($action=="timelines_list") {
 	echo 		'</ul>';
 	echo 		'<div class="tab-content px-0">';
 	echo 		'<div class="tab-pane fade in show active" id="panel_overview" role="tabpanel">';
-	echo 		'	<div class="row">';
+	echo 		'	<div class="row d-flex">';
 	echo    	'	<div id="resultsTable1" class="col-md-3 striped">';
 	echo       	'		<h3>Templating</h3>';
 	echo 		'		<div class="row d-flex justify-content-between">';
@@ -2453,7 +2453,7 @@ if ($action=="timelines_list") {
 				}
 			} 
 	echo		'	</div>';
-	echo		'	</div>';
+	echo		'</div>';
 
 
 
