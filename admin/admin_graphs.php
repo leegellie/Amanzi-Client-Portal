@@ -40,6 +40,7 @@ var $idate = [];
 var $sqft = [];
 var $jobs = [];
 <?
+	
 	$get_entry_stats = new project_action;
 	foreach($get_entry_stats->get_entry_stats() as $results) {
 		?>
