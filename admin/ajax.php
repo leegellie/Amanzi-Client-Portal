@@ -2472,7 +2472,7 @@ if ($action=="timelines_list") {
 	echo	'</div>';
 	echo 	'</div>';
 
-	echo	'<div class="tab-pane fade in show active" id="panel_templates" role="tabpanel">';
+	echo	'<div class="tab-pane fade in " id="panel_templates" role="tabpanel">';
 	echo 	'	<div class="col-12 col-md-3"><h3>Templates to Scedule</h3>';
 			foreach($temp_list as $temp) {
 				foreach($temp['details'] as $t) {
@@ -2492,16 +2492,16 @@ if ($action=="timelines_list") {
 	echo 	'	</div>';
 	echo 	'</div>';
 
-	echo	'<div class="tab-pane fade in show active" id="panel_sales" role="tabpanel">';
+	echo	'<div class="tab-pane fade in " id="panel_sales" role="tabpanel">';
 	echo 	'</div>';
 
-	echo	'<div class="tab-pane fade in show active" id="panel_materials" role="tabpanel">';
+	echo	'<div class="tab-pane fade in " id="panel_materials" role="tabpanel">';
 	echo 	'</div>';
 
-	echo	'<div class="tab-pane fade in show active" id="panel_fab" role="tabpanel">';
+	echo	'<div class="tab-pane fade in " id="panel_fab" role="tabpanel">';
 	echo 	'</div>';
 
-	echo	'<div class="tab-pane fade in show active" id="panel_installs" role="tabpanel">';
+	echo	'<div class="tab-pane fade in " id="panel_installs" role="tabpanel">';
 	echo 	'</div>';
 
 	echo 	'</div>';
