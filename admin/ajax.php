@@ -2489,40 +2489,41 @@ if ($action=="timelines_list") {
 			}
 	echo		'	</div>';
 	echo 		'</div>';
+	echo 		'</div>';
 
-	echo	'<div class="tab-pane fade" id="panel_templates" role="tabpanel">';
-	echo 	'	<div class="col-12 col-md-3"><h3>Templates to Scedule</h3>';
+	echo		'<div class="tab-pane fade" id="panel_templates" role="tabpanel">';
+	echo 		'	<div class="col-12 col-md-3"><h3>Templates to Scedule</h3>';
 			foreach($temp_list as $temp) {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 12 ) {
-	echo        			'<div class="row">';
-	echo          			'<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+	echo		'		<div class="row">';
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
 						echo 'q-'.$t['quote_num'].' - ';
 					}
 	echo 					$t['job_name'].'</button>';
-	echo        			'</div>';
+	echo        '		</div>';
 					}
 				}
 			}
+	echo 	'		</div>';
 	echo 	'	</div>';
-	echo 	'</div>';
 
-	echo	'<div class="tab-pane fade" id="panel_sales" role="tabpanel">';
-	echo 	'</div>';
+	echo	'	<div class="tab-pane fade" id="panel_sales" role="tabpanel">';
+	echo 	'	</div>';
 
-	echo	'<div class="tab-pane fade" id="panel_materials" role="tabpanel">';
-	echo 	'</div>';
+	echo	'	<div class="tab-pane fade" id="panel_materials" role="tabpanel">';
+	echo 	'	</div>';
 
-	echo	'<div class="tab-pane fade" id="panel_fab" role="tabpanel">';
-	echo 	'</div>';
+	echo	'	<div class="tab-pane fade" id="panel_fab" role="tabpanel">';
+	echo 	'	</div>';
 
-	echo	'<div class="tab-pane fade" id="panel_installs" role="tabpanel">';
-	echo 	'</div>';
+	echo	'	<div class="tab-pane fade" id="panel_installs" role="tabpanel">';
+	echo 	'	</div>';
 
-	echo '</div>';
+	echo '	</div>';
 	echo '</div>';
 
 }
