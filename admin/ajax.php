@@ -2490,7 +2490,6 @@ if ($action=="timelines_list") {
 	echo		'	</div>';
 	echo 		'</div>';
 	echo 		'</div>';
-	echo 		'</div>';
 
 	echo		'<div class="tab-pane fade" id="panel_templates" role="tabpanel">';
 	echo 		'	<div class="col-12 col-md-3"><h3>Templates to Scedule</h3>';
