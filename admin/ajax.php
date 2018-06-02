@@ -2268,7 +2268,7 @@ if ($action=="timelines_list") {
 	echo 		'	<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_installs" role="tab">Installs</a></li>';
 	echo 		'</ul>';
 
-	echo 		'<div class="tab-pane fade in show active" id="panel_overview" role="tabpanel">';
+	echo 		'<div class="row tab-pane fade in show active" id="panel_overview" role="tabpanel">';
 
 	echo    	'	<div id="resultsTable1" class="col-sm-3 striped">';
 	echo       	'		<h3>Templating</h3>';
