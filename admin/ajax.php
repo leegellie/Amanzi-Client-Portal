@@ -2509,6 +2509,61 @@ if ($action=="timelines_list") {
 				}
 			}
 	echo 	'		</div>';
+
+	echo 		'	<div class="col-12 col-md-3"><h3>Templates Sceduled</h3>';
+			foreach($temp_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( $t['job_status'] == 13 || $t['job_status'] == 14 || $t['job_status'] == 15) {
+	echo		'		<div class="row">';
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+					if ($t['order_num'] > 0) {
+						echo 'O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo 'q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        '		</div>';
+					}
+				}
+			}
+	echo 	'		</div>';
+
+	echo 		'	<div class="col-12 col-md-3"><h3>Templates Complete/Incomplete</h3>';
+			foreach($temp_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( $t['job_status'] == 16 || $t['job_status'] == 17) {
+	echo		'		<div class="row">';
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+					if ($t['order_num'] > 0) {
+						echo 'O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo 'q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        '		</div>';
+					}
+				}
+			}
+	echo 	'		</div>';
+
+	echo 		'	<div class="col-12 col-md-3"><h3>Templates On Hold</h3>';
+			foreach($temp_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( $t['job_status'] == 19) {
+	echo		'		<div class="row">';
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+					if ($t['order_num'] > 0) {
+						echo 'O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo 'q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        '		</div>';
+					}
+				}
+			}
+	echo 	'		</div>';
+
 	echo 	'	</div>';
 
 	echo	'	<div class="tab-pane fade" id="panel_sales" role="tabpanel">';
