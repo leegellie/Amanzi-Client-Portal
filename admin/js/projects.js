@@ -2046,7 +2046,7 @@ $(document).ready(function() {
 		e.preventDefault();
 		e.stopPropagation();
 		if( $al > 1 ){
-			if ($('#p-install_date').prop('readonly') == 'readonly'){
+			if ($('#p-install_date').prop('readonly') == true) {
 				$('#p-contact_name').focus();
 				alert("You can not yet enter an install date. Project must be templated and have SqFt calculated.");
 			}

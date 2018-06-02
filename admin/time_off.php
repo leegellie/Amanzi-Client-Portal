@@ -102,6 +102,53 @@ if ( $isManager == 1 ) {
 <!-- END BODY CONTENT AREA -->
 <? include ('footer.php'); ?>
 <? echo $access_level ?>
+
+<div class="modal fade" id="viewRTOs">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3>Time Off Requests</h3>
+				<button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
+			</div>
+			<div class="modal-body">
+				<div class="container-fluid viewModal">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close &#10008;</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+	
+<div class="modal fade" id="summaryTimeOff">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h3>Summary By Staff</h3>
+				<button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
+			</div>
+			<div class="modal-body">
+				<form id="pullSummaryByYear" class="d-flex">
+					<select name="summaryYear" class="col-6 mdb-select">
+						<option value="2017">2017</option>
+						<option value="2018" selected>2018</option>
+					</select>
+					<div class="btn btn-primary col-6" onClick="summaryPull()"><i class="fa fa-eye"></i> View</div>
+				</form>
+				<div class="container-fluid summaryModal">
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close &#10008;</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
 <div class="modal fade" id="enterRTO">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
@@ -123,17 +170,20 @@ if ( $isManager == 1 ) {
 							<select class="mdb-select" id="enter_staff" name="staff">
 								<option value="0">Select Staff Member... </option>
 	<?
+
 	$staffOptions = '';
 	$_POST = array();
-	$staffMember = new user_action;
 	$_POST['division'] = $division;
 	$_POST['department'] = $department;
 	$_POST['user'] = '';
-	if ( ($division=='7') || ($division=='3') || ($division=='1') ) {
+	if ( $division == "'7'" || $division == "'3'" || ($division == "'1'" && $department == 0) ) {
 		$_POST['user'] = 'exec';
+		$staffOptions .= '<option>Div: ' . $division . ' - Dept: ' . $department . ' - Exec</option>';
 	} else {
 		$_POST['user'] = 'manager';
+		$staffOptions .= '<option>Div: ' . $division . ' - Dept: ' . $department . ' - Manager</option>';
 	}
+	$staffMember = new user_action;
 	foreach ( $staffMember->get_staff_names( $_POST ) as $results ) {
 		$staffOptions .= '<option email="' . $results['email'] . '" value="' . $results['id'] . '">' . $results['username'] . ' - ' . $results['fname'] . ' ' . $results['lname'] . '</option>';
 	}
@@ -202,7 +252,7 @@ if ( $isManager == 1 ) {
 	$_POST['department'] = $department;
 	$staffOptions = '';
 	$staffMember = new user_action;
-	if ( ( $division == '7' ) || ( $division == '3' ) || ( $division == '1' && $department == 0 ) ) {
+	if ( $division == "'7'" || $division == "'3'" || ($division == "'1'" && $department == 0) ) {
 		$_POST['user'] = 'exec';
 	} else if ( $isManager == '1' ) {
 		$_POST['user'] = 'manager';
@@ -323,49 +373,6 @@ echo $staffOptions;
 			</div>
 			<div class="modal-body">
 				<div class="container-fluid successModal">
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close &#10008;</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="viewRTOs">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h3>Time Off Requests</h3>
-				<button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
-			</div>
-			<div class="modal-body">
-				<div class="container-fluid viewModal">
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close &#10008;</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="summaryTimeOff">
-	<div class="modal-dialog modal-lg" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h3>Summary By Staff</h3>
-				<button type="button" class="btn btn-secondary float-right" data-dismiss="modal">Close</button>
-			</div>
-			<div class="modal-body">
-				<form id="pullSummaryByYear" class="d-flex">
-					<select name="summaryYear" class="col-6 mdb-select">
-						<option value="2017">2017</option>
-						<option value="2018" selected>2018</option>
-					</select>
-					<div class="btn btn-primary col-6" onClick="summaryPull()"><i class="fa fa-eye"></i> View</div>
-				</form>
-				<div class="container-fluid summaryModal">
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -540,7 +547,7 @@ $('#enter_time_off_btn').click( function() {
 })
 
 function approveRTO($rto,$uid) {
-	var datastring = 'action=approve_rto&rto=' + $rto + '&uid=' $uid;
+	var datastring = 'action=approve_rto&rto=' + $rto + '&uid=<?= $uid ?>';
 
 	$.ajax({
 		type: "POST",
@@ -569,7 +576,6 @@ $('#enter_staff').on('change', function() {
 	var $email = $('#enter_staff option:selected').attr('email');
 	$('#enter_respond_email').val($email);
 })
-
 </script>
 </body>
 </html>

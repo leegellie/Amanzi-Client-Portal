@@ -86,11 +86,11 @@ console.log('middle');
 var installsChart = new Chart(installsGraph, {
     type: 'bar',
     data: {
-        labels: $idate.slice(-40),
+        labels: $idate,
         datasets: [
 			{
 				label: 'SqFt',
-				data: $sqft.slice(-40),
+				data: $sqft,
 				backgroundColor: [
 					'rgba(54, 162, 235, 0.2)',
 					'rgba(54, 162, 235, 0.2)',
@@ -191,7 +191,7 @@ var installsChart = new Chart(installsGraph, {
 			},
 			{
 				label: 'Jobs',
-				data: $jobs.slice(-40),
+				data: $jobs,
 				backgroundColor: [
 					'rgba(54, 162, 235, 0.2)',
 					'rgba(54, 162, 235, 0.2)',

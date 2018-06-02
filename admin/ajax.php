@@ -351,7 +351,7 @@ if ($action=="get_staff_list") {
 					<h3><?= $results['order_num']; ?></h3>
 				</div>
 				<div class="col-3 col-md-2 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
+					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
 						<span class="hidden-md-down">View </span>
 						<i class="fas fa-eye"></i>
 					</div>
@@ -379,14 +379,14 @@ if ($action=="get_staff_list") {
 						if($row['material_status'] == 1) {
 					?>
 						<div class="col-6 text-danger"><b>Status: To be assigned/ordered.</b></div>
-						<div class="col-3 btn btn-primary orderMaterials" onClick="matOredered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered</div>
-						<div class="col-3 btn btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
+						<div class="col-3 btn btn-sm btn-primary orderMaterials" onClick="matOredered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered</div>
+						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
 					<?
 						} else if($row['material_status'] == 2) {
 					?>
 						<div class="col-6 text-success"><b>Status: Materials ordered. Est. delivery <?= date('Y-m-d', strtotime($row['material_date'])) ?></b></div>
 						<div class="col-3">Reference: <?= $row['assigned_material'] ?></div>
-						<div class="col-3 btn btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
+						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
 					<?
 						} else if($row['material_status'] == 3) {
 					?>
@@ -419,7 +419,7 @@ if ($action=="get_staff_list") {
 					<h3><?= $results['order_num']; ?></h3>
 				</div>
 				<div class="col-3 col-md-2 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
+					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
 						<span class="hidden-md-down">View </span>
 						<i class="fas fa-eye"></i>
 					</div>
@@ -463,7 +463,7 @@ if ($action=="get_staff_list") {
 					<h3><?= $results['order_num']; ?></h3>
 				</div>
 				<div class="col-3 col-md-2 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
+					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
 						<span class="hidden-md-down">View </span>
 						<i class="fas fa-eye"></i>
 					</div>
@@ -606,7 +606,7 @@ if ($action=="get_materials_needed") {
 					<h3><?= $results['order_num']; ?></h3>
 				</div>
 				<div class="col-3 col-md-2 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
+					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
 						<span class="hidden-md-down">View </span>
 						<i class="fas fa-eye"></i>
 					</div>
@@ -639,15 +639,15 @@ if ($action=="get_materials_needed") {
 						if($row['material_status'] == 1) {
 					?>
 						<div class="col-7 text-danger"><b>Status: To be assigned/ordered.</b></div>
-						<div class="col-1 btn btn-danger mr-2" onClick="noMaterial(<?= $row['id'] ?>)">N/A <i class="fas fa-ban"></i></div>
-						<div class="col-2 btn btn-success mr-2 orderMaterials" onClick="matOredered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered <i class="far fa-calendar-check"></i></div>
-						<div class="col-2 btn btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials <i class="fas fa-check"></i></div>
+						<div class="col-1 btn btn-sm btn-danger mr-2" onClick="noMaterial(<?= $row['id'] ?>)">N/A <i class="fas fa-ban"></i></div>
+						<div class="col-2 btn btn-sm btn-success mr-2 orderMaterials" onClick="matOredered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered <i class="far fa-calendar-check"></i></div>
+						<div class="col-2 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials <i class="fas fa-check"></i></div>
 					<?
 						} else if($row['material_status'] == 2) {
 					?>
 						<div class="col-6 text-success"><b>Status: Materials ordered. Est. delivery <?= date('Y-m-d', strtotime($row['material_date'])) ?></b></div>
 						<div class="col-3">Reference: <?= $row['assigned_material'] ?></div>
-						<div class="col-3 btn btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
+						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
 					<?
 						} else if($row['material_status'] == 3) {
 					?>
@@ -691,7 +691,7 @@ if ($action=="get_materials_needed") {
 					<h3><?= $results['order_num']; ?></h3>
 				</div>
 				<div class="col-3 col-md-2 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
+					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
 						<span class="hidden-md-down">View </span>
 						<i class="fas fa-eye"></i>
 					</div>
@@ -724,15 +724,15 @@ if ($action=="get_materials_needed") {
 						if($row['material_status'] == 1) {
 					?>
 						<div class="col-7 text-danger"><b>Status: To be assigned/ordered.</b></div>
-						<div class="col-1 btn btn-danger mr-2" onClick="noMaterial(<?= $row['id'] ?>)">N/A <i class="fas fa-ban"></i></div>
-						<div class="col-2 btn btn-success mr-2 orderMaterials" onClick="matOredered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered <i class="far fa-calendar-check"></i></div>
-						<div class="col-2 btn btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials <i class="fas fa-check"></i></div>
+						<div class="col-1 btn btn-sm btn-danger mr-2" onClick="noMaterial(<?= $row['id'] ?>)">N/A <i class="fas fa-ban"></i></div>
+						<div class="col-2 btn btn-sm btn-success mr-2 orderMaterials" onClick="matOredered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered <i class="far fa-calendar-check"></i></div>
+						<div class="col-2 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials <i class="fas fa-check"></i></div>
 					<?
 						} else if($row['material_status'] == 2) {
 					?>
 						<div class="col-6 text-success"><b>Status: Materials ordered. Est. delivery <?= date('Y-m-d', strtotime($row['material_date'])) ?></b></div>
 						<div class="col-3">Reference: <?= $row['assigned_material'] ?></div>
-						<div class="col-3 btn btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
+						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
 					<?
 						} else if($row['material_status'] == 3) {
 					?>
@@ -777,7 +777,7 @@ if ($action=="get_materials_needed") {
 					<h3><?= $results['order_num']; ?></h3>
 				</div>
 				<div class="col-3 col-md-2 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
+					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
 						<span class="hidden-md-down">View </span>
 						<i class="fas fa-eye"></i>
 					</div>
@@ -810,15 +810,15 @@ if ($action=="get_materials_needed") {
 						if($row['material_status'] == 1) {
 					?>
 						<div class="col-7 text-danger"><b>Status: To be assigned/ordered.</b></div>
-						<div class="col-1 btn btn-danger mr-2" onClick="noMaterial(<?= $row['id'] ?>)">N/A <i class="fas fa-ban"></i></div>
-						<div class="col-2 btn btn-success mr-2 orderMaterials" onClick="matOredered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered <i class="far fa-calendar-check"></i></div>
-						<div class="col-2 btn btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials <i class="fas fa-check"></i></div>
+						<div class="col-1 btn btn-sm btn-danger mr-2" onClick="noMaterial(<?= $row['id'] ?>)">N/A <i class="fas fa-ban"></i></div>
+						<div class="col-2 btn btn-sm btn-success mr-2 orderMaterials" onClick="matOredered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered <i class="far fa-calendar-check"></i></div>
+						<div class="col-2 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials <i class="fas fa-check"></i></div>
 					<?
 						} else if($row['material_status'] == 2) {
 					?>
 						<div class="col-6 text-success"><b>Status: Materials ordered. Est. delivery <?= date('Y-m-d', strtotime($row['material_date'])) ?></b></div>
 						<div class="col-3">Reference: <?= $row['assigned_material'] ?></div>
-						<div class="col-3 btn btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
+						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
 					<?
 						} else if($row['material_status'] == 3) {
 					?>
@@ -859,8 +859,8 @@ if ($action=="get_materials_needed") {
 						<h3>Order: <?= $results['order_num']; ?></h3>
 					</div>
 					<div class="col-4 text-right">
-						<div id="<?= $results['id']; ?>" class="btn btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
-						<div id="<?= $results['id']; ?>" class="btn btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
+						<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
+						<div id="<?= $results['id']; ?>" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
 					</div>
 					
 				</div>
@@ -912,7 +912,7 @@ if ($action=="get_materials_needed") {
 					<h3><?= $results['order_num']; ?></h3>
 				</div>
 				<div class="col-3 col-md-1 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
+					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
 						<span class="hidden-md-down">View </span>
 						<i class="fas fa-eye"></i>
 					</div>
@@ -945,15 +945,15 @@ if ($action=="get_materials_needed") {
 						if($row['material_status'] == 1) {
 					?>
 						<div class="col-7 text-danger"><b>Status: To be assigned/ordered.</b></div>
-						<div class="col-1 btn btn-danger mr-2" onClick="noMaterial(<?= $row['id'] ?>)">N/A <i class="fas fa-ban"></i></div>
-						<div class="col-2 btn btn-success mr-2 orderMaterials" onClick="matOredered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered <i class="far fa-calendar-check"></i></div>
-						<div class="col-2 btn btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials <i class="fas fa-check"></i></div>
+						<div class="col-1 btn btn-sm btn-danger mr-2" onClick="noMaterial(<?= $row['id'] ?>)">N/A <i class="fas fa-ban"></i></div>
+						<div class="col-2 btn btn-sm btn-success mr-2 orderMaterials" onClick="matOredered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered <i class="far fa-calendar-check"></i></div>
+						<div class="col-2 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials <i class="fas fa-check"></i></div>
 					<?
 						} else if($row['material_status'] == 2) {
 					?>
 						<div class="col-6 text-success"><b>Status: Materials ordered. Est. delivery <?= date('Y-m-d', strtotime($row['material_date'])) ?></b></div>
 						<div class="col-3">Reference: <?= $row['assigned_material'] ?></div>
-						<div class="col-3 btn btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
+						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
 					<?
 						} else if($row['material_status'] == 3) {
 					?>
@@ -991,7 +991,7 @@ if ($action=="get_materials_needed") {
 					<h3><?= $results['order_num']; ?></h3>
 				</div>
 				<div class="col-3 col-md-1 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
+					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
 						<span class="hidden-md-down">View </span>
 						<i class="fas fa-eye"></i>
 					</div>
@@ -1006,17 +1006,6 @@ if ($action=="get_materials_needed") {
 	echo '</div>';
 	echo '<hr style="height:5px;margin-top:15px;background:magenta;">';
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

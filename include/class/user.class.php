@@ -575,7 +575,7 @@ class user_action {
 			if ( $a['department'] == 0 ) {
 				$sql .= ' AND division LIKE ' . $a['division'];
 			} else {
-				$sql .= ' AND department LIKE "' . $a['department'] . '"';
+				$sql .= ' AND department = ' . $a['department'];
 			}
 		}
 		$sql .= " ORDER BY username ASC";
