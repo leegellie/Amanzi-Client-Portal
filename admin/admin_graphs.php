@@ -5,6 +5,10 @@
 					</div>
 					<hr>
                     <div class="row">
+						<h2>Installs by Day</h2>
+						<canvas id="installsGraph" class="col-12"></canvas>
+           			</div>
+                    <div class="row">
 						<h2>Entry</h2>
 						<canvas id="entryGraph" class="col-12"></canvas>
            			</div>
@@ -21,6 +25,7 @@
 			</div>
 
 <script>
+console.log("start");
 var $installed = [];
 var $costs = [];
 var $profit = [];
@@ -31,13 +36,14 @@ var $eAnya = [];
 var $rAnya = [];
 var $eAlex = [];
 var $rAlex = [];
-
+var $idate = [];
+var $sqft = [];
+var $jobs = [];
 <?
 	$get_entry_stats = new project_action;
 	foreach($get_entry_stats->get_entry_stats() as $results) {
-
 		?>
-		$eDate.push (<?= $results['week_beginning'] ?>);
+		$eDate.push ('<?= date("m/d/y", strtotime($results['week_beginning'])) ?>');
 		$eAnya.push (<?= $results['anya_entered'] ?>);
 		$rAnya.push (<?= $results['anya_rejected'] ?>);
 		$eAlex.push (<?= $results['alex_entered'] ?>);
@@ -53,6 +59,16 @@ var $rAlex = [];
 		$profit.push(<?= $results['profit'] ?>);
 		<?
 	}
+
+	$get_sqft_inst_stats = new project_action;
+	foreach($get_sqft_inst_stats->get_sqft_inst_stats() as $results) {
+		?>
+		$idate.push('<?= date("m/d/y", strtotime($results['idate'])) ?>');
+		$sqft.push(<?= $results['sqft'] ?>);
+		$jobs.push(<?= $results['jobs'] ?>);
+		<?
+	}
+
 	$get_walkin_stats = new project_action;
 	foreach($get_walkin_stats->get_walkin_stats() as $results) {
 		?>
@@ -61,9 +77,160 @@ var $rAlex = [];
 		<?
 	}
 ?>
+var installsGraph = document.getElementById("installsGraph").getContext('2d');
 var ctx3 = document.getElementById("entryGraph").getContext('2d');
 var ctx2 = document.getElementById("walkinsGraph").getContext('2d');
 var ctx = document.getElementById("incomeGraph").getContext('2d');
+console.log('middle');
+var installsChart = new Chart(installsGraph, {
+    type: 'bar',
+    data: {
+        labels: $idate.slice(-40),
+        datasets: [
+			{
+				label: 'SqFt',
+				data: $sqft.slice(-40),
+				backgroundColor: [
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)'
+				],
+				borderColor: [
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)',
+					'rgba(54, 162, 235, 1)'
+				],
+				borderWidth: 1
+			},
+			{
+				label: 'Jobs',
+				data: $jobs.slice(-40),
+				backgroundColor: [
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)',
+					'rgba(54, 162, 235, 0.2)'
+				],
+				borderColor: [
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)',
+					'rgba(255,99,132,1)'
+				],
+				borderWidth: 1
+			}
+		]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
 
 var entryChart = new Chart(ctx3, {
     type: 'bar',
@@ -448,4 +615,5 @@ var myChart = new Chart(ctx, {
         }
     }
 });
+console.log('end');
 </script>

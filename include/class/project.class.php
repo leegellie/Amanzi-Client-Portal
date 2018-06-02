@@ -97,6 +97,23 @@ class project_action {
 
 	}
 
+	public function get_sqft_inst_stats() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare('SELECT DATE(install_date) AS idate, 
+									SUM(job_sqft) AS sqft,
+									COUNT(*) AS jobs
+		FROM projects
+		WHERE install_date > NOW() - INTERVAL 30 DAY
+		  AND install_date < NOW() + INTERVAL 30 DAY
+		GROUP BY idate
+		ORDER BY idate ASC');
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+
+
 	public function get_entry_stats() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -112,6 +129,21 @@ class project_action {
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 
 	}
+
+//	public function get_entry_stats() {
+//		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+//		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//		$q = $conn->prepare("SELECT CONCAT(YEAR(timestamp), '/', WEEK(timestamp)) AS week_beginning, YEAR(timestamp), WEEK(timestamp),
+//			COUNT(CASE WHEN cmt_user = 10 AND cmt_comment LIKE '%Entered in%' THEN 1 ELSE NULL END) AS alex_entered,
+//			COUNT(CASE WHEN cmt_user = 10 AND cmt_comment LIKE '%Rejected%' THEN 1 ELSE NULL END) AS alex_rejected,
+//			COUNT(CASE WHEN cmt_user = 985 AND cmt_comment LIKE '%Entered in%' THEN 1 ELSE NULL END) AS anya_entered,
+//			COUNT(CASE WHEN cmt_user = 985 AND cmt_comment LIKE '%Rejected%' THEN 1 ELSE NULL END) AS anya_rejected
+//		FROM comments
+//		GROUP BY week_beginning
+//		ORDER BY YEAR(timestamp) ASC, WEEK(timestamp) ASC");
+//		$q->execute();
+//		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+//	}
 
 	public function get_walkin_stats() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);

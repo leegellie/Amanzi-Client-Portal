@@ -2041,4 +2041,14 @@ $(document).ready(function() {
     	});
 	});
 	getLocation();
+
+	$('#p-install_date').focus(function(e){
+		e.preventDefault();
+		e.stopPropagation();
+		if( $al > 1 ){
+			$('#p-contact_name').focus();
+			alert("You can not yet enter an install date. Project must be templated and have SqFt calculated.");
+		}
+	});
+
 });
