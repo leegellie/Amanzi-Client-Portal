@@ -2247,18 +2247,6 @@ if ($action=="timelines_list") {
 
 		}
 	}
-	echo 	'<div class="row">';
-	echo    	'<div id="resultsTable1" class="col-sm-3 striped">';
-	echo       	'<h3>Templating</h3>';
-
-	$classInfo = "'btn-info'";
-	$classPrimary = "'btn-primary'";
-	$classDanger = "'btn-danger'";
-	$classAlert = "'btn-alert'";
-	$classSecondary = "'btn-secondary'";
-	$classWarning = "'btn-warning'";
-	$classSuccess = "'btn-success'";
-	$classLight = "'btn-light'";
 	echo 		'<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">';
 	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_overview" role="tab">Overview</a></li>';
 	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_templates" role="tab">Templates</a></li>';
@@ -2269,6 +2257,20 @@ if ($action=="timelines_list") {
 	echo 		'</ul>';
 
 	echo 		'<div class="tab-pane fade in show active" id="panel_overview" role="tabpanel">';
+
+	echo 	'<div class="row">';
+	echo    	'<div id="resultsTable1" class="col-sm-3 striped">';
+
+	echo       	'<h3>Templating</h3>';
+
+	$classInfo = "'btn-info'";
+	$classPrimary = "'btn-primary'";
+	$classDanger = "'btn-danger'";
+	$classAlert = "'btn-alert'";
+	$classSecondary = "'btn-secondary'";
+	$classWarning = "'btn-warning'";
+	$classSuccess = "'btn-success'";
+	$classLight = "'btn-light'";
 	echo 		'<div class="row d-flex justify-content-between">';
 	$thisBtn = "'.estapproved'";
 	echo 			'<div class="btn btn-info px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Estimate Approved" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');"><i class="far fa-file-check"></i></div>';
@@ -2500,6 +2502,8 @@ if ($action=="timelines_list") {
 	echo 	'</div>';
 
 	echo	'<div class="tab-pane fade in show active" id="panel_installs" role="tabpanel">';
+	echo 	'</div>';
+
 	echo 	'</div>';
 
 }
