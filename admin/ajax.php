@@ -2259,28 +2259,29 @@ if ($action=="timelines_list") {
 	$classWarning = "'btn-warning'";
 	$classSuccess = "'btn-success'";
 	$classLight = "'btn-light'";
+	echo 		'<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">';
+	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_overview" role="tab">Overview</a></li>';
+	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_templates" role="tab">Templates</a></li>';
+	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_sales" role="tab">Sales</a></li>';
+	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_materials" role="tab">Materials</a></li>';
+	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_fab" role="tab">Fabrication</a></li>';
+	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_installs" role="tab">Installs</a></li>';
+	echo 		'</ul>';
 
+	echo 		'<div class="tab-pane fade in show active" id="panel_overview" role="tabpanel">';
 	echo 		'<div class="row d-flex justify-content-between">';
-
 	$thisBtn = "'.estapproved'";
 	echo 			'<div class="btn btn-info px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Estimate Approved" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');"><i class="far fa-file-check"></i></div>';
-
 	$thisBtn = "'.tempsched'";
 	echo 			'<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Scheduled" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');"><i class="far fa-calendar-alt"></i></div>';
-
 	$thisBtn = "'.tempinroute'";
 	echo 			'<div class="btn btn-secondary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Templaters in Route" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');"><i class="far fa-car"></i></div>';
-
 	$thisBtn = "'.tempstart'";
 	echo 			'<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Started" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-ruler"></i></div>';
-
 	$thisBtn = "'.tempincomp'";
 	echo 			'<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Incomplete" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-exclamation-triangle"></i></div>';
-
 	$thisBtn = "'.temphold'";
 	echo 			'<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template on Hold" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.'); "><i class="fas fa-times-octagon"></i></div>';
-
-
 	echo 		'</div><hr>';
 			foreach($temp_list as $temp) {
 				foreach($temp['details'] as $t) {
@@ -2299,19 +2300,14 @@ if ($action=="timelines_list") {
 	echo    	'<div id="resultsTable2" class="col-sm-3 striped">';
 	echo        	'<h3>In Sales</h3>';
 	echo 		'<div class="row d-flex justify-content-between">';
-
 	$thisBtn = "'.quoteprep'";
 	echo 			'<div class="btn btn-primary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Preparing Quote" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');"><i class="far fa-pencil-alt"></i></div>';
-
 	$thisBtn = "'.quotecheck'";
 	echo 			'<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quote Check" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-check"></i></div>';
-
 	$thisBtn = "'.quoted'";
 	echo 			'<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quoted" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');"><i class="fab fa-telegram-plane"></i></div>';
-
 	$thisBtn = "'.quotealter'";
 	echo 			'<div class="btn btn-info px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Altering Quote" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-ruler-combined"></i></div>';
-
 	$thisBtn = "'.quotereject'";
 	echo 			'<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quote Rejected" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');"><span class="fa-layers fa-fw"><i class="fas fa-dollar-sign" data-fa-transform="grow-2"></i><span class="fa-layers-text fa-inverse" data-fa-transform="shrink-5 rotate--30" style="font-weight:900">Reject</span></span></div>';
 	echo 		'</div><hr>';
@@ -2334,22 +2330,15 @@ if ($action=="timelines_list") {
 	echo 		'<div class="row d-flex justify-content-between">';
 	$thisBtn = "'.prog'";
 	echo 			'<div class="btn btn-primary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Programming" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');"><i class="far fa-file-check"></i></div>';
-
 	$thisBtn = "'.matr'";
 	echo 			'<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Materials Staging" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-container-storage"></i></div>';
-
 	$thisBtn = "'.saw'";
 	echo 			'<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Saw" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-sun"></i></div>';
-
 	$thisBtn = "'.cnc'";
 	echo 			'<div class="btn btn-secondary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="CNC" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');"><span class="fa-layers fa-fw"><i class="fas fa-certificate"></i><span class="fa-layers-text fa-inverse" data-fa-transform="shrink-1 rotate--30" style="font-weight:900; color:black">CNC</span></span></div>';
-
 	$thisBtn = "'.polish'";
 	echo 			'<div class="btn btn-info px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Polishing" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');"><i class="far fa-shield-alt"></i></div>';
-
 	echo 		'</div><hr>';
-
-
 	echo					'<div class="row">';
 	echo						'<h4>Programming</h4>';
 	echo					'</div>';
@@ -2369,8 +2358,6 @@ if ($action=="timelines_list") {
 					}
 				}
 			}
-
-
 	echo					'<div class="row">';
 	echo						'<h4>Materials</h4>';
 	echo					'</div>';
@@ -2390,7 +2377,6 @@ if ($action=="timelines_list") {
 					}
 				}
 			}
-
 	echo					'<div class="row">';
 	echo						'<h4>Saw</h4>';
 	echo					'</div>';
@@ -2410,8 +2396,6 @@ if ($action=="timelines_list") {
 					}
 				}
 			}
-
-
 	echo					'<div class="row">';
 	echo						'<h4>CNC</h4>';
 	echo					'</div>';
@@ -2431,8 +2415,6 @@ if ($action=="timelines_list") {
 					}
 				}
 			}
-
-
 	echo					'<div class="row">';
 	echo						'<h4>Polishing</h4>';
 	echo					'</div>';
@@ -2458,26 +2440,18 @@ if ($action=="timelines_list") {
 	echo 		'<div class="row d-flex justify-content-between">';
 	$thisBtn = "'.polishdeliv'";
 	echo 			'<div class="btn btn-primary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Ready to Install" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-container-storage"></i></div>';
-
 	$thisBtn = "'.instsched'";
 	echo 			'<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Scheduled" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');"><i class="far fa-calendar-alt"></i></div>';
-
 	$thisBtn = "'.insttruck'";
 	echo 			'<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install In Truck" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-truck-container"></i></div>';
-
 	$thisBtn = "'.instinroute'";
 	echo 			'<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install in Route" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-truck"></i></div>';
-
 	$thisBtn = "'.inststart'";
 	echo 			'<div class="btn btn-secondary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Started" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-chess-clock-alt"></i></div>';
-
 	$thisBtn = "'.instincomp'";
 	echo 			'<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Incomplete" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-exclamation-triangle"></i></div>';
-
 	$thisBtn = "'.insthold'";
 	echo 			'<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install On Hold" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-times-octagon"></i></div>';
-
-
 	echo 		'</div><hr>';
 			foreach($install_list as $install) {
 				foreach($install['details'] as $in) {
@@ -2494,6 +2468,40 @@ if ($action=="timelines_list") {
 			}
 	echo		'</div>';
 	echo	'</div>';
+	echo 	'</div>';
+
+	echo	'<div class="tab-pane fade in show active" id="panel_templates" role="tabpanel">';
+	echo 	'	<div class="col-12 col-md-3"><h3>Templates to Scedule</h3>';
+			foreach($temp_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( $t['job_status'] == 12 ) {
+	echo        			'<div class="row">';
+	echo          			'<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+					if ($t['order_num'] > 0) {
+						echo 'O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo 'q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        			'</div>';
+					}
+				}
+			}
+	echo 	'	</div>';
+	echo 	'</div>';
+
+	echo	'<div class="tab-pane fade in show active" id="panel_sales" role="tabpanel">';
+	echo 	'</div>';
+
+	echo	'<div class="tab-pane fade in show active" id="panel_materials" role="tabpanel">';
+	echo 	'</div>';
+
+	echo	'<div class="tab-pane fade in show active" id="panel_fab" role="tabpanel">';
+	echo 	'</div>';
+
+	echo	'<div class="tab-pane fade in show active" id="panel_installs" role="tabpanel">';
+	echo 	'</div>';
+
 }
 
 
