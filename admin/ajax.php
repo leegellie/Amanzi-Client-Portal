@@ -2369,7 +2369,6 @@ if ($action=="timelines_list") {
 					}
 				}
 			}
-	echo		'	</div>';
 	echo		'		<div class="row">';
 	echo		'			<h4>Materials</h4>';
 	echo		'		</div>';
@@ -2389,7 +2388,6 @@ if ($action=="timelines_list") {
 					}
 				}
 			}
-
 
 
 	echo		'		<div class="row">';
@@ -2413,7 +2411,6 @@ if ($action=="timelines_list") {
 			}
 
 
-
 	echo		'		<div class="row">';
 	echo		'			<h4>CNC</h4>';
 	echo		'		</div>';
@@ -2433,7 +2430,6 @@ if ($action=="timelines_list") {
 					}
 				}
 			}
-
 
 
 
