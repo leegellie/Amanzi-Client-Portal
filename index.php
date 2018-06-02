@@ -50,7 +50,7 @@ if ($check_if_logged_in->is_logged_in()) {
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
 
-    <title>Amanzi Material Calculator</title>
+    <title>Amanzi Portal</title>
 
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
@@ -171,7 +171,7 @@ function reportErrors(errors){
                 </div>
 				<div class="inner cover">
 					<section class="container align-middle" id="select-client">
-						<h1 class="head-text text-center">Amanzi Client Portal</h1>
+						<h1 class="head-text text-center">Amanzi Portal</h1>
 						<div class="row">
 							<div class="m-auto card-holder">
 								<div class="card">

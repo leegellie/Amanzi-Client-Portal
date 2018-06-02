@@ -474,6 +474,8 @@ $(document).ready(function() {
 		$("#pjtUpdate").fadeOut(300);
 		if ($('input[name=install_date]').val() == '') {
 			$('input[name=install_date]').val('2200-01-01');
+		} else if ($('input[name=install_date]').val().match("^2018")) {
+			
 		} else {
 			var iDate = new Date($('input[name=install_date]').val());
 			var year = iDate.getFullYear();
@@ -484,6 +486,8 @@ $(document).ready(function() {
 		}
 		if ($('input[name=template_date]').val() == '') {
 			$('input[name=template_date]').val('2200-01-01');
+		} else if ($('input[name=template_date]').val().match("^2018")) {
+			
 		} else {
 			var tDate = new Date($('input[name=template_date]').val());
 			var year = tDate.getFullYear();

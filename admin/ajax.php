@@ -8,7 +8,7 @@ USER AJAX REQUESTS
 */
 $action = trim(htmlspecialchars($_POST['action']));
 $to_cost = 7.5;
-$marbgran_rate = 5;
+$marbgran_rate = 6;
 
 function sanitize($string, $force_lowercase = true, $anal = false) {
     $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]",
@@ -1394,6 +1394,7 @@ if ($action=="templates_list") {
 			<h3><?= $plus2 ?> : <? getWeekday($plus2) ?></h3>
 		</div>
 		<?
+		$get_entries = new project_action;
 		foreach($get_entries->get_templates($_SESSION['id']) as $results) {
 			if ($results['template_date'] == $plus2){
 				?>
@@ -1429,6 +1430,7 @@ if ($action=="templates_list") {
 			<h3><?= $plus3 ?> : <? getWeekday($plus3) ?></h3>
 		</div>
 		<?
+		$get_entries = new project_action;
 		foreach($get_entries->get_templates($_SESSION['id']) as $results) {
 			if ($results['template_date'] == $plus3){
 				?>
@@ -1464,6 +1466,7 @@ if ($action=="templates_list") {
 			<h3><?= $plus4 ?> : <? getWeekday($plus4) ?></h3>
 		</div>
 		<?
+		$get_entries = new project_action;
 		foreach($get_entries->get_templates($_SESSION['id']) as $results) {
 			if ($results['template_date'] == $plus4){
 				?>
@@ -1499,6 +1502,7 @@ if ($action=="templates_list") {
 			<h3><?= $plus5 ?> : <? getWeekday($plus5) ?></h3>
 		</div>
 		<?
+		$get_entries = new project_action;
 		foreach($get_entries->get_templates($_SESSION['id']) as $results) {
 			if ($results['template_date'] == $plus5){
 				?>
@@ -1534,6 +1538,7 @@ if ($action=="templates_list") {
 			<h3><?= $plus6 ?> : <? getWeekday($plus6) ?></h3>
 		</div>
 		<?
+		$get_entries = new project_action;
 		foreach($get_entries->get_templates($_SESSION['id']) as $results) {
 			if ($results['template_date'] == $plus6){
 				?>
@@ -1569,6 +1574,7 @@ if ($action=="templates_list") {
 			<h3><?= $plus7 ?> : <? getWeekday($plus7) ?></h3>
 		</div>
 		<?
+		$get_entries = new project_action;
 		foreach($get_entries->get_templates($_SESSION['id']) as $results) {
 			if ($results['template_date'] == $plus7){
 				?>
@@ -1617,7 +1623,7 @@ if ($action=="installs_list") {
 			<h3><?= $today ?> : <? getWeekday($today) ?></h3>
 		</div>
 	<?
-	$get_entries = new project_action;
+		$get_entries = new project_action;
 		foreach($get_entries->get_installs($_SESSION['id']) as $results) {
 			if ($results['install_date'] == $today){
 			?>
@@ -1716,7 +1722,8 @@ if ($action=="installs_list") {
 		<div class="row">
 			<h3><?= $plus2 ?> : <? getWeekday($plus2) ?></h3>
 		</div>
-	<?
+	<?		
+		$get_entries = new project_action;
 		foreach($get_entries->get_installs($_SESSION['id']) as $results) {
 			if ($results['install_date'] == $plus2){
 			?>
@@ -1765,6 +1772,7 @@ if ($action=="installs_list") {
 			<h3><?= $plus3 ?> : <? getWeekday($plus3) ?></h3>
 		</div>
 	<?
+		$get_entries = new project_action;
 		foreach($get_entries->get_installs($_SESSION['id']) as $results) {
 			if ($results['install_date'] == $plus3){
 			?>
@@ -1813,6 +1821,7 @@ if ($action=="installs_list") {
 			<h3><?= $plus4 ?> : <? getWeekday($plus4) ?></h3>
 		</div>
 	<?
+		$get_entries = new project_action;
 		foreach($get_entries->get_installs($_SESSION['id']) as $results) {
 			if ($results['install_date'] == $plus4){
 			?>
@@ -1861,6 +1870,7 @@ if ($action=="installs_list") {
 			<h3><?= $plus5 ?> : <? getWeekday($plus5) ?></h3>
 		</div>
 	<?
+		$get_entries = new project_action;
 		foreach($get_entries->get_installs($_SESSION['id']) as $results) {
 			if ($results['install_date'] == $plus5){
 			?>
@@ -1909,6 +1919,7 @@ if ($action=="installs_list") {
 			<h3><?= $plus6 ?> : <? getWeekday($plus6) ?></h3>
 		</div>
 	<?
+		$get_entries = new project_action;
 		foreach($get_entries->get_installs($_SESSION['id']) as $results) {
 			if ($results['install_date'] == $plus6){
 			?>
@@ -1956,7 +1967,8 @@ if ($action=="installs_list") {
 		<div class="row">
 			<h3><?= $plus7 ?> : <? getWeekday($plus7) ?></h3>
 		</div>
-	<?
+	<?		
+		$get_entries = new project_action;
 		foreach($get_entries->get_installs($_SESSION['id']) as $results) {
 			if ($results['install_date'] == $plus7){
 			?>
@@ -4349,16 +4361,17 @@ if ($action=="view_selected_pjt") {
 	// Comments Section
 
 	$cmt_user = "'" . $_SESSION['id'] . "'";
-	$html .= '<div class="d-print-none">';
-	$html .= '	<h4 class="d-inline">Comments</h4><div id="makeCommentBtn" class="btn btn-primary d-inline ml-2 float-right" cmt_type="pjt" onClick="makeComment(this,' . $cmt_user . ');"><i class="fas fa-comment"></i></div>';
-	$html .= '	<hr>'; 
-	$html .= '	<div id="commentList" class="col-12">';
+	$html .= '	<div class="d-print-none">';
+	$html .= '		<h4 class="d-inline">Comments</h4><div id="makeCommentBtn" class="btn btn-primary d-inline ml-2 float-right" cmt_type="pjt" onClick="makeComment(this,' . $cmt_user . ');"><i class="fas fa-comment"></i></div>';
+	$html .= '		<hr>'; 
+	$html .= '		<div id="commentList" class="col-12">';
 	$html .= $cList;
+	$html .= '		</div>';
+	$html .= '		<hr>'; 
 	$html .= '	</div>';
-	$html .= '	<hr>'; 
 
 	// Attachment Section
-	$folderPath = "https://amanziportal.com/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/";
+	$folderPath = base_dir . "job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/";
 	if (file_exists($folderPath)) {
 		$fileList = array_diff(scandir($folderPath), array('..', '.'));
 		if (!empty($fileList)) {
@@ -4370,27 +4383,27 @@ if ($action=="view_selected_pjt") {
 				$html .= "<a class='btn btn-primary mb-2 mr-2 d-inline-block' href='/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/" . $filename . "' target='_blank'>" . $filename . "</a>";
 			}
 		}
-		$html .= '<hr>';
-		$html .= '</div>';
+		if (!empty($fileList)) {
+			$html .= '<hr>';
+			$html .= '</div>';
+		}
 	}
 
 	echo $html;
 
 	unset($_POST['userID']);
 	echo '';
-	echo '<hr class=" d-print-none" style="height:5px;margin-top:15px;background:magenta;">';
-	echo '<div id="pjtInstalls" class="row">';
-	echo '<div class="h1 col-12 col-md-9 d-print-none">Installs</div>';
-	echo '<div class="h1 col-12 col-md-9 d-none d-print-block">Areas:</div>';
-	echo '<div class="btn btn-lg btn-primary float-right col-md-2 d-print-none ' . $noProg . '" onClick="newInstall()">Add <i class="fas fa-plus"></i></div>';
-	echo '<hr class="d-print-none">';
-
-	echo '<div class="col-9 col-md-10 thead d-print-none">Install</div><div class="col-3 col-md-2 thead text-right d-print-none">View</div>';
+	echo '	<hr class="" style="height:5px;margin-top:15px;background:magenta;">';
+	echo '	<div id="pjtInstalls" class="row">';
+	echo '		<div class="h1 col-12 col-md-9 d-print-none">Installs</div>';
+	echo '		<div class="h1 col-12 col-md-9 d-none d-print-block">Areas:</div>';
+	echo '		<div class="btn btn-lg btn-primary float-right col-md-2 d-print-none ' . $noProg . '" onClick="newInstall()">Add <i class="fas fa-plus"></i></div>';
+	echo '		<hr class="d-print-none">';
+	echo '		<div class="col-9 col-md-10 thead d-print-none">Install</div><div class="col-3 col-md-2 thead text-right d-print-none">View</div>';
 
 	foreach($search->install_data_search($_POST) as $results) {
 		?>
 			<hr>
-
 			<div class="row w-100 d-flex d-print-flex">
 	        	<div class="col-4 col-md-4 text-primary"><div class="d-inline d-print-none" onClick="delete_install(<?= $results['id']; ?>,<?= $results['pid']; ?>,'<?= $results['install_name']; ?>')"> <i class="fas fa-trash text-danger"></i></div><h4 class="d-inline"> <?= $results['type_name']; ?> - <?= $results['install_name']; ?> </h4></div>
     	    	<div class="col-3 col-md-3 text-dark"><h5><?= $results['color']; ?></h5></div>
@@ -4923,9 +4936,6 @@ if ($action=="view_selected_inst") {
 
 }
 
-
-
-
 // SEARCH INSTALLS FOR PROJECT. RETURN ARRAY
 if ($action=="install_search_list") {
 	$results = "";
@@ -4951,14 +4961,6 @@ if ($action=="install_search_list") {
 	echo "</div>";
 	echo "<hr>";
 }
-
-
-
-
-
-
-
-
 
 if ($action=="") {
 	echo "I got nothin'\n";

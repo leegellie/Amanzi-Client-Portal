@@ -15,10 +15,10 @@ require_once ('head_php.php');
 
     
     $startDate = date("Y-m-d");
-	$instStartDate = date('Y-m-d', strtotime($startDate. ' + 7 days'));
-	if ( $access_level == 1 ) {
-    	$instStartDate = date("Y-m-d");
-	}
+	  $instStartDate = date("Y-m-d");
+
+//	$instStartDate = date('Y-m-d', strtotime($startDate. ' + 7 days'));
+
     $limitDate = date('Y-m-d', strtotime($startDate. ' + 60 days'));
 
     //Get the template date
@@ -2005,10 +2005,13 @@ $(document).ready(function(){
 <script>
 	  var res = `<?php echo json_encode($output); ?>`; //for the template_date 
     var resforinstall = `<?php echo json_encode($outputforinstall); ?>`; //for the install_date 
-    console.log(resforinstall);
+    
     var holi = '<?php echo json_encode($holidays); ?>';
     var currently_sqft = '<?php echo $limitinfo[0]['install_sqft']; ?>';
     var template_num = '<?php echo $limitinfo[0]['templates_number']; ?>';
+    var access_level = '<?php echo $_SESSION['access_level']; ?>';
+    var session_id = '<?php echo $_SESSION['id']; ?>';
+  console.log("session id",session_id);
     res = res.replace(/\\n/g, "\\n")  
                .replace(/\\'/g, "\\'")
                .replace(/\\"/g, '\\"')
@@ -2031,7 +2034,7 @@ $(document).ready(function(){
   // remove non-printable and other non-valid JSON chars
     resforinstall = resforinstall.replace(/[\u0000-\u0019]+/g,"");
 
-	var obj = jQuery.parseJSON(res);
+	  var obj = jQuery.parseJSON(res);
     var insobj = jQuery.parseJSON(resforinstall);
     //console.log(res);
   
@@ -2053,6 +2056,10 @@ $(document).ready(function(){
   
     var disable = false;
   
+    var cur_d = new Date();
+
+    var _cur_day = cur_d.getDate();
+  
     function distance(lat1, lon1, lat2, lon2) {
         var radlat1 = Math.PI * lat1/180
         var radlat2 = Math.PI * lat2/180
@@ -2065,26 +2072,26 @@ $(document).ready(function(){
         return dist
     }
 
-	var $datepicker = $('.datepicker').pikaday({
+	  var $datepicker = $('.datepicker').pikaday({
         firstDay: 1,
         minDate: new Date(),
         maxDate: new Date(2020, 12, 31),
         yearRange: [2000,2020],
         disableDayFn: function(theDate) {
-		var formattedDate = new Date(theDate);
-		var jday = formattedDate.getDay();
-		var d = formattedDate.getDate();
-		var st_d = d;
-		var m =  formattedDate.getMonth();
-		var st_m = m;
-		m += 1;  // JavaScript months are 0-11
-		var y = formattedDate.getFullYear();
-		if (d < 10) {
-			d = "0" + d;
-		}
-		if (m < 10) {
-			m = "0" + m;
-		}
+        var formattedDate = new Date(theDate);
+        var jday = formattedDate.getDay();
+        var d = formattedDate.getDate();
+        var st_d = d;
+        var m =  formattedDate.getMonth();
+        var st_m = m;
+        m += 1;  // JavaScript months are 0-11
+        var y = formattedDate.getFullYear();
+        if (d < 10) {
+          d = "0" + d;
+        }
+        if (m < 10) {
+          m = "0" + m;
+        }
           
           var job_day = formattedDate.getDay();
           
@@ -2193,18 +2200,22 @@ $(document).ready(function(){
           //console.log(curdate,"-----", jday);          
           var flag = false;
           if(jday == 0 || jday == 6) flag = true;
+//           if((access_level != 1 || access_level != 14 ) && st_d < _cur_day + 7 ) flag = true;
+          if(!(session_id == 1 || session_id == 14 ) && st_d < _cur_day + 7 ) flag = true;
           $.each(insobj, function(key, value){
             if(value['install_date'] == curdate){
               var sum_sqft = 0;
-              //console.log(value['detail']);
               $.each(value['detail'], function(k,v){
-                //console.log(v['job_sqft']);
 				console.log( parseInt(v['job_sqft']) );
                 sum_sqft += parseInt(v['job_sqft']);
               })
               var cur_sqft = $('#p-job-sqft').val();
               sum_sqft += parseInt(cur_sqft*1);
 				console.log('sum_sqft=' + sum_sqft);
+        console.log('cur_sqft=' + cur_sqft);
+        console.log('currently_limit_sqft', currently_sqft);
+        console.log('current_day',curdate);
+              
               if (sum_sqft > currently_sqft){
                 flag = true;
               }else{  
@@ -2244,7 +2255,9 @@ $(document).ready(function(){
             }
             
           });
+          if(session_id == 1 || session_id == 14 )  flag = false;
           return flag;
+          
         },
         onDraw(){
           var curmm = $('.pika-select').val();

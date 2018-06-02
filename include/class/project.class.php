@@ -158,7 +158,7 @@ class project_action {
 					$disc = 100 - $r['discount'];
 					$disc = '0.' . $disc;
 					$disc = floatval($disc);
-					$mc = $r['material'] * 5;
+					$mc = $r['material'] * 6;
 					$matPrice = $mc * $disc;
 					$cpSqFt = $matPrice / $r['SqFt'];
 					$jobPrice = $matPrice + $r['accs_prices'] + $r['price_extra'] - $r['install_discount'];
