@@ -2249,11 +2249,11 @@ if ($action=="timelines_list") {
 	}
 	echo 		'<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">';
 	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_overview" role="tab">Overview</a></li>';
-	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_templates" role="tab">Templates</a></li>';
-	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_sales" role="tab">Sales</a></li>';
-	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_materials" role="tab">Materials</a></li>';
-	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_fab" role="tab">Fabrication</a></li>';
-	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_installs" role="tab">Installs</a></li>';
+	echo 		'	<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_templates" role="tab">Templates</a></li>';
+	echo 		'	<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_sales" role="tab">Sales</a></li>';
+	echo 		'	<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_materials" role="tab">Materials</a></li>';
+	echo 		'	<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_fab" role="tab">Fabrication</a></li>';
+	echo 		'	<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_installs" role="tab">Installs</a></li>';
 	echo 		'</ul>';
 
 	echo 		'<div class="tab-pane fade in show active" id="panel_overview" role="tabpanel">';
