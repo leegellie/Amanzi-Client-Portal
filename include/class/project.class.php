@@ -91,6 +91,8 @@ class project_action {
 		$q = $conn->prepare('SELECT DATE_FORMAT(install_date, "%m-%Y") AS Month, SUM(job_price) AS stat, SUM(costs_job) AS cost, SUM(profit) AS profit
 			FROM projects 
 			WHERE YEAR(install_date) = YEAR(CURDATE()) 
+			AND job_name NOT LIKE "%test %"
+			AND job_name NOT LIKE "% test%"
 			GROUP BY DATE_FORMAT(install_date, "%m-%Y")');
 		$q->execute();
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
@@ -106,8 +108,30 @@ class project_action {
 		FROM projects
 		WHERE install_date > NOW() - INTERVAL 30 DAY
 		  AND install_date < NOW() + INTERVAL 30 DAY
+		  AND job_name NOT LIKE "%test %"
+		  AND job_name NOT LIKE "% test%"
 		GROUP BY idate
 		ORDER BY idate ASC');
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function get_jobs_inst_stats() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("SELECT DATE(install_date) AS idate, 
+									COUNT(CASE WHEN `order_num` LIKE '%O' THEN 1 ELSE 0 END) AS repairs,
+									COUNT(CASE WHEN `order_num` LIKE '%R' THEN 1 ELSE 0 END) AS reworks,
+									COUNT(CASE WHEN `order_num` LIKE '%A' THEN 1 ELSE 0 END) AS additions,
+									COUNT(*) AS jobs
+		FROM projects
+		WHERE install_date > NOW() - INTERVAL 30 DAY
+		  AND install_date < NOW() + INTERVAL 30 DAY
+		  AND isActive = 1
+		  AND job_name NOT LIKE '%test '
+		  AND job_name NOT LIKE ' test%'
+		GROUP BY idate
+		ORDER BY idate ASC");
 		$q->execute();
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 	}
