@@ -2838,7 +2838,68 @@ if ($action=="timelines_list") {
 	echo 		'	<div class="col-12 col-md-3"><h3>To Install</h3>';
 			foreach($install_list as $temp) {
 				foreach($temp['details'] as $t) {
-					if ( $t['job_status'] > 29 || $t['job_status'] == 25 ) {
+					if ( $t['job_status'] > 29 && $t['job_status'] < 73 ) {
+	echo		'		<div class="row">';
+						$date = new DateTime($t['install_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
+					if ($t['order_num'] > 0) {
+						echo ' - O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo ' - q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        '		</div>';
+					}
+				}
+			}
+	echo 	'		</div>';
+
+	echo 		'	<div class="col-12 col-md-3"><h3>Install Scheduled</h3>';
+			foreach($install_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( $t['job_status'] == 80 || $t['job_status'] == 81 || $t['job_status'] == 82 || $t['job_status'] == 83 ) {
+	echo		'		<div class="row">';
+						$date = new DateTime($t['install_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
+					if ($t['order_num'] > 0) {
+						echo ' - O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo ' - q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        '		</div>';
+					}
+				}
+			}
+	echo 	'		</div>';
+
+	echo 		'	<div class="col-12 col-md-3"><h3>Install Complete/Incomplete</h3>';
+			foreach($install_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( $t['job_status'] == 84 || $t['job_status'] == 85 || $t['job_status'] == 86 ) {
+	echo		'		<div class="row">';
+						$date = new DateTime($t['install_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
+					if ($t['order_num'] > 0) {
+						echo ' - O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo ' - q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        '		</div>';
+					}
+				}
+			}
+	echo 	'		</div>';
+
+
+	echo 		'	<div class="col-12 col-md-3"><h3>Install On Hold</h3>';
+			foreach($install_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( $t['job_status'] == 89 ) {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
