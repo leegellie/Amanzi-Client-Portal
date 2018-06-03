@@ -2655,11 +2655,13 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] > 11 && $t['job_status'] < 41) {
 	echo		'		<div class="row">';
-	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+						$date = new DateTime($t['install_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
-						echo 'O-'.$t['order_num'].' - ';
+						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
-						echo 'q-'.$t['quote_num'].' - ';
+						echo ' - q-'.$t['quote_num'].' - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -2673,11 +2675,13 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 41 || $t['job_status'] == 42) {
 	echo		'		<div class="row">';
-	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+						$date = new DateTime($t['install_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
-						echo 'O-'.$t['order_num'].' - ';
+						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
-						echo 'q-'.$t['quote_num'].' - ';
+						echo ' - q-'.$t['quote_num'].' - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -2691,11 +2695,13 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 43) {
 	echo		'		<div class="row">';
-	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+						$date = new DateTime($t['install_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
-						echo 'O-'.$t['order_num'].' - ';
+						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
-						echo 'q-'.$t['quote_num'].' - ';
+						echo ' - q-'.$t['quote_num'].' - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -2709,11 +2715,13 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 49) {
 	echo		'		<div class="row">';
-	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+						$date = new DateTime($t['install_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
-						echo 'O-'.$t['order_num'].' - ';
+						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
-						echo 'q-'.$t['quote_num'].' - ';
+						echo ' - q-'.$t['quote_num'].' - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -2735,11 +2743,13 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] > 29 && $t['job_status'] < 45 ) {
 	echo		'		<div class="row">';
-	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+						$date = new DateTime($t['install_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
-						echo 'O-'.$t['order_num'].' - ';
+						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
-						echo 'q-'.$t['quote_num'].' - ';
+						echo ' - q-'.$t['quote_num'].' - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -2754,11 +2764,13 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( ($t['job_status'] > 49 || $t['job_status'] < 53) && $t['job_status'] == 44 ) {
 	echo		'		<div class="row">';
-	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+						$date = new DateTime($t['install_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
-						echo 'O-'.$t['order_num'].' - ';
+						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
-						echo 'q-'.$t['quote_num'].' - ';
+						echo ' - q-'.$t['quote_num'].' - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -2772,11 +2784,13 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( ($t['job_status'] > 59 || $t['job_status'] < 62) && $t['job_status'] == 53 ) {
 	echo		'		<div class="row">';
-	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+						$date = new DateTime($t['install_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
-						echo 'O-'.$t['order_num'].' - ';
+						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
-						echo 'q-'.$t['quote_num'].' - ';
+						echo ' - q-'.$t['quote_num'].' - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -2790,11 +2804,13 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( ($t['job_status'] > 69 || $t['job_status'] < 72) && $t['job_status'] == 63 ) {
 	echo		'		<div class="row">';
-	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+						$date = new DateTime($t['install_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
-						echo 'O-'.$t['order_num'].' - ';
+						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
-						echo 'q-'.$t['quote_num'].' - ';
+						echo ' - q-'.$t['quote_num'].' - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
