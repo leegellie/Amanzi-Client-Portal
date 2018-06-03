@@ -2817,12 +2817,12 @@ if ($action=="timelines_list") {
 					if ( $t['job_status'] > 29 ) {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
-						$date = $date->format('m/d/y');
+						$date = $date->format('m/d');
 	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
-						echo 'O-'.$t['order_num'].' - ';
+						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
-						echo 'q-'.$t['quote_num'].' - ';
+						echo ' - q-'.$t['quote_num'].' - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
