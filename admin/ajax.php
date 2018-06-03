@@ -2811,10 +2811,10 @@ if ($action=="timelines_list") {
 	echo	'	<div class="tab-pane fade" id="panel_installs" role="tabpanel">';
 	echo 		'<div class="row">';
 
-	echo 		'	<div class="col-12 col-md-3"><h3>To Fabricate</h3>';
+	echo 		'	<div class="col-12 col-md-3"><h3>To Install</h3>';
 			foreach($install_list as $temp) {
 				foreach($temp['details'] as $t) {
-					if ( $t['job_status'] > 29 ) {
+					if ( $t['job_status'] > 29 || $t['job_status'] == 25 ) {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
