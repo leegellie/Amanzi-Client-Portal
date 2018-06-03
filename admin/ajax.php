@@ -2498,7 +2498,9 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 12 ) {
 	echo		'		<div class="row">';
-	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+						$date = new DateTime($t['template_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">'. $date . ' ';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -2516,7 +2518,9 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 13 || $t['job_status'] == 14 || $t['job_status'] == 15) {
 	echo		'		<div class="row">';
-	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+						$date = new DateTime($t['template_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">'. $date . ' ';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -2534,7 +2538,9 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 16 || $t['job_status'] == 17) {
 	echo		'		<div class="row">';
-	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+						$date = new DateTime($t['template_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">'. $date . ' ';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -2552,7 +2558,9 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 19) {
 	echo		'		<div class="row">';
-	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+						$date = new DateTime($t['template_date']);
+						$date = $date->format('m/d');
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">'. $date . ' ';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
