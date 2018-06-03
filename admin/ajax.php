@@ -2572,7 +2572,7 @@ if ($action=="timelines_list") {
 	echo 		'<div class="row">';
 
 	echo 		'	<div class="col-12 col-md-3"><h3>To Quote</h3>';
-			foreach($sales_list as $temp) {
+			foreach($sale_list as $temp) {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 17) {
 	echo		'		<div class="row">';
@@ -2590,7 +2590,7 @@ if ($action=="timelines_list") {
 	echo 	'		</div>';
 
 	echo 		'	<div class="col-12 col-md-3"><h3>Quoteing In Progress</h3>';
-			foreach($sales_list as $temp) {
+			foreach($sale_list as $temp) {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 21 || $t['job_status'] == 22 || $t['job_status'] == 24) {
 	echo		'		<div class="row">';
@@ -2608,7 +2608,7 @@ if ($action=="timelines_list") {
 	echo 	'		</div>';
 
 	echo 		'	<div class="col-12 col-md-3"><h3>Quote Submitted</h3>';
-			foreach($sales_list as $temp) {
+			foreach($sale_list as $temp) {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 23) {
 	echo		'		<div class="row">';
@@ -2627,7 +2627,7 @@ if ($action=="timelines_list") {
 
 
 	echo 		'	<div class="col-12 col-md-3"><h3>Quote Approved/Rejected</h3>';
-			foreach($sales_list as $temp) {
+			foreach($sale_list as $temp) {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 25 || $t['job_status'] == 26) {
 	echo		'		<div class="row">';
