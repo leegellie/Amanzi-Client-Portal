@@ -37,5 +37,5 @@ $(document).ready(function(){
 </script>
 
 <?
-include ('addInstallModal.php');
+include ('modal_install_add.php');
 ?>
