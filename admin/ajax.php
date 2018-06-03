@@ -2721,13 +2721,91 @@ if ($action=="timelines_list") {
 				}
 			}
 	echo 	'		</div>';
-
-
-
 	echo 	'	</div>';
 	echo 	'	</div>';
+
+
+
 
 	echo	'	<div class="tab-pane fade" id="panel_fab" role="tabpanel">';
+	echo 		'<div class="row">';
+
+	echo 		'	<div class="col-12 col-md-3"><h3>To Fabricate</h3>';
+			foreach($temp_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( ($t['job_status'] > 29 || $t['job_status'] == 25) && $t['job_status'] < 44 ) {
+	echo		'		<div class="row">';
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+					if ($t['order_num'] > 0) {
+						echo 'O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo 'q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        '		</div>';
+					}
+				}
+			}
+	echo 	'		</div>';
+
+
+	echo 		'	<div class="col-12 col-md-3"><h3>Saw</h3>';
+			foreach($temp_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( ($t['job_status'] > 49 || $t['job_status'] < 53) && $t['job_status'] == 44 ) {
+	echo		'		<div class="row">';
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+					if ($t['order_num'] > 0) {
+						echo 'O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo 'q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        '		</div>';
+					}
+				}
+			}
+	echo 	'		</div>';
+
+	echo 		'	<div class="col-12 col-md-3"><h3>CNC</h3>';
+			foreach($temp_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( ($t['job_status'] > 59 || $t['job_status'] < 62) && $t['job_status'] == 53 ) {
+	echo		'		<div class="row">';
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+					if ($t['order_num'] > 0) {
+						echo 'O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo 'q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        '		</div>';
+					}
+				}
+			}
+	echo 	'		</div>';
+
+	echo 		'	<div class="col-12 col-md-3"><h3>Polishing</h3>';
+			foreach($temp_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( ($t['job_status'] > 69 || $t['job_status'] < 72) && $t['job_status'] == 63 ) {
+	echo		'		<div class="row">';
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+					if ($t['order_num'] > 0) {
+						echo 'O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo 'q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        '		</div>';
+					}
+				}
+			}
+	echo 	'		</div>';
+
+
+
+	echo 	'	</div>';
 	echo 	'	</div>';
 
 	echo	'	<div class="tab-pane fade" id="panel_installs" role="tabpanel">';
