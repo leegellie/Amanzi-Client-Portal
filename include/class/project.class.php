@@ -1391,7 +1391,7 @@ class project_action {
 			   	 AND projects.template_date > CURDATE()
 				 AND projects.isActive = 1)
 			ORDER BY projects.install_date ASC,
-					 projects.uegent DESC,
+					 projects.urgent DESC,
 					 projects.am DESC,
 					 projects.first_stop DESC,
 					 projects.pm ASC,
