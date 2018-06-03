@@ -2816,7 +2816,7 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] > 29 ) {
 	echo		'		<div class="row">';
-						$date = $t['install_date'];
+						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d/y');
 	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
