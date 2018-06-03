@@ -2358,7 +2358,7 @@ if ($action=="timelines_list") {
 			foreach($fabrication_list as $fabrication) {
 	//               if(isset($fabrication_list[$i])){
 				foreach($fabrication['details'] as $t) {
-					if ($f['stage'] == 3) {
+					if ($t['stage'] == 3) {
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
 	echo    	'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
@@ -2378,7 +2378,7 @@ if ($action=="timelines_list") {
 			foreach($fabrication_list as $fabrication) {
 	//               if(isset($fabrication_list[$i])){
 				foreach($fabrication['details'] as $t) {
-					if ($f['stage'] == 4) {
+					if ($t['stage'] == 4) {
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
 	echo 		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
@@ -2400,7 +2400,7 @@ if ($action=="timelines_list") {
 			foreach($fabrication_list as $fabrication) {
 	//               if(isset($fabrication_list[$i])){
 				foreach($fabrication['details'] as $t) {
-					if ($f['stage'] == 5) {
+					if ($t['stage'] == 5) {
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
 	echo 		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
@@ -2422,7 +2422,7 @@ if ($action=="timelines_list") {
 			foreach($fabrication_list as $fabrication) {
 	//               if(isset($fabrication_list[$i])){
 				foreach($fabrication['details'] as $t) {
-					if ($f['stage'] == 6) {
+					if ($t['stage'] == 6) {
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
 	echo 		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
