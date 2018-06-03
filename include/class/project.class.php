@@ -1380,17 +1380,24 @@ class project_action {
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       
 			$sql = "
-			SELECT 	*, status.name, status.stage, status.short_name, status.id AS status
-			FROM projects 
-			JOIN status 
-				ON status.id = projects.job_status 
-			WHERE (projects.template_date < '2200-01-01' 
-				  AND projects.install_date > CURDATE()
-			  	  AND projects.isActive = 1) 
-			   OR (projects.template_date < '2200-01-01' 
-				  AND projects.template_date > CURDATE()
-			  	  AND projects.isActive = 1)
-			ORDER BY projects.install_date";
+			SELECT 	projects.*, projects.id AS pid, status.name, status.stage, status.short_name, status.id AS status
+				FROM projects 
+			  	JOIN status 
+				  ON status.id = projects.job_status 
+			   WHERE (projects.template_date < '2200-01-01' 
+			   	 AND projects.install_date > CURDATE()
+			   	 AND projects.isActive = 1) 
+			      OR (projects.template_date < '2200-01-01' 
+			   	 AND projects.template_date > CURDATE()
+				 AND projects.isActive = 1)
+			ORDER BY projects.install_date ASC,
+					 projects.uegent DESC,
+					 projects.am DESC,
+					 projects.first_stop DESC,
+					 projects.pm ASC,
+					 projects.temp_am DESC,
+					 projects.temp_first_stop DESC,
+					 projects.temp_pm ASC";
 
       if ($_SESSION['access_level'] > 1) { 
         $sql .= " AND acct_rep = ".$_SESSION['id']; 
