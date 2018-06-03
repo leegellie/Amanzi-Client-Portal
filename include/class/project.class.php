@@ -110,6 +110,7 @@ class project_action {
 		  AND install_date < NOW() + INTERVAL 30 DAY
 		  AND job_name NOT LIKE "%test %"
 		  AND job_name NOT LIKE "% test%"
+		  AND isActive = 1
 		GROUP BY idate
 		ORDER BY idate ASC');
 		$q->execute();
