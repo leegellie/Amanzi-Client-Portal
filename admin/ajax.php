@@ -2289,7 +2289,7 @@ if ($action=="timelines_list") {
 			foreach($temp_list as $temp) {
 				foreach($temp['details'] as $t) {
 	echo        '		<div class="row">';
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
@@ -2322,7 +2322,7 @@ if ($action=="timelines_list") {
 			foreach($sale_list as $sale) {
 				foreach($sale['details'] as $t) {
 	echo		'		<div class="row">';
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$sale['button'].'" style="width:100%">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
@@ -2360,7 +2360,7 @@ if ($action=="timelines_list") {
 				foreach($fabrication['details'] as $t) {
 					if ($t['stage'] == 3) {
 	echo		'		<div class="row">';
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo    	'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
 						if ($t['order_num'] > 0) {
 							echo 'O-'.$t['order_num'].' - ';
@@ -2380,7 +2380,7 @@ if ($action=="timelines_list") {
 				foreach($fabrication['details'] as $t) {
 					if ($t['stage'] == 4) {
 	echo		'		<div class="row">';
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo 		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
 						if ($t['order_num'] > 0) {
 							echo 'O-'.$t['order_num'].' - ';
@@ -2402,7 +2402,7 @@ if ($action=="timelines_list") {
 				foreach($fabrication['details'] as $t) {
 					if ($t['stage'] == 5) {
 	echo		'		<div class="row">';
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo 		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
 						if ($t['order_num'] > 0) {
 							echo 'O-'.$t['order_num'].' - ';
@@ -2424,7 +2424,7 @@ if ($action=="timelines_list") {
 				foreach($fabrication['details'] as $t) {
 					if ($t['stage'] == 6) {
 	echo		'		<div class="row">';
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo 		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
 						if ($t['order_num'] > 0) {
 							echo 'O-'.$t['order_num'].' - ';
@@ -2447,7 +2447,7 @@ if ($action=="timelines_list") {
 				foreach($fabrication['details'] as $t) {
 					if ($t['stage'] == 7) {
 	echo		'		<div class="row">';
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo 		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
 						if ($t['order_num'] > 0) {
 							echo 'O-'.$t['order_num'].' - ';
@@ -2484,7 +2484,7 @@ if ($action=="timelines_list") {
 			foreach($install_list as $install) {
 				foreach($install['details'] as $t) {
 	echo		'		<div class="row">';
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo 		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$install['button'].'" style="width:100%">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
@@ -2508,7 +2508,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['template_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">'. $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2529,7 +2529,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['template_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">'. $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2550,7 +2550,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['template_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">'. $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2571,7 +2571,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['template_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">'. $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2596,7 +2596,7 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 17) {
 	echo		'		<div class="row">';
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
@@ -2615,7 +2615,7 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 21 || $t['job_status'] == 22 || $t['job_status'] == 24) {
 	echo		'		<div class="row">';
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
@@ -2634,7 +2634,7 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 23) {
 	echo		'		<div class="row">';
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
@@ -2654,7 +2654,7 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 					if ( $t['job_status'] == 25 || $t['job_status'] == 26) {
 	echo		'		<div class="row">';
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
@@ -2681,7 +2681,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2702,7 +2702,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2723,7 +2723,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2744,7 +2744,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2773,7 +2773,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2795,7 +2795,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2816,7 +2816,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2837,7 +2837,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2866,7 +2866,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2887,7 +2887,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2908,7 +2908,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
@@ -2930,7 +2930,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
-					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
+					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
