@@ -2445,7 +2445,7 @@ if ($action=="timelines_list") {
 			foreach($fabrication_list as $fabrication) {
 	//               if(isset($fabrication_list[$i])){
 				foreach($fabrication['details'] as $t) {
-					if ($f['stage'] == 7) {
+					if ($t['stage'] == 7) {
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['id']."&uid=".$t['uid']."'";
 	echo 		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
