@@ -2648,6 +2648,83 @@ if ($action=="timelines_list") {
 	echo 	'	</div>';
 
 	echo	'	<div class="tab-pane fade" id="panel_materials" role="tabpanel">';
+	echo 		'<div class="row">';
+
+	echo 		'	<div class="col-12 col-md-3"><h3>To Order</h3>';
+			foreach($temp_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( $t['job_status'] > 11 && $t['job_status'] < 41) {
+	echo		'		<div class="row">';
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+					if ($t['order_num'] > 0) {
+						echo 'O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo 'q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        '		</div>';
+					}
+				}
+			}
+	echo 	'		</div>';
+
+	echo 		'	<div class="col-12 col-md-3"><h3>Materials Ordered/On Hand</h3>';
+			foreach($temp_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( $t['job_status'] == 41 || $t['job_status'] == 42) {
+	echo		'		<div class="row">';
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+					if ($t['order_num'] > 0) {
+						echo 'O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo 'q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        '		</div>';
+					}
+				}
+			}
+	echo 	'		</div>';
+
+	echo 		'	<div class="col-12 col-md-3"><h3>Ready to Deliver</h3>';
+			foreach($temp_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( $t['job_status'] == 43) {
+	echo		'		<div class="row">';
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+					if ($t['order_num'] > 0) {
+						echo 'O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo 'q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        '		</div>';
+					}
+				}
+			}
+	echo 	'		</div>';
+
+	echo 		'	<div class="col-12 col-md-3"><h3>Materials On Hold</h3>';
+			foreach($temp_list as $temp) {
+				foreach($temp['details'] as $t) {
+					if ( $t['job_status'] == 49) {
+	echo		'		<div class="row">';
+	echo		'			<button class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+					if ($t['order_num'] > 0) {
+						echo 'O-'.$t['order_num'].' - ';
+					} elseif ($t['quote_num'] > 0) {
+						echo 'q-'.$t['quote_num'].' - ';
+					}
+	echo 					$t['job_name'].'</button>';
+	echo        '		</div>';
+					}
+				}
+			}
+	echo 	'		</div>';
+
+
+
+	echo 	'	</div>';
 	echo 	'	</div>';
 
 	echo	'	<div class="tab-pane fade" id="panel_fab" role="tabpanel">';
