@@ -4593,7 +4593,7 @@ if ($action=="view_selected_pjt") {
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 5) {
 			if ($results['job_status'] == 25 || $results['job_status'] == 30) {
 				$html .= $jobHold;
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(31)"><i class="fas fa-times"></i> Programming Started</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(31)"><i class="fas fa-check"></i> Programming Started</div>';
 			}
 			if ($results['job_status'] == 31) {
 				$html .= $jobHold;
@@ -4666,7 +4666,7 @@ if ($action=="view_selected_pjt") {
 		}
 		// INSTALLS
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 9) {
-			if ($results['job_status'] == 83 || $results['job_status'] == 90) {
+			if ($results['job_status'] == 73 || $results['job_status'] == 80) {
 				$html .= $jobHold;
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(81)"><i class="fas fa-times"></i> In Truck</div>';
 			}
