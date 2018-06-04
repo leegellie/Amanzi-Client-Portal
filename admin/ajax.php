@@ -4571,7 +4571,7 @@ if ($action=="view_selected_pjt") {
 		}
 		if ($_SESSION['access_level'] == 1) {
 			if (($results['job_status'] > 11 && $results['job_status'] < 20) || ($results['job_status'] > 11 && $results['job_status'] < 20)) {
-				$jobHold
+				$jobHold;
 			}
 		}
 		//TEMPLATING
