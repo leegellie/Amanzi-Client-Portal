@@ -4525,12 +4525,12 @@ if ($action=="view_selected_pjt") {
 		$html .= '<h2 id="clientName" class="d-inline d-print-none text-primary">' . $results['clientCompany'] . ' ' . $results['clientFname'] . ' ' . $results['clientLname'] . ' <em><sup class=" ' . $noProg . '">(' . $eSqFt[0] . ' SqFt - $' . $tax_print .')</sup></em></h2>';
 		$html .= '<hr class="d-print-none">';
 		$html .= '<h2 class="col-12 col-md-4 col-lg-2 float-left pl-0 d-print-none">Status:</h2>';
+
 		$html .= '<select id="changeStatus" onChange="statusUpdate(this.value)" class="mdb-select float-right col-12 col-md-4 col-lg-2 d-print-none ' . $noProg . '">';
 
 		$statusText = '';
 		$get_status_list = new project_action;
 		$statList = '<option value="0" class="d-print-none">Select...</option>';
-
 		foreach($get_status_list -> get_status_list($_POST) as $r) {
 			$statList .= '<option ';
 			if ( $r['id'] == $results['job_status'] ) {
@@ -4539,9 +4539,9 @@ if ($action=="view_selected_pjt") {
 			}
 			$statList .= 'value="' . $r['id'] . '">' . $r['name'] . '</option>';
 		}
-
 		$html .= $statList;
 		$html .= '</select>';
+
 		$rejectSale = '<div class="btn btn-sm btn-danger float-right" onClick="statusUpdate(26)"><i class="fas fa-times"></i> Job Rejected</div>';
 		$rejectTempl = '<div class="btn btn-sm btn-danger float-right" onClick="statusUpdate(19)"><i class="fas fa-times"></i> Template Hold</div>';
 		$jobHold = '<div class="btn btn-sm btn-danger float-right" onClick="jobJold()"><i class="fas fa-times"></i> Job Hold</div>';
@@ -4555,7 +4555,7 @@ if ($action=="view_selected_pjt") {
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(12)"><i class="fas fa-check"></i> Estimate Approved</div>';
 				$html .= $rejectSale;
 			}
-			$html = $jobHold;
+			$html .= $jobHold;
 		}
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4) {
 			if ($results['job_status'] == 12) {
