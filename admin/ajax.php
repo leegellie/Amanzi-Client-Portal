@@ -4545,30 +4545,33 @@ if ($action=="view_selected_pjt") {
 		$jobHold = '<div class="btn btn-sm btn-danger float-right" onClick="jobJold()"><i class="fas fa-times"></i> Job Hold</div>';
 		// SALES
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2) {
-			if ($results['job_status'] > 12) {
-				$html .= $jobHold;
-			}
 			if ($results['job_status'] == 11) {
+				$html .= $jobHold;
 				$html .= $rejectSale;
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(12)"><i class="fas fa-check"></i> Estimate Approved</div>';
 			}
 			if ($results['job_status'] == 10) {
+				$html .= $jobHold;
 				$html .= $rejectSale;
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(11)"><i class="fas fa-check"></i> Estimated</div>';
 			}
 			if ($results['job_status'] == 17) {
+				$html .= $jobHold;
 				$html .= $rejectSale;
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(21)"><i class="fas fa-check"></i> Preparing Quote</div>';
 			}
 			if ($results['job_status'] == 21) {
+				$html .= $jobHold;
 				$html .= $rejectSale;
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(22)"><i class="fas fa-check"></i> Quote Checked</div>';
 			}
 			if ($results['job_status'] == 22) {
+				$html .= $jobHold;
 				$html .= $rejectSale;
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(23)"><i class="fas fa-check"></i> Quote Submitted</div>';
 			}
 			if ($results['job_status'] == 23) {
+				$html .= $jobHold;
 				$html .= $rejectSale;
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(25)"><i class="fas fa-check"></i> Quote Approved</div>';
 				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange(24)"><i class="fas fa-check"></i> Quote to Alter</div>';
