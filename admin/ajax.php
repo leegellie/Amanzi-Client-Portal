@@ -2769,7 +2769,7 @@ if ($action=="timelines_list") {
 	echo 		'	<div class="col-12 col-md-3"><h3>To Fabricate</h3>';
 			foreach($fabrication_list as $temp) {
 				foreach($temp['details'] as $t) {
-					if ( $t['job_status'] > 29 && $t['job_status'] < 44 ) {
+					if ( $t['job_status'] > 29 && $t['job_status'] < 44 && $t['install_date'] <> '2200-01-01' ) {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
@@ -2791,7 +2791,7 @@ if ($action=="timelines_list") {
 	echo 		'	<div class="col-12 col-md-3"><h3>Saw</h3>';
 			foreach($fabrication_list as $temp) {
 				foreach($temp['details'] as $t) {
-					if ( ($t['job_status'] > 49 && $t['job_status'] < 53) || $t['job_status'] == 44 || $t['job_status'] == 49 ) {
+					if ( ($t['job_status'] > 49 && $t['job_status'] < 53 && $t['install_date'] <> '2200-01-01') || ($t['job_status'] == 44 && $t['install_date'] <> '2200-01-01') || ($t['job_status'] == 49 && $t['install_date'] <> '2200-01-01') ) {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
@@ -4690,17 +4690,6 @@ if ($action=="view_selected_pjt") {
 			}
 		}
 
-
-
-
-
-
-
-
-
-
-
-
 		if ($_SESSION['access_level'] == 1) {
 			$html .= '<select id="changeStatus" onChange="statusUpdate(this.value)" class="mdb-select float-right col-12 col-md-4 col-lg-2 d-print-none ' . $noProg . '">';
 			$html .= $statList;
@@ -4720,9 +4709,7 @@ if ($action=="view_selected_pjt") {
 		$html .= '</div></div>';
 
 
-
 		$html .= '</div>';
-
 
 		$html .= '<hr>';
 		$html .= '<h2 class="d-print-none">Project details for:</h2>';
