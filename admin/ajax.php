@@ -4544,7 +4544,7 @@ if ($action=="view_selected_pjt") {
 		$html .= '</select>';
 		$rejectSale = '<div class="btn btn-sm btn-danger float-right" onClick="statusUpdate(26)"><i class="fas fa-times"></i> Job Rejected</div>';
 		$rejectTempl = '<div class="btn btn-sm btn-danger float-right" onClick="statusUpdate(19)"><i class="fas fa-times"></i> Template Hold</div>';
-		$jobHold = '<div class="btn btn-sm btn-danger" onClick="jobJold()"><i class="fas fa-times"></i> Job Hold</div>';
+		$jobHold = '<div class="btn btn-sm btn-danger float-right" onClick="jobJold()"><i class="fas fa-times"></i> Job Hold</div>';
 
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2) {
 			if ($results['job_status'] == 10) {
