@@ -4586,6 +4586,10 @@ if ($action=="view_selected_pjt") {
 				$html .= $jobHold;
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(13)"><i class="fas fa-check"></i> Template Scheduled</div>';
 			}
+			if ($results['job_status'] == 19) {
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(11)"><i class="fas fa-check"></i> Template Started</div>';
+				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange(10)"><i class="fas fa-check"></i> Template Scheduled</div>';
+			}
 		}
 		// PROGRAMMING
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 5) {
