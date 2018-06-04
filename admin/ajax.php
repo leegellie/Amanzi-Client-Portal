@@ -4577,33 +4577,132 @@ if ($action=="view_selected_pjt") {
 		//TEMPLATING
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4) {
 			if ($results['job_status'] == 13) {
-				$html .= $holdTempl;
+				$html .= $jobHold;
 				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange(16)"><i class="fas fa-times"></i> Template Incomplete</div>';
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(17)"><i class="fas fa-check"></i> Template Complete</div>';
 			}
 			if ($results['job_status'] == 12) {
-				$html .= $holdTempl;
+				$html .= $jobHold;
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(13)"><i class="fas fa-check"></i> Template Scheduled</div>';
 			}
 		}
 		// PROGRAMMING
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 5) {
-			if ($results['job_status'] == 13) {
-				$html .= $holdProg;
-				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange(16)"><i class="fas fa-times"></i> Template Incomplete</div>';
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(17)"><i class="fas fa-check"></i> Template Complete</div>';
+			if ($results['job_status'] == 25 || $results['job_status'] == 30) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(31)"><i class="fas fa-times"></i> Programming Started</div>';
 			}
-			if ($results['job_status'] == 12) {
-				$html .= $holdProg;
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(13)"><i class="fas fa-check"></i> Template Scheduled</div>';
+			if ($results['job_status'] == 31) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(32)"><i class="fas fa-check"></i> Programming Complete</div>';
+			}
+			if ($results['job_status'] == 39) {
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(31)"><i class="fas fa-times"></i> Programming Started</div>';
+				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange(30)"><i class="fas fa-times"></i> Programming Scheduled</div>';
+			}
+		}
+		// MATERIALS
+		// Skipped for now
+
+		// SAW
+		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 7) {
+			if ($results['job_status'] == 44 || $results['job_status'] == 50) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(51)"><i class="fas fa-times"></i> Saw Started</div>';
+			}
+			if ($results['job_status'] == 51) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(52)"><i class="fas fa-check"></i> Saw Complete</div>';
+			}
+			if ($results['job_status'] == 52) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(53)"><i class="fas fa-check"></i> Delivered to CNC</div>';
+			}
+			if ($results['job_status'] == 59) {
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(51)"><i class="fas fa-times"></i> Saw Started</div>';
+				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange(50)"><i class="fas fa-times"></i> Saw Scheduled</div>';
+			}
+		}
+		// CNC
+		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 8) {
+			if ($results['job_status'] == 53 || $results['job_status'] == 60) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(61)"><i class="fas fa-times"></i> CNC Started</div>';
+			}
+			if ($results['job_status'] == 61) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(62)"><i class="fas fa-check"></i> CNC Complete</div>';
+			}
+			if ($results['job_status'] == 62) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(63)"><i class="fas fa-check"></i> Delivered to Polishing</div>';
+			}
+			if ($results['job_status'] == 69) {
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(61)"><i class="fas fa-times"></i> CNC Started</div>';
+				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange(60)"><i class="fas fa-times"></i> CNC Scheduled</div>';
+			}
+		}
+		// POLISHING
+		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 8) {
+			if ($results['job_status'] == 63 || $results['job_status'] == 70) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(71)"><i class="fas fa-times"></i> Polishing Started</div>';
+			}
+			if ($results['job_status'] == 71) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(72)"><i class="fas fa-check"></i> Polishing Complete</div>';
+			}
+			if ($results['job_status'] == 72) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(73)"><i class="fas fa-check"></i> Ready to Install</div>';
+			}
+			if ($results['job_status'] == 79) {
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(71)"><i class="fas fa-times"></i> Polishing Started</div>';
+				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange(70)"><i class="fas fa-times"></i> Polishing Scheduled</div>';
+			}
+		}
+		// INSTALLS
+		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 9) {
+			if ($results['job_status'] == 83 || $results['job_status'] == 90) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(81)"><i class="fas fa-times"></i> In Truck</div>';
+			}
+			if ($results['job_status'] == 81) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(82)"><i class="fas fa-check"></i> En Route</div>';
+			}
+			if ($results['job_status'] == 82) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(83)"><i class="fas fa-check"></i> Install Started</div>';
+			}
+			if ($results['job_status'] == 83) {
+				$html .= $jobHold;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(85)"><i class="fas fa-check"></i> Install Complete</div>';
+				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange(84)"><i class="fas fa-check"></i> Install Inomplete</div>';
+			}
+			if ($results['job_status'] == 89) {
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(83)"><i class="fas fa-times"></i> Install Started</div>';
+				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange(80)"><i class="fas fa-times"></i> Install Scheduled</div>';
 			}
 		}
 
 
-		$html .= '<select id="changeStatus" onChange="statusUpdate(this.value)" class="mdb-select float-right col-12 col-md-4 col-lg-2 d-print-none ' . $noProg . '">';
-		$html .= $statList;
-		$html .= '</select>';
-		$html .= '<div id="progressStatus" class="w-100 d-print-none">';
+
+
+
+
+
+
+
+
+
+
+		if ($_SESSION['access_level'] == 1) {
+			$html .= '<select id="changeStatus" onChange="statusUpdate(this.value)" class="mdb-select float-right col-12 col-md-4 col-lg-2 d-print-none ' . $noProg . '">';
+			$html .= $statList;
+			$html .= '</select>';
+			$html .= '<div id="progressStatus" class="w-100 d-print-none">';
+		}
 
 		$html .= '<div class="progress w-100"><div class="progress-bar progress-bar-striped progress-bar-animated ';
 		if ($results['job_status'] == 19 || $results['job_status'] == 39 || $results['job_status'] == 49 || $results['job_status'] == 59 || $results['job_status'] == 69 || $results['job_status'] == 79 || $results['job_status'] == 89 ) {
