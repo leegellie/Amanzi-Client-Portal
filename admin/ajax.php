@@ -2883,7 +2883,7 @@ if ($action=="timelines_list") {
 	echo 		'	<div class="col-12 col-md-3"><h3>Install Scheduled</h3>';
 			foreach($install_list as $temp) {
 				foreach($temp['details'] as $t) {
-					if ( ($t['job_status'] == 80 || $t['job_status'] == 81 || $t['job_status'] == 82 || $t['job_status'] == 83 ) && $t['install_date'] <> '2200-01-01' ) {
+					if ( ($t['job_status'] == 80 || $t['job_status'] == 81 || $t['job_status'] == 82 || $t['job_status'] == 83 ) && $t['install_date'] !== '2200-01-01' ) {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
@@ -2904,7 +2904,7 @@ if ($action=="timelines_list") {
 	echo 		'	<div class="col-12 col-md-3"><h3>Install Complete/Incomplete</h3>';
 			foreach($install_list as $temp) {
 				foreach($temp['details'] as $t) {
-					if ( ( $t['job_status'] == 84 || $t['job_status'] == 85 || $t['job_status'] == 86 ) &&  $t['install_date'] <> '2200-01-01') {
+					if ( ( $t['job_status'] == 84 || $t['job_status'] == 85 || $t['job_status'] == 86 ) &&  $t['install_date'] !== '2200-01-01') {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
@@ -2926,7 +2926,7 @@ if ($action=="timelines_list") {
 	echo 		'	<div class="col-12 col-md-3"><h3>Install On Hold</h3>';
 			foreach($install_list as $temp) {
 				foreach($temp['details'] as $t) {
-					if ( $t['job_status'] == 89 &&  $t['install_date'] <> '2200-01-01') {
+					if ( $t['job_status'] == 89 && $t['install_date'] !== '2200-01-01') {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
