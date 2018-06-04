@@ -4526,8 +4526,6 @@ if ($action=="view_selected_pjt") {
 		$html .= '<hr class="d-print-none">';
 		$html .= '<h2 class="col-12 col-md-4 col-lg-2 float-left pl-0 d-print-none">Status:</h2>';
 
-		$html .= '<select id="changeStatus" onChange="statusUpdate(this.value)" class="mdb-select float-right col-12 col-md-4 col-lg-2 d-print-none ' . $noProg . '">';
-
 		$statusText = '';
 		$get_status_list = new project_action;
 		$statList = '<option value="0" class="d-print-none">Select...</option>';
@@ -4539,39 +4537,41 @@ if ($action=="view_selected_pjt") {
 			}
 			$statList .= 'value="' . $r['id'] . '">' . $r['name'] . '</option>';
 		}
-		$html .= $statList;
-		$html .= '</select>';
+
 
 		$rejectSale = '<div class="btn btn-sm btn-danger float-right" onClick="statusUpdate(26)"><i class="fas fa-times"></i> Job Rejected</div>';
 		$rejectTempl = '<div class="btn btn-sm btn-danger float-right" onClick="statusUpdate(19)"><i class="fas fa-times"></i> Template Hold</div>';
 		$jobHold = '<div class="btn btn-sm btn-danger float-right" onClick="jobJold()"><i class="fas fa-times"></i> Job Hold</div>';
 
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2) {
-			if ($results['job_status'] == 10) {
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(11)"><i class="fas fa-check"></i> Estimated</div>';
-				$html .= $rejectSale;
+			if ($results['job_status'] > 12) {
+				$html .= $jobHold;
 			}
 			if ($results['job_status'] == 11) {
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(12)"><i class="fas fa-check"></i> Estimate Approved</div>';
 				$html .= $rejectSale;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(12)"><i class="fas fa-check"></i> Estimate Approved</div>';
 			}
-			$html .= $jobHold;
+			if ($results['job_status'] == 10) {
+				$html .= $rejectSale;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(11)"><i class="fas fa-check"></i> Estimated</div>';
+			}
 		}
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4) {
+			if ($results['job_status'] == 13) {
+				$html .= $rejectTempl;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(16)"><i class="fas fa-check"></i> Template Incomplete</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(17)"><i class="fas fa-check"></i> Template Complete</div>';
+			}
 			if ($results['job_status'] == 12) {
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(13)"><i class="fas fa-check"></i> Template Scheduled</div>';
-
-				$html .= $rejectTempl;
-			}
-			if ($results['job_status'] == 13) {
-				if ($_SESSION['access_level'] == 4)
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(17)"><i class="fas fa-check"></i> Template Complete</div>';
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(16)"><i class="fas fa-check"></i> Template Incomplete</div>';
 				$html .= $rejectTempl;
 			}
 		}
 
 
+		$html .= '<select id="changeStatus" onChange="statusUpdate(this.value)" class="mdb-select float-right col-12 col-md-4 col-lg-2 d-print-none ' . $noProg . '">';
+		$html .= $statList;
+		$html .= '</select>';
 		$html .= '<div id="progressStatus" class="w-100 d-print-none">';
 
 		$html .= '<div class="progress w-100"><div class="progress-bar progress-bar-striped progress-bar-animated ';
