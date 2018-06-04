@@ -4541,7 +4541,7 @@ if ($action=="view_selected_pjt") {
 
 		$rejectSale = '<div class="btn btn-sm btn-danger float-right" onClick="statusChange(26)"><i class="fas fa-times"></i> Job Rejected</div>';
 		$holdTempl = '<div class="btn btn-sm btn-danger float-right" onClick="statusChange(19)"><i class="fas fa-times"></i> Template Hold</div>';
-		$holdProg = '<div class="btn btn-sm btn-danger float-right" onClick="statusChange(19)"><i class="fas fa-times"></i> Programming Hold</div>';
+		$holdProg = '<div class="btn btn-sm btn-danger float-right" onClick="statusChange(39)"><i class="fas fa-times"></i> Programming Hold</div>';
 		$jobHold = '<div class="btn btn-sm btn-danger float-right" onClick="jobJold()"><i class="fas fa-times"></i> Job Hold</div>';
 		// SALES
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2) {
@@ -4589,13 +4589,13 @@ if ($action=="view_selected_pjt") {
 		// PROGRAMMING
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 5) {
 			if ($results['job_status'] == 13) {
-				$html .= $rejectTempl;
+				$html .= $holdProg;
 				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange(16)"><i class="fas fa-times"></i> Template Incomplete</div>';
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(17)"><i class="fas fa-check"></i> Template Complete</div>';
 			}
 			if ($results['job_status'] == 12) {
+				$html .= $holdProg;
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(13)"><i class="fas fa-check"></i> Template Scheduled</div>';
-				$html .= $rejectTempl;
 			}
 		}
 
