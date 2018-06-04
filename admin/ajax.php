@@ -2809,7 +2809,7 @@ if ($action=="timelines_list") {
 			}
 	echo 	'		</div>';
 
-	echo 		'	<div class="col-12 col-md-3"><h3>CNC</h3>';
+	echo 		'	<div class="col-12 col-md-3"><h3>CNC Machine</h3>';
 			foreach($fabrication_list as $temp) {
 				foreach($temp['details'] as $t) {
 					if ( ($t['job_status'] > 59 || $t['job_status'] < 63) || $t['job_status'] == 53 || $t['job_status'] == 59 ) {
