@@ -4577,13 +4577,13 @@ if ($action=="view_selected_pjt") {
 		//TEMPLATING
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4) {
 			if ($results['job_status'] == 13) {
-				$html .= $rejectTempl;
+				$html .= $holdTempl;
 				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange(16)"><i class="fas fa-times"></i> Template Incomplete</div>';
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(17)"><i class="fas fa-check"></i> Template Complete</div>';
 			}
 			if ($results['job_status'] == 12) {
+				$html .= $holdTempl;
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange(13)"><i class="fas fa-check"></i> Template Scheduled</div>';
-				$html .= $rejectTempl;
 			}
 		}
 		// PROGRAMMING
