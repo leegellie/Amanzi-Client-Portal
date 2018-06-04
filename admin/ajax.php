@@ -4542,29 +4542,31 @@ if ($action=="view_selected_pjt") {
 
 		$html .= $statList;
 		$html .= '</select>';
-		$rejectSale = '<div class="btn btn-sm btn-danger" onClick="statusUpdate(26)"><i class="fas fa-times"></i> Job Rejected</div>';
-		$rejectTempl = '<div class="btn btn-sm btn-danger" onClick="statusUpdate(19)"><i class="fas fa-times"></i> Template Hold</div>';
+		$rejectSale = '<div class="btn btn-sm btn-danger float-right" onClick="statusUpdate(26)"><i class="fas fa-times"></i> Job Rejected</div>';
+		$rejectTempl = '<div class="btn btn-sm btn-danger float-right" onClick="statusUpdate(19)"><i class="fas fa-times"></i> Template Hold</div>';
+		$jobHold = '<div class="btn btn-sm btn-danger" onClick="jobJold()"><i class="fas fa-times"></i> Job Hold</div>';
 
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2) {
 			if ($results['job_status'] == 10) {
-				$html .= '<div class="btn btn-sm btn-success" onClick="statusUpdate(11)"><i class="fas fa-check"></i> Estimated</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(11)"><i class="fas fa-check"></i> Estimated</div>';
 				$html .= $rejectSale;
 			}
 			if ($results['job_status'] == 11) {
-				$html .= '<div class="btn btn-sm btn-success" onClick="statusUpdate(12)"><i class="fas fa-check"></i> Estimate Approved</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(12)"><i class="fas fa-check"></i> Estimate Approved</div>';
 				$html .= $rejectSale;
 			}
+			$html = $jobHold;
 		}
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4) {
 			if ($results['job_status'] == 12) {
-				$html .= '<div class="btn btn-sm btn-success" onClick="statusUpdate(11)"><i class="fas fa-check"></i> Template Scheduled</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(13)"><i class="fas fa-check"></i> Template Scheduled</div>';
 
 				$html .= $rejectTempl;
 			}
 			if ($results['job_status'] == 13) {
 				if ($_SESSION['access_level'] == 4)
-				$html .= '<div class="btn btn-sm btn-success" onClick="statusUpdate(17)"><i class="fas fa-check"></i> Template Complete</div>';
-				$html .= '<div class="btn btn-sm btn-success" onClick="statusUpdate(16)"><i class="fas fa-check"></i> Template Incomplete</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(17)"><i class="fas fa-check"></i> Template Complete</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusUpdate(16)"><i class="fas fa-check"></i> Template Incomplete</div>';
 				$html .= $rejectTempl;
 			}
 		}
