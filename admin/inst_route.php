@@ -32,7 +32,7 @@ if( isset($_POST['teamID']) && isset($_POST['jobID']) && isset($_POST['cur_date'
 	$jobID = $_POST['jobID'];
 	$date = new DateTime($_POST['cur_date']);
 	$curDate = $date->format('Y-m-d');
-	$q = $conn->prepare("UPDATE projects SET install_team = :teamID WHERE id = :jobID");
+	$q = $conn->prepare("UPDATE projects SET, job_status = 80 install_team = :teamID WHERE id = :jobID");
 	$q->bindParam('teamID',$teamID);
 	$q->bindParam('jobID',$jobID);
 	$q->execute();

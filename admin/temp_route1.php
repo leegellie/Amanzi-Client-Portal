@@ -1023,7 +1023,6 @@ modalPull += '</div>';
 				cur_date: cur_date
 			},
 			success: function(response) {
-
 		        clearDirections();
 				var result = JSON.parse(response);
 				var joblist_html = [];
@@ -1032,7 +1031,6 @@ modalPull += '</div>';
 					nodes_team[i] = [];
 					nodes_team[i].push(pointHOME_initial);
 				}
-
 				$.each(result, function(key, value) {
 
 					var teamID = value['template_team'];
