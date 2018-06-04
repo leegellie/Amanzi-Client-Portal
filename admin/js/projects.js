@@ -34,6 +34,21 @@ $instForm = '';
 $defaultEdge = 0;
 $addChange = 0;
 
+function statusChange(staffid,newStatus) {
+	var datastring = 'action=change_status&staffid=' + staffid + '&pid=' + $pid + '&job_status=' + newStatus;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
 function recalculate($cpSqFt) {
 	var datastring = 'action=recalculate&uid=' + $uid + '&cpSqFt=' + $cpSqFt;
 	$.ajax({

@@ -108,6 +108,22 @@ function get_holidays() {
     return $days_array;
 }
 
+
+
+// Update Status
+if ($action=="change_status") {
+	$staffid = $_POST['staffid'];
+	$pid = $_POST['pid'];
+	$job_status = $_POST['job_status'];
+	unset($_POST['action']);
+	unset($_POST['staffid']);
+	unset($_POST['pid']);
+	unset($_POST['job_status']);
+
+}
+
+
+
 // ADMIN ADD USERS
 
 if ($action=="get_address_geo") {
