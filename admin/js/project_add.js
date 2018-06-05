@@ -323,16 +323,19 @@ $(document).ready(function() {
 
 		if ($('input[name=uid]') < 1) {
 			alert("No project owner selected.");
+			return;
 		}
 		if ($('input[name=job_name]') < 1) {
 			$('input[name=job_name]').addClass('is-invalid');
 			$('input[name=job_name]').focus();
 			alert("You must have a Job Name.");
+			return;
 		}
 		if ($('input[name=acct_rep]') < 1) {
 			$('input[name=acct_rep]').addClass('is-invalid');
 			$('input[name=acct_rep]').focus();
 			alert("You must specify an Account Rep.");
+			return;
 		}
 		
 		if ($('input[name=install_date]').val() == '') {
