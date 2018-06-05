@@ -272,51 +272,8 @@ $(document).ready(function() {
     });
     $('#btnDel').hide();
 
-	$('#li1').click(function() {
-		//$("#searchWrapper").replace('<div id="addProjectStepper" class="stepper" data-steps="5" data-role="stepper" data-start="1"></div>');
-		$("#step2container").fadeOut(300);
-		$("#step3container").fadeOut(300);
-		$("#step4container").fadeOut(300);
-		$("#step5container").fadeOut(300);
-		$("#step1container").fadeIn(300);
-	});
-	$('#li2').click(function() {
-		//$("#searchWrapper").replace('<div id="addProjectStepper" class="stepper" data-steps="5" data-role="stepper" data-start="2"></div>');
-		$("#step1container").fadeOut(300);
-		$("#step3container").fadeOut(300);
-		$("#step4container").fadeOut(300);
-		$("#step5container").fadeOut(300);
-		$("#step2container").fadeIn(300);
-	});
-	$('#li3').click(function() {
-		//$("#searchWrapper").replace('<div id="addProjectStepper" class="stepper" data-steps="5" data-role="stepper" data-start="3"></div>');
-		$("#step2container").fadeOut(300);
-		$("#step1container").fadeOut(300);
-		$("#step4container").fadeOut(300);
-		$("#step5container").fadeOut(300);
-		$("#step3container").fadeIn(300);
-	});
-	$('#li4').click(function() {
-		//$("#searchWrapper").replace('<div id="addProjectStepper" class="stepper" data-steps="5" data-role="stepper" data-start="4"></div>');
-		$("#step2container").fadeOut(300);
-		$("#step3container").fadeOut(300);
-		$("#step1container").fadeOut(300);
-		$("#step5container").fadeOut(300);
-		$("#step4container").fadeIn(300);
-	});
-	$('#li5').click(function() {
-		//$("#searchWrapper").replace('<div id="addProjectStepper" class="stepper" data-steps="5" data-role="stepper" data-start="5"></div>');
-		$("#step2container").fadeOut(300);
-		$("#step3container").fadeOut(300);
-		$("#step4container").fadeOut(300);
-		$("#step1container").fadeOut(300);
-		$("#step5container").fadeIn(300);
-	});
-	//$("#searchUser").click(function() {
-	//	$("#searchWrapper").fadeIn(300);
-	//	return false;
-	//});
 	$("#add_pjt_btn").click(function(e) {
+		alert("clicked");
 		e.preventDefault();
 		$('input').removeClass('is-invalid');
 		$('#loadOver').fadeIn(500);
@@ -337,14 +294,13 @@ $(document).ready(function() {
 			alert("You must specify an Account Rep.");
 			return;
 		}
-		
 		if ($('input[name=install_date]').val() == '') {
 			$('input[name=install_date]').val('2200-01-01');
 		} else {
 			var iDate = new Date($('input[name=install_date]').val());
-			var year = iDate.getFullYear();
-			var month= ("0" + (iDate.getMonth()+1)).slice(-2);
-			var date = ("0" + iDate.getDate()).slice(-2);
+			var year  = iDate.getFullYear();
+			var month = ("0" + (iDate.getMonth()+1)).slice(-2);
+			var date  = ("0" + iDate.getDate()).slice(-2);
 			var dateString = year + '-' + month + '-' + date;
 			$('input[name=install_date]').val(dateString);
 		}
@@ -352,9 +308,9 @@ $(document).ready(function() {
 			$('input[name=template_date]').val('2200-01-01');
 		} else {
 			var tDate = new Date($('input[name=template_date]').val());
-			var year = tDate.getFullYear();
-			var month= ("0" + (tDate.getMonth()+1)).slice(-2);
-			var date = ("0" + tDate.getDate()).slice(-2);
+			var year  = tDate.getFullYear();
+			var month = ("0" + (tDate.getMonth()+1)).slice(-2);
+			var date  = ("0" + tDate.getDate()).slice(-2);
 			var dateString = year + '-' + month + '-' + date;
 			$('input[name=template_date]').val(dateString);
 		}
