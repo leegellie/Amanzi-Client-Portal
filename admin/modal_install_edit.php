@@ -99,7 +99,7 @@
 							<fieldset class="form-group col-12 col-md-6">
 		
 								<label for="color">Color:</label>
-								<input class="form-control matControl" list="i-color" id="i-color-box" name="color" type="text">
+								<input class="form-control matControl" list="i-color" id="i-color-box" name="color" type="text" autocomplete="off">
 								<div class="btn btn-sm btn-danger input-group-addon float-right" onClick="$('#i-color-box').val('')"><i class="fas fa-times"></i></div>
 								<div class="btn btn-sm btn-primary input-group-addon float-right matPickerBtn" onClick="matModalOpen(this);"><i class="fa fa-eye"></i></div>
 								<datalist id="i-color" class="colorChoose">

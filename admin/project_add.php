@@ -250,7 +250,7 @@
 										<div class="row">
 											<input id="isActive" name="isActive" type="hidden" value="1">
 											<input id="action" name="action" type="hidden" value="add_project_step1"><br>
-											<div class="btn btn-primary" name="step1btn" id="step1btn" style="width:100%; font-size:x-large; font-weight:800; line-height:40px;">Add Installs</div>
+											<div class="btn btn-primary" name="add_pjt_btn" id="add_pjt_btn" style="width:100%; font-size:x-large; font-weight:800; line-height:40px;">Add Installs</div>
 										</div>
 									</div>
 								</div>

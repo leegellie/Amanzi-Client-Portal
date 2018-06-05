@@ -38,7 +38,7 @@
 								<fieldset class="form-group col-9 d-inline">
 									<label for="sink_model"><u>Sink Model</u>: </label>
                                     <div class="input-group">
-										<input class="form-control" list="sinks" type="text" id="e-sink_model" name="sink_model">
+										<input class="form-control" list="sinks" type="text" id="e-sink_model" name="sink_model" autocomplete="off">
                                     	<div class="input-group-append">
 	                                        <button type="button" class="btn btn-muted" onClick="$('#sink_model').val('')"><i class="fas fa-times"></i></button>
                                         </div>

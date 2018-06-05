@@ -122,7 +122,7 @@
                                 <fieldset class="form-group col-12 col-md-6">
 									<label for="color">Color:</label>
 									<div class="input-group">
-										<input class="form-control matControl" list="i-color" id="color-box" name="color" type="text">
+										<input class="form-control matControl" list="i-color" id="color-box" name="color" type="text" autocomplete="off">
 										<div class="input-group-append">
 											<span class="input-group-text bg-danger text-white" onClick="$('#color-box').val('')"><i class="fas fa-times"></i></span>
 										</div>

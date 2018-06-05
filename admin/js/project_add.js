@@ -316,10 +316,25 @@ $(document).ready(function() {
 	//	$("#searchWrapper").fadeIn(300);
 	//	return false;
 	//});
-	$("#step1btn").click(function(e) {
+	$("#add_pjt_btn").click(function(e) {
 		e.preventDefault();
+		$('input').removeClass('is-invalid');
 		$('#loadOver').fadeIn(500);
 
+		if ($('input[name=uid]') < 1) {
+			alert("No project owner selected.");
+		}
+		if ($('input[name=job_name]') < 1) {
+			$('input[name=job_name]').addClass('is-invalid');
+			$('input[name=job_name]').focus();
+			alert("You must have a Job Name.");
+		}
+		if ($('input[name=acct_rep]') < 1) {
+			$('input[name=acct_rep]').addClass('is-invalid');
+			$('input[name=acct_rep]').focus();
+			alert("You must specify an Account Rep.");
+		}
+		
 		if ($('input[name=install_date]').val() == '') {
 			$('input[name=install_date]').val('2200-01-01');
 		} else {
@@ -347,6 +362,7 @@ $(document).ready(function() {
 			newCost = parseFloat(newCost).toFixed(2); 
 			$('input[name=po_cost]').val(newCost);
 		}
+		
 		var form = $("form#add_step1");
     	var formdata = false;
     	if (window.FormData){

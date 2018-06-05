@@ -4256,21 +4256,6 @@ if ($action == "add_project_step1") {
 		$_POST['job_long'] = NULL;
 	}
 
-	if (!is_numeric($_POST['uid'])) {
-		echo "No project owner selected.";
-		exit;
-	}
-
-	if ($_POST['job_name'] == "") {
-		echo "You must have a Job Name.";
-		exit;
-	}
-
-	if ($_POST['acct_rep'] < 1) {
-		echo "You must specify an Account Rep.";
-		exit;
-	}
-
 	if (!isset($_POST['isActive'])) {
 		$_POST['isActive'] = "0";
 	}

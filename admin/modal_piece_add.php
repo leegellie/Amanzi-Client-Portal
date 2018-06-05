@@ -1,4 +1,4 @@
-<div class="modal fade" id="add_piece" tabindex="-1" role="dialog" aria-labelledby="locationLabel" aria-hidden="true">
+li<div class="modal fade" id="add_piece" tabindex="-1" role="dialog" aria-labelledby="locationLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="margin-top: 7rem;">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -241,7 +241,7 @@
 								<fieldset class="form-group col-5 d-inline">
 									<label for="sink_faucet"><u>Faucet</u>: </label>
                                     <div class="input-group">
-										<input type="text" list="faucets" class="form-control" id="sink_faucet" name="sink_faucet">
+										<input type="text" list="faucets" class="form-control" id="sink_faucet" name="sink_faucet" autocomplete="off">
                                     	<div class="input-group-append">
 	                                        <button type="button" class="btn btn-muted" onClick="$('#sink_faucet').val('')"><i class="fas fa-times"></i></button>
                                         </div>
@@ -274,7 +274,7 @@
 -->								<fieldset class="form-group col-9 d-inline">
 									<label for="sink_model"><u>Sink Model</u>: </label>
                                     <div class="input-group">
-										<input class="form-control" list="sinks" type="text" id="sink_model" name="sink_model">
+										<input class="form-control" list="sinks" type="text" id="sink_model" name="sink_model" autocomplete="off">
                                     	<div class="input-group-append">
 	                                        <button type="button" class="btn btn-muted" onClick="$('#sink_model').val('')"><i class="fas fa-times"></i></button>
                                         </div>
