@@ -2356,6 +2356,9 @@ if ($action=="timelines_list") {
 					} elseif ($t['quote_num'] > 0) {
 						echo 'q-'.$t['quote_num'].' - ';
 					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+					}
 	echo 				$t['job_name'].'</button>';
 	echo       	'		</div>';
 				}
@@ -2398,6 +2401,9 @@ if ($action=="timelines_list") {
 						} elseif ($t['quote_num'] > 0) {
 							echo 'q-'.$t['quote_num'].' - ';
 						}
+						if ($t['job_sqft'] > 0) {
+							echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+						}
 	echo 					$t['job_name'].'</button>';
 	echo		'		</div>';
 					}
@@ -2421,6 +2427,9 @@ if ($action=="timelines_list") {
 							echo 'O-'.$t['order_num'].' - ';
 						} elseif ($t['quote_num'] > 0) {
 							echo 'q-'.$t['quote_num'].' - ';
+						}
+						if ($t['job_sqft'] > 0) {
+							echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
 						}
 	echo 					$t['job_name'].'</button>';
 	echo		'		</div>';
@@ -2448,6 +2457,9 @@ if ($action=="timelines_list") {
 						} elseif ($t['quote_num'] > 0) {
 							echo 'q-'.$t['quote_num'].' - ';
 						}
+						if ($t['job_sqft'] > 0) {
+							echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+						}
 	echo 					$t['job_name'].'</button>';
 	echo		'		</div>';
 					}
@@ -2473,6 +2485,9 @@ if ($action=="timelines_list") {
 							echo 'O-'.$t['order_num'].' - ';
 						} elseif ($t['quote_num'] > 0) {
 							echo 'q-'.$t['quote_num'].' - ';
+						}
+						if ($t['job_sqft'] > 0) {
+							echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
 						}
 	echo 					$t['job_name'].'</button>';
 	echo		'		</div>';
@@ -2500,6 +2515,9 @@ if ($action=="timelines_list") {
 							echo 'O-'.$t['order_num'].' - ';
 						} elseif ($t['quote_num'] > 0) {
 							echo 'q-'.$t['quote_num'].' - ';
+						}
+						if ($t['job_sqft'] > 0) {
+							echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
 						}
 	echo 					$t['job_name'].'</button>';
 	echo		'		</div>';
@@ -2542,6 +2560,9 @@ if ($action=="timelines_list") {
 					} elseif ($t['quote_num'] > 0) {
 						echo 'q-'.$t['quote_num'].' - ';
 					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+					}
 	echo 					$t['job_name'].'</button>';
 	echo		'		</div>';
 				}
@@ -2570,6 +2591,9 @@ if ($action=="timelines_list") {
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
 					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
 					}
@@ -2594,6 +2618,9 @@ if ($action=="timelines_list") {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
+					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -2620,6 +2647,9 @@ if ($action=="timelines_list") {
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
 					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
 					}
@@ -2644,6 +2674,9 @@ if ($action=="timelines_list") {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
+					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -2674,6 +2707,9 @@ if ($action=="timelines_list") {
 					} elseif ($t['quote_num'] > 0) {
 						echo 'q-'.$t['quote_num'].' - ';
 					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
 					}
@@ -2696,6 +2732,9 @@ if ($action=="timelines_list") {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
 						echo 'q-'.$t['quote_num'].' - ';
+					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -2720,6 +2759,9 @@ if ($action=="timelines_list") {
 					} elseif ($t['quote_num'] > 0) {
 						echo 'q-'.$t['quote_num'].' - ';
 					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
 					}
@@ -2743,6 +2785,9 @@ if ($action=="timelines_list") {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
 						echo 'q-'.$t['quote_num'].' - ';
+					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -2775,6 +2820,9 @@ if ($action=="timelines_list") {
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
 					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
 					}
@@ -2799,6 +2847,9 @@ if ($action=="timelines_list") {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
+					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -2825,6 +2876,9 @@ if ($action=="timelines_list") {
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
 					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
 					}
@@ -2849,6 +2903,9 @@ if ($action=="timelines_list") {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
+					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -2883,6 +2940,9 @@ if ($action=="timelines_list") {
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
 					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
 					}
@@ -2909,6 +2969,9 @@ if ($action=="timelines_list") {
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
 					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
 					}
@@ -2934,6 +2997,9 @@ if ($action=="timelines_list") {
 						} elseif ($t['quote_num'] > 0) {
 							echo ' - q-'.$t['quote_num'].' - ';
 						}
+						if ($t['job_sqft'] > 0) {
+							echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+						}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
 					}
@@ -2958,6 +3024,9 @@ if ($action=="timelines_list") {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
+					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -2992,6 +3061,9 @@ if ($action=="timelines_list") {
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
 					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
 					}
@@ -3016,6 +3088,9 @@ if ($action=="timelines_list") {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
+					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
@@ -3042,6 +3117,9 @@ if ($action=="timelines_list") {
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
 					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
 					}
@@ -3067,6 +3145,9 @@ if ($action=="timelines_list") {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
 						echo ' - q-'.$t['quote_num'].' - ';
+					}
+					if ($t['job_sqft'] > 0) {
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
