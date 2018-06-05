@@ -2577,17 +2577,17 @@ if ($action=="timelines_list") {
 
 	function tempStatus($stat) {
 		if ($stat == 12) {
-			echo " btn-muted text-dark";
+			return " btn-muted text-dark";
 		} elseif ($stat == 13) {
-			echo " btn-secondary";
+			return " btn-secondary";
 		} elseif ($stat == 14) {
-			echo " btn-primary";
+			return " btn-primary";
 		} elseif ($stat == 15) {
-			echo " btn-success";
+			return " btn-success";
 		} elseif ($stat == 16 || $stat == 19) {
-			echo " btn-danger";
+			return " btn-danger";
 		} elseif ($stat == 17) {
-			echo " btn-warning";
+			return " btn-warning";
 		}
 	}
 	echo		'<div class="tab-pane fade" id="panel_templates" role="tabpanel">';
