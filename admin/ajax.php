@@ -5293,6 +5293,8 @@ if ($action=="view_selected_inst") {
 	$html .= '	<div class="btn btn-success ml-2" onClick="pieceAdder()">Add <i class="fas fa-plus"></i></div>';
 	$html .= '	<hr>';
 	$html .= '	<div id="pieceList" class="col-12 d-print-none">';
+	$backsplash = '';
+	$riser = '';
 	$instR = new project_action;
 	foreach( $instR->pieces_data_fetch($_POST) as $r ) {
 		$html .= '	<div class="row">';
@@ -5357,12 +5359,14 @@ if ($action=="view_selected_inst") {
 			$clipboard .= ' - Backsplash Height: ' . $r['bs_height'] . '"';
 			$clipboard .= ' - Backsplash Width: ' . $r['bs_length'] . '"';
 			$clipboard .= ' - SqFt: ' . $cbs . '"';
+			$backsplash = $r['bs_height'];
 		}
 
 		if ($r['rs_height'] != 0) {
 			$clipboard .= ' - Riser Height: ' . $r['rs_height'] . '"';
 			$clipboard .= ' - Riser Width: ' . $r['rs_length'] . '"';
 			$clipboard .= ' - SqFt: ' . $crs . '"';
+			$riser = $r['rs_height'];
 		}
 
 		$html .= '	<div class="row">';
@@ -5389,6 +5393,12 @@ if ($action=="view_selected_inst") {
 		$html .= '		</div>';
 		$html .= '	</div>';
 		$html .= '	<hr>'; 
+	}
+	if ($backsplash > 0){
+		$programming .= "<br>Backsplash: " . $backsplash .'"';
+	}
+	if ($riser > 0){
+		$programming .= "<br>Riser: " . $riser .'"';
 	}
 	$html .= '	</div>';
 	$html .= '</div>';
