@@ -100,7 +100,13 @@ include('header.php');
         </div>
     </div>
 </div>
-
+	<div>
+USERNAME = <?= $username ?>
+ACCESS LEVEL (NUMERIC VALUE) = <?= $access_level ?>
+FIRST NAME = <?= $first_name ?>
+LAST NAME = <?= $last_name ?>
+USER'S EMAIL = <?= $user_email ?>
+</div>
 
 <!-- END DASHBOARD CONTENT AREA -->
 <!-- START FOOTER -->
