@@ -1326,7 +1326,7 @@ class project_action {
 			WHERE template_date >= CURDATE() 
 			  AND template_date < '2200-01-01' 
 			  AND projects.isActive = 1";
-			if ($department == 9 && $isManager != 1) {
+			if ($_SESSION["department"] == 9 && $isManager != 1) {
 				$sql .= " AND team_user = " . $userid;
 			}
 			$sql .= " ORDER BY 
