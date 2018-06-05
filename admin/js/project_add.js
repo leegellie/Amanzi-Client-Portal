@@ -325,7 +325,7 @@ $(document).ready(function() {
 			alert("No project owner selected.");
 			return;
 		}
-		if ($('input[name=job_name]') < 1) {
+		if ($('input[name=job_name]') == '') {
 			$('input[name=job_name]').addClass('is-invalid');
 			$('input[name=job_name]').focus();
 			alert("You must have a Job Name.");
