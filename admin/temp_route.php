@@ -468,6 +468,7 @@ function getLatLong($address){
 										//Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
 									var html_str = "<div style = 'width:200px;min-height:40px'>";
 										html_str += "<div id='myForm'>";
+										html_str +=   "<p class='text-success'>Q: <b>" + value['quote_num'] + "</b></p>";
 										html_str +=   "<p class='text-success'>Job: <b>" + value['job_name'] + "</b></p>";
 										html_str +=   "<p>Templ. Date: <b class='text-success'>" + value['template_date'] + "</b>";
 										if (value['temp_first_stop'] == 1){
