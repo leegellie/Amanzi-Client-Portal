@@ -103,7 +103,7 @@ include('header.php');
 <div>
 <!--
 	USERNAME = <?= $username ?><br>
-	USERNAME = <?= $userid ?><br>
+	USER ID = <?= $userid ?><br>
 	ACCESS LEVEL (NUMERIC VALUE) = <?= $access_level ?><br>
 	FIRST NAME = <?= $first_name ?><br>
 	LAST NAME = <?= $last_name ?><br>
