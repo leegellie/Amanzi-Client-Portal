@@ -39,10 +39,14 @@ if( isset($_POST['teamID']) && isset($_POST['jobID']) && isset($_POST['cur_date'
 	$q->execute();
 
 	$sql = "
-	SELECT projects.*, users.fname, users.lname 
+	SELECT projects.*, users.fname, users.lname, 
+		template_teams.temp_team_name AS team, 
+		template_teams.temp_user_id
 	FROM projects 
 	JOIN users 
 		ON users.id = projects.acct_rep 
+	JOIN template_teams 
+		ON template_teams.temp_team_id = projects.template_team 
 	WHERE projects.template_date = :template_date ";
 
 	if ($_SESSION["department"] == 9 && $_SESSION["isManager"] != 1) {
