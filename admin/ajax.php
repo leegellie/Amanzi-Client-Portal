@@ -4781,7 +4781,7 @@ if ($action=="view_selected_pjt") {
 		if ($profit < 100) {
 			$html .= '<div class="row">'; 
 			if ($results['mngr_approved'] == 0) {
-				$html .= '	<div class="col-10 text-center"><h2 class="text-center text-danger col-12">This Project is NOT YET APPROVED by Amanzi Management</h2></div>'; 
+				$html .= '	<div class="col-10 text-center"><h2 class="text-center text-danger col-12">This is NOT A VALID Estimate. Awaiting aproval.</h2></div>'; 
 				if ($_SESSION['access_level'] == 1) { 
 					$html .= '	<button class="col-2 btn btn-success d-print-none float-right mx-0" type="button" onClick="approveLoss(1,' . round($price_tax,2) . ',' . $_SESSION['id'] . ')">Approve <i class="far fa-check mr-2"></i></button>'; 
 				}

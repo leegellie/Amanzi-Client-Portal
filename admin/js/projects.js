@@ -1202,8 +1202,8 @@ function loadTimelines(){
     url: "ajax.php",
     data: datastring,
     success: function(data) {
-      $('#tableResults').html('');
-      $('#tableResults').append(data);
+		$('#tableResults').html('');
+		$('#tableResults').append(data);
 		$('[data-toggle=popover]').popover();
     },
     error: function(xhr, status, error) {
