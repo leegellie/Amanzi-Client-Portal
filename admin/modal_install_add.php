@@ -79,12 +79,17 @@
     	                                <input class="form-control matControl" id="SqFt" name="SqFt" type="number" value="0" readonly>
                                 </fieldset>
 
-								<fieldset class="form-group col-4 col-lg-3">
+								<fieldset class="form-group col-4 col-lg-2">
+									<label for="slabs">Slabs:</label>
+									<input class="form-control matControl px-0 text-center" id="slabs" name="slabs" type="number" value="0">
+								</fieldset>
+
+								<fieldset class="form-group col-4 col-lg-2">
 									<label for="tearout_sqft">Tear out SqFt:</label>
 									<input class="form-control matControl px-0 text-center" id="tearout_sqft" name="tearout_sqft" type="number" value="0">
 								</fieldset>
 
-								<fieldset class="form-group col-6 col-lg-3">
+								<fieldset class="form-group col-6 col-lg-2">
 									<label for="price_calc">Material Cost:</label>
 									<div class="input-group">
 										<div class="input-group-prepend">
