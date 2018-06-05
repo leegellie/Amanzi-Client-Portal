@@ -122,13 +122,13 @@
                                 <fieldset class="form-group col-12 col-md-6">
 									<label for="color">Color:</label>
 									<div class="input-group">
+										<div class="input-group-append">
+											<span class="input-group-text input-group-addon" onClick="$('#color-box').val('')"><i class="fas fa-times"></i></span>
+										</div>
+										<div class="input-group-append">
+											<span class="input-group-text input-group-addon matPickerBtn" onClick="matModalOpen(this);"><i class="fa fa-eye"></i></span>
+										</div>
 										<input class="form-control matControl" list="i-color" id="color-box" name="color" type="text">
-										<div class="input-group-append">
-											<button type="button" class="btn btn-muted" onClick="$('#color-box').val('')"><i class="fas fa-times"></i></button>
-										</div>
-										<div class="input-group-append">
-											<button type="button" class="btn btn-primary input-group-addon matPickerBtn" onClick="matModalOpen(this);"><i class="fa fa-eye"></i></button>
-										</div>
 									</div>
                                 </fieldset>
 		
