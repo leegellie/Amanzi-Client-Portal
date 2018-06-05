@@ -4538,7 +4538,7 @@ if ($action=="view_selected_pjt") {
 		$printThis = "$('#pjtDetails').printThis()";
 		$html .= '<div class="col-12 d-print-none ' . $noProg . '"><div class="btn btn-primary float-right mr-3" onClick="' . $printThis . '"><i class="fas fa-print"></i>&nbsp;&nbsp; Estimate</div></div>';
 		$html .= '<h2 class="d-print-none">Client:</h2>';
-		$html .= '<h2 id="clientName" class="d-inline d-print-none text-primary">' . $results['clientCompany'] . ' ' . $results['clientFname'] . ' ' . $results['clientLname'] . ' <em><sup class=" ' . $noProg . '">(' . $eSqFt[0] . ' SqFt - $' . $tax_print .')</sup></em></h2>';
+		$html .= '<h2 id="clientName" class="d-inline d-print-none text-primary text-uppercase">' . $results['clientCompany'] . ' ' . $results['clientFname'] . ' ' . $results['clientLname'] . ' <em><sup class=" ' . $noProg . '">(' . $eSqFt[0] . ' SqFt - $' . $tax_print .')</sup></em></h2>';
 		$html .= '<hr class="d-print-none">';
 		$html .= '<h2 class="col-12 col-md-4 col-lg-2 float-left pl-0 d-print-none">Status:</h2>';
 
@@ -4728,7 +4728,7 @@ if ($action=="view_selected_pjt") {
 		$html .= '<hr>';
 		$html .= '<h2 class="d-print-none">Project details for:</h2>';
 		$html .= '<h2 class="d-none d-print-inline">Job: </h2>';
-		$html .= '<h2 class="d-inline text-primary" id="projectName">' . $results['job_name'] . '</h2>';
+		$html .= '<h2 class="d-inline text-primary text-uppercase" id="projectName">' . $results['job_name'] . '</h2>';
 
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 3 ) {
 			$html .= '<div id="enteredDbBtn" class="btn btn-sm btn-warning d-inline ml-2 float-right d-print-none" onClick="entered_anya(' . $results['id'] . ');">Entered <i class="fas fa-database"></i></div>';
@@ -4781,7 +4781,7 @@ if ($action=="view_selected_pjt") {
 		if ($profit < 100) {
 			$html .= '<div class="row">'; 
 			if ($results['mngr_approved'] == 0) {
-				$html .= '	<div class="col-10 text-center"><h2 class="text-center text-danger col-12">This is NOT A VALID Estimate. Awaiting aproval.</h2></div>'; 
+				$html .= '	<div class="col-10 text-center"><h2 class="text-center text-danger col-12">This is NOT A VALID ESTIMATE. Awaiting aproval.</h2></div>'; 
 				if ($_SESSION['access_level'] == 1) { 
 					$html .= '	<button class="col-2 btn btn-success d-print-none float-right mx-0" type="button" onClick="approveLoss(1,' . round($price_tax,2) . ',' . $_SESSION['id'] . ')">Approve <i class="far fa-check mr-2"></i></button>'; 
 				}
@@ -4994,7 +4994,7 @@ if ($action=="view_selected_pjt") {
 		?>
 			<hr>
 			<div class="row w-100 d-flex d-print-flex">
-	        	<div class="col-4 col-md-4 text-primary"><div class="d-inline d-print-none" onClick="delete_install(<?= $results['id']; ?>,<?= $results['pid']; ?>,'<?= $results['install_name']; ?>')"> <i class="fas fa-trash text-danger"></i></div><h4 class="d-inline"> <?= $results['type_name']; ?> - <?= $results['install_name']; ?> </h4></div>
+	        	<div class="col-4 col-md-4 text-primary"><div class="d-inline d-print-none" onClick="delete_install(<?= $results['id']; ?>,<?= $results['pid']; ?>,'<?= $results['install_name']; ?>')"> <i class="fas fa-trash text-danger"></i></div><h4 class="d-inline text-uppercase"> <?= $results['type_name']; ?> - <?= $results['install_name']; ?> </h4></div>
     	    	<div class="col-3 col-md-3 text-dark"><h5><?= $results['color']; ?></h5></div>
         		<div class="col-3 col-md-2 text-right text-dark"><h5><?= $results['SqFt']; ?> SqFt</h5></div>
 	        	<div class="col-2 col-md-3 text-right text-success float-right d-none d-print-block"><h4>$<?= number_format($results['install_price'], 2, '.', ','); ?></h4></div>
@@ -5296,7 +5296,7 @@ if ($action=="view_selected_inst") {
 	$instR = new project_action;
 	foreach( $instR->pieces_data_fetch($_POST) as $r ) {
 		$html .= '	<div class="row">';
-		$html .= '		<h4 class="d-inline col-12 col-md-2 text-warning"><i class="fas fa-trash-alt text-danger h6" style="cursor:pointer" onClick="deletePiece(' . $r['piece_id'] . ')"></i> <i class="fas fa-wrench text-primary h6" style="cursor:pointer" onClick="edit_piece(' . $r['piece_id'] . ')"></i> ' . $r['piece_name'] . '</h4>';
+		$html .= '		<h4 class="d-inline col-12 col-md-2 text-warning text-uppercase"><i class="fas fa-trash-alt text-danger h6" style="cursor:pointer" onClick="deletePiece(' . $r['piece_id'] . ')"></i> <i class="fas fa-wrench text-primary h6" style="cursor:pointer" onClick="edit_piece(' . $r['piece_id'] . ')"></i> ' . $r['piece_name'] . '</h4>';
 
 		$html .= '	</div>';
 		$html .= '	<div class="row">';
