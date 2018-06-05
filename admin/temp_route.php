@@ -38,25 +38,16 @@ if( isset($_POST['teamID']) && isset($_POST['jobID']) && isset($_POST['cur_date'
 	$q->bindParam('jobID',$jobID);
 	$q->execute();
 
-	$sql = "
-	SELECT projects.*, users.fname, users.lname, 
-		template_teams.temp_team_name AS team, 
-		template_teams.temp_user_id
+	$q = $conn->prepare("
+	SELECT projects.*, users.fname, users.lname 
 	FROM projects 
 	JOIN users 
 		ON users.id = projects.acct_rep 
-	JOIN template_teams 
-		ON template_teams.temp_team_id = projects.template_team 
-	WHERE projects.template_date = :template_date ";
-	if ($_SESSION["department"] == 9 && $_SESSION["isManager"] != 1) {
-		$sql .= " AND template_teams.temp_user_id = " . $_SESSION["userid"];
-	}
-	$sql .= " 
+	WHERE projects.template_date = :template_date
 	ORDER BY 
 		temp_first_stop DESC,
 		temp_am DESC,
-		temp_pm ASC";
-	$q = $conn->prepare($sql);
+		temp_pm ASC");
 
 	$q->bindParam('template_date', $curDate);
 	$q->execute();
@@ -73,26 +64,16 @@ if( isset($_POST['date']) ){
 	$limitDate = date('Y-m-d', strtotime($curDate. ' + 8 days'));
 	$dateNow = date("Y-m-d");
 
-	$sql = "
-	SELECT projects.*, users.fname, users.lname, 
-		template_teams.temp_team_name AS team, 
-		template_teams.temp_user_id
+	$q = $conn->prepare("
+	SELECT projects.*, users.fname, users.lname 
 	FROM projects 
 	JOIN users 
 		ON users.id = projects.acct_rep 
-	JOIN template_teams 
-		ON template_teams.temp_team_id = projects.template_team 
-	WHERE projects.template_date = :template_date ";
-	if ($_SESSION["department"] == 9 && $_SESSION["isManager"] != 1) {
-		$sql .= " AND template_teams.temp_user_id = " . $_SESSION["userid"];
-	}
-	$sql .= " 
+	WHERE projects.template_date = :tempate_date
 	ORDER BY 
 		temp_first_stop DESC,
 		temp_am DESC,
-		temp_pm ASC";
-
-	$q = $conn->prepare($sql);
+		temp_pm ASC");
 
 	$q->bindParam('tempate_date',$curDate);
 	$q->execute();
