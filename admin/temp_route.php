@@ -556,6 +556,7 @@ function getLatLong($address){
 												//Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
 											var html_str = "<div style = 'width:200px;min-height:40px'>";
 												html_str += "<div id='myForm'>";
+												html_str +=   "<p class='text-success'>Q: <b>" + value['quote_num'] + "</b></p>";
 												html_str +=   "<p class='text-success'>Job: <b>" + value['job_name'] + "</b></p>";
 												html_str +=   "<p>Templ. Date: <b class='text-success'>" + value['template_date'] + "</b>";
 												if (value['temp_first_stop'] == 1){
@@ -634,6 +635,7 @@ function getLatLong($address){
 												//Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
 											var html_str = "<div style = 'width:200px;min-height:40px'>";
 												html_str += "<div id='myForm'>";
+												html_str +=   "<p class='text-success'>Q: <b>" + value['quote_num'] + "</b></p>";
 												html_str +=   "<p class='text-success'>Job: <b>" + value['job_name'] + "</b></p>";
 												html_str +=   "<p>Templ. Date: <b class='text-success'>" + value['job_name'] + "</b>";
 												if (value['temp_first_stop'] == 1){
@@ -764,6 +766,7 @@ modalPull += '				</div><button aria-label="Close" class="close" data-dismiss="m
 modalPull += '			</div>';
 modalPull += '			<div class="modal-body">';
 modalPull += '				<div class="container">';
+					modalPull +=    "<p class='text-success'>Q: <b>" + value['quote_num'] + "</b></p>";
 
 modalPull += '					<div class="row"><h2>Job: <span class="text-primary">'+value['job_name']+ '</span></h2></div>';
 
@@ -856,6 +859,7 @@ modalPull += '</div>';
 						
 								var html_str = "<div style = 'width:200px;min-height:40px'>";
 									html_str += "<div id='myForm'>";
+									html_str +=   "<p class='text-success'>Q: <b>" + value['quote_num'] + "</b></p>";
 									html_str +=   "<p class='text-success'>Job: <b>" + value['job_name'] + "</b></p>";
 									html_str +=   "<p>Templ. Date: <b class='text-success'>" + value['template_date'] + "</b>";
 									if (value['temp_first_stop'] == 1){
