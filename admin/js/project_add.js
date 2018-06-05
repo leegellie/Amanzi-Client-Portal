@@ -280,6 +280,7 @@ $(document).ready(function() {
 		alert("clicked 1");
 		if ($('input[name=uid]').val() < 1) {
 			alert("No project owner selected.");
+			$('#loadOver').fadeOut(500);
 			return;
 		}
 		alert("clicked 2");
@@ -287,6 +288,7 @@ $(document).ready(function() {
 			$('input[name=job_name]').addClass('is-invalid');
 			$('input[name=job_name]').focus();
 			alert("You must have a Job Name.");
+			$('#loadOver').fadeOut(500);
 			return;
 		}
 		alert("clicked 3");
@@ -294,6 +296,7 @@ $(document).ready(function() {
 			$('input[name=acct_rep]').addClass('is-invalid');
 			$('input[name=acct_rep]').focus();
 			alert("You must specify an Account Rep.");
+			$('#loadOver').fadeOut(500);
 			return;
 		}
 		alert("clicked 4");
