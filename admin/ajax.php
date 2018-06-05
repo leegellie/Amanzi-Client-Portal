@@ -2978,13 +2978,13 @@ if ($action=="timelines_list") {
 	function fabStatus($stat) {
 		if ($stat < 44) {
 			return " btn-muted text-dark";
-		} elseif ($stat == 50) {
+		} elseif ($stat == 50 || $stat == 60 ||$stat == 70) {
 			return " btn-primary";
-		} elseif ($stat == 51) {
+		} elseif ($stat == 51 || $stat == 61 ||$stat == 71) {
 			return " btn-success";
-		} elseif ($stat == 59 || $stat == 49) {
+		} elseif ($stat == 59 || $stat == 49 || $stat == 69 ||$stat == 79) {
 			return " btn-danger";
-		} elseif ($stat == 52) {
+		} elseif ($stat == 52 || $stat == 62 ||$stat == 72) {
 			return " btn-warning";
 		}
 	}
