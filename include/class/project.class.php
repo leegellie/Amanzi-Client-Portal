@@ -1317,7 +1317,7 @@ class project_action {
 			SELECT 	projects.*, 
 					status.name AS status, 
 					template_teams.temp_team_name AS team, 
-					template_teams.temp_user_id AS team_user
+					template_teams.temp_user_id
 			FROM projects 
 			JOIN status 
 				ON status.id = projects.job_status 

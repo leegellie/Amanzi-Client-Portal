@@ -38,16 +38,22 @@ if( isset($_POST['teamID']) && isset($_POST['jobID']) && isset($_POST['cur_date'
 	$q->bindParam('jobID',$jobID);
 	$q->execute();
 
-	$q = $conn->prepare("
+	$sql = "
 	SELECT projects.*, users.fname, users.lname 
 	FROM projects 
 	JOIN users 
 		ON users.id = projects.acct_rep 
-	WHERE projects.template_date = :template_date
+	WHERE projects.template_date = :template_date ";
+
+	if ($_SESSION["department"] == 9 && $_SESSION["isManager"] != 1) {
+		$sql .= " AND template_teams.temp_user_id = " . $_SESSION["userid"];
+	}
+	$sql .= "
 	ORDER BY 
 		temp_first_stop DESC,
 		temp_am DESC,
-		temp_pm ASC");
+		temp_pm ASC";
+	$q = $conn->prepare($sql);
 
 	$q->bindParam('template_date', $curDate);
 	$q->execute();
