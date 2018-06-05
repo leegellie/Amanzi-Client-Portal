@@ -84,7 +84,7 @@
 									<input class="form-control matControl px-0 text-center" id="slabs" name="slabs" type="number" value="0">
 								</fieldset>
 
-								<fieldset class="form-group col-4 col-lg-4">
+								<fieldset class="form-group col-4 col-lg-3">
 									<label for="tearout_sqft">Tear out SqFt:</label>
 									<input class="form-control matControl px-0 text-center" id="tearout_sqft" name="tearout_sqft" type="number" value="0">
 								</fieldset>
