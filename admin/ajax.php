@@ -4725,8 +4725,6 @@ if ($action=="view_selected_pjt") {
 		$html .= '</div></div>';
 
 
-		$html .= '</div>';
-
 		$html .= '<hr>';
 		$html .= '<h2 class="d-print-none">Project details for:</h2>';
 		$html .= '<h2 class="d-none d-print-inline">Job: </h2>';
