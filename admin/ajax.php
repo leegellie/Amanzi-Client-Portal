@@ -5395,10 +5395,10 @@ if ($action=="view_selected_inst") {
 		$html .= '	<hr>'; 
 	}
 	if ($backsplash > 0){
-		$programming .= "<br>Backsplash: " . $backsplash .'"';
+		$programming .= "Backsplash: " . $backsplash .'"<br>';
 	}
 	if ($riser > 0){
-		$programming .= "<br>Riser: " . $riser .'"';
+		$programming .= "Riser: " . $riser .'"<br>';
 	}
 	$html .= '	</div>';
 	$html .= '</div>';
