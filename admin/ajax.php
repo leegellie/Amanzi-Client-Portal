@@ -3237,9 +3237,9 @@ if ($action=="user_search_list") {
 			if ($results['access_level'] > 0) {
 				?>
 				<div class="row">
-					<div class="col-12 col-md-5 text-primary"><h5><?= $results['company']; ?></h5></div>
+					<div class="col-12 col-md-5 text-primary text-uppercase"><h5><?= $results['company']; ?></h5></div>
 					<div class="col-3 hidden-md-down"><?= $results['email']; ?></div>
-					<div class="col-6 col-md-2 text-primary"><?= $results['fname']; ?> <?= $results['lname']; ?></div>
+					<div class="col-6 col-md-2 text-primary text-uppercase"><?= $results['fname']; ?> <?= $results['lname']; ?></div>
 					<div class="col-3 col-md-1 text-right">
 						<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="editThisUser(this.id);">Edit <i class="icon-wrench"></i></div>
 					</div>
@@ -4239,7 +4239,7 @@ if ($action=="pjt_user_list") {
 				//echo $results['id'];
 			?>
 				<hr>
-				<div class="col-9 col-md-8 <?= $statusText ?>"><h5> 
+				<div class="col-9 col-md-8 text-uppercase <?= $statusText ?>"><h5> 
 				<?
 				if ( $results['entry'] == 0 ) {
 					?> <i class="fas fa-desktop"></i> <?
@@ -4288,7 +4288,7 @@ if ($action=="pjt_user_list") {
 			if ($results['access_level'] > 10) {
 			?>
 				<hr>
-				<div class="col-9 col-md-5 text-primary"><h5><?= $results['company']; ?></h5></div>
+				<div class="col-9 col-md-5 text-primary text-uppercase"><h5><?= $results['company']; ?></h5></div>
 				<div class="col-2 hidden-md-down"><?= $results['username']; ?></div>
 				<div class="col-2 hidden-md-down"><?= $results['email']; ?></div>
 				<div class="col-2 text-primary"><?= $results['fname']; ?> <?= $results['lname']; ?></div>
