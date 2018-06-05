@@ -1385,7 +1385,7 @@ class project_action {
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       
 			$sql = "
-			SELECT 	*, projects.id AS pid, status.name, status.stage, status.short_name, status.id AS status
+			SELECT 	*, projects.id AS pid, status.name, status.stage, status.short_name, status.name AS status_name, status.id AS status
 				FROM projects 
 			  	JOIN status 
 				  ON status.id = projects.job_status 
