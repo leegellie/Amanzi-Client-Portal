@@ -21,4 +21,7 @@ $user_email = $user_info->get_results("email");
 $division = $user_info->get_results("division");
 $department = $user_info->get_results("department");
 $isManager = $user_info->get_results("isManager");
+$_SESSION["division"] = $division;
+$_SESSION["department"] = $department;
+$_SESSION["isManager"] = $isManager;
 ?>
