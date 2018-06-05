@@ -17,4 +17,7 @@ $_SESSION["access_level"] = $access_level;
 $first_name = $user_info->get_results("fname");
 $last_name = $user_info->get_results("lname");
 $user_email = $user_info->get_results("email");
+$division = $user_info->get_results("division");
+$department = $user_info->get_results("department");
+$isManager = $user_info->get_results("isManager");
 ?>
