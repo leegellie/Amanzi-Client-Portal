@@ -1204,7 +1204,7 @@ function loadTimelines(){
     success: function(data) {
       $('#tableResults').html('');
       $('#tableResults').append(data);
-		$('div').popover();
+		$('[data-toggle=popover]').popover();
     },
     error: function(xhr, status, error) {
       // alert("Error submitting form: " + xhr.responseText);
