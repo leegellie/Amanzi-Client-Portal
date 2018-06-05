@@ -2306,13 +2306,13 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 	echo        '		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo		'			<a data-placement="top" data-trigger="hover" data-toggle="popover" data-title="<b>'.$t['job_name']."</b> - ".$t['status_name'].'" data-content="Job" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%" data-placement="top" data-trigger="hover" data-toggle="popover" data-title="<b>'.$t['job_name']."</b> - ".$t['status_name'].'" data-content="Job">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
 						echo 'q-'.$t['quote_num'].' - ';
 					}
-	echo 					$t['job_name'].'</a>';
+	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
 				}
 			}
