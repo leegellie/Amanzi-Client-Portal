@@ -66,7 +66,7 @@
 									</div>
 								</fieldset>
 
-                                <fieldset class="input-group col-12 col-lg-5">
+                                <fieldset class="input-group col-12 col-lg-4">
                                     <label for="material">Material:</label>
                                     <select class="mdb-select" id="material" name="material">
                                         <option value="0">Not Selected</option>
@@ -74,7 +74,7 @@
                                         <option value="quartz">Quartz/Quartzite</option>
                                     </select>
                                 </fieldset>
-                                <fieldset class="form-group col-12 col-lg-3">
+                                <fieldset class="form-group col-12 col-lg-2">
 	                                    <label for="SqFt">SqFt:</label>
     	                                <input class="form-control matControl" id="SqFt" name="SqFt" type="number" value="0" readonly>
                                 </fieldset>
@@ -84,12 +84,12 @@
 									<input class="form-control matControl px-0 text-center" id="slabs" name="slabs" type="number" value="0">
 								</fieldset>
 
-								<fieldset class="form-group col-4 col-lg-2">
+								<fieldset class="form-group col-4 col-lg-4">
 									<label for="tearout_sqft">Tear out SqFt:</label>
 									<input class="form-control matControl px-0 text-center" id="tearout_sqft" name="tearout_sqft" type="number" value="0">
 								</fieldset>
 
-								<fieldset class="form-group col-6 col-lg-2">
+								<fieldset class="form-group col-6 col-lg-3">
 									<label for="price_calc">Material Cost:</label>
 									<div class="input-group">
 										<div class="input-group-prepend">
