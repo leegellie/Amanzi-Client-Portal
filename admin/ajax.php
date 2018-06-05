@@ -2313,7 +2313,7 @@ if ($action=="timelines_list") {
 						echo 'q-'.$t['quote_num'].' - ';
 					}
 					if ($t['job_sqft'] > 0) {
-						echo ''.$t['job_sqft'].'<sup>SqFt</sup> - ';
+						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
 					}
 	echo 					$t['job_name'].'</button>';
 	echo        '		</div>';
