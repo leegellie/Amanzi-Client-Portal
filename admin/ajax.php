@@ -2589,7 +2589,6 @@ if ($action=="timelines_list") {
 		} elseif ($stat == 17) {
 			echo " btn-warning";
 		}
-
 	}
 	echo		'<div class="tab-pane fade" id="panel_templates" role="tabpanel">';
 	echo 		'<div class="row">';
@@ -2605,7 +2604,7 @@ if ($action=="timelines_list") {
 					if ($t['job_notes'] != '') {
 	echo 		'	Notes: ' . $t['job_notes'];
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$tempStatus($t['job_status']).'" style="width:100%">'. $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%">'. $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -2633,7 +2632,7 @@ if ($action=="timelines_list") {
 					if ($t['job_notes'] != '') {
 	echo 		'	Notes: ' . $t['job_notes'];
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$tempStatus($t['job_status']).'" style="width:100%">'. $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%">'. $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -2661,7 +2660,7 @@ if ($action=="timelines_list") {
 					if ($t['job_notes'] != '') {
 	echo 		'	Notes: ' . $t['job_notes'];
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$tempStatus($t['job_status']).'" style="width:100%">'. $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%">'. $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -2689,7 +2688,7 @@ if ($action=="timelines_list") {
 					if ($t['job_notes'] != '') {
 	echo 		'	Notes: ' . $t['job_notes'];
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$tempStatus($t['job_status']).'" style="width:100%">'. $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%">'. $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
