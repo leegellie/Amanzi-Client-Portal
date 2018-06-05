@@ -273,7 +273,6 @@ $(document).ready(function() {
     $('#btnDel').hide();
 
 	$("#add_pjt_btn").click(function(e) {
-		alert("clicked");
 		e.preventDefault();
 		$('input').removeClass('is-invalid');
 		$('#loadOver').fadeIn(500);
@@ -282,6 +281,7 @@ $(document).ready(function() {
 			alert("No project owner selected.");
 			return;
 		}
+		alert("clicked 2");
 		if ($('input[name=job_name]') == '') {
 			$('input[name=job_name]').addClass('is-invalid');
 			$('input[name=job_name]').focus();
