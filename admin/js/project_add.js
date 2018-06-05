@@ -277,13 +277,11 @@ $(document).ready(function() {
 		$('input').removeClass('is-invalid');
 		$('#loadOver').fadeIn(500);
 
-		alert("clicked 1");
 		if ($('input[name=uid]').val() < 1) {
 			alert("No project owner selected.");
 			$('#loadOver').fadeOut(500);
 			return;
 		}
-		alert("clicked 2");
 		if ($('input[name=job_name]').val() == '') {
 			$('input[name=job_name]').addClass('is-invalid');
 			$('input[name=job_name]').focus();
@@ -291,15 +289,13 @@ $(document).ready(function() {
 			$('#loadOver').fadeOut(500);
 			return;
 		}
-		alert("clicked 3");
-		if ($('input[name=acct_rep]').val() < 1) {
-			$('input[name=acct_rep]').addClass('is-invalid');
-			$('input[name=acct_rep]').focus();
+		if ($('select[name=acct_rep]').val() < 1) {
+			$('select[name=acct_rep]').addClass('is-invalid');
+			$('select[name=acct_rep]').focus();
 			alert("You must specify an Account Rep.");
 			$('#loadOver').fadeOut(500);
 			return;
 		}
-		alert("clicked 4");
 		if ($('input[name=install_date]').val() == '') {
 			$('input[name=install_date]').val('2200-01-01');
 		} else {
