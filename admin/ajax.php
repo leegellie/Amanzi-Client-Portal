@@ -2707,6 +2707,22 @@ if ($action=="timelines_list") {
 	echo 	'	</div>';
 	echo 	'	</div>';
 
+	function salesStatus($stat) {
+		if ($stat == 17) {
+			return " btn-muted text-dark";
+		} elseif ($stat == 21 || $stat == 24) {
+			return " btn-primary";
+		} elseif ($stat == 22) {
+			return " btn-secondary";
+		} elseif ($stat == 23) {
+			return " btn-success";
+		} elseif ($stat == 26) {
+			return " btn-danger";
+		} elseif ($stat == 25) {
+			return " btn-warning";
+		}
+	}
+
 	echo	'	<div class="tab-pane fade" id="panel_sales" role="tabpanel">';
 	echo 		'<div class="row">';
 
@@ -2720,7 +2736,7 @@ if ($action=="timelines_list") {
 					if ($t['job_notes'] != '') {
 	echo 		'	Notes: ' . $t['job_notes'];
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.salesStatus($t['job_status']).'" style="width:100%">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -2746,7 +2762,7 @@ if ($action=="timelines_list") {
 					if ($t['job_notes'] != '') {
 	echo 		'	Notes: ' . $t['job_notes'];
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.salesStatus($t['job_status']).'" style="width:100%">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -2772,7 +2788,7 @@ if ($action=="timelines_list") {
 					if ($t['job_notes'] != '') {
 	echo 		'	Notes: ' . $t['job_notes'];
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.salesStatus($t['job_status']).'" style="width:100%">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -2799,7 +2815,7 @@ if ($action=="timelines_list") {
 					if ($t['job_notes'] != '') {
 	echo 		'	Notes: ' . $t['job_notes'];
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.salesStatus($t['job_status']).'" style="width:100%">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
