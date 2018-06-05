@@ -1327,7 +1327,7 @@ class project_action {
 			  AND template_date < '2200-01-01' 
 			  AND projects.isActive = 1";
 			//if ($_SESSION['department'] == 9 && $_SESSION['isManager'] != 1) {
-				$sql .= " AND team_user = " . $_SESSION['userid'];
+				//$sql .= " AND team_user = " . $_SESSION['userid'];
 			//}
 			$sql .= " ORDER BY 
 				team ASC, 
