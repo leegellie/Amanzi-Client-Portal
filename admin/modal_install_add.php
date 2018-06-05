@@ -124,10 +124,10 @@
 									<div class="input-group">
 										<input class="form-control matControl" list="i-color" id="color-box" name="color" type="text">
 										<div class="input-group-append">
-											<span class="input-group-text input-group-addon bg-danger" onClick="$('#color-box').val('')"><i class="fas fa-times"></i></span>
+											<span class="input-group-text bg-danger text-white" onClick="$('#color-box').val('')"><i class="fas fa-times"></i></span>
 										</div>
 										<div class="input-group-append">
-											<span class="input-group-text input-group-addon matPickerBtn bg-primary" onClick="matModalOpen(this);"><i class="fa fa-eye"></i></span>
+											<span class="input-group-text matPickerBtn bg-primary text-white" onClick="matModalOpen(this);"><i class="fa fa-eye"></i></span>
 										</div>
 									</div>
                                 </fieldset>
