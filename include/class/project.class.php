@@ -1316,7 +1316,7 @@ class project_action {
 			$sql = "
 			SELECT 	projects.*, 
 					status.name AS status, 
-					template_teams.temp_team_name AS team 
+					template_teams.temp_team_name AS team, 
 					template_teams.temp_user_id AS team_user
 			FROM projects 
 			JOIN status 
@@ -1325,8 +1325,11 @@ class project_action {
 				ON template_teams.temp_team_id = projects.template_team 
 			WHERE template_date >= CURDATE() 
 			  AND template_date < '2200-01-01' 
-			  AND projects.isActive = 1
-	     ORDER BY 
+			  AND projects.isActive = 1";
+			if ($department == 9 && $isManager != 1) {
+				$sql .= " AND team_user = " . $userid;
+			}
+			$sql .= " ORDER BY 
 				team ASC, 
 				temp_first_stop DESC, 
 				temp_am DESC,
