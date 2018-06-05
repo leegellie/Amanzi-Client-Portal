@@ -2575,20 +2575,19 @@ if ($action=="timelines_list") {
 
 
 
-	$tempStatus = '';
 	function tempStatus($stat) {
 		if ($stat == 12) {
-			$tempStatus = " btn-muted text-dark";
+			echo " btn-muted text-dark";
 		} elseif ($stat == 13) {
-			$tempStatus = " btn-secondary";
+			echo " btn-secondary";
 		} elseif ($stat == 14) {
-			$tempStatus = " btn-primary";
+			echo " btn-primary";
 		} elseif ($stat == 15) {
-			$tempStatus = " btn-success";
+			echo " btn-success";
 		} elseif ($stat == 16 || $stat == 19) {
-			$tempStatus = " btn-danger";
+			echo " btn-danger";
 		} elseif ($stat == 17) {
-			$tempStatus = " btn-warning";
+			echo " btn-warning";
 		}
 
 	}
