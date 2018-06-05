@@ -122,7 +122,7 @@ if ($access_level < 11) {
 	}
 ?>
 			</ul>
-			<p>Hi <?= $first_name ?></p>
+			<h3 class="text-primary">Hi <?= $first_name ?></h3>
 			<a href="/logout.php" class="btn nav-item btn-secondary my-auto text-white">Log Out</a>
 		</div>
 	</nav>
