@@ -11,6 +11,7 @@ $user_info = new userData;
 $user_info->set_selection("*",$_SESSION['id']);
 
 $username = $user_info->get_results("username");
+$userid = $user_info->get_results("id");
 $access_level = $user_info->get_results("access_level");
 $_SESSION["access_level"] = $access_level;
 
