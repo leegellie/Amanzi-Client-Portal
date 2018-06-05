@@ -277,17 +277,13 @@ $(document).ready(function() {
 		$('input').removeClass('is-invalid');
 		$('#loadOver').fadeIn(500);
 
-		if ($('input[name=uid]') < 1) {
-			alert("No project owner selected.");
-			return;
-		}
-		alert("clicked 2");
 		if ($('input[name=job_name]') == '') {
 			$('input[name=job_name]').addClass('is-invalid');
 			$('input[name=job_name]').focus();
 			alert("You must have a Job Name.");
 			return;
 		}
+		alert("clicked 2");
 		if ($('input[name=acct_rep]') < 1) {
 			$('input[name=acct_rep]').addClass('is-invalid');
 			$('input[name=acct_rep]').focus();
