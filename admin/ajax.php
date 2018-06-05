@@ -2954,7 +2954,7 @@ if ($action=="timelines_list") {
 	echo 		'	<div class="col-12 col-md-3"><h3>Saw</h3>';
 			foreach($fabrication_list as $temp) {
 				foreach($temp['details'] as $t) {
-					if ( ($t['job_status'] > 49 && $t['job_status'] < 53 && $t['install_date'] !== '2200-01-01') || ($t['job_status'] == 44 && $t['install_date'] !== '2200-01-01') || ($t['job_status'] == 49 && $t['install_date'] !== '2200-01-01') ) {
+					if ( ($t['job_status'] > 49 && $t['job_status'] < 53 && $t['install_date'] !== '2200-01-01') || ($t['job_status'] == 44 && $t['install_date'] !== '2200-01-01') || ($t['job_status'] == 59 && $t['install_date'] !== '2200-01-01') ) {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
@@ -2982,7 +2982,7 @@ if ($action=="timelines_list") {
 	echo 		'	<div class="col-12 col-md-3"><h3>CNC Machine</h3>';
 			foreach($fabrication_list as $temp) {
 				foreach($temp['details'] as $t) {
-					if ( ($t['job_status'] > 59 && $t['job_status'] < 63 && $t['install_date'] !== '2200-01-01') || ($t['job_status'] == 53 ||  $t['install_date'] !== '2200-01-01') || ($t['job_status'] == 69 || $t['install_date'] !== '2200-01-01') ) {
+					if ( ($t['job_status'] > 59 && $t['job_status'] < 63 && $t['install_date'] !== '2200-01-01') || ($t['job_status'] == 53 &&  $t['install_date'] !== '2200-01-01') || ($t['job_status'] == 69 && $t['install_date'] !== '2200-01-01') ) {
 	echo		'		<div class="row">';
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
