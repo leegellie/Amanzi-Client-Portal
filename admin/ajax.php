@@ -2306,7 +2306,7 @@ if ($action=="timelines_list") {
 				foreach($temp['details'] as $t) {
 	echo        '		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo		'			<button onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%" role="button" data-placement="top" data-trigger="hover" data-toggle="popover" data-title="<b>'.$t['job_name']."</b> - ".$t['status_name'].'" data-content="Job">';
+	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b> - ".$t['status_name'].'" data-content="Job" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
