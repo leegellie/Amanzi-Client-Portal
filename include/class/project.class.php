@@ -1329,7 +1329,7 @@ class project_action {
 			if ($department == 9 && $isManager != 1) {
 				$sql .= " AND team_user = " . $userid;
 			}
-			$sql .= "ORDER BY 
+			$sql .= " ORDER BY 
 				team ASC, 
 				temp_first_stop DESC, 
 				temp_am DESC,
