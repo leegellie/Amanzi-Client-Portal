@@ -2079,7 +2079,22 @@ $(document).ready(function() {
 	});
 	$('input[name=temp_am]').change(function(){
 		if( $('input[name=temp_am]').is(':checked')) {
-			$('input[name=temp_pm]').attr('checked','checked');
+			$('input[name=temp_pm]').prop('checked',false);
+		}
+	})
+	$('input[name=temp_pm]').change(function(){
+		if( $('input[name=temp_pm]').is(':checked')) {
+			$('input[name=temp_am]').prop('checked',false);
+		}
+	})
+	$('input[name=am]').change(function(){
+		if( $('input[name=am]').is(':checked')) {
+			$('input[name=pm]').prop('checked',false);
+		}
+	})
+	$('input[name=pm]').change(function(){
+		if( $('input[name=pm]').is(':checked')) {
+			$('input[name=am]').prop('checked',false);
 		}
 	})
 });
