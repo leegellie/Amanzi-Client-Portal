@@ -2077,7 +2077,7 @@ $(document).ready(function() {
 			}
 		}
 	});
-	$('input[name=temp_am]').click(function(){
+	$('input[name=temp_am]').change(function(){
 		if( $('input[name=temp_am]').is(':checked')) {
 			$('input[name=temp_pm]').attr('checked','checked');
 		}
