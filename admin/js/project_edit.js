@@ -469,6 +469,34 @@ $(document).ready(function() {
 	$("#pjtUpdate").click(function(e) {
 		e.preventDefault();
 		$("#pjtUpdate").fadeOut(300);
+		if ($('input[name=job_name]').val() == '') {
+			$('input[name=job_name]').addClass('is-invalid');
+			$('input[name=job_name]').focus();
+			alert("You must have a Job Name.");
+			$('#loadOver').fadeOut(500);
+			return;
+		}
+		if ($('select[name=acct_rep]').val() < 1) {
+			$('select[name=acct_rep]').addClass('is-invalid');
+			$('select[name=acct_rep]').focus();
+			alert("You must specify an Account Rep.");
+			$('#loadOver').fadeOut(500);
+			return;
+		}
+		if ($('input[name=contact_name]').val() == '') {
+			$('input[name=contact_name]').addClass('is-invalid');
+			$('input[name=contact_name]').focus();
+			alert("You must have a Site Contact listed.");
+			$('#loadOver').fadeOut(500);
+			return;
+		}
+		if ($('input[name=contact_number]').val() == '') {
+			$('input[name=contact_number]').addClass('is-invalid');
+			$('input[name=contact_number]').focus();
+			alert("Site Contact must have a phone number.");
+			$('#loadOver').fadeOut(500);
+			return;
+		}
 		if ($('input[name=install_date]').val() == '') {
 			$('input[name=install_date]').val('2200-01-01');
 		} else if ($('input[name=install_date]').val().match("^2018")) {
