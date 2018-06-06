@@ -7,7 +7,6 @@ require_once (__DIR__ . '/../include/class/user.class.php');
 require_once ('head_php.php');
 //CONFIG DB
 
-
 /*
 HERE ARE THE CODE SNIPPETS TO DISPLAY USER INFO.
 WHAT TO DISPLAY = CODE TO INSERT THE VALUE
