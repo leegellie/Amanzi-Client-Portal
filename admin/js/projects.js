@@ -2078,7 +2078,7 @@ $(document).ready(function() {
 		}
 	});
 	$('input[name=temp_am]').click(function(){
-		if($('input[name=temp_am]').prop('checked')) {
+		if( $('input[name=temp_am]').is(':checked')) {
 			$('input[name=temp_pm]').prop('checked') = false;
 		}
 	})
