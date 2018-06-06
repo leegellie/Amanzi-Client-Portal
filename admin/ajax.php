@@ -4261,7 +4261,6 @@ if ($action == "add_project_step1") {
 		exit;
 	}
 
-
 	if (!isset($_POST['isActive'])) {
 		$_POST['isActive'] = "0";
 	}

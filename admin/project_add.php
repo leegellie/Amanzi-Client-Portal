@@ -9,7 +9,7 @@
                 	    	<h2 class="">Add Project</h2>
                     	</div>
                         <div id="project-block" class="content">
-                            <form id="add_step1" enctype="multipart/form-data">
+                            <form id="add_project" enctype="multipart/form-data">
 								<div class="container pb-3">
 									<div class="row">
 										<div class="col-12 col-md-2 mt-2 form-label">
@@ -79,7 +79,7 @@
 									</fieldset>
 			
 									<fieldset class="form-check col-md-2">
-										<label for="p-job_discount" class="w-100">Job Discount:</label>
+										<label for="job_discount" class="w-100">Job Discount:</label>
 										<input id="job_discount" class="form-control" name="job_discount" type="text" value="0">
 									</fieldset>
 		
@@ -179,7 +179,7 @@
 										<div class="container">
 											<div class="row">
 												<label class="col-5" for="template-date">Template Date:</label>
-												<input class="col-md-7 form-control datepicker" type="text" id="p-template_date" name="template_date">
+												<input class="col-md-7 form-control datepicker" type="text" id="template_date" name="template_date">
 												<!--<input class="col-7 form-control" id="template_date" name="template_date" type="date">-->
 											</div>
 										</div>
@@ -201,7 +201,7 @@
 										<div class="container">
 											<div class="row">
 												<label class="col-5" for="install-date">Install Date:</label>
-												<input class="col-md-7 form-control datepicker1" type="text" id="p-install_date" name="install_date">
+												<input class="col-md-7 form-control datepicker1" type="text" id="install_date" name="install_date" readonly="readonly">
 												<!--<input class="col-7 form-control" id="install_date" name="install_date" type="date">-->
 											</div>
 										</div>
@@ -264,7 +264,7 @@
 
 <script>
 $(document).ready(function() {
-	$("#add_step1").submit(function(e) {
+	$("#add_project").submit(function(e) {
 		e.preventDefault();
 	});
 

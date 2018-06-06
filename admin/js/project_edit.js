@@ -403,9 +403,6 @@ $(document).ready(function() {
 			$('#addInstNew').show();
 			return;
 		}
-
-
-
 		if ( $('#typea').is(':checked') == false && $('#typeb').is(':checked') == false ) {
 			alert('You must specify if this is a "New Install" or a "Remodel" in the Job Type.');
 			$('#typea').closest('fieldset').addClass('form-error');

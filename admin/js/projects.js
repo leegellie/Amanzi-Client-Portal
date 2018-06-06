@@ -2067,5 +2067,19 @@ $(document).ready(function() {
 			}
 		}
 	});
-
+	$('#install_date').focus(function(e){
+		e.preventDefault();
+		e.stopPropagation();
+		if( $al > 1 ){
+			if ($('#install_date').prop('readonly') == true) {
+				$('#contact_name').focus();
+				alert("You can not yet enter an install date. Project must be templated and have SqFt calculated.");
+			}
+		}
+	});
+	$('input[name=temp_am]').click(function(){
+		if($('input[name=temp_am]').prop('checked')) {
+			$('input[name=temp_pm]').prop('checked') = false;
+		}
+	})
 });

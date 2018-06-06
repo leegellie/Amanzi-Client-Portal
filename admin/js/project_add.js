@@ -296,6 +296,20 @@ $(document).ready(function() {
 			$('#loadOver').fadeOut(500);
 			return;
 		}
+		if ($('input[name=contact_name]').val() == '') {
+			$('input[name=contact_name]').addClass('is-invalid');
+			$('input[name=contact_name]').focus();
+			alert("You must have a Site Contact listed.");
+			$('#loadOver').fadeOut(500);
+			return;
+		}
+		if ($('input[name=contact_number]').val() == '') {
+			$('input[name=contact_number]').addClass('is-invalid');
+			$('input[name=contact_number]').focus();
+			alert("Site Contact must have a phone number.");
+			$('#loadOver').fadeOut(500);
+			return;
+		}
 		if ($('input[name=install_date]').val() == '') {
 			$('input[name=install_date]').val('2200-01-01');
 		} else {
@@ -324,7 +338,7 @@ $(document).ready(function() {
 			$('input[name=po_cost]').val(newCost);
 		}
 		
-		var form = $("form#add_step1");
+		var form = $("form#add_project");
     	var formdata = false;
     	if (window.FormData){
    			formdata = new FormData(form[0]);
