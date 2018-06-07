@@ -486,7 +486,7 @@ function getLatLong($address){
 										html_str +=   "<div class='row'>";
 										html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
 										<?
-										if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1449) {
+										if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448  || $_SESSION['id'] == 1582) {
 										?>
 											html_str +=     "<select class='form-control col-9' onchange='assign_btn("+value['id']+");'>";
 										<?php foreach ($rows as $row){ ?>
@@ -580,7 +580,7 @@ function getLatLong($address){
 												html_str +=   "<div class='row'>";
 												html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
 												<?
-												if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1449) {
+												if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448  || $_SESSION['id'] == 1582) {
 												?>
 													html_str +=     "<select class='form-control col-9' onchange='assign_btn("+value['id']+");'>";
 												<?php foreach ($rows as $row){ ?>
@@ -666,7 +666,7 @@ function getLatLong($address){
 												html_str +=   "<div class='row'>";
 												html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
 												<?
-												if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1449) {
+												if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448  || $_SESSION['id'] == 1582) {
 												?>
 													html_str +=     "<select class='form-control col-9' onchange='assign_btn("+value['id']+");'>";
 												<?php foreach ($rows as $row){ ?>
@@ -815,7 +815,7 @@ modalPull += '					<form class="row" id="form' + value['id'] + '">';
 modalPull += '						<a class="btn btn-primary col-3" target="_blank" href="/admin/projects.php?edit&pid=' + value['id'] + '&uid=' + value['uid'] + '"><i class="fas fa-eye"></i></a>';
 
 								<?php 
-								if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1449) {
+								if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448  || $_SESSION['id'] == 1582) {
 								?>
 modalPull += '						<select class="form-control col-9" onchange="assign_select(' + value['id'] + ');">';
 								<?
@@ -902,7 +902,7 @@ modalPull += '</div>';
 									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
 
 									<?php 
-									if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1449) {
+									if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448  || $_SESSION['id'] == 1582) {
 									?>
 
 									html_str +=     "<select class='form-control col-9' onchange='assign_btn("+value['id']+");'>";

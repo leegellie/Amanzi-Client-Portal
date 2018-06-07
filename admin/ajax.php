@@ -4795,6 +4795,7 @@ if ($action=="view_selected_pjt") {
 		$html .= '<div class="col-12 d-print-none ' . $noProg . '"><div class="btn btn-primary float-right mr-3" onClick="' . $printThis . '"><i class="fas fa-print"></i>&nbsp;&nbsp; Estimate</div></div>';
 		$html .= '<h2 class="d-print-none">Client:</h2>';
 		$html .= '<h2 id="clientName" class="d-inline d-print-none text-primary text-uppercase">' . $results['clientCompany'] . ' ' . $results['clientFname'] . ' ' . $results['clientLname'] . ' <em><sup class=" ' . $noProg . '">(' . $eSqFt[0] . ' SqFt - $' . $tax_print .')</sup></em></h2>';
+
 		$html .= '<hr class="d-print-none">';
 		$html .= '<h2 class="col-12 col-md-4 col-lg-2 float-left pl-0 d-print-none">Status:</h2>';
 
@@ -4966,7 +4967,6 @@ if ($action=="view_selected_pjt") {
 			$html .= '<select id="changeStatus" onChange="statusUpdate(this.value)" class="mdb-select float-right col-12 col-md-4 col-lg-2 d-print-none ' . $noProg . '">';
 			$html .= $statList;
 			$html .= '</select>';
-//			$html .= '<div id="progressStatus" class="w-100 d-print-none">';
 //		}
 
 		$html .= '<div class="progress w-100"><div class="progress-bar progress-bar-striped progress-bar-animated ';

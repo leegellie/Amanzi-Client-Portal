@@ -1310,6 +1310,13 @@ class project_action {
 
 	// SELECT PROJECT LIST BASED ON USER CRITERIA 
 	public function get_templates() {
+//		$user_info = new userData;
+//		$user_info->set_selection("*",$_SESSION['id']);
+//		$department = $user_info->get_results("department");
+//		$isManager = $user_info->get_results("isManager");
+//		$_SESSION["department"] = $department;
+//		$_SESSION["isManager"] = $isManager;
+
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -1326,9 +1333,9 @@ class project_action {
 			WHERE template_date >= CURDATE() 
 			  AND template_date < '2200-01-01' 
 			  AND projects.isActive = 1";
-			if ($_SESSION["department"] == 9 && $_SESSION["isManager"] != 1) {
-				$sql .= " AND template_teams.temp_user_id = " . $_SESSION["userid"];
-			}
+//			if ($_SESSION["department"] == 9 && $_SESSION["isManager"] != 1) {
+//				$sql .= " AND template_teams.temp_user_id = " . $_SESSION["userid"];
+//			}
 			$sql .= " ORDER BY 
 				team ASC, 
 				temp_first_stop DESC, 

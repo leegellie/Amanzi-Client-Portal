@@ -368,7 +368,7 @@ USER'S EMAIL = <?= $user_email ?>
 				var flag = false;
 				if(jday == 0 || jday == 6) flag = true;
 				//           if((access_level != 1 || access_level != 14 ) && st_d < _cur_day + 7 ) flag = true;
-				if(!(session_id == 1 || session_id == 14 ) && st_d < _cur_day + 7 ) flag = true;
+				if(!(session_id == 1 || session_id == 14 || session_id == 985  ) && st_d < _cur_day + 7 ) flag = true;
 				$.each(insobj, function(key, value){
 					if(value['install_date'] == curdate){
 						var sum_sqft = 0;
@@ -419,7 +419,7 @@ USER'S EMAIL = <?= $user_email ?>
 						flag = true;
 					}
 				});
-				if(session_id == 1 || session_id == 14 )  flag = false;
+				if(session_id == 1 || session_id == 14  || session_id == 985)  flag = false;
 				return flag;
 			},
 			onDraw(){
