@@ -4797,6 +4797,37 @@ if ($action=="view_selected_pjt") {
 		$html .= '<h2 class="d-print-none">Client:</h2>';
 		$html .= '<h2 id="clientName" class="d-inline d-print-none text-primary text-uppercase">' . $results['clientCompany'] . ' ' . $results['clientFname'] . ' ' . $results['clientLname'] . ' <em><sup class=" ' . $noProg . '">(' . $eSqFt[0] . ' SqFt - $' . $tax_print .')</sup></em></h2>';
 		$html .= '<hr class="d-print-none">';
+		  // **** Display the Multi upload button  **** //
+		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4) {
+			$html .= '
+			<div class="file-field col-4">
+				<div class="btn btn-primary btn-sm float-left">
+					<span>Choose files</span>
+					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_temp"/>
+				</div>
+				<div class="file-path-wrapper col-8">
+					<input class="file-path validate" type="text" placeholder="Upload one or more files">
+				</div>
+			</div>';
+		} 
+		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 5) {
+			$html .= '
+			<div class="file-field">
+				<div class="btn btn-primary btn-sm float-left">
+					<span>Choose files</span>
+					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_fab"/>
+				</div>
+				<div class="file-path-wrapper">
+					<input class="file-path validate" type="text" placeholder="Upload one or more files">
+				</div>
+			</div>';
+		}
+		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4 || $_SESSION['access_level'] == 5) {
+			$html .= '
+					<div id="uploadmulti" class="btn btn-sm btn-primary d-print-none ml-2" onClick="upload_multi();">Upload</div>';
+		}
+		$html .= '<hr class="d-print-none">';
+		
 		$html .= '<h2 class="col-12 col-md-4 col-lg-2 float-left pl-0 d-print-none">Status:</h2>';
 
 		$statusText = '';
@@ -4964,37 +4995,6 @@ if ($action=="view_selected_pjt") {
 //		}
 
 //		if ($_SESSION['access_level'] == 1) {
-      
-      // **** Display the Multi upload button  **** //
-		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4) {
-			$html .= '
-			<div class="file-field">
-				<div class="btn btn-primary btn-sm float-left">
-					<span>Choose files</span>
-					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_temp"/>
-				</div>
-				<div class="file-path-wrapper">
-					<input class="file-path validate" type="text" placeholder="Upload one or more files">
-				</div>
-			</div>';
-		} 
-		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 5) {
-			$html .= '
-			<div class="file-field">
-				<div class="btn btn-primary btn-sm float-left">
-					<span>Choose files</span>
-					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_fab"/>
-				</div>
-				<div class="file-path-wrapper">
-					<input class="file-path validate" type="text" placeholder="Upload one or more files">
-				</div>
-			</div>';
-		}
-		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4 || $_SESSION['access_level'] == 5) {
-			$html .= '
-					<div id="uploadmulti" class="btn btn-sm btn-primary d-print-none ml-2" onClick="upload_multi();">Upload</div>';
-		}
-    
 			$html .= '<select id="changeStatus" onChange="statusUpdate(this.value)" class="mdb-select float-right col-12 col-md-4 col-lg-2 d-print-none ' . $noProg . '">';
 			$html .= $statList;
 			$html .= '</select>';
