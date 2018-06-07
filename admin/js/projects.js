@@ -1627,6 +1627,36 @@ function pullEditPjt(pjtToEdit) {
 	});
 }
 
+//Upload the multi file
+function upload_multi(){
+  var fileSelect_temp = $('#multi_upload_input_temp')[0];
+  var fileSelect_fab = $('#multi_upload_input_fab')[0];
+  var files_temp = fileSelect_temp.files;
+  var files_fab = fileSelect_fab.files;
+  var myFormData = new FormData();
+  
+  for (var i = 0;i < files_temp.length; i++){
+    var file = files_temp[i];
+    myFormData.append('multiFile_temp[]', file, file.name);  
+  }
+  for (var i = 0;i < files_fab.length; i++){
+    var file = files_fab[i];
+    myFormData.append('multiFile_fab[]', file, file.name);  
+  }
+  myFormData.append('uid', $uid);
+  myFormData.append('id', $pid);
+  console.log(myFormData);
+  
+  $.ajax({
+    url: 'ajax.php',
+    type: 'POST',
+    processData: false, // important
+    contentType: false, // important
+    dataType : 'json',
+    data: myFormData
+  });
+}
+
 function updateInstall() {
 	if ($('#i-SqFt').val() == "") {
 		$('#i-SqFt').val(0)
@@ -2097,4 +2127,6 @@ $(document).ready(function() {
 			$('input[name=am]').prop('checked',false);
 		}
 	})
+  
+  
 });

@@ -4078,12 +4078,12 @@ if ($action == "update_project_data") {
 
 
 	////////////////////////////   FILE UPLOADS   //////////////////////////////
+  
 	//CREATE DIRECTORIES
 	$user_path =  base_dir . "job-files/" . $_POST['uid'];
 	$path = base_dir . "job-files/" . $_POST['uid'] . "/" . $_POST['id'];
-
 	$total = count($_FILES['imgUploads']['name']);
-	
+  
 	// Loop through each file
 	for($i=0; $i<$total; $i++) {
 		//Get the temp file path
@@ -4102,6 +4102,7 @@ if ($action == "update_project_data") {
 			}
 		}
 	}
+  
 	//////////////////////////   END FILE UPLOADS   ////////////////////////////
 
 
@@ -4795,7 +4796,6 @@ if ($action=="view_selected_pjt") {
 		$html .= '<div class="col-12 d-print-none ' . $noProg . '"><div class="btn btn-primary float-right mr-3" onClick="' . $printThis . '"><i class="fas fa-print"></i>&nbsp;&nbsp; Estimate</div></div>';
 		$html .= '<h2 class="d-print-none">Client:</h2>';
 		$html .= '<h2 id="clientName" class="d-inline d-print-none text-primary text-uppercase">' . $results['clientCompany'] . ' ' . $results['clientFname'] . ' ' . $results['clientLname'] . ' <em><sup class=" ' . $noProg . '">(' . $eSqFt[0] . ' SqFt - $' . $tax_print .')</sup></em></h2>';
-
 		$html .= '<hr class="d-print-none">';
 		$html .= '<h2 class="col-12 col-md-4 col-lg-2 float-left pl-0 d-print-none">Status:</h2>';
 
@@ -4964,9 +4964,21 @@ if ($action=="view_selected_pjt") {
 //		}
 
 //		if ($_SESSION['access_level'] == 1) {
+      
+      // **** Display the Multi upload button  **** //
+		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4) {
+			$html .= '<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_temp"/>';
+		} elseif($_SESSION['id'] == 1 || $_SESSION['access_level'] == 5) {
+			$html .= '<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_fab"/>';
+		}
+		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4 || $_SESSION['access_level'] == 5) {
+			$html .= '<div id="uploadmulti" class="btn btn-sm btn-primary d-print-none ml-2" onClick="upload_multi();">Upload</div>';
+		}
+    
 			$html .= '<select id="changeStatus" onChange="statusUpdate(this.value)" class="mdb-select float-right col-12 col-md-4 col-lg-2 d-print-none ' . $noProg . '">';
 			$html .= $statList;
 			$html .= '</select>';
+//			$html .= '<div id="progressStatus" class="w-100 d-print-none">';
 //		}
 
 		$html .= '<div class="progress w-100"><div class="progress-bar progress-bar-striped progress-bar-animated ';
@@ -5817,9 +5829,62 @@ if ($action=="install_search_list") {
 	echo "<hr>";
 }
 
+if(isset($_FILES['multiFile_temp'])){
+  $total_temp = count($_FILES['multiFile_temp']['name']);
+  $total_fab = count($_FILES['multiFile_fab']['name']);
+  $dirpath = dirname(getcwd());
+	// Loop through each file
+	for($i=0; $i<$total_temp; $i++) {
+		//Get the temp file path
+		$tmpFilePath = $_FILES['multiFile_temp']['tmp_name'][$i];
+		//Make sure we have a filepath
+		if ($tmpFilePath != ""){
+			//Setup our new file path
+      $newFilePath = $dirpath . "/job-files/" . $_POST['uid'] . "/" . $_POST['id'] . "/template/";
+      if( is_dir($newFilePath) === false )
+      {
+          mkdir($newFilePath);
+      }
+      $newFilePath = $dirpath . "/job-files/" . $_POST['uid'] . "/" . $_POST['id'] . "/template/" . $_FILES['multiFile_temp']['name'][$i];
+
+			//Upload the file into the temp dir
+			if(move_uploaded_file($tmpFilePath, $newFilePath)) {
+      
+				//Handle other code here
+
+			}
+		}
+	}
+  
+  for($i=0; $i<$total_fab; $i++) {
+		//Get the fab file path
+		$tmpFilePath = $_FILES['multiFile_fab']['tmp_name'][$i];
+		//Make sure we have a filepath
+		if ($tmpFilePath != ""){
+			//Setup our new file path
+      $newFilePath = $dirpath . "/job-files/" . $_POST['uid'] . "/" . $_POST['id'] . "/fab/";
+      if( is_dir($newFilePath) === false )
+      {
+          mkdir($newFilePath);
+      }
+      $newFilePath = $dirpath . "/job-files/" . $_POST['uid'] . "/" . $_POST['id'] . "/fab/" . $_FILES['multiFile_fab']['name'][$i];
+
+			//Upload the file into the temp dir
+			if(move_uploaded_file($tmpFilePath, $newFilePath)) {
+      
+				//Handle other code here
+
+			}
+		}
+	}
+  exit;
+}
+
 if ($action=="") {
 	echo "I got nothin'\n";
 	print_r($_POST);
 }
+
+
 
 ?>

@@ -295,11 +295,8 @@ function projectsForUser($a) {
 		success: function(data) {
 			$("#pjtResults").replaceWith('<div class="col-12" id="pjtResults">' + data + '</div>');
 		},
-		error: function(xhr, status, error) {
-			// alert("Error submitting form: " + xhr.responseText);
-			successNote = "Error submitting form: "+xhr.responseText;
-			$('#editSuccess').html(succesStarter+successNote+successEnder);
-			document.getElementById('closeFocus').focus();
+		error: function(data) {
+			alert(data);
 		}
 	});
 	$('#user-block').hide();

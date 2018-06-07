@@ -143,13 +143,10 @@ $(document).ready(function() {
 			url: "ajax.php",
 			data: datastring,
 			success: function(data) {
-				$("#tableResults").replaceWith('<div width="100%" id="tableResults" style="background:none">' + data + '</div>');
+				$("#tableResults").html(data);
 			},
-			error: function(xhr, status, error) {
-				// alert("Error submitting form: " + xhr.responseText);
-				successNote = "Error submitting form: "+xhr.responseText;
-				$('#editSuccess').html(succesStarter+successNote+successEnder);
-				document.getElementById('closeFocus').focus();
+			error: function(data) {
+				alert(data);
 			},
 			complete: function() {
 				loadingRemove();
