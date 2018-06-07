@@ -4805,7 +4805,7 @@ if ($action=="view_selected_pjt") {
 					<span>Upload template files</span>
 					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_temp"/>
 				</div>
-				<div class="file-path-wrapper float-right w-75">
+				<div class="file-path-wrapper float-right w-75 pt-2">
 					<input class="file-path validate" type="text" placeholder="Upload one or more files">
 				</div>
 			</div></div>';
@@ -4813,11 +4813,11 @@ if ($action=="view_selected_pjt") {
 		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 5) {
 			$html .= '
 			<div class="file-field">
-				<div class="btn btn-primary btn-sm float-left">
-					<span>Choose files</span>
+				<div class="btn btn-primary float-left">
+					<span>Upload fabrication files</span>
 					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_fab"/>
 				</div>
-				<div class="file-path-wrapper">
+				<div class="file-path-wrapper float-right w-75 pt-2">
 					<input class="file-path validate" type="text" placeholder="Upload one or more files">
 				</div>
 			</div>';
