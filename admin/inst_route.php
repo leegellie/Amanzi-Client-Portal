@@ -162,7 +162,7 @@ function getLatLong($address){
         //Formatted address
         $formattedAddr = str_replace(' ','+',$address);
         //Send request and receive json data by address
-        $geocodeFromAddr = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBPONZzDP2hnCQzQ8vVtGLphLGQ3Xp2qFg&address='.$formattedAddr.'&sensor=false'); 
+        $geocodeFromAddr = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBqPzFs8u8_yAC5N-nWXFp0eNz02xaGik4&address='.$formattedAddr.'&sensor=false'); 
         $output = json_decode($geocodeFromAddr);
         //Get latitude and longitute from json data
         var_dump($output);exit;
@@ -203,7 +203,7 @@ function getLatLong($address){
 <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
 
   <!--    Google Map Javascript API    -->
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyA5ozXh8RjlEX82tUI4oDYyMZdPTHaI-Tw">   </script>
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBqPzFs8u8_yAC5N-nWXFp0eNz02xaGik4">   </script>
 <!--  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script> -->  
 <script src="js/bootstrap-datepicker.js"></script>
 <script src="js/markerclusterer.js"></script>
@@ -1733,7 +1733,8 @@ modalPull += '</div>';
 		<div class="col-9 pl-0" style="height: 100vh;">
 			<div id="map-canvas" style="width:100%; height:100vh;position:fixed!important;"></div>
 			<div class="hr vpad"></div>
-			<div></div>
+			<div>
+		</div>
     <table>
         <tr style="display:none;">
             <td colspan="2"><b>Configuration</b></td>
