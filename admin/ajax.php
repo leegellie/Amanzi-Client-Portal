@@ -4799,7 +4799,7 @@ if ($action=="view_selected_pjt") {
 		$html .= '<hr class="d-print-none">';
 		  // **** Display the Multi upload button  **** //
 		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4) {
-			$html .= '
+			$html .= '<div class="row">
 			<div class="file-field col-4">
 				<div class="btn btn-primary btn-sm float-left">
 					<span>Choose files</span>
@@ -4808,7 +4808,7 @@ if ($action=="view_selected_pjt") {
 				<div class="file-path-wrapper col-8">
 					<input class="file-path validate" type="text" placeholder="Upload one or more files">
 				</div>
-			</div>';
+			</div></div>';
 		} 
 		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 5) {
 			$html .= '
