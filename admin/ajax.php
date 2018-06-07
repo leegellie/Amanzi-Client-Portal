@@ -4798,17 +4798,18 @@ if ($action=="view_selected_pjt") {
 		$html .= '<h2 id="clientName" class="d-inline d-print-none text-primary text-uppercase">' . $results['clientCompany'] . ' ' . $results['clientFname'] . ' ' . $results['clientLname'] . ' <em><sup class=" ' . $noProg . '">(' . $eSqFt[0] . ' SqFt - $' . $tax_print .')</sup></em></h2>';
 		$html .= '<hr class="d-print-none">';
 		  // **** Display the Multi upload button  **** //
+		$html .= '<div class="row w-100">';
 		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4) {
-			$html .= '<div class="row">
+			$html .= '
 			<div class="file-field col-12">
 				<div class="btn btn-success float-left">
 					<span>Upload template files</span>
 					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_temp"/>
 				</div>
 				<div class="file-path-wrapper float-right w-75 pt-2">
-					<input class="file-path validate" type="text" placeholder="Upload one or more files">
+					<input class="file-path validate" type="text" placeholder="Upload one or more files"/>
 				</div>
-			</div></div>';
+			</div>';
 		} 
 		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 5) {
 			$html .= '
@@ -4826,6 +4827,7 @@ if ($action=="view_selected_pjt") {
 			$html .= '
 					<div id="uploadmulti" class="btn btn-primary d-print-none ml-2 float-right" onClick="upload_multi();">Upload</div>';
 		}
+		$html .= '</div>';
 		$html .= '<hr class="d-print-none">';
 		
 		$html .= '<h2 class="col-12 col-md-4 col-lg-2 float-left pl-0 d-print-none">Status:</h2>';
