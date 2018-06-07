@@ -4825,7 +4825,7 @@ if ($action=="view_selected_pjt") {
 		}
 		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4 || $_SESSION['access_level'] == 5) {
 			$html .= '
-					<div id="uploadmulti" class="btn btn-primary d-print-none ml-2 float-right" onClick="upload_multi();">Upload</div>';
+					<div id="uploadmulti" class="btn btn-primary d-print-none mr-3 ml-auto" onClick="upload_multi();">Upload</div>';
 		}
 		$html .= '</div>';
 		$html .= '<hr class="d-print-none">';
