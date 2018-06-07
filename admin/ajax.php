@@ -4977,7 +4977,8 @@ if ($action=="view_selected_pjt") {
 					<input class="file-path validate" type="text" placeholder="Upload one or more files">
 				</div>
 			</div>';
-		} elseif($_SESSION['id'] == 1 || $_SESSION['access_level'] == 5) {
+		} 
+		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 5) {
 			$html .= '
 			<div class="file-field">
 				<div class="btn btn-primary btn-sm float-left">
