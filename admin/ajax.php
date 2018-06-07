@@ -4813,7 +4813,7 @@ if ($action=="view_selected_pjt") {
 		} 
 		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 5) {
 			$html .= '
-			<div class="file-field">
+			<div class="file-field col-12">
 				<div class="btn btn-success float-left">
 					<span>Upload fabrication files</span>
 					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_fab"/>
