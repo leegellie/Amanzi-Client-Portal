@@ -4802,10 +4802,10 @@ if ($action=="view_selected_pjt") {
 			$html .= '<div class="row">
 			<div class="file-field col-12">
 				<div class="btn btn-primary float-left">
-					<span>Choose files</span>
+					<span>Upload template files</span>
 					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_temp"/>
 				</div>
-				<div class="file-path-wrapper float-right">
+				<div class="file-path-wrapper float-right w-75">
 					<input class="file-path validate" type="text" placeholder="Upload one or more files">
 				</div>
 			</div></div>';
