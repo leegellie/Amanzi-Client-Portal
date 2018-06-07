@@ -4801,7 +4801,7 @@ if ($action=="view_selected_pjt") {
 		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4) {
 			$html .= '<div class="row">
 			<div class="file-field col-12">
-				<div class="btn btn-primary float-left">
+				<div class="btn btn-success float-left">
 					<span>Upload template files</span>
 					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_temp"/>
 				</div>
@@ -4813,7 +4813,7 @@ if ($action=="view_selected_pjt") {
 		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 5) {
 			$html .= '
 			<div class="file-field">
-				<div class="btn btn-primary float-left">
+				<div class="btn btn-success float-left">
 					<span>Upload fabrication files</span>
 					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_fab"/>
 				</div>
@@ -4824,7 +4824,7 @@ if ($action=="view_selected_pjt") {
 		}
 		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4 || $_SESSION['access_level'] == 5) {
 			$html .= '
-					<div id="uploadmulti" class="btn btn-sm btn-primary d-print-none ml-2" onClick="upload_multi();">Upload</div>';
+					<div id="uploadmulti" class="btn btn-primary d-print-none ml-2 float-right" onClick="upload_multi();">Upload</div>';
 		}
 		$html .= '<hr class="d-print-none">';
 		
