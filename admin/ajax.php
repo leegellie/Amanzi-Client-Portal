@@ -4967,12 +4967,31 @@ if ($action=="view_selected_pjt") {
       
       // **** Display the Multi upload button  **** //
 		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4) {
-			$html .= '<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_temp"/>';
+			$html .= '
+			<div class="file-field">
+				<div class="btn btn-primary btn-sm float-left">
+					<span>Choose files</span>
+					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_temp"/>
+				</div>
+				<div class="file-path-wrapper">
+					<input class="file-path validate" type="text" placeholder="Upload one or more files">
+				</div>
+			</div>';
 		} elseif($_SESSION['id'] == 1 || $_SESSION['access_level'] == 5) {
-			$html .= '<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_fab"/>';
+			$html .= '
+			<div class="file-field">
+				<div class="btn btn-primary btn-sm float-left">
+					<span>Choose files</span>
+					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_fab"/>
+				</div>
+				<div class="file-path-wrapper">
+					<input class="file-path validate" type="text" placeholder="Upload one or more files">
+				</div>
+			</div>';
 		}
 		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4 || $_SESSION['access_level'] == 5) {
-			$html .= '<div id="uploadmulti" class="btn btn-sm btn-primary d-print-none ml-2" onClick="upload_multi();">Upload</div>';
+			$html .= '
+					<div id="uploadmulti" class="btn btn-sm btn-primary d-print-none ml-2" onClick="upload_multi();">Upload</div>';
 		}
     
 			$html .= '<select id="changeStatus" onChange="statusUpdate(this.value)" class="mdb-select float-right col-12 col-md-4 col-lg-2 d-print-none ' . $noProg . '">';
