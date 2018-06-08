@@ -5002,7 +5002,7 @@ if ($action=="view_selected_pjt") {
 //			$html .= '<div id="progressStatus" class="w-100 d-print-none">';
 //		}
 
-		$html .= '<div class="progress w-100"><div class="progress-bar progress-bar-striped progress-bar-animated ';
+		$html .= '<div class="progress w-100 d-print-none"><div class="progress-bar progress-bar-striped progress-bar-animated ';
 		if ($results['job_status'] == 19 || $results['job_status'] == 39 || $results['job_status'] == 49 || $results['job_status'] == 59 || $results['job_status'] == 69 || $results['job_status'] == 79 || $results['job_status'] == 89 ) {
 			$html .= 'bg-danger';
 		} else {
