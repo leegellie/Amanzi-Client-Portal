@@ -909,7 +909,9 @@ modalPull += '</div>';
 					});
 					map.fitBounds(bounds);
 					//map.panToBounds(bounds);
-					for(var i=0;i<=6;i++){
+          
+          var team_num = <?php echo count($rows); ?>; // the number of install_teams in the DB
+					for(var i=0;i<=team_num;i++){
 						var team_id = '.row.team'+i+' .jobs_list';
 						$(team_id).empty().html(joblist_str[i]); 
 					}

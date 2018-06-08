@@ -5268,6 +5268,25 @@ if ($action=="view_selected_pjt") {
 		}
 	}
 
+	// Template Files Section
+	$folderPath = base_dir . "job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/template/";
+	if (file_exists($folderPath)) {
+		$fileList = array_diff(scandir($folderPath), array('..', '.'));
+		if (!empty($fileList)) {
+			$html .= '<div id="attachments" class="col-12 d-print-none"><h4>Template Files</h4>';
+		}
+		foreach($fileList as $filename) {
+			if (strpos($filename, '.') !== false) {
+				$filename = str_replace('#','%23',$filename);
+				$html .= "<a class='btn btn-primary mb-2 mr-2 d-inline-block' href='/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/template/" . $filename . "' target='_blank'>" . $filename . "</a>";
+			}
+		}
+		if (!empty($fileList)) {
+			$html .= '<hr>';
+			$html .= '</div>';
+		}
+	}
+
 	echo $html;
 
 	unset($_POST['userID']);

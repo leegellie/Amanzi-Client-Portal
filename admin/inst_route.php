@@ -79,8 +79,8 @@ if( isset($_POST['date']) ){
 	$q->bindParam('install_date',$curDate);
 	$q->execute();
 	$jobs = $q->fetchAll(PDO::FETCH_ASSOC);
+  
 	$projects = getinfoByJob($jobs);
-
 
 	$p = $conn->prepare("
 	SELECT projects.*, users.fname, users.lname 
@@ -359,7 +359,9 @@ function getLatLong($address){
 				success: function(response){
 					$('.loading').addClass('hidden');
 					//var marker;
+          console.log(response);
 					var result = JSON.parse(response);
+          console.log("*****************",result);
 					var extra_projects = result.extra_projects;
 					result = result.projects;
 	
@@ -929,7 +931,8 @@ modalPull += '</div>';
 					});
 					map.fitBounds(bounds);
 					//map.panToBounds(bounds);
-					for(var i=0;i<=6;i++){
+          var team_num = <?php echo count($rows); ?>;
+					for(var i=0;i<=team_num;i++){
 						var team_id = '.row.team'+i+' .jobs_list';
 						$(team_id).empty().html(joblist_str[i]); 
 					}
