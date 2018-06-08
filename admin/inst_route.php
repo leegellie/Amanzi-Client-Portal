@@ -84,9 +84,9 @@ if( isset($_POST['date']) ){
 
 	$p = $conn->prepare("
 	SELECT projects.*, users.fname, users.lname 
-	FROM projects 
-	JOIN users 
-		ON users.id = projects.acct_rep 
+	 FROM projects 
+	 JOIN users 
+	   ON users.id = projects.acct_rep 
 	WHERE projects.install_date <> :curDate 
 	  AND projects.install_date >= :dateNow 
 	  AND projects.install_date > :pastDate
@@ -392,6 +392,7 @@ function getLatLong($address){
 					var time = 0;
 					$.each(extra_projects, function(key, value){
 						setTimeout(function() {
+							var orderText = '';					
 							var mText = {};
 							if (value['first_stop'] == 1) {
 								mText = {
@@ -710,7 +711,6 @@ function getLatLong($address){
 
 
 
-
 					job_coords = [];
 					$.each( result, function( key, value ) {
 
@@ -744,9 +744,6 @@ function getLatLong($address){
 								bg: 'yellow'
 							}
 						}
-
-
-
 
 						var latitude = parseFloat(value['lat']);
 						var longitude = parseFloat(value['lng']);
@@ -1136,7 +1133,7 @@ modalPull += '</div>';
             destinations: nodes,
             travelMode: google.maps.TravelMode[$('#travel-type').val()],
             avoidHighways: parseInt($('#avoid-highways').val()) > 0 ? true : false,
-            avoidTolls: false,
+            avoidTolls: true,
         }, function(distanceData) {
             // Create duration data array
             var nodeDistanceData;
@@ -1277,7 +1274,7 @@ modalPull += '</div>';
                   waypoints: waypts,
                   travelMode: google.maps.TravelMode[$('#travel-type').val()],
                   avoidHighways: parseInt($('#avoid-highways').val()) > 0 ? true : false,
-                  avoidTolls: false
+                  avoidTolls: true
               };
               directionsService.route(request, function(response, status) {
                   if (status == google.maps.DirectionsStatus.OK) {

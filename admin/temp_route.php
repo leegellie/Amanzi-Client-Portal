@@ -43,6 +43,7 @@ if( isset($_POST['teamID']) && isset($_POST['jobID']) && isset($_POST['cur_date'
 	JOIN users 
 		ON users.id = projects.acct_rep 
 	WHERE projects.template_date = :template_date
+	  AND projects.isActive = 1
 	ORDER BY 
 		temp_first_stop DESC,
 		temp_am DESC,
@@ -69,6 +70,7 @@ if( isset($_POST['date']) ){
 	JOIN users 
 		ON users.id = projects.acct_rep 
 	WHERE projects.template_date = :tempate_date
+	  AND projects.isActive = 1
 	ORDER BY 
 		temp_first_stop DESC,
 		temp_am DESC,
@@ -82,13 +84,14 @@ if( isset($_POST['date']) ){
 
 	$p = $conn->prepare("
 	SELECT projects.*, users.fname, users.lname 
-	FROM projects 
-	JOIN users 
-		ON users.id = projects.acct_rep 
+	 FROM projects 
+	 JOIN users 
+	   ON users.id = projects.acct_rep 
 	WHERE projects.template_date <> :curDate 
 	  AND projects.template_date >= :dateNow 
 	  AND projects.template_date > :pastDate
 	  AND projects.template_date < :limitDate
+	  AND projects.isActive = 1
 	");
 
 	$p->bindParam('curDate', $curDate);
@@ -103,7 +106,6 @@ if( isset($_POST['date']) ){
 	echo json_encode(array('projects'=>$projects,'extra_projects'=>$ex_jobs));
 	exit;
 }
-
 function getinfoByJob($jobs){
 	$result;
 	$index = 0;
@@ -390,7 +392,6 @@ function getLatLong($address){
 					var time = 0;
 					$.each(extra_projects, function(key, value){
 						setTimeout(function() {
-
 							var orderText = '';					
 							var mText = {};
 							if (value['temp_first_stop'] == 1) {
@@ -854,8 +855,7 @@ modalPull += '</div>';
 						(function (marker, value) {
 							google.maps.event.addListener(marker, "click", function (e) {
 							  //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
-						
-						
+
 								var html_str = "<div style = 'width:200px;min-height:40px'>";
 									html_str += "<div id='myForm'>";
 									html_str +=   "<p class='text-success'>Q: <b>" + value['quote_num'] + "</b></p>";
@@ -999,7 +999,6 @@ modalPull += '</div>';
 						orderText = '<span class="text-danger">PM </span>';
 					} 
 
-
 					var modalName = 'modalPull' + value['id'];
 					var modalFunct = "$('#" + modalName + "').modal('show')";
 
@@ -1061,8 +1060,6 @@ modalPull += '</div>';
 				}
 
 				$.each(result, function(key, value) {
-
-
 					var orderText = '';					
 					if (value['temp_first_stop'] == 1) {
 						orderText = '<span class="text-danger">1st Stop </span>';
@@ -1071,7 +1068,6 @@ modalPull += '</div>';
 					} else if (value['temp_pm'] == 1) {
 						orderText = '<span class="text-danger">PM </span>';
 					} 
-
 
 					var teamID = value['template_team'];
 					var latPull = 'lat' + value['id'];
