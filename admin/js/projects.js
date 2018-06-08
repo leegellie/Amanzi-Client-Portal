@@ -1653,7 +1653,10 @@ function upload_multi(){
 		processData: false, // important
 		contentType: false, // important
 		dataType : 'json',
-		data: myFormData
+		data: myFormData,
+		success: function() {
+			viewThisProject($pid,$uid);
+		}
 	});
 }
 
