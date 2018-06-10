@@ -146,7 +146,7 @@ if ($action=="change_status") {
 	$log_project = new log_action;
 	$log = $log_project -> pjt_changes($_POST);
 
-	return JSON.stringify($status);
+	return $status;
 }
 
 // ADMIN ADD USERS
