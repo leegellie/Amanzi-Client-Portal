@@ -18,8 +18,7 @@
 //}
 
 function newInstall($type) {
-	
-	console.log($(this).text(););
+	console.log($type,$(this).text());
 	//$('#addInstall').modal('show');
 	//addInstUpload();
 }
