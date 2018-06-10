@@ -1452,7 +1452,7 @@ class project_action {
 					 projects.temp_pm ASC";
 
       if ($_SESSION['access_level'] == 2) { 
-        $sql .= " AND acct_rep = ".$a; 
+        $sql .= " AND acct_rep = ".$a['rep_id']; 
       }
 			$q = $conn->prepare($sql);
 			$q->execute();
