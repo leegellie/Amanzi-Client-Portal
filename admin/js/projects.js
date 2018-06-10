@@ -42,13 +42,6 @@ function statusChange(user,pjt,status) {
 		data: datastring,
 		success: function(data) {
 			console.log(data);
-			viewThisProject($pid, $uid);
-		},
-		error: function(data) {
-			console.log(data);
-		},
-		complete: function(data) {
-			console.log(JSON.stringify(data));
 			Command: toastr["success"]("Status Changed to" + JSON.stringify(data) + ".", "Projects")
 			toastr.options = {
 				"closeButton": true,
@@ -67,7 +60,10 @@ function statusChange(user,pjt,status) {
 				"showMethod": "fadeIn",
 				"hideMethod": "fadeOut"
 			}
-
+			viewThisProject($pid, $uid);
+		},
+		error: function(data) {
+			console.log(data);
 		}
 	});
 }
