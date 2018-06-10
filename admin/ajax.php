@@ -1679,7 +1679,7 @@ if ($action=="programming_list") {
 
 	$results = "";
 	unset($_POST['action']);
-
+	$get_entries = new project_action;
 	foreach($get_entries->get_programming($_SESSION['id']) as $results) {
 		?>
 		<div class="row">
