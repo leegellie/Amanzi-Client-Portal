@@ -134,6 +134,7 @@ function job_hold() {
 				"showMethod": "fadeIn",
 				"hideMethod": "fadeOut"
 			}
+			$('#job_hold').modal('hide');
 			viewThisProject($pid, $uid);
 		},
 		error: function(data) {

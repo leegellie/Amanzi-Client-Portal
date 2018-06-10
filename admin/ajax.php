@@ -157,6 +157,7 @@ if ($action=="change_status") {
 // Job Hold
 if ($action=="job_hold") {
 	$staffid = $_POST['staffid'];
+	$reason = $_POST['cmt_comment'];
 	$pid = $_POST['pid'];
 	$job_status = $_POST['status'];
 	unset($_POST['staffid']);
