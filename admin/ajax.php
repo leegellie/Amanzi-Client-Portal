@@ -112,7 +112,8 @@ function get_holidays() {
 if ($action=="newTemplateInstall") {
 	unset($_POST['action']);
 	$install_template = new project_action;
-	$install_template -> $install_template($_POST);
+	$run = $install_template -> $install_template($_POST);
+	return $run;
 }
 
 // Update Status
