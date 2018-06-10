@@ -133,6 +133,8 @@ USER'S EMAIL = <?= $user_email ?>
 		require_once ('project_entry.php');
 	} elseif (isset($_GET['templates'])) {
 		require_once ('project_templates.php');
+	} elseif (isset($_GET['programming'])) {
+		require_once ('project_programming.php');
 	} elseif (isset($_GET['installs'])) {
 		require_once ('project_installs.php');
 	} elseif (isset($_GET['edit'])) {

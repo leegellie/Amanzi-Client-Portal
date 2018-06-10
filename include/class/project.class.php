@@ -1396,16 +1396,15 @@ class project_action {
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			$sql = "
 			SELECT projects.*, 
-				   status.name AS status, 
-				   template_teams.temp_team_name AS team, 
-				   template_teams.temp_user_id
+				   status.name AS status
 			  FROM projects 
 			  JOIN status 
 				ON status.id = projects.job_status 
-			  JOIN template_teams 
-				ON template_teams.temp_team_id = projects.template_team 
-			 WHERE template_date >= CURDATE() 
-			   AND template_date < '2200-01-01' 
+			 WHERE template_date < '2200-01-01' 
+			   AND job_status > 24
+			   AND job_status < 40
+			   AND NOT job_status = 26
+			   AND NOT job_status = 29
 			   AND projects.isActive = 1
 			 ORDER BY 
 				   install_date ASC, 
