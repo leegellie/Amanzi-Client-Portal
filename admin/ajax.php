@@ -2087,9 +2087,7 @@ if ($action=="timelines_list") {
 	$results = "";
 	unset($_POST['action']);
 	$get_entries = new project_action;
-	$_POST = array();
-	$_POST['rep_id'] = $_SESSION['id'];
-	$template_pro = $get_entries -> get_templates_timeline($_POST);
+	$template_pro = $get_entries -> get_templates_timeline();
 
 	$temp_list = array();
 	foreach($template_pro as $pro) {

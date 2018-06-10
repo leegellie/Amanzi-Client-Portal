@@ -1451,9 +1451,6 @@ class project_action {
 					 projects.temp_first_stop DESC,
 					 projects.temp_pm ASC";
 
-      if ($_SESSION['access_level'] == 2) { 
-        $sql .= " AND acct_rep = ".$a['rep_id']; 
-      }
 			$q = $conn->prepare($sql);
 			$q->execute();
 			$rows = $q->fetchAll(PDO::FETCH_ASSOC);
