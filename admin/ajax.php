@@ -4872,7 +4872,7 @@ if ($action=="view_selected_pjt") {
 		$rejectSale = '<div class="btn btn-sm btn-danger float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',26)"><i class="fas fa-times"></i> Job Rejected</div>';
 		$jobHold = '<div class="btn btn-sm btn-danger float-right" onClick="jobHold('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['job_status'] . ')"><i class="fas fa-times"></i> Job Hold</div>';
 
-		if ($_SESSION['access_level'] == 1 && $_SESSION['access_level'] == 2) {
+		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2) {
 			if (($results['job_status'] > 11 && $results['job_status'] < 20) || $results['job_status'] > 23) {
 				$html .= $jobHold;
 			}
