@@ -2349,7 +2349,7 @@ if ($action=="timelines_list") {
 	if ($_SESSION['access_level'] < 4 || $_SESSION['access_level'] == 6) {
 		echo 	'	<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_materials" role="tab">Materials</a></li>';
 	}
-	if ($_SESSION['access_level'] < 4 || ($_SESSION['access_level'] > 6 || $_SESSION['access_level'] < 10)) {
+	if ($_SESSION['access_level'] < 4 || ($_SESSION['access_level'] > 6 && $_SESSION['access_level'] < 10)) {
 		echo 	'	<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_fab" role="tab">Fabrication</a></li>';
 	}
 	if ($_SESSION['access_level'] < 4 || $_SESSION['access_level'] == 10) {
