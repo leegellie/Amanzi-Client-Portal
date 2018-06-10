@@ -1426,7 +1426,7 @@ class project_action {
 	}
   
   //SELECT PROJECT LIST BASED ON STATUS
-  public function get_templates_timeline() {
+  public function get_templates_timeline($a) {
     try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -1452,7 +1452,7 @@ class project_action {
 					 projects.temp_pm ASC";
 
       if ($_SESSION['access_level'] == 2) { 
-        $sql .= " AND acct_rep = ".$_SESSION['id']; 
+        $sql .= " AND acct_rep = ".$a; 
       }
 			$q = $conn->prepare($sql);
 			$q->execute();
