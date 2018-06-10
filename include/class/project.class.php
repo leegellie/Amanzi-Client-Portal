@@ -637,24 +637,24 @@ class project_action {
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	public function update_job_status($a) {
-		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "UPDATE projects SET job_status = :status";
-			if ($a['status'] == 86 || $a['status'] == 26) {
-				$sql .= ", isActive = 0";
-			}
-			$sql .= " WHERE id = :id";
-			$q = $conn->prepare($sql);
-			$q->bindParam('id',$a['pid']);
-			$q->bindParam('status',$a['status']);
-			$q->execute();
-
-		} catch(PDOException $e) {
-			echo "ERROR: " . $e->getMessage();
-		}
-	}
+//	public function update_job_status($a) {
+//		try {
+//			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+//			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//			$sql = "UPDATE projects SET job_status = :status";
+//			if ($a['status'] == 86 || $a['status'] == 26) {
+//				$sql .= ", isActive = 0";
+//			}
+//			$sql .= " WHERE id = :id";
+//			$q = $conn->prepare($sql);
+//			$q->bindParam('id',$a['pid']);
+//			$q->bindParam('status',$a['status']);
+//			$q->execute();
+//
+//		} catch(PDOException $e) {
+//			echo "ERROR: " . $e->getMessage();
+//		}
+//	}
 
 	public function change_status($a) {
 		try {
