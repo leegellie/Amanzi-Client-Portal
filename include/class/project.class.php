@@ -1450,7 +1450,6 @@ class project_action {
 					 projects.temp_am DESC,
 					 projects.temp_first_stop DESC,
 					 projects.temp_pm ASC";
-
 			$q = $conn->prepare($sql);
 			$q->execute();
 			$rows = $q->fetchAll(PDO::FETCH_ASSOC);
