@@ -17,8 +17,8 @@
 //	});
 //}
 
-function newInstall($type) {
-	console.log($type,$(this).text());
+function newInstall($type,$name) {
+	console.log($type,$name);
 	//$('#addInstall').modal('show');
 	//addInstUpload();
 }
