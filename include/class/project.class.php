@@ -1238,58 +1238,24 @@ class project_action {
 			$q = $conn->prepare($sql);
 			$q->execute( $params );
 
+			$this->_message = $conn->lastInsertId();
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+		}
+		return $this->_message;
+	}
 
-//			$q = $conn->prepare("INSERT INTO installs (
-//				pid,
-//				cpSqFt,
-//				install_room,
-//				install_name,
-//				type,
-//				tear_out,
-//				material,
-//				color,
-//				lot,
-//				selected,
-//				edge,
-//				bs_detail,
-//				rs_detail,
-//				sk_detail,
-//				range_type,
-//				cutout,
-//				range_model,
-//				holes,
-//				holes_other,
-//				install_notes,
-//				SqFt,
-//				price_extra,
-//				price_calc
-//			) 
-//			VALUES (
-//				:pid,
-//				:cpSqFt,
-//				:install_room,
-//				:install_name,
-//				:type,
-//				:tear_out,
-//				:material,
-//				:color,
-//				:lot,
-//				:selected,
-//				:edge,
-//				:bs_detail,
-//				:rs_detail,
-//				:sk_detail,
-//				:range_type,
-//				:cutout,
-//				:range_model,
-//				:holes,
-//				:holes_other,
-//				:install_notes,
-//				:SqFt,
-//				:price_extra,
-//				:price_calc
-//			)");
-//			$q->execute($a);
+	public function install_template($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+
+			$sql='INSERT INTO installs (pid, install_room, install_name, type, tear_out) values (:pid, :install_room, :install_name, "New", "No")';
+			$q->bindParam(':pid',$a['pid']);
+			$q->bindParam(':install_room',$a['install_room']);
+			$q->bindParam(':install_name',$a['install_name']);
+			$q = $conn->prepare($sql);
+			$q->execute( $params );
 
 			$this->_message = $conn->lastInsertId();
 		} catch(PDOException $e) {

@@ -18,7 +18,25 @@
 //}
 
 function newInstall($type,$name) {
-	console.log($type,$name);
+	console.log($install_room,$name);
+	var datastring = 'action=newTemplateInstall&pid=' + $pid + '&install_name=' + $name + '&install_room=' + $install_room;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function() {
+			viewThisProject($pid,$uid);
+		},
+		error: function(data) {
+			alert(data);
+		},
+		complete: function() {
+			$('html, body').animate({
+				scrollTop: $("#pjtInstalls").offset().top
+			}, 1000);
+		}
+	});
+
 	//$('#addInstall').modal('show');
 	//addInstUpload();
 }
