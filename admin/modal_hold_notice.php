@@ -9,8 +9,8 @@
 			</div>
 			<div class="modal-body">
 				<div class="container">
-					<div class="row w-100">
-						<form id="job_hold_form">
+					<div class="row">
+						<form id="job_hold_form w-100">
 							<input type="hidden" name="action" value="job_hold">
 							<input type="hidden" id="jh-pid" name="pid" value="">
 							<input type="hidden" id="jh-staff" name="staff" value="">
