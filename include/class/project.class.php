@@ -1267,7 +1267,7 @@ class project_action {
 			$q->bindParam(':pid',$a['pid']);
 			$q->bindParam(':install_room',$a['install_room']);
 			$q->bindParam(':install_name',$a['install_name']);
-			$q->execute( $params );
+			$q->execute();
 
 			$this->_message = $conn->lastInsertId();
 		} catch(PDOException $e) {
