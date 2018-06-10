@@ -1513,7 +1513,7 @@ class project_action {
 			   clients.state AS cState, 
 			   clients.zip AS cZip, 
 			   clients.email AS cEmail, 
-			   clients.phone AS cPhone,
+			   clients.phone AS cPhone
 		  FROM projects 
 		  JOIN users rep 
 		    ON rep.id = projects.acct_rep 
