@@ -5008,7 +5008,11 @@ if ($action=="view_selected_pjt") {
 		}
 		// INSTALLS
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 10) {
-			if ($results['job_status'] == 73 || $results['job_status'] == 80) {
+			if ($results['job_status'] == 73) {
+				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',80)"><i class="fas fa-check"></i> Install Scheduled</div>';
+			}
+			if ($results['job_status'] == 80) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',81)"><i class="fas fa-check"></i> In Truck</div>';
 			}
@@ -5024,6 +5028,11 @@ if ($action=="view_selected_pjt") {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',85)"><i class="fas fa-check"></i> Install Complete</div>';
 				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',84)"><i class="fas fa-check"></i> Install Inomplete</div>';
+			}
+			if ($results['job_status'] == 84) {
+				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',80)"><i class="fas fa-check"></i> Install Rescheduled</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',85)"><i class="fas fa-check"></i> Close Job</div>';
 			}
 			if ($results['job_status'] == 89) {
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',83)"><i class="fas fa-check"></i> Install Started</div>';
