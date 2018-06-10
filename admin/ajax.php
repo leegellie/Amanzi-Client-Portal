@@ -5374,8 +5374,7 @@ if ($action=="view_selected_pjt") {
 	$get_rooms = new project_action;
 	$rows = $get_rooms->get_rooms();
 	foreach ($rows as $row) {
-		echo "<option value='" . $row['type_id'] . "'>" . $row['type_name'] . "</option>";
-		echo '		<div class="btn btn-sm btn-primary float-right col-md-2 d-print-none ' . $noProg . '" onClick="newInstall(' . $row['type_id'] . ')">' . $row['type_name'] . '<i class="fas fa-plus"></i></div>';
+		echo '		<div class="btn btn-sm btn-primary float-right col-md-2 d-print-none ' . $noProg . '" onClick="newInstall(' . $row['type_id'] . ')">' . $row['type_name'] . ' <i class="fas fa-plus"></i></div>';
 	}
 
 	echo '		<hr class="d-print-none">';
