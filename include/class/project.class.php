@@ -654,7 +654,25 @@ class project_action {
 		} catch(PDOException $e) {
 			echo "ERROR: " . $e->getMessage();
 		}
+	}
 
+	public function change_status($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = "UPDATE projects SET job_status = :status";
+			if ($a['status'] == 86 || $a['status'] == 26) {
+				$sql .= ", isActive = 0";
+			}
+			$sql .= " WHERE id = :id";
+			$q = $conn->prepare($sql);
+			$q->bindParam('id',$a['pid']);
+			$q->bindParam('status',$a['status']);
+			$q->execute();
+
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
 	}
 
 
@@ -688,7 +706,41 @@ class project_action {
 
 	}
 
+	public function get_status_update($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+		$sql = "UPDATE projects SET job_status = :status";
+		if ($a['status'] == 86 || $a['status'] == 26) {
+			$sql .= ", isActive = 0";
+		}
+		$sql .= " WHERE id = :id";
+		$q = $conn->prepare($sql);
+		$q->bindParam('id',$a['pid']);
+		$q->bindParam('status',$a['status']);
+		$q->execute();
+
+
+		$q = $conn->prepare("
+			SELECT projects.order_num,
+				   projects.quote_num,
+				   projects.job_name,
+				   status.name AS status_name,
+				   users.fname,
+				   users.email
+			  FROM projects
+			  JOIN status
+				ON status.id = :status
+			  JOIN users
+				ON users.id = projects.acct_rep
+			 WHERE projects.id = :pid");
+		$q->bindParam('pid',$a['pid']);
+		$q->bindParam('status',$a['status']);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	
 	public function get_status_list() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -1318,8 +1370,8 @@ class project_action {
 //		$_SESSION["isManager"] = $isManager;
 
 		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			$sql = "
 			SELECT 	projects.*, 
 					status.name AS status, 
@@ -1440,48 +1492,35 @@ class project_action {
 		}  
   }
 
-
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-
-
-
 	// SELECT PROJECT DATA BASED ON LIST SELECT 
 	public function project_data_fetch($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 
-		$q = $conn->prepare("SELECT projects.*, rep.fname AS repFname, rep.lname AS repLname, rep.email AS repEmail, clients.company AS clientCompany, clients.fname AS clientFname, clients.lname AS clientLname, clients.discount AS clientDiscount, clients.discount_quartz AS discount_quartz, clients.address1 AS cAdd1, clients.address2 AS cAdd2, clients.city AS cCity, clients.state AS cState, clients.zip AS cZip, clients.email AS cEmail, clients.phone AS cPhone FROM projects JOIN users rep ON rep.id = projects.acct_rep JOIN users clients ON projects.uid = clients.id WHERE projects.uid = " . $a['userID'] . " AND projects.id = " . $a['pjtID']);
+		$q = $conn->prepare("
+		SELECT projects.*, 
+			   rep.fname AS repFname, 
+			   rep.lname AS repLname, 
+			   rep.email AS repEmail, 
+			   clients.company AS clientCompany, 
+			   clients.fname AS clientFname, 
+			   clients.lname AS clientLname, 
+			   clients.discount AS clientDiscount, 
+			   clients.discount_quartz AS discount_quartz, 
+			   clients.address1 AS cAdd1, 
+			   clients.address2 AS cAdd2, 
+			   clients.city AS cCity, 
+			   clients.state AS cState, 
+			   clients.zip AS cZip, 
+			   clients.email AS cEmail, 
+			   clients.phone AS cPhone,
+		  FROM projects 
+		  JOIN users rep 
+		    ON rep.id = projects.acct_rep 
+		  JOIN users clients 
+		    ON projects.uid = clients.id 
+		 WHERE projects.uid = " . $a['userID'] . " 
+		   AND projects.id = " . $a['pjtID']);
 		$q->execute();
 		
 		return $row = $q->fetchAll();
@@ -1520,7 +1559,6 @@ class project_action {
 		return $row = $x->fetch();
 	}
 
-
 	// SELECT INSTALL DATA BASED ON LIST SELECT 
 	public function install_data_fetch($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
@@ -1547,8 +1585,6 @@ class project_action {
 		return $row = $q->fetchAll();
 	}
 
-
-
 	// SELECT ROOMS FOR INSTALL 
 	public function get_rooms() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
@@ -1557,8 +1593,6 @@ class project_action {
 		$q->execute();
 		return $row = $q->fetchAll();
 	}
-
-
 
 	// SELECT PIECE DATA BASED ON LIST SELECT 
 	public function pieces_data_fetch($a) {
@@ -1592,115 +1626,15 @@ class project_action {
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-
-//	// SELECT ACCESSORIES DATA BASED ON LIST SELECT 
-//	public function sink_data_fetch($a) {
-//		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-//		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-//		$sql = "
-//			SELECT 	install_sink.*, 
-//					install_pieces.piece_name, 
-//					accessories.accs_code, 
-//					accessories.accs_model, 
-//					accessories.accs_name, 
-//					holes.hole_name,
-//					mounting.mount_name
-//			FROM install_sink 
-//			JOIN install_pieces 
-//				ON install_pieces.piece_id = install_sink.sink_part 
-//			JOIN accessories 
-//				ON accessories.accs_id = install_sink.sink_model 
-//			JOIN holes 
-//				ON holes.id = install_sink.sink_holes 
-//			JOIN mounting 
-//				ON mounting.mount_id = install_sink.sink_mount 
-//			WHERE install_sink.sink_iid = " . $a['instID'] . "
-//			UNION
-//			SELECT 	install_sink.*, 
-//					install_pieces.piece_name, 
-//					accessories.accs_code, 
-//					accessories.accs_model, 
-//					accessories.accs_name, 
-//					holes.hole_name,
-//					mounting.mount_name
-//			FROM install_sink 
-//			JOIN install_pieces 
-//				ON install_pieces.piece_id = install_sink.sink_part 
-//			JOIN accessories 
-//				ON accessories.accs_id = install_sink.sink_faucet 
-//			JOIN holes 
-//				ON holes.id = install_sink.sink_holes 
-//			JOIN mounting 
-//				ON mounting.mount_id = install_sink.sink_mount 
-//			WHERE install_sink.sink_iid = " . $a['instID'] . "
-//			ORDER BY piece_name";
-//
-//		$q = $conn->prepare($sql);
-//		$q->execute();
-//		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
-//	}
-
-
 	public function add_sink($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-
 		$sql='INSERT INTO install_sink (`'.implode( '`,`', array_keys( $a ) ) .'`) values (:'.implode(',:',array_keys( $a ) ).');';
 		foreach( $a as $field => $value ) $params[":{$field}"]=$value;
 		$q = $conn->prepare($sql);
 		$q->execute( $params );
-
-
-//		$q = $conn->prepare("INSERT INTO install_sink (
-//					 sink_iid,
-//					 sink_part,
-//					 sink_provided,
-//					 sink_model,
-//					 sink_mount,
-//					 sink_holes,
-//					 sink_holes_other,
-//					 sink_soap,
-//					 cutout_width,
-//					 cutout_depth,
-//					 sink_price,
-//					 cutout_price,
-//					 sink_cost,
-//					 sink_name
-//			) 
-//			VALUES (
-//					 :sink_iid,
-//					 :sink_part,
-//					 :sink_provided,
-//					 :sink_model,
-//					 :sink_mount,
-//					 :sink_holes,
-//					 :sink_holes_other,
-//					 :sink_soap,
-//					 :cutout_width,
-//					 :cutout_depth,
-//					 :sink_price,
-//					 :cutout_price,
-//					 :sink_cost,
-//					 :sink_name
-//			)");
-//		$q->bindParam('sink_iid',$a['sink_iid']);
-//		$q->bindParam('sink_part',$a['sink_part']);
-//		$q->bindParam('sink_provided',$a['sink_provided']);
-//		$q->bindParam('sink_model',$a['sink_model']);
-//		$q->bindParam('sink_mount',$a['sink_mount']);
-//		$q->bindParam('sink_holes',$a['sink_holes']);
-//		$q->bindParam('sink_holes_other',$a['sink_holes_other']);
-//		$q->bindParam('sink_soap',$a['sink_soap']);
-//		$q->bindParam('cutout_width',$a['cutout_width']);
-//		$q->bindParam('cutout_depth',$a['cutout_depth']);
-//		$q->bindParam('sink_price',$a['sink_price']);
-//		$q->bindParam('cutout_price',$a['cutout_price']);
-//		$q->bindParam('sink_cost',$a['sink_cost']);
-//		$q->bindParam('sink_name',$a['sink_name']);
-//		$q->execute();
-
-
 	}
+
 	public function update_sink($s,$id) {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
@@ -1730,36 +1664,7 @@ class project_action {
 		$q = $conn->prepare($sql);
 		$q->execute( $params );
 
-//		$q = $conn->prepare("INSERT INTO install_sink (
-//					 sink_iid,
-//					 sink_part,
-//					 sink_provided,
-//					 sink_faucet,
-//					 faucet_price,
-//					 faucet_cost,
-//					 faucet_name,
-//					 sink_model,
-//					 sink_mount
-//			) 
-//			VALUES (
-//					 :sink_iid,
-//					 :sink_part,
-//					 :sink_provided,
-//					 :sink_faucet,
-//					 :faucet_price,
-//					 :faucet_cost,
-//					 :faucet_name,
-//					 0,
-//					 0
-//			)");
-//		$q->bindParam('sink_iid',$a['sink_iid']);
-//		$q->bindParam('sink_part',$a['sink_part']);
-//		$q->bindParam('sink_provided',$a['sink_provided']);
-//		$q->bindParam('sink_faucet',$a['sink_faucet']);
-//		$q->bindParam('faucet_price',$a['faucet_price']);
-//		$q->bindParam('faucet_cost',$a['faucet_cost']);
-//		$q->bindParam('faucet_name',$a['faucet_name']);
-//		$q->execute();
+
 	}
 
 	// SELECT ACCESSORIES DATA BASED ON LIST SELECT 
@@ -1819,301 +1724,6 @@ class project_action {
 	}
 
 
-	public function insert_floorplan($a) {
-		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-			$q = $conn->prepare("INSERT INTO project_floorplans (
-				pid, 
-				mid, 
-				floorp_tag, 
-				floorp_ticker,
-				floorp_js, 
-				floorp_css
-			) 
-			VALUES (
-				:pid, 
-				:mid, 
-				:floorp_tag, 
-				:floorp_ticker,
-				:floorp_js,
-				:floorp_css 
-			)");
-			$q->bindParam(':pid',$a['hiddenPID']);
-			$q->bindParam(':mid',$a['mid']);
-			$q->bindParam(':floorp_tag',$a['floorp_tag']);
-			$q->bindParam(':floorp_ticker',$a['floorp_ticker']);
-			$q->bindParam(':floorp_js',$a['floorp_js']);
-			$q->bindParam(':floorp_css',$a['floorp_css']);
-			$q->execute();
-			$this->_id = $conn->lastInsertId();
-			return $this->_id;
-		} catch(PDOException $e) {
-			return $this->_message = "ERROR: " . $e->getMessage();
-		}
-	}
-
-	public function insert_floorplan_details($a) {
-		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$q = $conn->prepare("INSERT INTO installs (
-				pid,
-				mid,
-				fp_floorplan_image,
-				fp_floorplan_title,
-				fp_floorplan_beds, 
-				fp_floorplan_baths,
-				fp_floorplan_sqft,
-				fp_floorplan_price,
-				active
-			) 
-			VALUES (
-				:pid, 
-				:mid, 
-				:fp_floorplan_image, 
-				:fp_floorplan_title,
-				:fp_floorplan_beds,
-				:fp_floorplan_baths, 
-				:fp_floorplan_sqft, 
-				:fp_floorplan_price, 
-				:active 
-			)");
-			$q->execute($a);
-			$this->_id = $conn->lastInsertId();
-			return $this->_id;
-		} catch(PDOException $e) {
-			return $this->_message = "ERROR: " . $e->getMessage();
-		}
-	}
-
-	public function insert_custompage($a) {
-		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-
-			$q = $conn->prepare("INSERT INTO project_pages (
-				pid, 
-				mid, 
-				external_link,
-				custom_title,
-				page_js, 
-				page_css,
-				page_background,
-				page_html,
-				hide,
-				isActive
-			) 
-			VALUES (
-				:pid, 
-				:mid, 
-				:external_link, 
-				:custom_title,
-				:page_js,
-				:page_css, 
-				:page_background, 
-				:page_html, 
-				:hide,
-				:isActive
-			)");
-			$q->execute($a);
-			$this->_id = $conn->lastInsertId();
-			return $this->_id;
-		} catch(PDOException $e) {
-			return $this->_message = "ERROR: " . $e->getMessage();
-		}
-	}
-
-
-
-
-	
-	public function get_floorplan_ids($a) {
-		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-			
-			$q = $conn->prepare("SELECT id,fp_floorplan_title FROM installs WHERE pid = :pid"); 
-			$q->bindParam(':pid',$a);
-			$q -> execute();
-			return $q->fetchall(PDO::FETCH_NUM);
-		} catch(PDOException $e) {
-			return $this->_message = "ERROR: " . $e->getMessage();
-		}
-	}
-	
-	public function add_floors($a) {
-		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-			
-				$q = $conn->prepare("INSERT INTO project_floors  
-				(
-				  fdid, 
-				  floor_title, 
-				  floor_base_image, 
-				  floor_reversed_image
-				) 
-				VALUES (
-				  :fpid, 
-				  :floor_title,
-				  :floor_base_image,
-				  :floor_reversed_image 
-				)");
-			$q->execute($a);
-			$this->_id = $conn->lastInsertId();
-			return $this->_id;
-		} catch(PDOException $e) {
-			return $this->_message = "ERROR: " . $e->getMessage();
-		}
-	}
-
-
-
-	public function update_floors($a,$mid) {
-	/*	try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-			$sql = "UPDATE project_floors SET";			
-			foreach($s as $key1 => $value1) {
-				$sql .=" $key1 = :$key1 ,";
-			}
-			$sql = substr($sql, 0, -2);
-			$sql .=" WHERE id = :id";
-			$q = $conn->prepare($sql);
-			foreach($s as $key => $value) {
-				$q->bindParam("$key",$value);
-			}
-			$q->execute($a);
-
-		} catch(PDOException $e) {
-			echo "ERROR: " . $e->getMessage();
-		} */
-	}
-	
-	// GET FLOOR DATA
-	public function get_floors($a) 
-	{
-		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-			
-			$q = $conn->prepare("SELECT * FROM project_floors WHERE fdid = :pid"); 
-			$q->bindParam(':pid',$a);
-			$q -> execute();
-			return $q->fetchall(PDO::FETCH_ASSOC);
-		} catch(PDOException $e) {
-			return $this->_message = "ERROR: " . $e->getMessage();
-		}
-	}
-	
-	public function add_elevations($a)
-	{
-		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-			
-				$q = $conn->prepare("INSERT INTO project_elevations
-  
-				(
-				  fdid, 
-				  elev_title, 
-				  elev_image
-				) 
-				VALUES (
-				  :fpid, 
-				  :elev_title,
-				  :elev_image
-				)");
-			$q->execute($a);
-			$this->_id = $conn->lastInsertId();
-			return $this->_id;
-		} catch(PDOException $e) {
-			return $this->_message = "ERROR: " . $e->getMessage();
-		}
-	}
-	
-	public function add_floor_alt($a) 
-	{
-		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-			
-				$q = $conn->prepare("INSERT INTO project_elevations
-  
-				(
-				  fdid, 
-				  fdid, 
-				  eid,
-				  floor_img_alt,
-				  floor_img_revalt
-				) 
-				VALUES (
-				  :fpid, 
-				  :eid,
-				  :elev_fp_image,
-				  :elev_fpr_image
-				)");
-			$q->execute($a);
-			$this->_id = $conn->lastInsertId();
-			return $this->_id;
-		} catch(PDOException $e) {
-			return $this->_message = "ERROR: " . $e->getMessage();
-		}
-	}
-	public function add_styles($a)
-	{
-		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-			
-				$q = $conn->prepare("INSERT INTO project_styles
-				(
-				  fdid, 
-				  elevation_id, 
-				  style_img,
-				  style_title
-				) 
-				VALUES (
-				  :fdid, 
-				  :elevation_id, 
-				  :style_img,
-				  :style_title
-				)");
-			$q->execute($a);
-			$this->_id = $conn->lastInsertId();
-			return $this->_id;
-		} catch(PDOException $e) {
-			return $this->_message = "ERROR: " . $e->getMessage();
-		}
-	}
-	public function add_options($a)
-	{
-		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-			
-				$q = $conn->prepare("INSERT INTO project_options 
-				(
-				  fdid, 
-				  option_title, 
-				  option_image,
-				  option_button
-				) 
-				VALUES (
-				  :fdid, 
-				  :option_title, 
-				  :option_image,
-				  :option_button
-				)");
-			$q->execute($a);
-			$this->_id = $conn->lastInsertId();
-			return $this->_id;
-		} catch(PDOException $e) {
-			return $this->_message = "ERROR: " . $e->getMessage();
-		}
-	}
 // CLIENT PROJECT ACTIONS
 
 // GET LIST OF PROJECTS
@@ -2161,21 +1771,5 @@ class project_action {
 		}
 	}
 
-
-// SELECT DATA TO BUILD A SITE	
-	public function get_floorplan($a,$b)
-	{
-		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-			
-				$q = $conn->prepare("SELECT * FROM installs WHERE " . $a . " = :b");
-			$q->bindParam(':b',$b);
-			$q->execute();
-			return $q->fetchall(PDO::FETCH_ASSOC);
-		} catch(PDOException $e) {
-			return $this->_message = "ERROR: " . $e->getMessage();
-		}
-	}
 }
 ?>

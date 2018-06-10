@@ -34,17 +34,39 @@ $instForm = '';
 $defaultEdge = 0;
 $addChange = 0;
 
-function statusChange(staffid,newStatus) {
-	var datastring = 'action=change_status&staffid=' + staffid + '&pid=' + $pid + '&job_status=' + newStatus;
+function statusChange(user,pjt,status) {
+	var datastring = 'action=change_status&staffid=' + user + '&pid=' + pjt + '&status=' + status;
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
 			console.log(data);
+			viewThisProject($pid, $uid);
 		},
 		error: function(data) {
 			console.log(data);
+		},
+		complete: function() {
+			Command: toastr["success"]("Status Changed.", "Projects")
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": false,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": 300,
+				"hideDuration": 1000,
+				"timeOut": 5000,
+				"extendedTimeOut": 1000,
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			}
+
 		}
 	});
 }
@@ -1656,6 +1678,27 @@ function upload_multi(){
 		data: myFormData,
 		success: function() {
 			viewThisProject($pid,$uid);
+		},
+		complete: function() {
+			Command: toastr["success"]("Files successfully uploaded.", "Projects")
+			toastr.options = {
+			  "closeButton": true,
+			  "debug": false,
+			  "newestOnTop": false,
+			  "progressBar": false,
+			  "positionClass": "toast-bottom-right",
+			  "preventDuplicates": false,
+			  "onclick": null,
+			  "showDuration": 300,
+			  "hideDuration": 1000,
+			  "timeOut": 5000,
+			  "extendedTimeOut": 1000,
+			  "showEasing": "swing",
+			  "hideEasing": "linear",
+			  "showMethod": "fadeIn",
+			  "hideMethod": "fadeOut"
+			}
+
 		}
 	});
 }

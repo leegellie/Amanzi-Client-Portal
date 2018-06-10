@@ -114,15 +114,39 @@ function get_holidays() {
 if ($action=="change_status") {
 	$staffid = $_POST['staffid'];
 	$pid = $_POST['pid'];
-	$job_status = $_POST['job_status'];
-	unset($_POST['action']);
+	$job_status = $_POST['status'];
 	unset($_POST['staffid']);
-	unset($_POST['pid']);
-	unset($_POST['job_status']);
+	unset($_POST['action']);
+	$status = '';
+	$repEmail = '';
+	$repFname = '';
+	$qNum = '';
+	$oNum = '';
+	$job = '';
+
+	$change_status = new user_action;
+	
+	foreach( $change_status -> update_job_status($_POST) as $r ) {
+		$status = $r['status_name'];
+		$repEmail = $r['email'];
+		$repFname = $r['fname'];
+		$qNum = $r['quote_num'];
+		$oNum = $r['order_num'];
+		$job = $r['job_name'];
+	}
+
+	$_POST = array();
+
+	$_POST['cmt_ref_id'] = $pid;
+	$_POST['cmt_type'] = 'pjt';
+	$_POST['cmt_user'] = $_SESSION['id'];
+	$_POST['cmt_comment'] = 'Project set to ' . $status;
+	$_POST['cmt_priority'] = 'log';
+
+	$log_project = new log_action;
+	$log = $log_project -> pjt_changes($_POST);
 
 }
-
-
 
 // ADMIN ADD USERS
 
@@ -4798,7 +4822,7 @@ if ($action=="view_selected_pjt") {
 		$html .= '<hr class="d-print-none">';
 		  // **** Display the Multi upload button  **** //
 		$html .= '<div class="row d-print-none">';
-		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4) {
+		if($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4) {
 			$html .= '
 			<div class="file-field col-12">
 				<div class="btn btn-success float-left">
@@ -4810,7 +4834,7 @@ if ($action=="view_selected_pjt") {
 				</div>
 			</div>';
 		} 
-		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 5) {
+		if($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 5) {
 			$html .= '
 			<div class="file-field col-12">
 				<div class="btn btn-success float-left">
@@ -4822,7 +4846,7 @@ if ($action=="view_selected_pjt") {
 				</div>
 			</div>';
 		}
-		if($_SESSION['id'] == 1 || $_SESSION['access_level'] == 4 || $_SESSION['access_level'] == 5) {
+		if($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4 || $_SESSION['access_level'] == 5) {
 			$html .= '
 					<div id="uploadmulti" class="btn btn-primary d-print-none mr-3 ml-auto" onClick="upload_multi();">Upload</div>';
 		}
@@ -4845,7 +4869,7 @@ if ($action=="view_selected_pjt") {
 
 
 		$rejectSale = '<div class="btn btn-sm btn-danger float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',26)"><i class="fas fa-times"></i> Job Rejected</div>';
-		$jobHold = '<div class="btn btn-sm btn-danger float-right" onClick="jobJold('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['job_status'] . ')"><i class="fas fa-times"></i> Job Hold</div>';
+		$jobHold = '<div class="btn btn-sm btn-danger float-right" onClick="jobHold('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['job_status'] . ')"><i class="fas fa-times"></i> Job Hold</div>';
 
 		// SALES
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2) {
