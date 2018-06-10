@@ -117,10 +117,8 @@ if ($action=="newTemplateInstall") {
 
 // Update Status
 if ($action=="change_status") {
-	$staffid = $_POST['staffid'];
 	$pid = $_POST['pid'];
 	$job_status = $_POST['status'];
-	unset($_POST['staffid']);
 	unset($_POST['action']);
 	$status = '';
 	$repEmail = '';
@@ -153,6 +151,46 @@ if ($action=="change_status") {
 
 	echo $status;
 }
+
+// Job Hold
+if ($action=="job_hold") {
+	$reason = $_POST['reason'];
+	$pid = $_POST['pid'];
+	$job_status = $_POST['status'];
+	unset($_POST['staffid']);
+	unset($_POST['action']);
+	$status = '';
+	$repEmail = '';
+	$repFname = '';
+	$qNum = '';
+	$oNum = '';
+	$job = '';
+
+	$change_status = new project_action;
+
+	foreach( $change_status -> get_status_update($_POST) as $r ) {
+		$status = $r['status_name'];
+		$repEmail = $r['email'];
+		$repFname = $r['fname'];
+		$qNum = $r['quote_num'];
+		$oNum = $r['order_num'];
+		$job = $r['job_name'];
+	}
+
+	$_POST = array();
+
+	$_POST['cmt_ref_id'] = $pid;
+	$_POST['cmt_type'] = 'pjt';
+	$_POST['cmt_user'] = $_SESSION['id'];
+	$_POST['cmt_comment'] = 'Project Placed on Hold - ' + $reason;
+	$_POST['cmt_priority'] = 911;
+
+	$log_project = new log_action;
+	$log = $log_project -> pjt_changes($_POST);
+
+	echo $status;
+}
+
 
 // ADMIN ADD USERS
 

@@ -67,6 +67,80 @@ function statusChange(user,pjt,status) {
 		}
 	});
 }
+function jobHold(uid,pjt,status) {
+	var $tempArr = [12,13,14,15,16,17];
+	var $progArr = [25,30,31,32];
+	var $matArr = [32,40,41,42,43];
+	var $sawArr = [44,50,51,52];
+	var $cncArr = [53,60,61,62];
+	var $polArr = [63,70,71,72];
+	var $instArr = [73,80,81,82,83,84];
+	var newStatus = 0;
+	if ($.inArray(status, $tempArr) > -1) {
+		newStatus = 19;
+	} else if ($.inArray(status, $progArr) > -1) {
+		newStatus = 39;
+	} else if ($.inArray(status, $matArr) > -1) {
+		newStatus = 49;
+	} else if ($.inArray(status, $sawArr) > -1) {
+		newStatus = 59;
+	} else if ($.inArray(status, $cncArr) > -1) {
+		newStatus = 69;
+	} else if ($.inArray(status, $polArr) > -1) {
+		newStatus = 79;
+	} else if ($.inArray(status, $instArr) > -1) {
+		newStatus = 89;
+	} else {
+		newStatus = status;
+	}
+	$('#jh-pid').val(pjt);
+	$('#jh-staff').val(uid);
+	$('#jh-status').val(newStatus);
+	$('#job_hold').modal('show');
+}
+
+function job_hold() {
+	if ($('#jh-hold_reason').val() == '') {
+		alert("You must enter a reason for placing the job on hold.");
+		return;
+	}
+	var user = $('#jh-staff').val();
+	var pjt = $('#jh-pid').val();
+	var status = $('#jh-status').val();
+	var cmt_comment = $('#jh-hold_reason').val();
+
+	var datastring = 'action=job_hold&staffid=' + user + '&pid=' + pjt + '&status=' + status + '&cmt_comment=' + cmt_comment;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log(data);
+			Command: toastr["danger"]("Job placed on HOLD.", "Projects")
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": false,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": 300,
+				"hideDuration": 1000,
+				"timeOut": 5000,
+				"extendedTimeOut": 1000,
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			}
+			viewThisProject($pid, $uid);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
 
 //function statusUpdate($statId) {
 //	$statName = $('#changeStatus option:selected').text();
