@@ -5373,10 +5373,11 @@ if ($action=="view_selected_pjt") {
 	// INSTALL EDITS
 	$get_rooms = new project_action;
 	$rows = $get_rooms->get_rooms();
+	echo '<div class="col-12 d-print-none">';
 	foreach ($rows as $row) {
-		echo '		<div class="btn btn-sm btn-primary float-right col-md-2 d-print-none ' . $noProg . '" onClick="newInstall(' . $row['type_id'] . ')">' . $row['type_name'] . ' <i class="fas fa-plus"></i></div>';
+		echo '		<div class="btn btn-sm btn-primary float-right ' . $noProg . '" onClick="newInstall(' . $row['type_id'] . ')">' . $row['type_name'] . ' <i class="fas fa-plus"></i></div>';
 	}
-
+	echo '</div>';
 	echo '		<hr class="d-print-none">';
 	echo '		<div class="col-9 col-md-10 thead d-print-none">Install</div><div class="col-3 col-md-2 thead text-right d-print-none">View</div>';
 
