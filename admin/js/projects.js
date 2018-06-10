@@ -1278,7 +1278,7 @@ function loadEntries(){
 	setTimeout(loadEntries, 5000);
 }
 
-function loadTemplates(){
+function loadTemplates() {
 	var datastring = "action=templates_list"
 	$.ajax({
 		type: "POST",
@@ -1295,13 +1295,14 @@ function loadTemplates(){
 	//setTimeout(loadTemplates, 5000);
 }
 
-function loadProgramming(){
+function loadProgramming() {
 	var datastring = "action=programming_list"
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
+			console.log("data: " + data);
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
 		},
@@ -1312,8 +1313,7 @@ function loadProgramming(){
 	//setTimeout(loadTemplates, 5000);
 }
 
-
-function loadInstalls(){
+function loadInstalls() {
 	var datastring = "action=installs_list"
 	$.ajax({
 		type: "POST",
