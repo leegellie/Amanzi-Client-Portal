@@ -5413,7 +5413,7 @@ if ($action=="view_selected_pjt") {
 			if ($results['tear_out'] == "Yes") {
 				?>
 				<div class="row w-100 d-flex d-print-flex">
-					<div class="col-12 text-dark"><h5><small>Tear Out: <small><?= $results['tearout_sqft'] ?> SqFt</small><span class="float-right pr-5 mr-5">$<?= $results['tearout_cost'] ?></span></small></h5></div>
+					<div class="col-12 text-dark"><h5><small>Tear Out: <small><?= $results['tearout_sqft'] ?> SqFt</small><span class="float-right pr-5 mr-5 <?= $noProg ?>">$<?= $results['tearout_cost'] ?></span></small></h5></div>
 				</div>
 				<?
 			} 
@@ -5576,14 +5576,14 @@ if ($action=="view_selected_inst") {
 		$html .= '		<div id="pullCpSqFt" class="d-none">' . $results['cpSqFt'] . '</div>';
 		$html .= '		<div id="pullPriceExtra" class="d-none">' . $results['price_extra'] . '</div>';
 		$html .= '	</div>';
-		$html .= '	<div class="col-12 col-md-2">Price p/SqFt: <b>$' . $results['cpSqFt'] . '</b>';
+		$html .= '	<div class="col-12 col-md-2">Price p/SqFt: <b class="'.$noProg.'">$' . $results['cpSqFt'] . '</b>';
 		if ($results['cpSqFt_override'] > 0) {
 			$html .= '<sup class="d-print-none">~</sup>';
 		}
 		$html .= '  </div>';
 		$html .= '	<hr>';
 		$html .= '	<div class="col-12 col-md-3">Default Edge: <b>' . $results['edge_name'] . '</b><div id="dEdge" class="d-none">' . $results['edge'] . '</div></div>';
-		$html .= '	<div class="col-12 col-md-3">Sinks &amp; Faucets: <b>$' . $results['accs_prices'] . '</b></div>';
+		$html .= '	<div class="col-12 col-md-3">Sinks &amp; Faucets: <b class="'.$noProg.'">$' . $results['accs_prices'] . '</b></div>';
 		$html .= '	<div class="col-12 col-md-2">Range Type: <b>' . $results['rangeT'] . '</b></div>';
 		$html .= '	<div class="col-12 col-md-2">Range Model: <b>' . $results['range_model'] . '</b></div>';
 		$html .= '	<div class="col-12 col-md-2">Cooktop Cutout: <b>' . $results['cutout'] . '</b></div>';
