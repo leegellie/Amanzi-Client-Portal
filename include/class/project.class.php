@@ -1267,7 +1267,6 @@ class project_action {
 			$q->bindParam(':pid',$a['pid']);
 			$q->bindParam(':install_room',$a['install_room']);
 			$q->bindParam(':install_name',$a['install_name']);
-			$q = $conn->prepare($sql);
 			$q->execute( $params );
 
 			$this->_message = $conn->lastInsertId();
