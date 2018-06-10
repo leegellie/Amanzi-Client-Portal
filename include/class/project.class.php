@@ -674,38 +674,6 @@ class project_action {
 			echo "ERROR: " . $e->getMessage();
 		}
 	}
-
-
-	public function get_material_status($a) {
-		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$q = $conn->prepare("SELECT id, install_name, material_status, material_date FROM installs WHERE id = :id");
-		$q->bindParam('pid',$a['pid']);
-		$q->bindParam('id',$a['iid']);
-		$q->execute();
-		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
-	}
-
-	public function update_material_status($a) {
-		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = "UPDATE projects SET job_status = :status";
-			if ($a['status'] == 86 || $a['status'] == 26) {
-				$sql .= ", isActive = 0";
-			}
-			$sql .= " WHERE id = :id";
-			$q = $conn->prepare($sql);
-			$q->bindParam('id',$a['pid']);
-			$q->bindParam('status',$a['status']);
-			$q->execute();
-
-		} catch(PDOException $e) {
-			echo "ERROR: " . $e->getMessage();
-		}
-
-	}
-
 	public function get_status_update($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -740,7 +708,38 @@ class project_action {
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	
+
+	public function get_material_status($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("SELECT id, install_name, material_status, material_date FROM installs WHERE id = :id");
+		$q->bindParam('pid',$a['pid']);
+		$q->bindParam('id',$a['iid']);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function update_material_status($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = "UPDATE projects SET job_status = :status";
+			if ($a['status'] == 86 || $a['status'] == 26) {
+				$sql .= ", isActive = 0";
+			}
+			$sql .= " WHERE id = :id";
+			$q = $conn->prepare($sql);
+			$q->bindParam('id',$a['pid']);
+			$q->bindParam('status',$a['status']);
+			$q->execute();
+
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+
+	}
+
+
 	public function get_status_list() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -1513,14 +1512,13 @@ class project_action {
 			   clients.state AS cState, 
 			   clients.zip AS cZip, 
 			   clients.email AS cEmail, 
-			   clients.phone AS cPhone
+			   clients.phone AS cPhone 
 		  FROM projects 
 		  JOIN users rep 
 		    ON rep.id = projects.acct_rep 
 		  JOIN users clients 
 		    ON projects.uid = clients.id 
-		 WHERE projects.uid = " . $a['userID'] . " 
-		   AND projects.id = " . $a['pjtID']);
+		 WHERE projects.uid = " . $a['userID'] . " AND projects.id = " . $a['pjtID']);
 		$q->execute();
 		
 		return $row = $q->fetchAll();

@@ -126,7 +126,7 @@ if ($action=="change_status") {
 
 	$change_status = new project_action;
 	
-	foreach( $change_status -> update_job_status($_POST) as $r ) {
+	foreach( $change_status -> get_status_update($_POST) as $r ) {
 		$status = $r['status_name'];
 		$repEmail = $r['email'];
 		$repFname = $r['fname'];
