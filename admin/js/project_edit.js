@@ -159,35 +159,6 @@ function statusSet(){
 	});
 }
 
-function statusUpdate($statId) {
-	$statName = $('#changeStatus option:selected').text();
-	$percent = $statId + '%';
-	var lastDigit = $statId%10;
-	if (lastDigit == 9) {
-		$('#progressStatus .progress-bar').addClass('bg-danger');
-	} else {
-		$('#progressStatus .progress-bar').removeClass('bg-danger');
-	}
-	$('#pjtDetails #progressStatus .progress-bar').width($percent);
-	$('#pjtDetails #progressStatus .progress-bar').text($statName);
-
-	var statusdata = 'action=update_job_status&pid=' + $pid + '&status=' + $statId;
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: statusdata,
-		success: function(data) {
-			setTimeout(function(){ statusSet(); }, 300);
-		},
-		error: function(xhr, status, error) {
-			// alert("Error submitting form: " + xhr.responseText);
-			successNote = "Error submitting form: "+xhr.responseText;
-			$('#editSuccess').html(succesStarter+successNote+successEnder);
-			document.getElementById('closeFocus').focus();
-		}
-	});
-}
-
 
 function getComments(ref) {
 	$('#commentList').html('');

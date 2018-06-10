@@ -47,8 +47,8 @@ function statusChange(user,pjt,status) {
 		error: function(data) {
 			console.log(data);
 		},
-		complete: function() {
-			Command: toastr["success"]("Status Changed.", "Projects")
+		complete: function(data) {
+			Command: toastr["success"]("Status Changed to" + data + ".", "Projects")
 			toastr.options = {
 				"closeButton": true,
 				"debug": false,
@@ -70,6 +70,36 @@ function statusChange(user,pjt,status) {
 		}
 	});
 }
+
+function statusUpdate($statId) {
+	$statName = $('#changeStatus option:selected').text();
+	$percent = $statId + '%';
+	var lastDigit = $statId%10;
+	if (lastDigit == 9) {
+		$('#progressStatus .progress-bar').addClass('bg-danger');
+	} else {
+		$('#progressStatus .progress-bar').removeClass('bg-danger');
+	}
+	$('#pjtDetails #progressStatus .progress-bar').width($percent);
+	$('#pjtDetails #progressStatus .progress-bar').text($statName);
+
+	var statusdata = 'action=update_job_status&pid=' + $pid + '&status=' + $statId;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: statusdata,
+		success: function(data) {
+			setTimeout(function(){ statusSet(); }, 300);
+		},
+		error: function(xhr, status, error) {
+			// alert("Error submitting form: " + xhr.responseText);
+			successNote = "Error submitting form: "+xhr.responseText;
+			$('#editSuccess').html(succesStarter+successNote+successEnder);
+			document.getElementById('closeFocus').focus();
+		}
+	});
+}
+
 
 function recalculate($cpSqFt) {
 	var datastring = 'action=recalculate&uid=' + $uid + '&cpSqFt=' + $cpSqFt;

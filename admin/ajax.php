@@ -140,11 +140,13 @@ if ($action=="change_status") {
 	$_POST['cmt_ref_id'] = $pid;
 	$_POST['cmt_type'] = 'pjt';
 	$_POST['cmt_user'] = $_SESSION['id'];
-	$_POST['cmt_comment'] = 'Project set to ' . $status;
+	$_POST['cmt_comment'] = 'Project Status set to ' . $status;
 	$_POST['cmt_priority'] = 'log';
 
 	$log_project = new log_action;
 	$log = $log_project -> pjt_changes($_POST);
+	
+	return $status;
 
 }
 
