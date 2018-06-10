@@ -1256,13 +1256,24 @@ class project_action {
 						pid, 
 						install_room, 
 						install_name, 
-						type, tear_out
+						type, 
+						tear_out,
+						selected,
+						edge,
+						range_type,
+						holes,
+						SqFt
 					) values (
 						:pid, 
 						:install_room, 
 						:install_name, 
 						"New", 
-						"No"
+						"No",
+						"no",
+						0,
+						0,
+						0,
+						0
 					)');
 			$q->bindParam(':pid',$a['pid']);
 			$q->bindParam(':install_room',$a['install_room']);
