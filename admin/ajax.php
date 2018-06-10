@@ -4900,8 +4900,8 @@ if ($action=="view_selected_pjt") {
 				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',24)"><i class="fas fa-check"></i> Quote to Alter</div>';
 			}
 		}
-		if ($_SESSION['access_level'] == 1) {
-			if (($results['job_status'] > 11 && $results['job_status'] < 20) || ($results['job_status'] > 11 && $results['job_status'] < 20)) {
+		if ($_SESSION['access_level'] == 1 && $_SESSION['access_level'] == 2) {
+			if (($results['job_status'] > 11 && $results['job_status'] < 20) || $results['job_status'] > 23) {
 				$jobHold;
 			}
 		}
@@ -4978,7 +4978,7 @@ if ($action=="view_selected_pjt") {
 			}
 		}
 		// POLISHING
-		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 8) {
+		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 9) {
 			if ($results['job_status'] == 63 || $results['job_status'] == 70) {
 				$html .= $jobHold;
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',71)"><i class="fas fa-check"></i> Polishing Started</div>';
@@ -4997,7 +4997,7 @@ if ($action=="view_selected_pjt") {
 			}
 		}
 		// INSTALLS
-		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 9) {
+		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 10) {
 			if ($results['job_status'] == 73 || $results['job_status'] == 80) {
 				$html .= $jobHold;
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',81)"><i class="fas fa-check"></i> In Truck</div>';
