@@ -117,9 +117,11 @@ if ($action=="newTemplateInstall") {
 
 // Update Status
 if ($action=="change_status") {
+	$staffid = $_POST['staffid'];
 	$pid = $_POST['pid'];
 	$job_status = $_POST['status'];
 	unset($_POST['action']);
+	unset($_POST['staffid']);
 	$status = '';
 	$repEmail = '';
 	$repFname = '';
@@ -154,7 +156,7 @@ if ($action=="change_status") {
 
 // Job Hold
 if ($action=="job_hold") {
-	$reason = $_POST['reason'];
+	$staffid = $_POST['staffid'];
 	$pid = $_POST['pid'];
 	$job_status = $_POST['status'];
 	unset($_POST['staffid']);
@@ -167,7 +169,7 @@ if ($action=="job_hold") {
 	$job = '';
 
 	$change_status = new project_action;
-
+	
 	foreach( $change_status -> get_status_update($_POST) as $r ) {
 		$status = $r['status_name'];
 		$repEmail = $r['email'];
