@@ -5022,7 +5022,7 @@ if ($action=="view_selected_pjt") {
 		}
 
 		if ($_SESSION['access_level'] == 1) {
-			$html .= '<select id="changeStatus" onChange="statusUpdate(this.value)" class="mdb-select float-right col-12 col-md-4 col-lg-2 d-print-none ' . $noProg . '">';
+			$html .= '<select id="changeStatus" onChange="statusChange('. $_SESSION['id'] .',' . $results['id'] .'this.value)" class="mdb-select float-right col-12 col-md-4 col-lg-2 d-print-none ' . $noProg . '">';
 			$html .= $statList;
 			$html .= '</select>';
 //			$html .= '<div id="progressStatus" class="w-100 d-print-none">';
