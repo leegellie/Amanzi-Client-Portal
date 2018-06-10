@@ -124,7 +124,7 @@ if ($action=="change_status") {
 	$oNum = '';
 	$job = '';
 
-	$change_status = new user_action;
+	$change_status = new project_action;
 	
 	foreach( $change_status -> update_job_status($_POST) as $r ) {
 		$status = $r['status_name'];
