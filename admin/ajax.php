@@ -2343,7 +2343,7 @@ if ($action=="timelines_list") {
 	if ($_SESSION['access_level'] < 5) {
 		echo 	'	<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_templates" role="tab">Templates</a></li>';
 	}
-	if ($_SESSION['access_level'] < 4 || $_SESSION['access_level'] == 5) {
+	if ($_SESSION['access_level'] < 4) {
 		echo 	'	<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_sales" role="tab">Sales</a></li>';
 	}
 	if ($_SESSION['access_level'] < 4 || $_SESSION['access_level'] == 6) {
