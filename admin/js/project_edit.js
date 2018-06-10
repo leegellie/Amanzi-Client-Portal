@@ -17,7 +17,7 @@
 //	});
 //}
 
-function newInstall($type,$name) {
+function newInstall($install_room,$name) {
 	console.log($install_room,$name);
 	var datastring = 'action=newTemplateInstall&pid=' + $pid + '&install_name=' + $name + '&install_room=' + $install_room;
 	$.ajax({
