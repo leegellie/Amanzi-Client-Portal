@@ -5369,7 +5369,15 @@ if ($action=="view_selected_pjt") {
 	echo '	<div id="pjtInstalls" class="row">';
 	echo '		<div class="h1 col-12 col-md-9 d-print-none">Installs</div>';
 	echo '		<div class="h1 col-12 col-md-9 d-none d-print-block">Areas:</div>';
-	echo '		<div class="btn btn-lg btn-primary float-right col-md-2 d-print-none ' . $noProg . '" onClick="newInstall()">Add <i class="fas fa-plus"></i></div>';
+	//echo '		<div class="btn btn-lg btn-primary float-right col-md-2 d-print-none ' . $noProg . '" onClick="newInstall()">Add <i class="fas fa-plus"></i></div>';
+	// INSTALL EDITS
+	$get_rooms = new project_action;
+	$rows = $get_rooms->get_rooms();
+	foreach ($rows as $row) {
+		echo "<option value='" . $row['type_id'] . "'>" . $row['type_name'] . "</option>";
+		echo '		<div class="btn btn-sm btn-primary float-right col-md-2 d-print-none ' . $noProg . '" onClick="newInstall(' . $row['type_id'] . ')">' . $row['type_name'] . '<i class="fas fa-plus"></i></div>';
+	}
+
 	echo '		<hr class="d-print-none">';
 	echo '		<div class="col-9 col-md-10 thead d-print-none">Install</div><div class="col-3 col-md-2 thead text-right d-print-none">View</div>';
 
