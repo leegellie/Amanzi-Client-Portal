@@ -1250,7 +1250,20 @@ class project_action {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 
-			$sql='INSERT INTO installs (pid, install_room, install_name, type, tear_out) values (:pid, :install_room, :install_name, "New", "No")';
+			$q = $conn->prepare('
+				INSERT INTO installs 
+					(
+						pid, 
+						install_room, 
+						install_name, 
+						type, tear_out
+					) values (
+						:pid, 
+						:install_room, 
+						:install_name, 
+						"New", 
+						"No"
+					)');
 			$q->bindParam(':pid',$a['pid']);
 			$q->bindParam(':install_room',$a['install_room']);
 			$q->bindParam(':install_name',$a['install_name']);
