@@ -9,23 +9,17 @@
 			</div>
 			<div class="modal-body">
 				<div class="container">
-					<div class="row">
-						<form id="job_hold_form col-12">
-							<input type="hidden" name="action" value="job_hold">
-							<input type="hidden" id="jh-pid" name="pid" value="">
-							<input type="hidden" id="jh-staff" name="staff" value="">
-							<input type="hidden" id="jh-status" name="status" value="">
-							<h3 class="text-danger">Why are you placing this job on hold?</h3>
-
-							<div class="row w-100">
-								<fieldset class="form-group col-12 d-inline">
-									<input type="textarea" class="form-control-lg w-100" id="jh-hold_reason" name="hold_reason">
-								</fieldset>
-							</div>
-
-						</form>
-						<div id="job_holdBtn" class="btn btn-lg btn-primary mt-3 w-100" onClick="job_hold()">Submit</div>
-					</div>
+					<form id="job_hold_form row">
+						<input type="hidden" name="action" value="job_hold">
+						<input type="hidden" id="jh-pid" name="pid" value="">
+						<input type="hidden" id="jh-staff" name="staff" value="">
+						<input type="hidden" id="jh-status" name="status" value="">
+						<h3 class="text-danger">Why are you placing this job on hold?</h3>
+						<fieldset class="form-group col-12 d-inline">
+							<input type="textarea" class="form-control-lg w-100" id="jh-hold_reason" name="hold_reason">
+						</fieldset>
+					</form>
+					<div id="job_holdBtn" class="btn btn-lg btn-primary mt-3 w-100" onClick="job_hold()">Submit</div>
 				</div>
 			</div>
 			<div class="modal-footer">
