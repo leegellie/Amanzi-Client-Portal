@@ -24,8 +24,8 @@ function newInstall($install_room,$name) {
 		type: "POST",
 		url: "ajax.php",
 		data: datastring,
-		success: function() {
-			console.log("success");
+		success: function(data) {
+			console.log("success", data);
 			viewThisProject($pid,$uid);
 		},
 		error: function(data) {
