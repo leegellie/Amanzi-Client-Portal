@@ -4734,7 +4734,7 @@ if ($action=="get_inst_for_update") {
 if ($action=="view_selected_pjt") {
 
 	$noProg = '';
-	if ($_SESSION['access_level'] > 2) {
+	if ($_SESSION['access_level'] > 3) {
 		$noProg = 'd-none';
 	}
 	$results = "";
