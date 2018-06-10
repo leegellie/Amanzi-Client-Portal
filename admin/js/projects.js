@@ -1320,7 +1320,7 @@ function loadInstalls(){
 }
 
 //For project_timeline.php
-function loadTimelines(){
+function loadTimelines() {
   var datastring = "action=timelines_list";
   $.ajax({
     type: "POST",
@@ -1400,6 +1400,7 @@ function pjtBack() {
 	$("#user-block").show();
 	$("#user-block").show();
 	$('#materials-block').show();
+	$('#searchSubmit').click();
 }
 
 function loadingAdd(button){
