@@ -4921,11 +4921,16 @@ if ($action=="view_selected_pjt") {
 				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',14)"><i class="fas fa-times"></i> Template Enroute</div>';
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',15)"><i class="fas fa-check"></i> Template Started</div>';
 			}
-			if ($results['job_status'] == 14 || $results['job_status'] == 15) {
+			if ($results['job_status'] == 14) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
 				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',16)"><i class="fas fa-times"></i> Template Incomplete</div>';
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',17)"><i class="fas fa-check"></i> Template Complete</div>';
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',15)"><i class="fas fa-check"></i> Template Started</div>';
+			}
+			if ($results['job_status'] == 15) {
+				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
+				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',16)"><i class="fas fa-times"></i> Template Incomplete</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',17)"><i class="fas fa-check"></i> Template Complete</div>';
 			}
 			if ($results['job_status'] == 16) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
