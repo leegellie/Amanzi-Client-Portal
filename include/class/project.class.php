@@ -1451,7 +1451,7 @@ class project_action {
 					 projects.temp_first_stop DESC,
 					 projects.temp_pm ASC";
 
-      if ($_SESSION['access_level'] > 1) { 
+      if ($_SESSION['access_level'] == 2) { 
         $sql .= " AND acct_rep = ".$_SESSION['id']; 
       }
 			$q = $conn->prepare($sql);
