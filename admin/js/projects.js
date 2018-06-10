@@ -49,7 +49,7 @@ function statusChange(user,pjt,status) {
 		},
 		complete: function(data) {
 			console.log(JSON.stringify(data));
-			Command: toastr["success"]("Status Changed to" + data + ".", "Projects")
+			Command: toastr["success"]("Status Changed to" + JSON.stringify(data) + ".", "Projects")
 			toastr.options = {
 				"closeButton": true,
 				"debug": false,
