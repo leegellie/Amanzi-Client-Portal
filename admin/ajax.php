@@ -168,9 +168,7 @@ if ($action=="job_hold") {
 	$qNum = '';
 	$oNum = '';
 	$job = '';
-
 	$change_status = new project_action;
-	
 	foreach( $change_status -> get_status_update($_POST) as $r ) {
 		$status = $r['status_name'];
 		$repEmail = $r['email'];
@@ -179,18 +177,14 @@ if ($action=="job_hold") {
 		$oNum = $r['order_num'];
 		$job = $r['job_name'];
 	}
-
 	$_POST = array();
-
 	$_POST['cmt_ref_id'] = $pid;
 	$_POST['cmt_type'] = 'pjt';
 	$_POST['cmt_user'] = $_SESSION['id'];
 	$_POST['cmt_comment'] = 'Project Placed on Hold - ' . $reason;
 	$_POST['cmt_priority'] = 911;
-
 	$log_project = new log_action;
 	$log = $log_project -> pjt_changes($_POST);
-
 	echo $status;
 }
 
