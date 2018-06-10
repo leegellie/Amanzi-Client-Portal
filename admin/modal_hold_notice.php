@@ -16,7 +16,7 @@
 						<input type="hidden" id="jh-status" name="status" value="">
 						<h3 class="text-danger">Why are you placing this job on hold?</h3>
 						<fieldset class="form-group col-12 d-inline">
-							<input type="textarea" class="form-control-lg w-100" id="jh-hold_reason" name="hold_reason">
+							<textarea class="form-control-lg" rows="4" id="jh-hold_reason" name="hold_reason"></textarea>
 						</fieldset>
 					</form>
 					<div id="job_holdBtn" class="btn btn-lg btn-primary mt-3 w-100" onClick="job_hold()">Submit</div>
