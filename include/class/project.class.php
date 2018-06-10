@@ -1390,6 +1390,36 @@ class project_action {
 			return $this->_message;
 		}
 	}
+	public function get_programming() {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+			$sql = "
+			SELECT projects.*, 
+				   status.name AS status, 
+				   template_teams.temp_team_name AS team, 
+				   template_teams.temp_user_id
+			  FROM projects 
+			  JOIN status 
+				ON status.id = projects.job_status 
+			  JOIN template_teams 
+				ON template_teams.temp_team_id = projects.template_team 
+			 WHERE template_date >= CURDATE() 
+			   AND template_date < '2200-01-01' 
+			   AND projects.isActive = 1
+			 ORDER BY 
+				   install_date ASC, 
+				   first_stop DESC, 
+				   am DESC,
+				   pm ASC";
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}
+	}
 
 	// SELECT PROJECT LIST BASED ON USER CRITERIA 
 	public function get_installs() {

@@ -1675,6 +1675,27 @@ if ($action=="templates_list") {
 	}
 }
 
+if ($action=="programming_list") {
+
+	$results = "";
+	unset($_POST['action']);
+
+	foreach($get_entries->get_programming($_SESSION['id']) as $results) {
+		?>
+		<div class="row">
+			<div class="col-9 col-md-6 text-primary"><?= $results['job_name']; ?></div>
+			<div class="col-9 col-md-2 text-primary"><?= $results['quote_num']; ?></div>
+			<div class="col-9 col-md-2 text-primary"><?= $results['order_num']; ?></div>
+			<div  class="col-2">
+				<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
+					<i class="fas fa-eye"></i>
+				</div>
+			</div>
+		</div>
+		<hr>
+		<?
+	}
+}
 
 if ($action=="installs_list") {
 

@@ -164,11 +164,11 @@ function job_hold() {
 //			setTimeout(function(){ statusSet(); }, 300);
 //			viewThisProject($pid, $uid);
 //		},
-//		error: function(xhr, status, error) {
-//			// alert("Error submitting form: " + xhr.responseText);
+//		error: function(data) {
+//			alert(data);
 //			successNote = "Error submitting form: "+xhr.responseText;
-//			$('#editSuccess').html(succesStarter+successNote+successEnder);
-//			document.getElementById('closeFocus').focus();
+//			
+//			
 //		}
 //	});
 //}
@@ -1268,11 +1268,11 @@ function loadEntries(){
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
 		},
-		error: function(xhr, status, error) {
-			// alert("Error submitting form: " + xhr.responseText);
-			successNote = "Error submitting form: ";
-			$('#editSuccess').html(succesStarter+successNote+successEnder);
-			document.getElementById('closeFocus').focus();
+		error: function(data) {
+			alert(data);
+			
+			
+			
 		}
 	});
 	setTimeout(loadEntries, 5000);
@@ -1288,11 +1288,25 @@ function loadTemplates(){
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
 		},
-		error: function(xhr, status, error) {
-			// alert("Error submitting form: " + xhr.responseText);
-			successNote = "Error submitting form: ";
-			$('#editSuccess').html(succesStarter+successNote+successEnder);
-			document.getElementById('closeFocus').focus();
+		error: function(data) {
+			alert(data);
+		}
+	});
+	//setTimeout(loadTemplates, 5000);
+}
+
+function loadProgramming(){
+	var datastring = "action=programming_list"
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			$('#tableResults').html('');
+			$('#tableResults').append(data);
+		},
+		error: function(data) {
+			alert(data);
 		}
 	});
 	//setTimeout(loadTemplates, 5000);
@@ -1309,11 +1323,8 @@ function loadInstalls(){
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
 		},
-		error: function(xhr, status, error) {
-			// alert("Error submitting form: " + xhr.responseText);
-			successNote = "Error submitting form: ";
-			$('#editSuccess').html(succesStarter+successNote+successEnder);
-			document.getElementById('closeFocus').focus();
+		error: function(data) {
+			alert(data);
 		}
 	});
 	//setTimeout(loadInstalls, 5000);
@@ -1331,11 +1342,11 @@ function loadTimelines() {
 		$('#tableResults').append(data);
 		$('[data-toggle=popover]').popover();
     },
-    error: function(xhr, status, error) {
-      // alert("Error submitting form: " + xhr.responseText);
-			successNote = "Error submitting form: ";
-			$('#editSuccess').html(succesStarter+successNote+successEnder);
-			document.getElementById('closeFocus').focus();  
+    error: function(data) {
+      alert(data);
+			
+			
+			  
     }
   });
 }
@@ -1451,11 +1462,11 @@ function sendQuoteData() {
 			success: function(data) {
 				$('#email-success').modal('show');
 			},
-			error: function(xhr, status, error) {
-				// alert("Error submitting form: " + xhr.responseText);
+			error: function(data) {
+				alert(data);
 				successNote = "Error submitting form: "+xhr.responseText;
-				$('#editSuccess').html(succesStarter+successNote+successEnder);
-				document.getElementById('closeFocus').focus();
+				
+				
 			}
 		});
 	}
@@ -1550,11 +1561,11 @@ function pullEditInst(instToEdit) {
 		success: function(data) {
 			compileInstEdit(data);
 		},
-		error: function(xhr, status, error) {
-			// alert("Error submitting form: " + xhr.responseText);
+		error: function(data) {
+			alert(data);
 			successNote = "Error submitting form: "+xhr.responseText;
-			$('#editSuccess').html(succesStarter+successNote+successEnder);
-			document.getElementById('closeFocus').focus();
+			
+			
 		}
 	});
 }
@@ -1744,11 +1755,11 @@ function pullEditPjt(pjtToEdit) {
 			console.log(data);
 			compilePjtEdit(data);
 		},
-		error: function(xhr, status, error) {
-			// alert("Error submitting form: " + xhr.responseText);
+		error: function(data) {
+			alert(data);
 			successNote = "Error submitting form: "+xhr.responseText;
-			$('#editSuccess').html(succesStarter+successNote+successEnder);
-			document.getElementById('closeFocus').focus();
+			
+			
 		}
 	});
 }
