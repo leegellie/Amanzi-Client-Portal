@@ -185,7 +185,7 @@ if ($action=="job_hold") {
 	$_POST['cmt_ref_id'] = $pid;
 	$_POST['cmt_type'] = 'pjt';
 	$_POST['cmt_user'] = $_SESSION['id'];
-	$_POST['cmt_comment'] = 'Project Placed on Hold - ' + $reason;
+	$_POST['cmt_comment'] = 'Project Placed on Hold - ' . $reason;
 	$_POST['cmt_priority'] = 911;
 
 	$log_project = new log_action;
