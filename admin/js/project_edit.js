@@ -17,11 +17,18 @@
 //	});
 //}
 
-function newInstall() {
-	$('#uploadInstall').empty();
-	$('#addInstall').modal('show');
-	addInstUpload();
+function newInstall($type) {
+	
+	console.log($(this).text(););
+	//$('#addInstall').modal('show');
+	//addInstUpload();
 }
+
+//function newInstall() {
+//	$('#uploadInstall').empty();
+//	$('#addInstall').modal('show');
+//	addInstUpload();
+//}
 
 function newInstallSuccess() {
 	$('#addInstall').modal('hide');
