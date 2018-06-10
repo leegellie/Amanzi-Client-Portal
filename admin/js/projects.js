@@ -116,7 +116,7 @@ function job_hold() {
 		data: datastring,
 		success: function(data) {
 			console.log(data);
-			Command: toastr["danger"]("Job placed on HOLD.", "Projects")
+			Command: toastr["error"]("Job placed on HOLD.", "Projects")
 			toastr.options = {
 				"closeButton": true,
 				"debug": false,
