@@ -5577,7 +5577,7 @@ if ($action=="view_selected_inst") {
 		$html .= '		<div id="pullPriceExtra" class="d-none">' . $results['price_extra'] . '</div>';
 		$html .= '	</div>';
 		$noProg = '';
-		if ($_SESSION['access_level'] > 4) {
+		if ($_SESSION['access_level'] > 3) {
 			$noProg = 'd-none';
 		}
 			
