@@ -19,7 +19,7 @@
 
 							<div class="row">
 								<fieldset class="form-group col-12 d-inline">
-									<input type="textarea" class="mdb-select form-control-lg" id="jh-hold_reason" name="hold_reason">
+									<input type="textarea" class="form-control-lg" id="jh-hold_reason" name="hold_reason">
 								</fieldset>
 							</div>
 
