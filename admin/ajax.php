@@ -4905,6 +4905,10 @@ if ($action=="view_selected_pjt") {
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',25)"><i class="fas fa-check"></i> Quote Approved</div>';
 				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',24)"><i class="fas fa-check"></i> Quote to Alter</div>';
 			}
+			if ($results['job_status'] == 24) {
+				$html .= $rejectSale;
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] .',' . $results['id'] . ',23)"><i class="fas fa-check"></i> Quote Submitted</div>';
+			}
 		}
 		//TEMPLATING
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4) {
