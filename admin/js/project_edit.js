@@ -25,12 +25,15 @@ function newInstall($install_room,$name) {
 		url: "ajax.php",
 		data: datastring,
 		success: function() {
+			console.log("success");
 			viewThisProject($pid,$uid);
 		},
 		error: function(data) {
+			console.log("fail");
 			alert(data);
 		},
 		complete: function() {
+			console.log("complete");
 			$('html, body').animate({
 				scrollTop: $("#pjtInstalls").offset().top
 			}, 1000);
