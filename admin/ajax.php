@@ -1684,9 +1684,10 @@ if ($action=="programming_list") {
 		?>
 		<hr>
 		<div class="row">
-			<div class="col-9 col-md-6 text-primary text-uppercase"><?= $results['job_name']; ?></div>
-			<div class="col-9 col-md-2 text-primary"><?= $results['quote_num']; ?></div>
-			<div class="col-9 col-md-2 text-primary"><?= $results['order_num']; ?></div>
+			<div class="col-md-2 text-primary"><?= $results['install_date']; ?></div>
+			<div class="col-md-5 text-primary text-uppercase"><?= $results['job_name']; ?></div>
+			<div class="col-md-2 text-primary"><?= $results['quote_num']; ?></div>
+			<div class="col-md-2 text-primary"><?= $results['order_num']; ?></div>
 			<div  class="col-2">
 				<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
 					<i class="fas fa-eye"></i>
@@ -1729,9 +1730,10 @@ if ($action=="cnc_list") {
 		?>
 		<hr>
 		<div class="row">
-			<div class="col-9 col-md-6 text-primary text-uppercase"><?= $results['job_name']; ?></div>
-			<div class="col-9 col-md-2 text-primary"><?= $results['quote_num']; ?></div>
-			<div class="col-9 col-md-2 text-primary"><?= $results['order_num']; ?></div>
+			<div class="col-md-2 text-primary"><?= $results['install_date']; ?></div>
+			<div class="col-md-5 text-primary text-uppercase"><?= $results['job_name']; ?></div>
+			<div class="col-md-2 text-primary"><?= $results['quote_num']; ?></div>
+			<div class="col-md-2 text-primary"><?= $results['order_num']; ?></div>
 			<div  class="col-2">
 				<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
 					<i class="fas fa-eye"></i>
@@ -1751,9 +1753,10 @@ if ($action=="polishing_list") {
 		?>
 		<hr>
 		<div class="row">
-			<div class="col-9 col-md-6 text-primary text-uppercase"><?= $results['job_name']; ?></div>
-			<div class="col-9 col-md-2 text-primary"><?= $results['quote_num']; ?></div>
-			<div class="col-9 col-md-2 text-primary"><?= $results['order_num']; ?></div>
+			<div class="col-md-2 text-primary"><?= $results['install_date']; ?></div>
+			<div class="col-md-5 text-primary text-uppercase"><?= $results['job_name']; ?></div>
+			<div class="col-md-2 text-primary"><?= $results['quote_num']; ?></div>
+			<div class="col-md-2 text-primary"><?= $results['order_num']; ?></div>
 			<div  class="col-2">
 				<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
 					<i class="fas fa-eye"></i>
