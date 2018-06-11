@@ -1695,7 +1695,7 @@ if ($action=="programming_list") {
 		}
 		$date = new DateTime($results['install_date']);
 		$date = $date->format('m/d');
-		?>" onClick="viewThisProject(this.id,<?= $results['uid']; ?>)">
+		?>" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
 			<div class="row">
 				<div class="col-md-2 text-white h5"><?= $date ?></div>
 				<div class="col-md-5 text-white h5 text-left"><?= $results['job_name']; ?></div>
