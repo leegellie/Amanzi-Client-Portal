@@ -1685,7 +1685,7 @@ if ($action=="programming_list") {
 		<hr>
 		<div class="w-100 btn <?
 		if ($results['job_status'] == 25 || $results['job_status'] == 30) {
-			?>btn-muted<?
+			?>btn-muted text-dark<?
 		} elseif ($results['job_status'] == 31) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 32) {
@@ -1717,7 +1717,7 @@ if ($action=="saw_list") {
 		<hr>
 		<div class="w-100 btn <?
 		if ($results['job_status'] == 44 || $results['job_status'] == 50) {
-			?>btn-muted<?
+			?>btn-muted text-dark<?
 		} elseif ($results['job_status'] == 51) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 52) {
@@ -1727,10 +1727,9 @@ if ($action=="saw_list") {
 		} elseif ($results['job_status'] == 59) {
 			?>btn-danger<?
 		}
-		$date = new DateTime($t['install_date']);
+		$date = new DateTime($results['install_date']);
 		$date = $date->format('m/d');
-
-		?>" onClick="viewThisProject(this.id,<?= $results['uid']; ?>)">
+		?>" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
 			<div class="row">
 				<div class="col-md-2 text-white h5"><?= $date ?></div>
 				<div class="col-md-5 text-white h5 text-left"><?= $results['job_name']; ?></div>
@@ -1752,7 +1751,7 @@ if ($action=="cnc_list") {
 		<hr>
 		<div class="w-100 btn <?
 		if ($results['job_status'] == 53 || $results['job_status'] == 60) {
-			?>btn-muted<?
+			?>btn-muted text-dark<?
 		} elseif ($results['job_status'] == 61) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 62) {
@@ -1762,10 +1761,9 @@ if ($action=="cnc_list") {
 		} elseif ($results['job_status'] == 69) {
 			?>btn-danger<?
 		}
-		$date = new DateTime($t['install_date']);
+		$date = new DateTime($results['install_date']);
 		$date = $date->format('m/d');
-
-		?>" onClick="viewThisProject(this.id,<?= $results['uid']; ?>)">
+		?>" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
 			<div class="row">
 				<div class="col-md-2 text-white h5"><?= $date ?></div>
 				<div class="col-md-5 text-white h5 text-left"><?= $results['job_name']; ?></div>
@@ -1787,7 +1785,7 @@ if ($action=="polishing_list") {
 		<hr>
 		<div class="w-100 btn <?
 		if ($results['job_status'] == 63 || $results['job_status'] == 70) {
-			?>btn-muted<?
+			?>btn-muted text-dark<?
 		} elseif ($results['job_status'] == 71) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 72) {
@@ -1797,10 +1795,9 @@ if ($action=="polishing_list") {
 		} elseif ($results['job_status'] == 79) {
 			?>btn-danger<?
 		}
-		$date = new DateTime($t['install_date']);
+		$date = new DateTime($results['install_date']);
 		$date = $date->format('m/d');
-
-		?>" onClick="viewThisProject(this.id,<?= $results['uid']; ?>)">
+		?>" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
 			<div class="row">
 				<div class="col-md-2 h5"><?= $date ?></div>
 				<div class="col-md-5 h5 text-left"><?= $results['job_name']; ?></div>
