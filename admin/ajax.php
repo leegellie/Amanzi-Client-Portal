@@ -1683,7 +1683,7 @@ if ($action=="programming_list") {
 	foreach($get_entries->get_programming($_SESSION['id']) as $results) {
 		?>
 		<hr>
-		<div class="w-100 row btn <?
+		<div class="w-100 btn <?
 		if ($results['job_status'] == 25 || $results['job_status'] == 30) {
 			?>btn-muted<?
 		} elseif ($results['job_status'] == 31) {
@@ -1694,13 +1694,15 @@ if ($action=="programming_list") {
 			?>btn-danger<?
 		}
 		?>">
-			<div class="col-md-2 text-primary"><?= $results['install_date']; ?></div>
-			<div class="col-md-5 text-primary text-uppercase"><?= $results['job_name']; ?></div>
-			<div class="col-md-2 text-primary"><?= $results['quote_num']; ?></div>
-			<div class="col-md-2 text-primary"><?= $results['order_num']; ?></div>
-			<div  class="col-md-1">
-				<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
-					<i class="fas fa-eye"></i>
+			<div class="row"></div>
+				<div class="col-md-2 text-white"><?= $results['install_date']; ?></div>
+				<div class="col-md-5 text-white text-uppercase"><?= $results['job_name']; ?></div>
+				<div class="col-md-2 text-white"><?= $results['quote_num']; ?></div>
+				<div class="col-md-2 text-white"><?= $results['order_num']; ?></div>
+				<div  class="col-md-1">
+					<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
+						<i class="fas fa-eye"></i>
+					</div>
 				</div>
 			</div>
 		</div>
