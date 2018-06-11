@@ -1683,7 +1683,17 @@ if ($action=="programming_list") {
 	foreach($get_entries->get_programming($_SESSION['id']) as $results) {
 		?>
 		<hr>
-		<div class="row">
+		<div class="row <?
+		if ($results['job_status'] == 25 || $results['job_status'] == 30) {
+			?>bg-muted<?
+		} elseif ($results['job_status'] == 31) {
+			?>bg-success<?
+		} elseif ($results['job_status'] == 32) {
+			?>bg-warning<?
+		} elseif ($results['job_status'] == 39) {
+			?>bg-danger<?
+		}
+		?>">
 			<div class="col-md-2 text-primary"><?= $results['install_date']; ?></div>
 			<div class="col-md-5 text-primary text-uppercase"><?= $results['job_name']; ?></div>
 			<div class="col-md-2 text-primary"><?= $results['quote_num']; ?></div>
