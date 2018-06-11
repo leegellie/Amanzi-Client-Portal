@@ -59,6 +59,7 @@ if ($access_level < 11) {
 	}
 ?>
 						<a class="dropdown-item text-dark" href="projects.php?templates">Templates</a>
+						<a class="dropdown-item text-dark" href="projects.php?programming">Programming</a>
 						<a class="dropdown-item text-dark" href="projects.php?saw">Saw</a>
 						<a class="dropdown-item text-dark" href="projects.php?cnc">CNC</a>
 						<a class="dropdown-item text-dark" href="projects.php?polishing">Polishing</a>
