@@ -1733,8 +1733,8 @@ if ($action=="saw_list") {
 			<div class="row">
 				<div class="col-md-1 h5">
 					<?
-		if((time()+(60*60*24)) < strtotime($results['install_date'])) {
-			echo "Hello";
+		if((time()+(60*60*24*4)) > strtotime($results['install_date'])) {
+			echo '<i class="fas fa-clock fa-pulse"></i>';
 		}
 					?>
 				</div>
