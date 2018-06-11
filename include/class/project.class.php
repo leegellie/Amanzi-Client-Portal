@@ -1419,6 +1419,7 @@ class project_action {
 			return $this->_message;
 		}
 	}
+
 	public function get_programming() {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
