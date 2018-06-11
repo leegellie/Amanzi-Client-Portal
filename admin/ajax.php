@@ -1697,6 +1697,13 @@ if ($action=="programming_list") {
 		$date = $date->format('m/d');
 		?>" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
 			<div class="row">
+				<div class="col-md-1 h5">
+					<?
+		if((time()+(60*60*24*5)) > strtotime($results['install_date'])) {
+			echo '<i class="fas fa-clock fa-pulse"></i>';
+		}
+					?>
+				</div>
 				<div class="col-md-2 h5"><?= $date ?></div>
 				<div class="col-md-5 h5 text-left"><?= $results['job_name']; ?></div>
 				<div class="col-md-2 h5"><?= $results['quote_num']; ?></div>
@@ -1772,6 +1779,13 @@ if ($action=="cnc_list") {
 		$date = $date->format('m/d');
 		?>" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
 			<div class="row">
+				<div class="col-md-1 h5">
+					<?
+		if((time()+(60*60*24*3)) > strtotime($results['install_date'])) {
+			echo '<i class="fas fa-clock fa-pulse"></i>';
+		}
+					?>
+				</div>
 				<div class="col-md-2 h5"><?= $date ?></div>
 				<div class="col-md-5 h5 text-left"><?= $results['job_name']; ?></div>
 				<div class="col-md-2 h5"><?= $results['quote_num']; ?></div>
@@ -1806,6 +1820,13 @@ if ($action=="polishing_list") {
 		$date = $date->format('m/d');
 		?>" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
 			<div class="row">
+				<div class="col-md-1 h5">
+					<?
+		if((time()+(60*60*24*2)) > strtotime($results['install_date'])) {
+			echo '<i class="fas fa-clock fa-pulse"></i>';
+		}
+					?>
+				</div>
 				<div class="col-md-2 h5"><?= $date ?></div>
 				<div class="col-md-5 h5 text-left"><?= $results['job_name']; ?></div>
 				<div class="col-md-2 h5"><?= $results['quote_num']; ?></div>
