@@ -1511,12 +1511,15 @@ class project_action {
 			SELECT 
 				projects.*, 
 				status.name AS status, 
-				install_teams.inst_team_name AS team 
+				install_teams.inst_team_name AS team,
+				users.access_level AS ual
 			FROM projects 
 			JOIN status 
 				ON status.id = projects.job_status 
 			JOIN install_teams 
 				ON install_teams.inst_team_id = projects.install_team 
+			 JOIN users 
+			   ON users.id = projects.uid 
 			WHERE 
 				install_date >= CURDATE() 
 			AND projects.isActive = 1

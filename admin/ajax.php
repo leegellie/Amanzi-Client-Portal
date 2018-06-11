@@ -1883,22 +1883,20 @@ if ($action=="installs_list") {
 			if ($results['install_date'] == $today){
 			?>
 			<div class="row">
-				<?
-				if ($results['install_team'] == 0) {
-					?>
-					<div class="col-9 col-md-1 text-muted">Unassigned</div>
-					<?
-				} else {
-					?>
-					<div class="col-9 col-md-1 text-primary"><?= $results['team']; ?></div>
-					<?
-				}
-				?>
-				<div class="col-9 col-md-1 text-danger"><? if ($results['first_stop'] == 1) { echo '1st Stop'; } elseif ($results['am'] == 1) { echo 'AM'; } elseif ($results['pm'] == 1) { echo 'PM'; } ?></div>
-				<div class="col-9 col-md-3 text-primary"><?= $results['job_name']; ?></div>
-				<div class="col-9 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-				<div class="col-9 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-				<div class="col-9 col-md-4 text-primary">
+
+
+					<div class="col-md-1">
+						<? if ( $results['ual'] == 11 ) { echo '<i class="fas fa-home text-primary"></i>'; } else { echo '<i class="fas fa-building text-succes"></i>'; }; ?>
+					</div>
+					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
+					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
+					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
+					<div class="col-md-3 text-primary">
+
+
+
 				<?
 					$address = '';
 					$address .= $results['address_1'];
