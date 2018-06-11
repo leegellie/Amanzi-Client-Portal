@@ -1287,6 +1287,7 @@ function loadTemplates() {
 		success: function(data) {
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
+			setTimeout(loadTemplates, 10000);
 		},
 		error: function(data) {
 			alert(data);
@@ -1302,10 +1303,9 @@ function loadProgramming() {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log("data: " + data);
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
-			setTimeout(loadProgramming, 5000);
+			setTimeout(loadProgramming, 2000);
 		},
 		error: function(data) {
 			alert(data);
@@ -1321,10 +1321,9 @@ function loadSaw() {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log("data: " + data);
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
-			setTimeout(loadSaw, 5000);
+			setTimeout(loadSaw, 2000);
 		},
 		error: function(data) {
 			alert(data);
@@ -1340,10 +1339,9 @@ function loadCNC() {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log("data: " + data);
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
-			setTimeout(loadCNC, 5000);
+			setTimeout(loadCNC, 2000);
 		},
 		error: function(data) {
 			alert(data);
@@ -1359,10 +1357,9 @@ function loadPolishing() {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log("data: " + data);
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
-			setTimeout(loadPolishing, 5000);
+			setTimeout(loadPolishing, 2000);
 		},
 		error: function(data) {
 			alert(data);
@@ -1380,6 +1377,7 @@ function loadInstalls() {
 		success: function(data) {
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
+			setTimeout(loadInstalls, 10000);
 		},
 		error: function(data) {
 			alert(data);
