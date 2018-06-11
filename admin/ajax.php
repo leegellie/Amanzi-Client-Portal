@@ -1682,6 +1682,7 @@ if ($action=="programming_list") {
 	$get_entries = new project_action;
 	foreach($get_entries->get_programming($_SESSION['id']) as $results) {
 		?>
+		<hr>
 		<div class="row">
 			<div class="col-9 col-md-6 text-primary"><?= $results['job_name']; ?></div>
 			<div class="col-9 col-md-2 text-primary"><?= $results['quote_num']; ?></div>
@@ -1692,7 +1693,6 @@ if ($action=="programming_list") {
 				</div>
 			</div>
 		</div>
-		<hr>
 		<?
 	}
 }
