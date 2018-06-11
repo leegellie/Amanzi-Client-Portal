@@ -1685,7 +1685,7 @@ if ($action=="programming_list") {
 		<hr>
 		<div class="w-100 btn <?
 		if ($results['job_status'] == 25 || $results['job_status'] == 30) {
-			?>btn-muted text-dark<?
+			?>btn-muted mdb-color lighten-5 text-dark<?
 		} elseif ($results['job_status'] == 31) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 32) {
@@ -1717,7 +1717,7 @@ if ($action=="saw_list") {
 		<hr>
 		<div class="w-100 btn <?
 		if ($results['job_status'] == 44 || $results['job_status'] == 50) {
-			?>btn-muted aqua-gradient lighten-3 text-dark<?
+			?>btn-muted mdb-color lighten-5 text-dark<?
 		} elseif ($results['job_status'] == 51) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 52) {
@@ -1751,7 +1751,7 @@ if ($action=="cnc_list") {
 		<hr>
 		<div class="w-100 btn <?
 		if ($results['job_status'] == 53 || $results['job_status'] == 60) {
-			?>btn-muted text-dark<?
+			?>btn-muted mdb-color lighten-5 text-dark<?
 		} elseif ($results['job_status'] == 61) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 62) {
@@ -1785,7 +1785,7 @@ if ($action=="polishing_list") {
 		<hr>
 		<div class="w-100 btn <?
 		if ($results['job_status'] == 63 || $results['job_status'] == 70) {
-			?>btn-muted text-dark<?
+			?>btn-muted mdb-color lighten-5 text-dark<?
 		} elseif ($results['job_status'] == 71) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 72) {
