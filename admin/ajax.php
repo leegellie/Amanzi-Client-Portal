@@ -1735,6 +1735,7 @@ if ($action=="saw_list") {
 				<div class="col-md-5 h5 text-left"><?= $results['job_name']; ?></div>
 				<div class="col-md-2 h5"><?= $results['quote_num']; ?></div>
 				<div class="col-md-2 h5"><?= $results['order_num']; ?></div>
+				<div class="col-md-1 h5"><?= $results['order_num']; ?></div>
 			</div>
 		</div>
 		<?
