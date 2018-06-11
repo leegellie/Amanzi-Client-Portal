@@ -1365,7 +1365,7 @@ class project_action {
 					status.name AS status, 
 					template_teams.temp_team_name AS team, 
 					template_teams.temp_user_id,
-					user.access_level
+					user.access_level AS ual
 			 FROM projects 
 			 JOIN status 
 			   ON status.id = projects.job_status 
