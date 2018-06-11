@@ -1693,11 +1693,11 @@ if ($action=="programming_list") {
 		} elseif ($results['job_status'] == 39) {
 			?>btn-danger<?
 		}
-		?>" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
-			<div class="col-md-2 text-white"><?= $results['install_date']; ?></div>
-			<div class="col-md-5 text-white"><?= $results['job_name']; ?></div>
-			<div class="col-md-2 text-white"><?= $results['quote_num']; ?></div>
-			<div class="col-md-2 text-white"><?= $results['order_num']; ?></div>
+		?>" onClick="viewThisProject(this.id,<?= $results['uid']; ?>)">
+			<div class="col-md-2 text-white h3"><?= $results['install_date']; ?></div>
+			<div class="col-md-5 text-white h3"><?= $results['job_name']; ?></div>
+			<div class="col-md-2 text-white h3"><?= $results['quote_num']; ?></div>
+			<div class="col-md-2 text-white h3"><?= $results['order_num']; ?></div>
 		</div>
 		<?
 	}
