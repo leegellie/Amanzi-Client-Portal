@@ -1305,6 +1305,7 @@ function loadProgramming() {
 			console.log("data: " + data);
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
+			setTimeout(loadProgramming, 5000);
 		},
 		error: function(data) {
 			alert(data);
@@ -1323,6 +1324,7 @@ function loadSaw() {
 			console.log("data: " + data);
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
+			setTimeout(loadSaw, 5000);
 		},
 		error: function(data) {
 			alert(data);
@@ -1341,6 +1343,7 @@ function loadCNC() {
 			console.log("data: " + data);
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
+			setTimeout(loadCNC, 5000);
 		},
 		error: function(data) {
 			alert(data);
@@ -1359,6 +1362,7 @@ function loadPolishing() {
 			console.log("data: " + data);
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
+			setTimeout(loadPolishing, 5000);
 		},
 		error: function(data) {
 			alert(data);
