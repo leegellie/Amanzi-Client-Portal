@@ -1350,13 +1350,6 @@ class project_action {
 
 	// SELECT PROJECT LIST BASED ON USER CRITERIA 
 	public function get_templates() {
-//		$user_info = new userData;
-//		$user_info->set_selection("*",$_SESSION['id']);
-//		$department = $user_info->get_results("department");
-//		$isManager = $user_info->get_results("isManager");
-//		$_SESSION["department"] = $department;
-//		$_SESSION["isManager"] = $isManager;
-
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
@@ -1372,11 +1365,8 @@ class project_action {
 				ON template_teams.temp_team_id = projects.template_team 
 			WHERE template_date >= CURDATE() 
 			  AND template_date < '2200-01-01' 
-			  AND projects.isActive = 1";
-//			if ($_SESSION["department"] == 9 && $_SESSION["isManager"] != 1) {
-//				$sql .= " AND template_teams.temp_user_id = " . $_SESSION["userid"];
-//			}
-			$sql .= " ORDER BY 
+			  AND projects.isActive = 1
+			ORDER BY 
 				team ASC, 
 				temp_first_stop DESC, 
 				temp_am DESC,
@@ -1390,6 +1380,7 @@ class project_action {
 			return $this->_message;
 		}
 	}
+
 	public function get_programming() {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
@@ -1405,6 +1396,123 @@ class project_action {
 			   AND job_status < 40
 			   AND NOT job_status = 26
 			   AND NOT job_status = 29
+			   AND projects.isActive = 1
+			 ORDER BY 
+				   install_date ASC, 
+				   first_stop DESC, 
+				   am DESC,
+				   pm ASC";
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}
+	}
+
+	public function get_programming() {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+			$sql = "
+			SELECT projects.*, 
+				   status.name AS status
+			  FROM projects 
+			  JOIN status 
+				ON status.id = projects.job_status 
+			 WHERE install_date < '2200-01-01' 
+			   AND job_status > 24
+			   AND job_status < 40
+			   AND NOT job_status = 26
+			   AND NOT job_status = 29
+			   AND projects.isActive = 1
+			 ORDER BY 
+				   install_date ASC, 
+				   first_stop DESC, 
+				   am DESC,
+				   pm ASC";
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}
+	}
+
+	public function get_saw() {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+			$sql = "
+			SELECT projects.*, 
+				   status.name AS status
+			  FROM projects 
+			  JOIN status 
+				ON status.id = projects.job_status 
+			 WHERE install_date < '2200-01-01' 
+			   AND job_status > 43
+			   AND job_status < 60
+			   AND NOT job_status = 49
+			   AND projects.isActive = 1
+			 ORDER BY 
+				   install_date ASC, 
+				   first_stop DESC, 
+				   am DESC,
+				   pm ASC";
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}
+	}
+
+	public function get_cnc() {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+			$sql = "
+			SELECT projects.*, 
+				   status.name AS status
+			  FROM projects 
+			  JOIN status 
+				ON status.id = projects.job_status 
+			 WHERE install_date < '2200-01-01' 
+			   AND job_status > 52
+			   AND job_status < 70
+			   AND NOT job_status = 59
+			   AND projects.isActive = 1
+			 ORDER BY 
+				   install_date ASC, 
+				   first_stop DESC, 
+				   am DESC,
+				   pm ASC";
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}
+	}
+
+	public function get_polishing() {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+			$sql = "
+			SELECT projects.*, 
+				   status.name AS status
+			  FROM projects 
+			  JOIN status 
+				ON status.id = projects.job_status 
+			 WHERE install_date < '2200-01-01' 
+			   AND job_status > 63
+			   AND job_status < 80
+			   AND NOT job_status = 79
 			   AND projects.isActive = 1
 			 ORDER BY 
 				   install_date ASC, 
