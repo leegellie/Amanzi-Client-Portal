@@ -1699,7 +1699,7 @@ if ($action=="programming_list") {
 		?>" onClick="viewThisProject(this.id,<?= $results['uid']; ?>)">
 			<div class="row">
 				<div class="col-md-2 text-white h5"><?= $date ?></div>
-				<div class="col-md-5 text-white h5"><?= $results['job_name']; ?></div>
+				<div class="col-md-5 text-white h5 text-left"><?= $results['job_name']; ?></div>
 				<div class="col-md-2 text-white h5"><?= $results['quote_num']; ?></div>
 				<div class="col-md-2 text-white h5"><?= $results['order_num']; ?></div>
 			</div>
@@ -1716,15 +1716,27 @@ if ($action=="saw_list") {
 	foreach($get_entries->get_saw($_SESSION['id']) as $results) {
 		?>
 		<hr>
-		<div class="row">
-			<div class="col-md-2 text-primary"><?= $results['install_date']; ?></div>
-			<div class="col-md-5 text-primary text-uppercase"><?= $results['job_name']; ?></div>
-			<div class="col-md-2 text-primary"><?= $results['quote_num']; ?></div>
-			<div class="col-md-2 text-primary"><?= $results['order_num']; ?></div>
-			<div  class="col-md-1">
-				<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
-					<i class="fas fa-eye"></i>
-				</div>
+		<div class="w-100 btn <?
+		if ($results['job_status'] == 44 || $results['job_status'] == 50) {
+			?>btn-muted<?
+		} elseif ($results['job_status'] == 51) {
+			?>btn-success<?
+		} elseif ($results['job_status'] == 52) {
+			?>btn-warning<?
+		} elseif ($results['job_status'] == 53) {
+			?>btn-success<?
+		} elseif ($results['job_status'] == 59) {
+			?>btn-danger<?
+		}
+		$date = new DateTime($t['install_date']);
+		$date = $date->format('m/d');
+
+		?>" onClick="viewThisProject(this.id,<?= $results['uid']; ?>)">
+			<div class="row">
+				<div class="col-md-2 text-white h5"><?= $date ?></div>
+				<div class="col-md-5 text-white h5 text-left"><?= $results['job_name']; ?></div>
+				<div class="col-md-2 text-white h5"><?= $results['quote_num']; ?></div>
+				<div class="col-md-2 text-white h5"><?= $results['order_num']; ?></div>
 			</div>
 		</div>
 		<?
@@ -1739,15 +1751,27 @@ if ($action=="cnc_list") {
 	foreach($get_entries->get_cnc($_SESSION['id']) as $results) {
 		?>
 		<hr>
-		<div class="row">
-			<div class="col-md-2 text-primary"><?= $results['install_date']; ?></div>
-			<div class="col-md-5 text-primary text-uppercase"><?= $results['job_name']; ?></div>
-			<div class="col-md-2 text-primary"><?= $results['quote_num']; ?></div>
-			<div class="col-md-2 text-primary"><?= $results['order_num']; ?></div>
-			<div  class="col-md-1">
-				<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
-					<i class="fas fa-eye"></i>
-				</div>
+		<div class="w-100 btn <?
+		if ($results['job_status'] == 53 || $results['job_status'] == 60) {
+			?>btn-muted<?
+		} elseif ($results['job_status'] == 61) {
+			?>btn-success<?
+		} elseif ($results['job_status'] == 62) {
+			?>btn-warning<?
+		} elseif ($results['job_status'] == 63) {
+			?>btn-success<?
+		} elseif ($results['job_status'] == 69) {
+			?>btn-danger<?
+		}
+		$date = new DateTime($t['install_date']);
+		$date = $date->format('m/d');
+
+		?>" onClick="viewThisProject(this.id,<?= $results['uid']; ?>)">
+			<div class="row">
+				<div class="col-md-2 text-white h5"><?= $date ?></div>
+				<div class="col-md-5 text-white h5 text-left"><?= $results['job_name']; ?></div>
+				<div class="col-md-2 text-white h5"><?= $results['quote_num']; ?></div>
+				<div class="col-md-2 text-white h5"><?= $results['order_num']; ?></div>
 			</div>
 		</div>
 		<?
@@ -1762,15 +1786,27 @@ if ($action=="polishing_list") {
 	foreach($get_entries->get_polishing($_SESSION['id']) as $results) {
 		?>
 		<hr>
-		<div class="row">
-			<div class="col-md-2 text-primary"><?= $results['install_date']; ?></div>
-			<div class="col-md-5 text-primary text-uppercase"><?= $results['job_name']; ?></div>
-			<div class="col-md-2 text-primary"><?= $results['quote_num']; ?></div>
-			<div class="col-md-2 text-primary"><?= $results['order_num']; ?></div>
-			<div  class="col-md-1">
-				<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
-					<i class="fas fa-eye"></i>
-				</div>
+		<div class="w-100 btn <?
+		if ($results['job_status'] == 63 || $results['job_status'] == 70) {
+			?>btn-muted<?
+		} elseif ($results['job_status'] == 71) {
+			?>btn-success<?
+		} elseif ($results['job_status'] == 72) {
+			?>btn-warning<?
+		} elseif ($results['job_status'] == 73) {
+			?>btn-success<?
+		} elseif ($results['job_status'] == 79) {
+			?>btn-danger<?
+		}
+		$date = new DateTime($t['install_date']);
+		$date = $date->format('m/d');
+
+		?>" onClick="viewThisProject(this.id,<?= $results['uid']; ?>)">
+			<div class="row">
+				<div class="col-md-2 text-white h5"><?= $date ?></div>
+				<div class="col-md-5 text-white h5 text-left"><?= $results['job_name']; ?></div>
+				<div class="col-md-2 text-white h5"><?= $results['quote_num']; ?></div>
+				<div class="col-md-2 text-white h5"><?= $results['order_num']; ?></div>
 			</div>
 		</div>
 		<?
