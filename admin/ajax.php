@@ -1683,7 +1683,7 @@ if ($action=="programming_list") {
 	foreach($get_entries->get_programming($_SESSION['id']) as $results) {
 		?>
 		<hr>
-		<div class="w-100 btn <?
+		<div class="container btn <?
 		if ($results['job_status'] == 25 || $results['job_status'] == 30) {
 			?>btn-muted<?
 		} elseif ($results['job_status'] == 31) {
