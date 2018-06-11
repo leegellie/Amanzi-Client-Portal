@@ -1693,11 +1693,14 @@ if ($action=="programming_list") {
 		} elseif ($results['job_status'] == 39) {
 			?>btn-danger<?
 		}
+		$date = new DateTime($t['install_date']);
+		$date = $date->format('m/d');
+
 		?>" onClick="viewThisProject(this.id,<?= $results['uid']; ?>)">
-			<div class="col-md-2 text-white h4"><?= $results['install_date']; ?></div>
-			<div class="col-md-5 text-white h4"><?= $results['job_name']; ?></div>
-			<div class="col-md-2 text-white h4"><?= $results['quote_num']; ?></div>
-			<div class="col-md-2 text-white h4"><?= $results['order_num']; ?></div>
+			<div class="col-md-2 text-white h5"><?= $date ?></div>
+			<div class="col-md-5 text-white h5"><?= $results['job_name']; ?></div>
+			<div class="col-md-2 text-white h5"><?= $results['quote_num']; ?></div>
+			<div class="col-md-2 text-white h5"><?= $results['order_num']; ?></div>
 		</div>
 		<?
 	}
