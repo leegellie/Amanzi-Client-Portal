@@ -1416,7 +1416,7 @@ if ($action=="templates_list") {
 						$address .= ', ' . $results['zip'];
 						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
 					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
+					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
 				</div>
 				<hr>
 				<?
@@ -1436,12 +1436,15 @@ if ($action=="templates_list") {
 			if ($results['template_date'] == $tomorrow){
 				?>
 				<div class="row">
-					<div class="col-9 col-md-1 <? if ( $results['template_team'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-9 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-9 col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-9 col-md-4 text-primary">
+					<div class="col-md-1">
+						<? if ( $results['ual'] == 11 ) { echo '<i class="fas fa-home text-primary"></i>'; } else { echo '<i class="fas fa-building text-succes"></i>'; }; ?>
+					</div>
+					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
+					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
+					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
+					<div class="col-md-3 text-primary">
 					<?
 						$address = '';
 						$address .= $results['address_1'];
@@ -1453,7 +1456,7 @@ if ($action=="templates_list") {
 						$address .= ', ' . $results['zip'];
 						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
 					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
+					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
 				</div>
 				<hr>
 				<?
@@ -1472,12 +1475,15 @@ if ($action=="templates_list") {
 			if ($results['template_date'] == $plus2){
 				?>
 				<div class="row">
-					<div class="col-9 col-md-1 <? if ( $results['template_team'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-9 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-9 col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-9 col-md-4 text-primary">
+					<div class="col-md-1">
+						<? if ( $results['ual'] == 11 ) { echo '<i class="fas fa-home text-primary"></i>'; } else { echo '<i class="fas fa-building text-succes"></i>'; }; ?>
+					</div>
+					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
+					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
+					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
+					<div class="col-md-3 text-primary">
 					<?
 						$address = '';
 						$address .= $results['address_1'];
@@ -1489,7 +1495,7 @@ if ($action=="templates_list") {
 						$address .= ', ' . $results['zip'];
 						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
 					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
+					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
 				</div>
 				<hr>
 				<?
@@ -1508,12 +1514,15 @@ if ($action=="templates_list") {
 			if ($results['template_date'] == $plus3){
 				?>
 				<div class="row">
-					<div class="col-9 col-md-1 <? if ( $results['template_team'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-9 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-9 col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-9 col-md-4 text-primary">
+					<div class="col-md-1">
+						<? if ( $results['ual'] == 11 ) { echo '<i class="fas fa-home text-primary"></i>'; } else { echo '<i class="fas fa-building text-succes"></i>'; }; ?>
+					</div>
+					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
+					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
+					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
+					<div class="col-md-3 text-primary">
 					<?
 						$address = '';
 						$address .= $results['address_1'];
@@ -1525,7 +1534,7 @@ if ($action=="templates_list") {
 						$address .= ', ' . $results['zip'];
 						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
 					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
+					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
 				</div>
 				<hr>
 				<?
@@ -1544,12 +1553,15 @@ if ($action=="templates_list") {
 			if ($results['template_date'] == $plus4){
 				?>
 				<div class="row">
-					<div class="col-9 col-md-1 <? if ( $results['template_team'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-9 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-9 col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-9 col-md-4 text-primary">
+					<div class="col-md-1">
+						<? if ( $results['ual'] == 11 ) { echo '<i class="fas fa-home text-primary"></i>'; } else { echo '<i class="fas fa-building text-succes"></i>'; }; ?>
+					</div>
+					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
+					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
+					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
+					<div class="col-md-3 text-primary">
 					<?
 						$address = '';
 						$address .= $results['address_1'];
@@ -1561,7 +1573,7 @@ if ($action=="templates_list") {
 						$address .= ', ' . $results['zip'];
 						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
 					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
+					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
 				</div>
 				<hr>
 				<?
@@ -1580,12 +1592,15 @@ if ($action=="templates_list") {
 			if ($results['template_date'] == $plus5){
 				?>
 				<div class="row">
-					<div class="col-9 col-md-1 <? if ( $results['template_team'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-9 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-9 col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-9 col-md-4 text-primary">
+					<div class="col-md-1">
+						<? if ( $results['ual'] == 11 ) { echo '<i class="fas fa-home text-primary"></i>'; } else { echo '<i class="fas fa-building text-succes"></i>'; }; ?>
+					</div>
+					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
+					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
+					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
+					<div class="col-md-3 text-primary">
 					<?
 						$address = '';
 						$address .= $results['address_1'];
@@ -1597,7 +1612,7 @@ if ($action=="templates_list") {
 						$address .= ', ' . $results['zip'];
 						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
 					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
+					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
 				</div>
 				<hr>
 				<?
@@ -1616,12 +1631,15 @@ if ($action=="templates_list") {
 			if ($results['template_date'] == $plus6){
 				?>
 				<div class="row">
-					<div class="col-9 col-md-1 <? if ( $results['template_team'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-9 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-9 col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-9 col-md-4 text-primary">
+					<div class="col-md-1">
+						<? if ( $results['ual'] == 11 ) { echo '<i class="fas fa-home text-primary"></i>'; } else { echo '<i class="fas fa-building text-succes"></i>'; }; ?>
+					</div>
+					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
+					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
+					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
+					<div class="col-md-3 text-primary">
 					<?
 						$address = '';
 						$address .= $results['address_1'];
@@ -1633,7 +1651,7 @@ if ($action=="templates_list") {
 						$address .= ', ' . $results['zip'];
 						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
 					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
+					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
 				</div>
 				<hr>
 				<?
@@ -1652,12 +1670,15 @@ if ($action=="templates_list") {
 			if ($results['template_date'] == $plus7){
 				?>
 				<div class="row">
-					<div class="col-9 col-md-1 <? if ( $results['template_team'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-9 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-9 col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-9 col-md-4 text-primary">
+					<div class="col-md-1">
+						<? if ( $results['ual'] == 11 ) { echo '<i class="fas fa-home text-primary"></i>'; } else { echo '<i class="fas fa-building text-succes"></i>'; }; ?>
+					</div>
+					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
+					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
+					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
+					<div class="col-md-3 text-primary">
 					<?
 						$address = '';
 						$address .= $results['address_1'];
@@ -1669,7 +1690,7 @@ if ($action=="templates_list") {
 						$address .= ', ' . $results['zip'];
 						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
 					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
+					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
 				</div>
 				<hr>
 				<?
