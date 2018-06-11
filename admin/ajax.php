@@ -4979,6 +4979,7 @@ if ($action=="view_selected_pjt") {
 	$ePjtCost = $getPjtCost -> sumPjtCost($pid);
 
 	$cList = '';
+	$lList = '';
 	$comments = new comment_action;
 	foreach($comments->get_comments($pid,$cmt_type) as $results) {
 		$dt = $results['timestamp'];
@@ -4990,6 +4991,11 @@ if ($action=="view_selected_pjt") {
 			$cList .= 'text-danger';
 		}	
 		$cList .= '">' . $stampy . ' - <span id="cmtUser">' . $results['fname'][0] . '. ' . $results['lname']  . '</span> - ' . $results['cmt_comment'] . '</div><hr>';
+		$lList .= '<div class="col-12 ';
+		if ($results['cmt_priority'] == "911") {
+			$lList .= 'text-danger';
+		}	
+		$lList .= '">' . $stampy . ' - <span id="cmtUser">' . $results['fname'][0] . '. ' . $results['lname']  . '</span> - ' . $results['cmt_comment'] . '</div><hr>';
 	}
 
 		//	$get_pjt_sqft = new project_action;
@@ -5525,15 +5531,32 @@ if ($action=="view_selected_pjt") {
 
 	// Comments Section
 
+
 	$cmt_user = "'" . $_SESSION['id'] . "'";
 	$html .= '	<div class="d-print-none">';
 	$html .= '		<h4 class="d-inline">Comments</h4><div id="makeCommentBtn" class="btn btn-primary d-inline ml-2 float-right" cmt_type="pjt" onClick="makeComment(this,' . $cmt_user . ');"><i class="fas fa-comment"></i></div>';
-	$html .= '		<hr>'; 
-	$html .= '		<div id="commentList" class="col-12">';
+
+	$html .= '		<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">';
+	$html .= '			<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_comments" role="tab">Overview</a></li>';
+	$html .= '			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_log" role="tab">Templates</a></li>';
+	$html .= '		</ul>';
+	$html .= '		<div class="tab-content px-0"><div class="tab-pane fade in show active" id="panel_comments" role="tabpanel">';
+	$html .= '			<hr>'; 
+	$html .= '			<div id="commentList" class="col-12">';
 	$html .= $cList;
+	$html .= '			</div>';
+	$html .= '			<hr>'; 
 	$html .= '		</div>';
-	$html .= '		<hr>'; 
+	$html .= '		<div class="tab-content px-0"><div class="tab-pane fade" id="panel_log" role="tabpanel">';
+	$html .= '			<hr>'; 
+	$html .= '			<div id="logList" class="col-12">';
+	$html .= $lList;
+	$html .= '			</div>';
+	$html .= '			<hr>'; 
+	$html .= '		</div>';
+
 	$html .= '	</div>';
+
 
 	// Attachment Section
 	$folderPath = base_dir . "job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/";
