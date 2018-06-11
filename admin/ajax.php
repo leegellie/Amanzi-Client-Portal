@@ -1699,8 +1699,8 @@ if ($action=="programming_list") {
 			<div class="row">
 				<div class="col-md-1 h5">
 					<?
-		if((time()+(60*60*24*5)) > strtotime($results['install_date'])) {
-			echo '<i class="fas fa-clock fa-pulse"></i>';
+		if((time()+(60*60*24*5)) > strtotime($results['install_date']) && $results['job_status'] <32) {
+			echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 		}
 					?>
 				</div>
@@ -1740,8 +1740,8 @@ if ($action=="saw_list") {
 			<div class="row">
 				<div class="col-md-1 h5">
 					<?
-		if((time()+(60*60*24*4)) > strtotime($results['install_date'])) {
-			echo '<i class="fas fa-clock fa-pulse"></i>';
+		if((time()+(60*60*24*4)) > strtotime($results['install_date']) && $results['job_status'] < 52) {
+			echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 		}
 					?>
 				</div>
@@ -1781,8 +1781,8 @@ if ($action=="cnc_list") {
 			<div class="row">
 				<div class="col-md-1 h5">
 					<?
-		if((time()+(60*60*24*3)) > strtotime($results['install_date'])) {
-			echo '<i class="fas fa-clock fa-pulse"></i>';
+		if((time()+(60*60*24*3)) > strtotime($results['install_date']) && $results['job_status'] < 62) {
+			echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 		}
 					?>
 				</div>
@@ -1822,8 +1822,8 @@ if ($action=="polishing_list") {
 			<div class="row">
 				<div class="col-md-1 h5">
 					<?
-		if((time()+(60*60*24*2)) > strtotime($results['install_date'])) {
-			echo '<i class="fas fa-clock fa-pulse"></i>';
+		if((time()+(60*60*24*2)) > strtotime($results['install_date']) && $results['job_status'] < 72) {
+			echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 		}
 					?>
 				</div>
