@@ -1364,24 +1364,24 @@ class project_action {
 			SELECT 	projects.*, 
 					status.name AS status, 
 					template_teams.temp_team_name AS team, 
-					template_teams.temp_user_id
-			FROM projects 
-			JOIN status 
-				ON status.id = projects.job_status 
-			JOIN template_teams 
-				ON template_teams.temp_team_id = projects.template_team 
+					template_teams.temp_user_id,
+					user.access_level
+			 FROM projects 
+			 JOIN status 
+			   ON status.id = projects.job_status 
+			 JOIN template_teams 
+			   ON template_teams.temp_team_id = projects.template_team 
+			 JOIN users 
+			   ON users.id = projects.uid 
 			WHERE template_date >= CURDATE() 
 			  AND template_date < '2200-01-01' 
-			  AND projects.isActive = 1";
-//			if ($_SESSION["department"] == 9 && $_SESSION["isManager"] != 1) {
-//				$sql .= " AND template_teams.temp_user_id = " . $_SESSION["userid"];
-//			}
-			$sql .= " ORDER BY 
-				team ASC, 
-				temp_first_stop DESC, 
-				temp_am DESC,
-				temp_pm ASC,
-				zip ASC";
+			  AND projects.isActive = 1
+			ORDER BY 
+				  team ASC, 
+				  temp_first_stop DESC, 
+				  temp_am DESC,
+				  temp_pm ASC,
+				  zip ASC";
 			$q = $conn->prepare($sql);
 			$q->execute();
 			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
