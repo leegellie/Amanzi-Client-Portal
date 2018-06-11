@@ -1813,8 +1813,6 @@ if ($action=="polishing_list") {
 	}
 }
 
-
-
 if ($action=="installs_list") {
 
 	function getWeekday($date) {
