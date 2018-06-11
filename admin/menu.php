@@ -59,8 +59,11 @@ if ($access_level < 11) {
 	}
 ?>
 						<a class="dropdown-item text-dark" href="projects.php?templates">Templates</a>
+						<a class="dropdown-item text-dark" href="projects.php?saw">Saw</a>
+						<a class="dropdown-item text-dark" href="projects.php?cnc">CNC</a>
+						<a class="dropdown-item text-dark" href="projects.php?polishing">Polishing</a>
 						<a class="dropdown-item text-dark" href="projects.php?installs">Installs</a>
-            <a class="dropdown-item text-dark" href="projects.php?timeline">Timeline</a>
+						<a class="dropdown-item text-dark" href="projects.php?timeline">Timeline</a>
 						<!--<a class="dropdown-item text-dark" onclick="$('#qr_scanner').modal('show')">QR Test</a>-->
 					</div>
 				</li>
