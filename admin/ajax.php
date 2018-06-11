@@ -1683,7 +1683,7 @@ if ($action=="programming_list") {
 	foreach($get_entries->get_programming($_SESSION['id']) as $results) {
 		?>
 		<hr>
-		<div class="container btn <?
+		<div class="row btn <?
 		if ($results['job_status'] == 25 || $results['job_status'] == 30) {
 			?>btn-muted<?
 		} elseif ($results['job_status'] == 31) {
@@ -1693,13 +1693,11 @@ if ($action=="programming_list") {
 		} elseif ($results['job_status'] == 39) {
 			?>btn-danger<?
 		}
-		?>">
-			<div class="row" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"></div>
-				<div class="col-md-2 text-white"><?= $results['install_date']; ?></div>
-				<div class="col-md-5 text-white text-uppercase"><?= $results['job_name']; ?></div>
-				<div class="col-md-2 text-white"><?= $results['quote_num']; ?></div>
-				<div class="col-md-2 text-white"><?= $results['order_num']; ?></div>
-			</div>
+		?>" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
+			<div class="col-md-2 text-white"><?= $results['install_date']; ?></div>
+			<div class="col-md-5 text-white"><?= $results['job_name']; ?></div>
+			<div class="col-md-2 text-white"><?= $results['quote_num']; ?></div>
+			<div class="col-md-2 text-white"><?= $results['order_num']; ?></div>
 		</div>
 		<?
 	}
