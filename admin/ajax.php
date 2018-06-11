@@ -1689,7 +1689,7 @@ if ($action=="programming_list") {
 		} elseif ($results['job_status'] == 31) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 32) {
-			?>btn-warning<?
+			?>peach-gradient<?
 		} elseif ($results['job_status'] == 39) {
 			?>btn-danger<?
 		}
@@ -1728,7 +1728,7 @@ if ($action=="saw_list") {
 		} elseif ($results['job_status'] == 51) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 52) {
-			?>btn-warning<?
+			?>peach-gradient<?
 		} elseif ($results['job_status'] == 53) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 59) {
@@ -1769,7 +1769,7 @@ if ($action=="cnc_list") {
 		} elseif ($results['job_status'] == 61) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 62) {
-			?>btn-warning<?
+			?>peach-gradient<?
 		} elseif ($results['job_status'] == 63) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 69) {
@@ -1810,7 +1810,7 @@ if ($action=="polishing_list") {
 		} elseif ($results['job_status'] == 71) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 72) {
-			?>btn-warning<?
+			?>peach-gradient<?
 		} elseif ($results['job_status'] == 73) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 79) {
