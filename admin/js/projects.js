@@ -1287,13 +1287,12 @@ function loadTemplates() {
 		success: function(data) {
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
-			setTimeout(loadTemplates, 10000);
 		},
 		error: function(data) {
 			alert(data);
 		}
 	});
-	//setTimeout(loadTemplates, 5000);
+	setTimeout(loadTemplates, 5000);
 }
 
 function loadProgramming() {
@@ -1305,13 +1304,12 @@ function loadProgramming() {
 		success: function(data) {
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
-			//setTimeout(loadProgramming, 2000);
 		},
 		error: function(data) {
 			alert(data);
 		}
 	});
-	//setTimeout(loadTemplates, 5000);
+	setTimeout(loadProgramming, 5000);
 }
 
 function loadSaw() {
@@ -1323,13 +1321,12 @@ function loadSaw() {
 		success: function(data) {
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
-			setTimeout(loadSaw, 2000);
 		},
 		error: function(data) {
 			alert(data);
 		}
 	});
-	//setTimeout(loadTemplates, 5000);
+	setTimeout(loadSaw, 2000);
 }
 
 function loadCNC() {
@@ -1341,13 +1338,12 @@ function loadCNC() {
 		success: function(data) {
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
-			setTimeout(loadCNC, 2000);
 		},
 		error: function(data) {
 			alert(data);
 		}
 	});
-	//setTimeout(loadTemplates, 5000);
+	setTimeout(loadCNC, 2000);
 }
 
 function loadPolishing() {
@@ -1359,15 +1355,13 @@ function loadPolishing() {
 		success: function(data) {
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
-			setTimeout(loadPolishing, 2000);
 		},
 		error: function(data) {
 			alert(data);
 		}
 	});
-	//setTimeout(loadTemplates, 5000);
+	setTimeout(loadPolishing, 2000);
 }
-
 function loadInstalls() {
 	var datastring = "action=installs_list"
 	$.ajax({
