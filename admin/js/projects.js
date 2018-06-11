@@ -1135,7 +1135,7 @@ function edit_piece(ipid) {
 function compile_piece_edit(data) {
 	$('.mdb-select').material_select('destroy');
 	$('#piece_title').text('Edit Piece');
-	var res = data.split(",");
+	var res = data.split("||");
 	var obj = {};
 	for (var i = 0; i < res.length; i++) {
 		var split = res[i].split('::');
@@ -1630,7 +1630,7 @@ function compileInstEdit(data) {
 	if ($('#p-q_discount').val() == '') {
 		$('#p-q_discount').val(0);
 	}
-	var res = data.split(",");
+	var res = data.split("||");
 	var obj = {};
 	for (var i = 0; i < res.length; i++) {
 		var split = res[i].split('::');
@@ -1685,7 +1685,7 @@ function compileInstEdit(data) {
 
 function compilePjtEdit(data) {
 	$('.mdb-select').material_select('destroy');
-	var res = data.split(",");
+	var res = data.split("||");
 	var obj = {};
 	for (var i = 0; i < res.length; i++) {
 		var split = res[i].split('::');

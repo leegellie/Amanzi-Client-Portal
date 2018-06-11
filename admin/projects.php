@@ -43,6 +43,7 @@ foreach($tmp as $type => $labels){
 	);
 }
 
+
 //Get the projects by install date
 
 $q = $conn->prepare("SELECT * FROM projects 
@@ -198,36 +199,36 @@ USER'S EMAIL = <?= $user_email ?>
 	<script src="js/pikaday.js"></script>
 	<script src="js/pikaday.jquery.js"></script>
 	<script>
-		var res = `<?php echo json_encode($output); ?>`; //for the template_date 
-		var resforinstall = `<?php echo json_encode($outputforinstall); ?>`; //for the install_date 
+		var res = <?= json_encode($output); ?>; //for the template_date 
+		var resforinstall = <?= json_encode($outputforinstall); ?>; //for the install_date 
 		var holi = '<?php echo json_encode($holidays); ?>';
 		var currently_sqft = '<?php echo $limitinfo[0]['install_sqft']; ?>';
 		var template_num = '<?php echo $limitinfo[0]['templates_number']; ?>';
 		var access_level = '<?php echo $_SESSION['access_level']; ?>';
 		var session_id = '<?php echo $_SESSION['id']; ?>';
 		console.log("session id",session_id);
-		res = res.replace(/\\n/g, "\\n")  
-			.replace(/\\'/g, "\\'")
-			.replace(/\\"/g, '\\"')
-			.replace(/\\&/g, "\\&")
-			.replace(/\\r/g, "\\r")
-			.replace(/\\t/g, "\\t")
-			.replace(/\\b/g, "\\b")
-			.replace(/\\f/g, "\\f");
+// 		res = res.replace(/\\n/g, "\\n")  
+// 			.replace(/\\'/g, "\\'")
+// 			.replace(/\\"/g, '\\"')
+// 			.replace(/\\&/g, "\\&")
+// 			.replace(/\\r/g, "\\r")
+// 			.replace(/\\t/g, "\\t")
+// 			.replace(/\\b/g, "\\b")
+// 			.replace(/\\f/g, "\\f");
 		// remove non-printable and other non-valid JSON chars
-		res = res.replace(/[\u0000-\u0019]+/g,"");
-		resforinstall = resforinstall.replace(/\\n/g, "\\n")  
-			.replace(/\\'/g, "\\'")
-			.replace(/\\"/g, '\\"')
-			.replace(/\\&/g, "\\&")
-			.replace(/\\r/g, "\\r")
-			.replace(/\\t/g, "\\t")
-			.replace(/\\b/g, "\\b")
-			.replace(/\\f/g, "\\f");
-		// remove non-printable and other non-valid JSON chars
-		resforinstall = resforinstall.replace(/[\u0000-\u0019]+/g,"");
-		var obj = jQuery.parseJSON(res);
-		var insobj = jQuery.parseJSON(resforinstall);
+// 		res = res.replace(/[\u0000-\u0019]+/g,"");
+// 		resforinstall = resforinstall.replace(/\\n/g, "\\n")  
+// 			.replace(/\\'/g, "\\'")
+// 			.replace(/\\"/g, '\\"')
+// 			.replace(/\\&/g, "\\&")
+// 			.replace(/\\r/g, "\\r")
+// 			.replace(/\\t/g, "\\t")
+// 			.replace(/\\b/g, "\\b")
+// 			.replace(/\\f/g, "\\f");
+// 		// remove non-printable and other non-valid JSON chars
+// 		resforinstall = resforinstall.replace(/[\u0000-\u0019]+/g,"");
+// 		var obj = jQuery.parseJSON(res);
+// 		var insobj = jQuery.parseJSON(resforinstall);
 		//console.log(res);
 		var holidays = jQuery.parseJSON(holi);
 		// for template date
@@ -281,7 +282,7 @@ USER'S EMAIL = <?= $user_email ?>
 				//console.log(curdate,"-----", jday);          
 				var flag = false;
 				if(jday == 0 || jday == 6) flag = true;
-				$.each(obj, function(key, value){
+				$.each(res, function(key, value){
 					if(value['template_date'] == curdate){
 						var jobs_num = value['detail'].length;
 						if (jobs_num >= template_num){
@@ -378,7 +379,7 @@ USER'S EMAIL = <?= $user_email ?>
 				if(jday == 0 || jday == 6) flag = true;
 				//           if((access_level != 1 || access_level != 14 ) && st_d < _cur_day + 7 ) flag = true;
 				if(!(session_id == 1 || session_id == 14 || session_id == 985  ) && st_d < _cur_day + 7 ) flag = true;
-				$.each(insobj, function(key, value){
+				$.each(resforinstall, function(key, value){
 					if(value['install_date'] == curdate){
 						var sum_sqft = 0;
 						$.each(value['detail'], function(k,v){

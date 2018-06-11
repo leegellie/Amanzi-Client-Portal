@@ -4090,27 +4090,27 @@ if ($action=="get_piece_for_edit") {
 
 	$array = $get_piece_data->get_piece_data($_POST);
 	foreach($array as $result) {
-		$return_string .= 'piece_id::' . $result['piece_id'] . ',';
-		$return_string .= 'iid::' . $result['iid'] . ',';
-		$return_string .= 'pid::' . $result['pid'] . ',';
-		$return_string .= 'piece_name::' . $result['piece_name'] . ',';
-		$return_string .= 'shape::' . $result['shape'] . ',';
-		$return_string .= 'size_a::' . $result['size_a'] . ',';
-		$return_string .= 'size_b::' . $result['size_b'] . ',';
-		$return_string .= 'size_c::' . $result['size_c'] . ',';
-		$return_string .= 'size_d::' . $result['size_d'] . ',';
-		$return_string .= 'size_e::' . $result['size_e'] . ',';
-		$return_string .= 'size_f::' . $result['size_f'] . ',';
-		$return_string .= 'piece_edge::' . $result['piece_edge'] . ',';
-		$return_string .= 'edge_length::' . $result['edge_length'] . ',';
-		$return_string .= 'bs_height::' . $result['bs_height'] . ',';
-		$return_string .= 'bs_length::' . $result['bs_length'] . ',';
-		$return_string .= 'rs_height::' . $result['rs_height'] . ',';
-		$return_string .= 'rs_length::' . $result['rs_length'] . ',';
-		$return_string .= 'piece_active::' . $result['piece_active'] . ',';
+		$return_string .= 'piece_id::' . $result['piece_id'] . '||';
+		$return_string .= 'iid::' . $result['iid'] . '||';
+		$return_string .= 'pid::' . $result['pid'] . '||';
+		$return_string .= 'piece_name::' . $result['piece_name'] . '||';
+		$return_string .= 'shape::' . $result['shape'] . '||';
+		$return_string .= 'size_a::' . $result['size_a'] . '||';
+		$return_string .= 'size_b::' . $result['size_b'] . '||';
+		$return_string .= 'size_c::' . $result['size_c'] . '||';
+		$return_string .= 'size_d::' . $result['size_d'] . '||';
+		$return_string .= 'size_e::' . $result['size_e'] . '||';
+		$return_string .= 'size_f::' . $result['size_f'] . '||';
+		$return_string .= 'piece_edge::' . $result['piece_edge'] . '||';
+		$return_string .= 'edge_length::' . $result['edge_length'] . '||';
+		$return_string .= 'bs_height::' . $result['bs_height'] . '||';
+		$return_string .= 'bs_length::' . $result['bs_length'] . '||';
+		$return_string .= 'rs_height::' . $result['rs_height'] . '||';
+		$return_string .= 'rs_length::' . $result['rs_length'] . '||';
+		$return_string .= 'piece_active::' . $result['piece_active'] . '||';
 		$return_string .= 'SqFt::' . $result['SqFt'];
 	}
-	echo rtrim($return_string, ",");
+	echo rtrim($return_string, "||");
 
 	
 
@@ -4864,47 +4864,47 @@ if ($action=="get_pjt_for_update") {
 
 	$array = $pjt_data->project_edit_data($_POST['id']);
 	foreach($array as $result) {
-		$return_string .= 'id::' . $result['id'] . ',';
-		$return_string .= 'uid::' . $result['uid'] . ',';
-		$return_string .= 'job_name::' . $result['job_name'] . ',';
-		$return_string .= 'quote_num::' . $result['quote_num'] . ',';
-		$return_string .= 'order_num::' . $result['order_num'] . ',';
-		$return_string .= 'install_date::' . $result['install_date'] . ',';
-		$return_string .= 'template_date::' . $result['template_date'] . ',';
-		$return_string .= 'po_cost::' . $result['po_cost'] . ',';
-		$return_string .= 'po_num::' . $result['po_num'] . ',';
-		$return_string .= 'acct_rep::' . $result['acct_rep'] . ',';
-		$return_string .= 'builder::' . $result['builder'] . ',';
-		$return_string .= 'address1::' . $result['address_1'] . ',';
-		$return_string .= 'address2::' . $result['address_2'] . ',';
-		$return_string .= 'city::' . $result['city'] . ',';
-		$return_string .= 'state::' . $result['state'] . ',';
-		$return_string .= 'zip::' . $result['zip'] . ',';
-		$return_string .= 'contact_name::' . $result['contact_name'] . ',';
-		$return_string .= 'contact_number::' . $result['contact_number'] . ',';
-		$return_string .= 'contact_email::' . $result['contact_email'] . ',';
-		$return_string .= 'alternate_name::' . $result['alternate_name'] . ',';
-		$return_string .= 'alternate_number::' . $result['alternate_number'] . ',';
-		$return_string .= 'alternate_email::' . $result['alternate_email'] . ',';
-		$return_string .= 'job_notes::' . $result['job_notes'] . ',';
-		$return_string .= 'job_status::' . $result['job_status'] . ',';
-		$return_string .= 'job_discount::' . $result['job_discount'] . ',';
-		$return_string .= 'urgent::' . $result['urgent'] . ',';
-		$return_string .= 'job_tax::' . $result['job_tax'] . ',';
-		$return_string .= 'tax_free::' . $result['tax_free'] . ',';
-		$return_string .= 'am::' . $result['am'] . ',';
-		$return_string .= 'first_stop::' . $result['first_stop'] . ',';
-		$return_string .= 'pm::' . $result['pm'] . ',';
-		$return_string .= 'temp_am::' . $result['temp_am'] . ',';
-		$return_string .= 'temp_first_stop::' . $result['temp_first_stop'] . ',';
-		$return_string .= 'temp_pm::' . $result['temp_pm'] . ',';
-    	$return_string .= 'job_lat::' . $result['job_lat'] . ',';
-    	$return_string .= 'job_long::' . $result['job_long'] . ',';
-    	$return_string .= 'job_sqft::' . $result['job_sqft'] . ',';
+		$return_string .= 'id::' . $result['id'] . '||';
+		$return_string .= 'uid::' . $result['uid'] . '||';
+		$return_string .= 'job_name::' . $result['job_name'] . '||';
+		$return_string .= 'quote_num::' . $result['quote_num'] . '||';
+		$return_string .= 'order_num::' . $result['order_num'] . '||';
+		$return_string .= 'install_date::' . $result['install_date'] . '||';
+		$return_string .= 'template_date::' . $result['template_date'] . '||';
+		$return_string .= 'po_cost::' . $result['po_cost'] . '||';
+		$return_string .= 'po_num::' . $result['po_num'] . '||';
+		$return_string .= 'acct_rep::' . $result['acct_rep'] . '||';
+		$return_string .= 'builder::' . $result['builder'] . '||';
+		$return_string .= 'address1::' . $result['address_1'] . '||';
+		$return_string .= 'address2::' . $result['address_2'] . '||';
+		$return_string .= 'city::' . $result['city'] . '||';
+		$return_string .= 'state::' . $result['state'] . '||';
+		$return_string .= 'zip::' . $result['zip'] . '||';
+		$return_string .= 'contact_name::' . $result['contact_name'] . '||';
+		$return_string .= 'contact_number::' . $result['contact_number'] . '||';
+		$return_string .= 'contact_email::' . $result['contact_email'] . '||';
+		$return_string .= 'alternate_name::' . $result['alternate_name'] . '||';
+		$return_string .= 'alternate_number::' . $result['alternate_number'] . '||';
+		$return_string .= 'alternate_email::' . $result['alternate_email'] . '||';
+		$return_string .= 'job_notes::' . $result['job_notes'] . '||';
+		$return_string .= 'job_status::' . $result['job_status'] . '||';
+		$return_string .= 'job_discount::' . $result['job_discount'] . '||';
+		$return_string .= 'urgent::' . $result['urgent'] . '||';
+		$return_string .= 'job_tax::' . $result['job_tax'] . '||';
+		$return_string .= 'tax_free::' . $result['tax_free'] . '||';
+		$return_string .= 'am::' . $result['am'] . '||';
+		$return_string .= 'first_stop::' . $result['first_stop'] . '||';
+		$return_string .= 'pm::' . $result['pm'] . '||';
+		$return_string .= 'temp_am::' . $result['temp_am'] . '||';
+		$return_string .= 'temp_first_stop::' . $result['temp_first_stop'] . '||';
+		$return_string .= 'temp_pm::' . $result['temp_pm'] . '||';
+    	$return_string .= 'job_lat::' . $result['job_lat'] . '||';
+    	$return_string .= 'job_long::' . $result['job_long'] . '||';
+    	$return_string .= 'job_sqft::' . $result['job_sqft'] . '||';
 		$return_string .= 'isActive::' . $result['isActive'];
     
 	}
-	echo rtrim($return_string, ",");
+	echo rtrim($return_string, "||");
 }
 
 // DISPLAY INSTALL DETAILS TO BE EDITED RETURN ARRAY
@@ -4916,44 +4916,44 @@ if ($action=="get_inst_for_update") {
 	$array = $pjt_data->install_edit_data($_POST['id']);
 	foreach($array as $result) {
 
-		$return_string = 'id::' . $result['id'] . ',';
-		$return_string .= 'pid::' . $result['pid'] . ',';
-		$return_string .= 'install_name::' . $result['install_name'] . ',';
-		$return_string .= 'type::' . $result['type'] . ',';
-		$return_string .= 'remodel::' . $result['remodel'] . ',';
-		$return_string .= 'tear_out::' . $result['tear_out'] . ',';
-		$return_string .= 'material::' . $result['material'] . ',';
-		$return_string .= 'color::' . $result['color'] . ',';
-		$return_string .= 'lot::' . $result['lot'] . ',';
-		$return_string .= 'selected::' . $result['selected'] . ',';
-		$return_string .= 'edge::' . $result['edge'] . ',';
-		$return_string .= 'backsplash::' . $result['backsplash'] . ',';
-		$return_string .= 'bs_detail::' . $result['bs_detail'] . ',';
-		$return_string .= 'riser::' . $result['riser'] . ',';
-		$return_string .= 'rs_detail::' . $result['rs_detail'] . ',';
-		$return_string .= 'sink::' . $result['sink'] . ',';
-		$return_string .= 'sk_detail::' . $result['sk_detail'] . ',';
-		$return_string .= 'range_type::' . $result['range_type'] . ',';
-		$return_string .= 'cutout::' . $result['cutout'] . ',';
-		$return_string .= 'range_model::' . $result['range_model'] . ',';
-		$return_string .= 'holes::' . $result['holes'] . ',';
-		$return_string .= 'holes_other::' . $result['holes_other'] . ',';
-		$return_string .= 'install_notes::' . $result['install_notes'] . ',';
-		$return_string .= 'status::' . $result['status'] . ',';
-		$return_string .= 'installer_id::' . $result['installer_id'] . ',';
-		$return_string .= 'install_diff::' . $result['install_diff'] . ',';
-		$return_string .= 'SqFt::' . $result['SqFt'] . ',';
-		$return_string .= 'edge_inches::' . $result['edge_inches'] . ',';
-		$return_string .= 'price_extra::' . $result['price_extra'] . ',';
-		$return_string .= 'accs_prices::' . $result['accs_prices'] . ',';
-		$return_string .= 'price_calc::' . $result['price_calc'] . ',';
-		$return_string .= 'install_room::' . $result['install_room'] . ',';
-		$return_string .= 'slabs::' . $result['slabs'] . ',';
-		$return_string .= 'cpSqFt_override::' . $result['cpSqFt_override'] . ',';
-		$return_string .= 'tearout_sqft::' . $result['tearout_sqft'] . ',';
+		$return_string = 'id::' . $result['id'] . '||';
+		$return_string .= 'pid::' . $result['pid'] . '||';
+		$return_string .= 'install_name::' . $result['install_name'] . '||';
+		$return_string .= 'type::' . $result['type'] . '||';
+		$return_string .= 'remodel::' . $result['remodel'] . '||';
+		$return_string .= 'tear_out::' . $result['tear_out'] . '||';
+		$return_string .= 'material::' . $result['material'] . '||';
+		$return_string .= 'color::' . $result['color'] . '||';
+		$return_string .= 'lot::' . $result['lot'] . '||';
+		$return_string .= 'selected::' . $result['selected'] . '||';
+		$return_string .= 'edge::' . $result['edge'] . '||';
+		$return_string .= 'backsplash::' . $result['backsplash'] . '||';
+		$return_string .= 'bs_detail::' . $result['bs_detail'] . '||';
+		$return_string .= 'riser::' . $result['riser'] . '||';
+		$return_string .= 'rs_detail::' . $result['rs_detail'] . '||';
+		$return_string .= 'sink::' . $result['sink'] . '||';
+		$return_string .= 'sk_detail::' . $result['sk_detail'] . '||';
+		$return_string .= 'range_type::' . $result['range_type'] . '||';
+		$return_string .= 'cutout::' . $result['cutout'] . '||';
+		$return_string .= 'range_model::' . $result['range_model'] . '||';
+		$return_string .= 'holes::' . $result['holes'] . '||';
+		$return_string .= 'holes_other::' . $result['holes_other'] . '||';
+		$return_string .= 'install_notes::' . $result['install_notes'] . '||';
+		$return_string .= 'status::' . $result['status'] . '||';
+		$return_string .= 'installer_id::' . $result['installer_id'] . '||';
+		$return_string .= 'install_diff::' . $result['install_diff'] . '||';
+		$return_string .= 'SqFt::' . $result['SqFt'] . '||';
+		$return_string .= 'edge_inches::' . $result['edge_inches'] . '||';
+		$return_string .= 'price_extra::' . $result['price_extra'] . '||';
+		$return_string .= 'accs_prices::' . $result['accs_prices'] . '||';
+		$return_string .= 'price_calc::' . $result['price_calc'] . '||';
+		$return_string .= 'install_room::' . $result['install_room'] . '||';
+		$return_string .= 'slabs::' . $result['slabs'] . '||';
+		$return_string .= 'cpSqFt_override::' . $result['cpSqFt_override'] . '||';
+		$return_string .= 'tearout_sqft::' . $result['tearout_sqft'] . '||';
 		$return_string .= 'color_id::' . $result['color_id'];
 	}
-	echo rtrim($return_string, ",");
+	echo rtrim($return_string, "||");
 }
 
 // DISPLAY PROJECT AND INSTALLS FOR PJT. RETURN ARRAY
