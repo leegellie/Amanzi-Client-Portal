@@ -1400,7 +1400,7 @@ class project_action {
 			  FROM projects 
 			  JOIN status 
 				ON status.id = projects.job_status 
-			 WHERE template_date < '2200-01-01' 
+			 WHERE install_date < '2200-01-01' 
 			   AND job_status > 24
 			   AND job_status < 40
 			   AND NOT job_status = 26
