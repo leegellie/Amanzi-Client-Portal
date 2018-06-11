@@ -1694,16 +1694,11 @@ if ($action=="programming_list") {
 			?>btn-danger<?
 		}
 		?>">
-			<div class="row"></div>
+			<div class="row" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"></div>
 				<div class="col-md-2 text-white"><?= $results['install_date']; ?></div>
 				<div class="col-md-5 text-white text-uppercase"><?= $results['job_name']; ?></div>
 				<div class="col-md-2 text-white"><?= $results['quote_num']; ?></div>
 				<div class="col-md-2 text-white"><?= $results['order_num']; ?></div>
-				<div  class="col-md-1">
-					<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
-						<i class="fas fa-eye"></i>
-					</div>
-				</div>
 			</div>
 		</div>
 		<?
