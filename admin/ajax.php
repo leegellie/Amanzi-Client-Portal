@@ -1688,7 +1688,7 @@ if ($action=="programming_list") {
 			<div class="col-md-5 text-primary text-uppercase"><?= $results['job_name']; ?></div>
 			<div class="col-md-2 text-primary"><?= $results['quote_num']; ?></div>
 			<div class="col-md-2 text-primary"><?= $results['order_num']; ?></div>
-			<div  class="col-2">
+			<div  class="col-md-1">
 				<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
 					<i class="fas fa-eye"></i>
 				</div>
@@ -1726,7 +1726,7 @@ if ($action=="cnc_list") {
 	$results = "";
 	unset($_POST['action']);
 	$get_entries = new project_action;
-	foreach($get_entries->get_programming($_SESSION['id']) as $results) {
+	foreach($get_entries->get_cnc($_SESSION['id']) as $results) {
 		?>
 		<hr>
 		<div class="row">
@@ -1734,7 +1734,7 @@ if ($action=="cnc_list") {
 			<div class="col-md-5 text-primary text-uppercase"><?= $results['job_name']; ?></div>
 			<div class="col-md-2 text-primary"><?= $results['quote_num']; ?></div>
 			<div class="col-md-2 text-primary"><?= $results['order_num']; ?></div>
-			<div  class="col-2">
+			<div  class="col-md-1">
 				<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
 					<i class="fas fa-eye"></i>
 				</div>
@@ -1749,7 +1749,7 @@ if ($action=="polishing_list") {
 	$results = "";
 	unset($_POST['action']);
 	$get_entries = new project_action;
-	foreach($get_entries->get_programming($_SESSION['id']) as $results) {
+	foreach($get_entries->get_polishing($_SESSION['id']) as $results) {
 		?>
 		<hr>
 		<div class="row">
@@ -1757,7 +1757,7 @@ if ($action=="polishing_list") {
 			<div class="col-md-5 text-primary text-uppercase"><?= $results['job_name']; ?></div>
 			<div class="col-md-2 text-primary"><?= $results['quote_num']; ?></div>
 			<div class="col-md-2 text-primary"><?= $results['order_num']; ?></div>
-			<div  class="col-2">
+			<div  class="col-md-1">
 				<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
 					<i class="fas fa-eye"></i>
 				</div>
