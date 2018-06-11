@@ -1593,7 +1593,7 @@ class project_action {
   }
 
 	// SELECT PROJECT DATA BASED ON LIST SELECT 
-	function project_data_fetch($a) {
+	public function project_data_fetch($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 
