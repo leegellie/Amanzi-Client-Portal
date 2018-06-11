@@ -1706,7 +1706,7 @@ if ($action=="saw_list") {
 		?>
 		<hr>
 		<div class="row">
-			<div class="col-md-5 text-primary"><?= $results['install_date']; ?></div>
+			<div class="col-md-2 text-primary"><?= $results['install_date']; ?></div>
 			<div class="col-md-5 text-primary text-uppercase"><?= $results['job_name']; ?></div>
 			<div class="col-md-2 text-primary"><?= $results['quote_num']; ?></div>
 			<div class="col-md-2 text-primary"><?= $results['order_num']; ?></div>
