@@ -1314,7 +1314,7 @@ function loadProgramming() {
 }
 
 function loadSaw() {
-	var datastring = "action=programming_list"
+	var datastring = "action=saw_list"
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",
@@ -1332,7 +1332,7 @@ function loadSaw() {
 }
 
 function loadCNC() {
-	var datastring = "action=programming_list"
+	var datastring = "action=cnc_list"
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",
@@ -1350,7 +1350,7 @@ function loadCNC() {
 }
 
 function loadPolishing() {
-	var datastring = "action=programming_list"
+	var datastring = "action=polishing_list"
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",
