@@ -1350,13 +1350,6 @@ class project_action {
 
 	// SELECT PROJECT LIST BASED ON USER CRITERIA 
 	public function get_templates() {
-//		$user_info = new userData;
-//		$user_info->set_selection("*",$_SESSION['id']);
-//		$department = $user_info->get_results("department");
-//		$isManager = $user_info->get_results("isManager");
-//		$_SESSION["department"] = $department;
-//		$_SESSION["isManager"] = $isManager;
-
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
@@ -1365,7 +1358,7 @@ class project_action {
 					status.name AS status, 
 					template_teams.temp_team_name AS team, 
 					template_teams.temp_user_id,
-					user.access_level AS ual
+					users.access_level AS ual
 			 FROM projects 
 			 JOIN status 
 			   ON status.id = projects.job_status 
