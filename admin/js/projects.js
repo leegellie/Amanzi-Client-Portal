@@ -1305,7 +1305,7 @@ function loadProgramming() {
 		success: function(data) {
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
-			setTimeout(loadProgramming, 2000);
+			//setTimeout(loadProgramming, 2000);
 		},
 		error: function(data) {
 			alert(data);
