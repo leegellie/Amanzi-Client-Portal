@@ -3,7 +3,7 @@
             <div class="col-12" style="margin-left:0">
                 <div id="user-data" class="col-12">
 					<div class="row">
-						<h1 class="text-primary col-10">Programming Schedule</h1>
+						<h1 class="text-primary col-10">Saw Schedule</h1>
 					</div>
                     <div id="user-block" class="content">
 						<div class="col-12" id="tableResults">
@@ -26,6 +26,6 @@
 			</div>
 <script>
 $(document).ready(function(){
-    loadProgramming();
+    loadSaw();
 });
 </script>

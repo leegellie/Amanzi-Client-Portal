@@ -1313,6 +1313,60 @@ function loadProgramming() {
 	//setTimeout(loadTemplates, 5000);
 }
 
+function loadSaw() {
+	var datastring = "action=programming_list"
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log("data: " + data);
+			$('#tableResults').html('');
+			$('#tableResults').append(data);
+		},
+		error: function(data) {
+			alert(data);
+		}
+	});
+	//setTimeout(loadTemplates, 5000);
+}
+
+function loadCNC() {
+	var datastring = "action=programming_list"
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log("data: " + data);
+			$('#tableResults').html('');
+			$('#tableResults').append(data);
+		},
+		error: function(data) {
+			alert(data);
+		}
+	});
+	//setTimeout(loadTemplates, 5000);
+}
+
+function loadPolishing() {
+	var datastring = "action=programming_list"
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log("data: " + data);
+			$('#tableResults').html('');
+			$('#tableResults').append(data);
+		},
+		error: function(data) {
+			alert(data);
+		}
+	});
+	//setTimeout(loadTemplates, 5000);
+}
+
 function loadInstalls() {
 	var datastring = "action=installs_list"
 	$.ajax({

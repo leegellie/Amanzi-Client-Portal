@@ -135,6 +135,12 @@ USER'S EMAIL = <?= $user_email ?>
 		require_once ('project_templates.php');
 	} elseif (isset($_GET['programming'])) {
 		require_once ('project_programming.php');
+	} elseif (isset($_GET['saw'])) {
+		require_once ('project_saw.php');
+	} elseif (isset($_GET['cnc'])) {
+		require_once ('project_cnc.php');
+	} elseif (isset($_GET['polishing'])) {
+		require_once ('project_polishing.php');
 	} elseif (isset($_GET['installs'])) {
 		require_once ('project_installs.php');
 	} elseif (isset($_GET['edit'])) {
