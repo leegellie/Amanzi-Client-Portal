@@ -1396,12 +1396,13 @@ if ($action=="templates_list") {
 			if ($results['template_date'] == $today){
 				?>
 				<div class="row">
-					<div class="col-9 col-md-1 <? if ( $results['template_team'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-9 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-9 col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-9 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-9 col-md-4 text-primary">
+					<div class="col-md-1 <? if ( $results['access_level'] == 11 ) { echo 'text-primary'; } else { echo 'text-success'; }; ?>"><? if ( $results['access_level'] == 11 ) { echo '<i class="fas fa-home"></i>'; } else { echo '<i class="fas fa-building"></i>'; }; ?></div>
+					<div class="col-6 col-md-1 <? if ( $results['template_team'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
+					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
+					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
+					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
+					<div class="col-md-3 text-primary">
 					<?
 						$address = '';
 						$address .= $results['address_1'];
