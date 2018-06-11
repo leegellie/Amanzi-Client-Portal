@@ -1717,7 +1717,7 @@ if ($action=="saw_list") {
 		<hr>
 		<div class="w-100 btn <?
 		if ($results['job_status'] == 44 || $results['job_status'] == 50) {
-			?>btn-muted grey lighten-3 text-dark<?
+			?>btn-muted aqua-gradient lighten-3 text-dark<?
 		} elseif ($results['job_status'] == 51) {
 			?>btn-success<?
 		} elseif ($results['job_status'] == 52) {
