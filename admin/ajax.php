@@ -4989,13 +4989,18 @@ if ($action=="view_selected_pjt") {
 		$cList .= '<div class="col-12 ';
 		if ($results['cmt_priority'] == "911") {
 			$cList .= 'text-danger';
-		}	
-		$cList .= '">' . $stampy . ' - <span id="cmtUser">' . $results['fname'][0] . '. ' . $results['lname']  . '</span> - ' . $results['cmt_comment'] . '</div><hr>';
+		}
+		if ($results['cmt_priority'] != "log") {
+			$cList .= '">' . $stampy . ' - <span id="cmtUser">' . $results['fname'][0] . '. ' . $results['lname']  . '</span> - ' . $results['cmt_comment'] . '</div>
+			<hr>';
+		}
 		$lList .= '<div class="col-12 ';
 		if ($results['cmt_priority'] == "911") {
 			$lList .= 'text-danger';
 		}	
-		$lList .= '">' . $stampy . ' - <span id="cmtUser">' . $results['fname'][0] . '. ' . $results['lname']  . '</span> - ' . $results['cmt_comment'] . '</div><hr>';
+		if ($results['cmt_priority'] == "log") {
+			$lList .= '">' . $stampy . ' - <span id="cmtUser">' . $results['fname'][0] . '. ' . $results['lname']  . '</span> - ' . $results['cmt_comment'] . '</div><hr>';
+		}
 	}
 
 		//	$get_pjt_sqft = new project_action;
@@ -5537,8 +5542,8 @@ if ($action=="view_selected_pjt") {
 	$html .= '		<h4 class="d-inline">Comments</h4><div id="makeCommentBtn" class="btn btn-primary d-inline ml-2 float-right" cmt_type="pjt" onClick="makeComment(this,' . $cmt_user . ');"><i class="fas fa-comment"></i></div>';
 
 	$html .= '		<ul class="nav nav-tabs nav-justified mdb-color lighten-3" role="tablist">';
-	$html .= '			<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_comments" role="tab">Overview</a></li>';
-	$html .= '			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_log" role="tab">Templates</a></li>';
+	$html .= '			<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_comments" role="tab">Comments</a></li>';
+	$html .= '			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_log" role="tab">Log</a></li>';
 	$html .= '		</ul>';
 	$html .= '		<div class="tab-content px-0">';
 	$html .= '			<div class="tab-pane fade in show active" id="panel_comments" role="tabpanel">';
