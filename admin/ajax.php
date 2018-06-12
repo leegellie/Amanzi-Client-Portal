@@ -3560,6 +3560,9 @@ if ($action=="email_anya") {
 
 	$pid = $_POST['pid'];
 	$uid = $_POST['uid'];
+	unset($_POST['action']);
+	unset($_POST['pid']);
+	unset($_POST['uid']);
 
 	$jobName = '';
 	$quoNum = '';
@@ -3581,7 +3584,6 @@ if ($action=="email_anya") {
 
 	$headers = "From: Amanzi Portal <portal@amanziportal.com>\r\n";
 	//$headers .= "Reply-To: " . $fname . " " . $lname . " <" . $EmailFrom . ">\r\n";
-	$headers .= "BCC: lee@hallenmedia.net\r\n";
 	$headers .= "MIME-Version: 1.0\r\n";
 	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 	$headers .= "X-Priority: 1 (Highest)\r\n";
