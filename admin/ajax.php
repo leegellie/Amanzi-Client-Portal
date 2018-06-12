@@ -4986,19 +4986,21 @@ if ($action=="view_selected_pjt") {
 		list($dDate, $dTime) = explode(' ',$dt);
 		list($dYear, $dMonth, $dDay) = explode('-',$dDate);
 		$stampy = $dMonth . '/' . $dDay . '/' . $dYear . ' - ' . $dTime;
-		$cList .= '<div class="col-12 ';
-		if ($results['cmt_priority'] == "911") {
-			$cList .= 'text-danger';
-		}
+
 		if ($results['cmt_priority'] != "log") {
+			$cList .= '<div class="col-12 ';
+			if ($results['cmt_priority'] == "911") {
+				$cList .= 'text-danger';
+			}
 			$cList .= '">' . $stampy . ' - <span id="cmtUser">' . $results['fname'][0] . '. ' . $results['lname']  . '</span> - ' . $results['cmt_comment'] . '</div>
 			<hr>';
 		}
-		$lList .= '<div class="col-12 ';
-		if ($results['cmt_priority'] == "911") {
-			$lList .= 'text-danger';
-		}	
+
 		if ($results['cmt_priority'] == "log") {
+			$lList .= '<div class="col-12 ';
+			if ($results['cmt_priority'] == "911") {
+				$lList .= 'text-danger';
+			}	
 			$lList .= '">' . $stampy . ' - <span id="cmtUser">' . $results['fname'][0] . '. ' . $results['lname']  . '</span> - ' . $results['cmt_comment'] . '</div><hr>';
 		}
 	}
