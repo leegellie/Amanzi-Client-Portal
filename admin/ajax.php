@@ -5540,21 +5540,21 @@ if ($action=="view_selected_pjt") {
 	$html .= '			<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_comments" role="tab">Overview</a></li>';
 	$html .= '			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_log" role="tab">Templates</a></li>';
 	$html .= '		</ul>';
-	$html .= '		<div class="tab-content card px-0"><div class="tab-pane fade in show active" id="panel_comments" role="tabpanel">';
-	$html .= '			<hr>'; 
-	$html .= '			<div id="commentList" class="col-12">';
+	$html .= '		<div class="tab-content px-0">';
+	$html .= '			<div class="tab-pane fade in show active" id="panel_comments" role="tabpanel">';
+	$html .= '				<hr>'; 
+	$html .= '				<div id="commentList" class="col-12">';
 	$html .= $cList;
+	$html .= '				</div>';
 	$html .= '			</div>';
-	$html .= '			<hr>'; 
-	$html .= '		</div>';
-	$html .= '		<div class="tab-content px-0"><div class="tab-pane fade" id="panel_log" role="tabpanel">';
-	$html .= '			<hr>'; 
-	$html .= '			<div id="logList" class="col-12">';
+	$html .= '			<div class="tab-pane fade" id="panel_log" role="tabpanel">';
+	$html .= '				<hr>'; 
+	$html .= '				<div id="logList" class="col-12">';
 	$html .= $lList;
+	$html .= '				</div>';
+	$html .= '				<hr>'; 
 	$html .= '			</div>';
-	$html .= '			<hr>'; 
 	$html .= '		</div>';
-
 	$html .= '	</div>';
 
 
