@@ -13,15 +13,6 @@ class log_action {
 		foreach( $a as $field => $value ) $params[":{$field}"]=$value;
 		$q = $conn->prepare($sql);
 		$q->execute( $params );
-
-
-//		$q = $conn->prepare("INSERT INTO comments (cmt_ref_id, cmt_type, cmt_user, cmt_comment, cmt_priority) VALUES (:cmt_ref_id, :cmt_type, :cmt_user, :cmt_comment, :cmt_priority)");
-//		$q->bindParam('cmt_ref_id',$a['cmt_ref_id']);
-//		$q->bindParam('cmt_type',$a['cmt_type']);
-//		$q->bindParam('cmt_user',$a['cmt_user']);
-//		$q->bindParam('cmt_comment',$a['cmt_comment']);
-//		$q->bindParam('cmt_priority',$a['cmt_priority']);
-//		$q->execute();
 	}
 
 	public function location_log($uid,$lat,$long) {
