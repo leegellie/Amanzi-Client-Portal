@@ -3574,7 +3574,7 @@ if ($action=="email_anya") {
 		$ordNum = $results['order_num'];
 	}
 	//$EmailTo = "leegellie@gmail.com";
-	$EmailTo = 'lee@hallenmedia.net';
+	$EmailTo = 'leegellie@gmail.com';
 	$Subject = 'Job Install Date Set / Job Changed - ' . $jobName;
 
 	// prepare email body text
