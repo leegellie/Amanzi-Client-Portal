@@ -599,16 +599,17 @@ class project_action {
 		}
 	}
 
-	public function set_entry($pid,$entry) {
+	public function set_entry($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 		$q = $conn->prepare("UPDATE projects SET entry = :entry WHERE id = :pid");
-		$q->bindParam('pid',$pid);
-		$q->bindParam('entry',$entry);
+		$q->bindParam('pid',$a['pid']);
+		$q->bindParam('entry',$a['entry']);
 		$q->execute();
 
 		$s = $conn->prepare("SELECT job_name, quote_num, order_num FROM projects WHERE id = :pid");
-		$s->bindParam('pid',$pid);
+		$s->bindParam('pid',$a['pid']);
 		$s->execute();
 		return $row = $s->fetchAll(PDO::FETCH_ASSOC);
 	}

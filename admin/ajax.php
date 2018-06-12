@@ -3555,20 +3555,19 @@ if ($action=="entry_list") {
 
 
 	////////////////////////////   EMAIL ANYA   ///////////////////////////////
-
 if ($action=="email_anya") {
 
 	$pid = $_POST['pid'];
 	$uid = $_POST['uid'];
+	$_POST['entry'] = 1;
 	unset($_POST['action']);
-	unset($_POST['pid']);
 	unset($_POST['uid']);
 
 	$jobName = '';
 	$quoNum = '';
 	$ordNum = '';
 	$set_entry = new project_action;
-	foreach($set_entry->set_entry($pid,1) as $results) {
+	foreach( $set_entry -> set_entry($_POST) as $results) {
 		$jobName = $results['job_name'];
 		$quoNum = $results['quote_num'];
 		$ordNum = $results['order_num'];
@@ -3578,7 +3577,7 @@ if ($action=="email_anya") {
 	$Subject = 'Job for Entry - ' . $jobName;
 
 	// prepare email body text
-	$Body = '<h2><a href="/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">Quote #: ' . $quoNum . ' - Order #:' . $ordNum . '</a></h2>';
+	$Body = '<h2>Quote #: ' . $quoNum . ' - Order #:' . $ordNum . '</h2>';
 	$Body .= '<a href="/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '"><button>View Project</button></a>';
 	$Body .= "<br><br><p>Alert Version 1.3</p>";
 
@@ -3605,6 +3604,7 @@ if ($action=="email_anya") {
 
 
 }
+
 	//////////////////////////   END EMAIL ANYA   //////////////////////////////
 
 
