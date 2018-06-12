@@ -4996,13 +4996,11 @@ if ($action=="view_selected_pjt") {
 			<hr>';
 		}
 
-		if ($results['cmt_priority'] == "log") {
-			$lList .= '<div class="col-12 ';
-			if ($results['cmt_priority'] == "911") {
-				$lList .= 'text-danger';
-			}	
-			$lList .= '">' . $stampy . ' - <span id="cmtUser">' . $results['fname'][0] . '. ' . $results['lname']  . '</span> - ' . $results['cmt_comment'] . '</div><hr>';
-		}
+		$lList .= '<div class="col-12 ';
+		if ($results['cmt_priority'] == "911") {
+			$lList .= 'text-danger';
+		}	
+		$lList .= '">' . $stampy . ' - <span id="cmtUser">' . $results['fname'][0] . '. ' . $results['lname']  . '</span> - ' . $results['cmt_comment'] . '</div><hr>';
 	}
 
 		//	$get_pjt_sqft = new project_action;
