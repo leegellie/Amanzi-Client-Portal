@@ -5536,11 +5536,11 @@ if ($action=="view_selected_pjt") {
 	$html .= '	<div class="d-print-none">';
 	$html .= '		<h4 class="d-inline">Comments</h4><div id="makeCommentBtn" class="btn btn-primary d-inline ml-2 float-right" cmt_type="pjt" onClick="makeComment(this,' . $cmt_user . ');"><i class="fas fa-comment"></i></div>';
 
-	$html .= '		<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">';
+	$html .= '		<ul class="nav nav-tabs nav-justified mdb-color lighten-3" role="tablist">';
 	$html .= '			<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_comments" role="tab">Overview</a></li>';
 	$html .= '			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_log" role="tab">Templates</a></li>';
 	$html .= '		</ul>';
-	$html .= '		<div class="tab-content px-0"><div class="tab-pane fade in show active" id="panel_comments" role="tabpanel">';
+	$html .= '		<div class="tab-content card px-0"><div class="tab-pane fade in show active" id="panel_comments" role="tabpanel">';
 	$html .= '			<hr>'; 
 	$html .= '			<div id="commentList" class="col-12">';
 	$html .= $cList;
