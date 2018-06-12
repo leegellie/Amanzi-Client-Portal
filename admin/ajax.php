@@ -3575,7 +3575,7 @@ if ($action=="email_anya") {
 	}
 	//$EmailTo = "leegellie@gmail.com";
 	$EmailTo = 'leegellie@gmail.com';
-	$Subject = 'Job Install Date Set / Job Changed - ' . $jobName;
+	$Subject = 'Job for Entry - ' . $jobName;
 
 	// prepare email body text
 	$Body = '<h2><a href="/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">Quote #: ' . $quoNum . ' - Order #:' . $ordNum . '</a></h2>';
@@ -3583,7 +3583,6 @@ if ($action=="email_anya") {
 	$Body .= "<br><br><p>Alert Version 1.3</p>";
 
 	$headers = "From: Amanzi Portal <portal@amanziportal.com>\r\n";
-	//$headers .= "Reply-To: " . $fname . " " . $lname . " <" . $EmailFrom . ">\r\n";
 	$headers .= "MIME-Version: 1.0\r\n";
 	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
 	$headers .= "X-Priority: 1 (Highest)\r\n";
