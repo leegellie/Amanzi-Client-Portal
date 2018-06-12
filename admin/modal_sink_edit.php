@@ -80,7 +80,7 @@
 								</fieldset>
 								<fieldset class="form-group col-2 d-inline">
 									<input type="checkbox" class="filled-in form-control" id="e-sink_soap" name="sink_soap" value="1">
-									<label for="sink_soap"><u>Soap Hole</u>?</label>
+									<label for="e-sink_soap"><u>Soap Hole</u>?</label>
 								</fieldset>
 								<fieldset class="form-group col-2 d-inline">
 									<label for="cutout_width"><u>Cutout Width</u>:</label>
