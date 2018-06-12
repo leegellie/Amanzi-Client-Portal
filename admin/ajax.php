@@ -3558,7 +3558,7 @@ if ($action=="entry_list") {
 
 if ($action=="email_anya") {
 
-	$pid =  $_POST['pid'];
+	$pid = $_POST['pid'];
 	$uid = $_POST['uid'];
 
 	$set_entry = new project_action;

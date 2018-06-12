@@ -611,14 +611,12 @@ class project_action {
 	public function set_entry($pid,$entry) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "UPDATE projects SET entry = :entry WHERE id = :pid";
-		$q = $conn->prepare($sql);
+		$q = $conn->prepare("UPDATE projects SET entry = :entry WHERE id = :pid");
 		$q->bindParam('pid',$pid);
 		$q->bindParam('entry',$entry);
 		$q->execute();
 
-		$sql = "SELECT order_num, quote_num, job_name FROM projects WHERE id = :pid";
-		$s = $conn->prepare($sql);
+		$s = $conn->prepare("SELECT job_name, quote_num, order_num FROM projects WHERE id = :pid");
 		$s->bindParam('pid',$pid);
 		$s->execute();
 		return $row = $s->fetchAll(PDO::FETCH_ASSOC);
