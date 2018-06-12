@@ -13,7 +13,7 @@ if ($access_level < 11) {
 			<ul class="navbar-nav m-auto">
 <?
 		if ( $accessLevel < 4 && $accessLevel != "") {
-			$link = 'Location: /admin/dashboard.php');
+			$link = 'Location: /admin/dashboard.php';
 		} elseif ($accessLevel == 4) {
 			$link = 'Location: /admin/projects.php?templates';
 		} elseif ($accessLevel == 5) {
