@@ -3600,7 +3600,7 @@ if ($action=="email_anya") {
 
 	$log = new log_action;
 	$log -> pjt_changes($_POST);
-	echo $body . ' ' . $jobName . ' ' . $quoNum . ' ' . $ordNum;
+	echo $Body . ' ' . $jobName . ' ' . $quoNum . ' ' . $ordNum;
 
 
 }
