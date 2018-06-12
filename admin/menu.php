@@ -13,19 +13,19 @@ if ($access_level < 11) {
 			<ul class="navbar-nav m-auto">
 <?
 		if ( $access_level < 4 && $access_level != "") {
-			$link = 'Location: /admin/dashboard.php';
+			$link = '/admin/dashboard.php';
 		} elseif ($access_level == 4) {
-			$link = 'Location: /admin/projects.php?templates';
+			$link = '/admin/projects.php?templates';
 		} elseif ($access_level == 5) {
-			$link = 'Location: /admin/projects.php?programming';
+			$link = '/admin/projects.php?programming';
 		} elseif ($access_level == 7) {
-			$link = 'Location: /admin/projects.php?saw';
+			$link = '/admin/projects.php?saw';
 		} elseif ($access_level == 8) {
-			$link = 'Location: /admin/projects.php?cnc';
+			$link = '/admin/projects.php?cnc';
 		} elseif ($access_level == 9) {
-			$link = 'Location: /admin/projects.php?polishing';
+			$link = '/admin/projects.php?polishing';
 		} elseif ($access_level == 10) {
-			$link = 'Location: /admin/projects.php?installs';
+			$link = '/admin/projects.php?installs';
 		}
 ?>
 				<li class="nav-item py-3 px-4">
