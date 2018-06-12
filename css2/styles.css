@@ -192,7 +192,8 @@ button.toast-close-button {
 }
 #commentList, #logList {
     max-height: 400px;
-    overflow-x: scroll;
+    overflow-x:hidden;
+	overflow-y: auto;
 }
 .pageLook {
     background: #fff;
