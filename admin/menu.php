@@ -12,7 +12,6 @@ if ($access_level < 11) {
 		<div class="collapse navbar-collapse" id="navbarCollapse">
 			<ul class="navbar-nav m-auto">
 <?
-	if ($access_level < 4) {
 		if ( $accessLevel < 4 && $accessLevel != "") {
 			$link = 'Location: /admin/dashboard.php');
 		} elseif ($accessLevel == 4) {
@@ -33,6 +32,7 @@ if ($access_level < 11) {
 					<a class="element" href="<?= $link ?>"><span class="icon-home"></span></a>
 				</li>
 <?
+	if ($access_level < 4) {
 		if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14 || $_SESSION['id'] == 1447) {
 ?>
 				<li class="nav-item py-3 px-4 dropdown">
