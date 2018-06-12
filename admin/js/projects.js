@@ -1500,7 +1500,6 @@ function sendQuoteData() {
 			url: "ajax.php",
 			data: datastring,
 			success: function(data) {
-				alert(data);
 				$('#email-success').modal('show');
 			},
 			error: function(data) {
@@ -1508,7 +1507,6 @@ function sendQuoteData() {
 				successNote = "Error submitting form: "+xhr.responseText;
 			},
 			complete: function(data) {
-				alert(data);
 			}
 		});
 	}
