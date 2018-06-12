@@ -3651,7 +3651,6 @@ if ($action=="comments_user_name") {
 if ($action=="submit_comment") {
 	unset($_POST['action']);
 	$_POST['cmt_user'] = $_SESSION['id'];
-
 	$add_comment = new comment_action;
 	echo $add_comment -> add_comment($_POST);
 }
@@ -5547,7 +5546,7 @@ if ($action=="view_selected_pjt") {
 	$html .= '	<div class="d-print-none">';
 	$html .= '		<h4 class="d-inline">Comments</h4><div id="makeCommentBtn" class="btn btn-primary d-inline ml-2 float-right" cmt_type="pjt" onClick="makeComment(this,' . $cmt_user . ');"><i class="fas fa-comment"></i></div>';
 
-	$html .= '		<ul class="nav nav-tabs nav-justified mdb-color lighten-5" role="tablist">';
+	$html .= '		<ul class="nav nav-tabs nav-justified peach-gradient" role="tablist">';
 	$html .= '			<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_comments" role="tab">Comments</a></li>';
 	$html .= '			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_log" role="tab">Log</a></li>';
 	$html .= '		</ul>';
