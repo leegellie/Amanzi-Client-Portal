@@ -325,13 +325,13 @@ class login {
 			header('Location: /admin/projects.php?templates');
 		} elseif ($accessLevel->get_results('access_level') == 5) {
 			header('Location: /admin/projects.php?programming');
-		} elseif ($accessLevel->get_results('access_level') == 6) {
-			header('Location: /admin/projects.php?saw');
 		} elseif ($accessLevel->get_results('access_level') == 7) {
-			header('Location: /admin/projects.php?cnc');
+			header('Location: /admin/projects.php?saw');
 		} elseif ($accessLevel->get_results('access_level') == 8) {
-			header('Location: /admin/projects.php?polishing');
+			header('Location: /admin/projects.php?cnc');
 		} elseif ($accessLevel->get_results('access_level') == 9) {
+			header('Location: /admin/projects.php?polishing');
+		} elseif ($accessLevel->get_results('access_level') == 10) {
 			header('Location: /admin/projects.php?installs');
 		} else {
 			header('Location: /user/dashboard.php');
