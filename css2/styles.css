@@ -192,7 +192,7 @@ button.toast-close-button {
 }
 #commentList, #logList {
     max-height: 400px;
-    overflow-x:hidden;
+    overflow-x: hidden;
 	overflow-y: auto;
 }
 .pageLook {
