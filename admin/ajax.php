@@ -3573,7 +3573,7 @@ if ($action=="email_anya") {
 		$ordNum = $results['order_num'];
 	}
 	//$EmailTo = "leegellie@gmail.com";
-	$EmailTo = 'leegellie@gmail.com';
+	$EmailTo = 'afarmer@amanzigranite.com';
 	$Subject = 'Job for Entry - ' . $jobName;
 
 	// prepare email body text
