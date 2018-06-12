@@ -3577,9 +3577,9 @@ if ($action=="email_anya") {
 	$Subject = 'Job for Entry - ' . $jobName;
 
 	// prepare email body text
-	$Body = '<h2><a href="/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">' . $jobName . '</a></h2>';
-	$Body .= '<h2><a href="/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">Quote #: ' . $quoNum . ' - Order #:' . $ordNum . '</a></h2>';
-	$Body .= '<a href="/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '"><button>View Project</button></a>';
+	$Body = '<h2><a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">' . $jobName . '</a></h2>';
+	$Body .= '<h2><a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">Quote #: ' . $quoNum . ' - Order #:' . $ordNum . '</a></h2>';
+	$Body .= '<a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '"><button>View Project</button></a>';
 	$Body .= "<br><br><p>Alert Version 1.3</p>";
 
 	$headers = "From: Amanzi Portal <portal@amanziportal.com>\r\n";
