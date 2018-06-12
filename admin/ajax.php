@@ -5554,7 +5554,6 @@ if ($action=="view_selected_pjt") {
 	$html .= '				</div>';
 	$html .= '			</div>';
 	$html .= '			<div class="tab-pane fade" id="panel_log" role="tabpanel">';
-	$html .= '				<hr>'; 
 	$html .= '				<div id="logList" class="col-12">';
 	$html .= $lList;
 	$html .= '				</div>';
