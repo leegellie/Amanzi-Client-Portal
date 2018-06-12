@@ -3558,24 +3558,27 @@ if ($action=="entry_list") {
 
 if ($action=="email_anya") {
 
-	$jobName = $_POST['jobName'];
-	$quoNum =  $_POST['quoNum'];
-	$ordNum =  $_POST['ordNum'];
 	$pid =  $_POST['pid'];
 	$uid = $_POST['uid'];
 
-
 	$set_entry = new project_action;
 	echo $set_entry -> set_entry($pid,1);
-
+	$jobName = '';
+	$quoNum = '';
+	$ordNum = '';
+	foreach($comments->get_comments($cmt_ref_id,$cmt_type) as $results) {
+		$jobName = $results['job_name'];
+		$quoNum = $results['quote_num'];
+		$ordNum = $results['order_num'];
+	}
 	//$EmailTo = "leegellie@gmail.com";
 	$EmailTo = 'afarmer@amanzigranite.com';
 	$Subject = 'Job Install Date Set / Job Changed - ' . $jobName;
 
 	// prepare email body text
-	$Body = "<h2>" . $quoNum . " - " . $ordNum . "</h2>";
+	$Body = '<h2><a href="/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">Quote #: ' . $quoNum . ' - Order #:' . $ordNum . '</a></h2>';
 	$Body .= '<a href="/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '"><button>View Project</button></a>';
-	$Body .= "<br><br><p>Alert Version 1.2</p>";
+	$Body .= "<br><br><p>Alert Version 1.3</p>";
 
 	$headers = "From: Amanzi Portal <portal@amanziportal.com>\r\n";
 	//$headers .= "Reply-To: " . $fname . " " . $lname . " <" . $EmailFrom . ">\r\n";
@@ -4914,8 +4917,8 @@ if ($action=="get_inst_for_update") {
 	$pjt_data = new project_action;
 
 	$array = $pjt_data->install_edit_data($_POST['id']);
-	foreach($array as $result) {
-
+  foreach($array as $result) {
+    
 		$return_string = 'id::' . $result['id'] . '||';
 		$return_string .= 'pid::' . $result['pid'] . '||';
 		$return_string .= 'install_name::' . $result['install_name'] . '||';

@@ -616,6 +616,13 @@ class project_action {
 		$q->bindParam('pid',$pid);
 		$q->bindParam('entry',$entry);
 		$q->execute();
+
+		$sql = "SELECT order_num, quote_num, job_name FROM projects WHERE id = :pid";
+		$s = $conn->prepare($sql);
+		$s->bindParam('pid',$pid);
+		$s->bindParam('entry',$entry);
+		$s->execute();
+		return $row = $s->fetchAll(PDO::FETCH_ASSOC);
 	}
 
 
@@ -1001,7 +1008,8 @@ class project_action {
 
 	public function add_project($a) {
 		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+       
+      $conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 
 			$sql='INSERT INTO projects (`'.implode( '`,`', array_keys( $a ) ) .'`) values (:'.implode(',:',array_keys( $a ) ).');';
@@ -1867,6 +1875,16 @@ class project_action {
 			echo "ERROR: " . $e->getMessage();
 		}
 	}
+  
+  public function mysql_escape($inp){ 
+      if(is_array($inp)) return array_map(__METHOD__, $inp);
+      
+      if(!empty($inp) && is_string($inp)) { 
+          return str_replace(array('\\', "\0", "\n", "\r", "'", '"', '`',"\x1a"), array('\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\`','\\Z'), $inp); 
+      } 
+      return $inp; 
+    
+  }
 
 }
 ?>

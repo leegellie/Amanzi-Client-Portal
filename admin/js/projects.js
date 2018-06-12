@@ -1494,17 +1494,7 @@ function sendQuoteData() {
 		console.log('Already Sent!');
 	} else {
 		$('#sendAnya').addClass('disabled');
-		if ($pName == '') {
-			$pName = $('#projectName').text();
-		}
-		if ($qNum == '') {
-			$qNum =  $('#s-quote_num').text();
-		}
-		if ($oNum == '') {
-			$oNum =  $('#s-order_num').text();
-		}
-
-		datastring = 'action=email_anya&pid=' + $pid + '&uid=' + $uid + '&jobName=' + $pName + '&quoNum=' + $qNum + '&ordNum=' + $oNum;
+		datastring = 'action=email_anya&pid=' + $pid + '&uid=' + $uid;
 		$.ajax({
 			type: "POST",
 			url: "ajax.php",
