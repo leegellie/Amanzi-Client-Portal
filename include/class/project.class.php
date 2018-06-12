@@ -620,7 +620,6 @@ class project_action {
 		$sql = "SELECT order_num, quote_num, job_name FROM projects WHERE id = :pid";
 		$s = $conn->prepare($sql);
 		$s->bindParam('pid',$pid);
-		$s->bindParam('entry',$entry);
 		$s->execute();
 		return $row = $s->fetchAll(PDO::FETCH_ASSOC);
 	}
