@@ -3561,12 +3561,11 @@ if ($action=="email_anya") {
 	$pid = $_POST['pid'];
 	$uid = $_POST['uid'];
 
-	$set_entry = new project_action;
-	echo $set_entry -> set_entry($pid,1);
 	$jobName = '';
 	$quoNum = '';
 	$ordNum = '';
-	foreach($comments->get_comments($cmt_ref_id,$cmt_type) as $results) {
+	$set_entry = new project_action;
+	foreach($set_entry->set_entry($pid,1) as $results) {
 		$jobName = $results['job_name'];
 		$quoNum = $results['quote_num'];
 		$ordNum = $results['order_num'];
