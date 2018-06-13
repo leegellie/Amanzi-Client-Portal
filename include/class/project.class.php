@@ -451,7 +451,7 @@ class project_action {
 	public function get_accs() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$q = $conn->prepare("SELECT * FROM accessories WHERE 1");
+		$q = $conn->prepare("SELECT * FROM accessories WHERE 1 ORDER BY accs_name ASC");
 		$q->execute();
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 	}

@@ -43,7 +43,7 @@
 	$marble = '';
 	$get_marble = new project_action;
 	foreach($get_accs->get_accs() as $results) {
-		$editString = $results['accs_id'] . ",'" . $results['accs_code'] . "'," . $results['accs_model'] . "'," . $results['accs_name'] . ',' . $results['accs_cost'] . ',' . $results['accs_price'] . ',' . $results['accs_status'] . ',' . $results['accs_width'] . ',' . $results['accs_depthe'];
+		$editString = $results['accs_id'] . ",'" . $results['accs_code'] . "'," . $results['accs_model'] . "'," . $results['accs_name'] . ',' . $results['accs_cost'] . ',' . $results['accs_price'] . ',' . $results['accs_status'] . ',' . $results['accs_width'] . ',' . $results['accs_depth'];
 ?>
 								<tr class="filter">
 									<td class="text-center"><?= $results['accs_id'] ?></td>
