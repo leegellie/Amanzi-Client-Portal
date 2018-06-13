@@ -1320,10 +1320,20 @@ if ($action=="get_price_multiplier") {
 
 if ($action=="entered_anya") {
 	$pid = $_POST['pid'];
-
+	$uid = $_POST['uid'];
+	$_POST['entry'] = 2;
 	unset($_POST['action']);
+	unset($_POST['uid']);
+
+	$jobName = '';
+	$quoNum = '';
+	$ordNum = '';
 	$set_entry = new project_action;
-	echo $set_entry -> set_entry($pid,2);
+	foreach( $set_entry -> set_entry($_POST) as $results) {
+		$jobName = $results['job_name'];
+		$quoNum = $results['quote_num'];
+		$ordNum = $results['order_num'];
+	}
 
 	$_POST = array();
 
@@ -1340,10 +1350,20 @@ if ($action=="entered_anya") {
 
 if ($action=="entry_reject") {
 	$pid = $_POST['pid'];
-
+	$uid = $_POST['uid'];
+	$_POST['entry'] = 3;
 	unset($_POST['action']);
-	$reject_entry = new project_action;
-	echo $reject_entry -> set_entry($pid,3);
+	unset($_POST['uid']);
+
+	$jobName = '';
+	$quoNum = '';
+	$ordNum = '';
+	$set_entry = new project_action;
+	foreach( $set_entry -> set_entry($_POST) as $results) {
+		$jobName = $results['job_name'];
+		$quoNum = $results['quote_num'];
+		$ordNum = $results['order_num'];
+	}
 
 	$_POST = array();
 
@@ -4470,19 +4490,23 @@ if ($action == "update_install_data") {
 		$tmpFilePath = $_FILES['imgUploads']['tmp_name'][$i];
 		
 		//Make sure we have a filepath
+		if (file_exists($path)) {
+			// USER ALREADY HAS A PROJECT AND THEIR FOLDER EXISTS
+		} else {
+			//USER'S FIRST PROJECT. MAKE THEIR USER IMAGE FOLDER
+			mkdir($path,0755);
+		}
+
 		if ($tmpFilePath != ""){
 			//Setup our new file path
 			$newFilePath = $path . "/" . $_FILES['imgUploads']['name'][$i];
 
 			//Upload the file into the temp dir
 			if(move_uploaded_file($tmpFilePath, $newFilePath)) {
-
 				//Handle other code here
-
 			}
 		}
 	}
-
 
 	//////////////////////////   LOG UPDATE   ////////////////////////////
 
@@ -5546,7 +5570,7 @@ if ($action=="view_selected_pjt") {
 	$html .= '	<div class="d-print-none">';
 	$html .= '		<div id="makeCommentBtn" class="btn btn-primary d-inline ml-2 float-right" cmt_type="pjt" onClick="makeComment(this,' . $cmt_user . ');"><i class="fas fa-comment"></i></div>';
 
-	$html .= '		<ul class="nav nav-tabs nav-justified peach-gradient" role="tablist">';
+	$html .= '		<ul class="nav nav-tabs nav-justified aqua-gradient" role="tablist">';
 	$html .= '			<li class="nav-item"><a class="text-dark nav-link active" style="font-size: 24px;" data-toggle="tab" href="#panel_comments" role="tab">Comments</a></li>';
 	$html .= '			<li class="nav-item"><a class="text-dark nav-link" style="font-size: 24px;" data-toggle="tab" href="#panel_log" role="tab">Log</a></li>';
 	$html .= '		</ul>';
