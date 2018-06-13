@@ -440,11 +440,18 @@ class project_action {
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-	public function get_accs($a) {
+//	public function get_accs($a) {
+//		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+//		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//		$q = $conn->prepare("SELECT * FROM accessories WHERE accs_code = :accs_code");
+//		$q->bindParam('accs_code',$a);
+//		$q->execute();
+//		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+//	}
+	public function get_accs() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$q = $conn->prepare("SELECT * FROM accessories WHERE accs_code = :accs_code");
-		$q->bindParam('accs_code',$a);
+		$q = $conn->prepare("SELECT * FROM accessories WHERE 1");
 		$q->execute();
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 	}
