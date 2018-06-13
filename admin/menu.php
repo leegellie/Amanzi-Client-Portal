@@ -91,6 +91,7 @@ if ($access_level < 11) {
 						<a class="dropdown-item text-dark" href="/admin/materials.php">Material Needed</a>
 						<a class="dropdown-item text-dark" href="/admin/admin.php?marble">Marble/Granite</a>
 						<a class="dropdown-item text-dark" href="/admin/admin.php?quartz">Quartz</a>
+						<a class="dropdown-item text-dark" href="/admin/admin.php?accessories">Accessories</a>
 					</div>
 				</li>
 <?
