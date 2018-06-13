@@ -6278,7 +6278,6 @@ if ($action=="install_search_list") {
 
 if(isset($_FILES['multiFile_temp'])){
   $total_temp = count($_FILES['multiFile_temp']['name']);
-  $total_fab = count($_FILES['multiFile_fab']['name']);
   $dirpath = dirname(getcwd());
 	// Loop through each file
 	for($i=0; $i<$total_temp; $i++) {
@@ -6302,7 +6301,10 @@ if(isset($_FILES['multiFile_temp'])){
 			}
 		}
 	}
-  
+}
+if(isset($_FILES['multiFile_fab'])){
+  $total_fab = count($_FILES['multiFile_fab']['name']);
+  $dirpath = dirname(getcwd());
   for($i=0; $i<$total_fab; $i++) {
 		//Get the fab file path
 		$tmpFilePath = $_FILES['multiFile_fab']['tmp_name'][$i];
@@ -6324,7 +6326,6 @@ if(isset($_FILES['multiFile_temp'])){
 			}
 		}
 	}
-  exit;
 }
 
 if ($action=="") {

@@ -1785,6 +1785,8 @@ function setAcctRep(repID) {
 
 function pullEditPjt(pjtToEdit) {
 	$('#editPjt').modal('show');
+	$('#p-template_date').val('');
+	$('#p-install_date').val('');
 	var datastring = 'action=get_pjt_for_update&id=' + pjtToEdit;
 	$.ajax({
 		type: "POST",
