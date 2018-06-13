@@ -89,3 +89,132 @@
 
 				</div>
 			</div>
+
+<div aria-hidden="true" aria-labelledby="editAccsLabel" class="modal fade" id="editAccs" role="dialog" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="margin-top: 7rem;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="modal-title">
+					<h2 class="d-inline text-primary"><i class="fas fa-wrench h2 text-warning"></i> Edit Accessory</h2>
+				</div><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&#10008;</span></button>
+			</div>
+			<div class="modal-body">
+				<div class="container">
+					<div class="row">
+						<h2 class="col-12">Edit: <span class="text-primary" id="accsName"></span></h2>
+					</div>
+					<hr>
+					<form id="edit_accs" class=" row">
+						<input type="hidden" name="action" value="edit_accs">
+						<input type="hidden" id="a-accs_id" name="accs_id" value="">
+
+						<label class="col-12 mb-3" for="a-accs_name">Accessory Name:</label>
+						<input class="col-12 mb-3 form-control" type="text" id="a-accs_name" name="accs_name">
+						
+						<fieldset class="form-group col-3">
+							<label for="a-accs_type">Type:</label>
+							<select class="mdb-select" id="a-accs_type" name="accs_type" type="text" data-required="true">
+								<option value="1">Sink</option>
+								<option value="2">Faucet</option>
+								<option value="3">Other</option>
+							</select>
+						</fieldset>
+
+						<label class="col-2 mb-3" for="a-accs_model">Model:</label>
+						<input class="col-2 mb-3 form-control" id="a-accs_model" name="accs_model" type="text" value="0">
+
+						<label class="col-2 mb-3" for="a-accs_cost">Cost:</label>
+						<input class="col-2 mb-3 form-control" id="a-accs_cost" name="accs_cost" type="number" value="0">
+
+						<label class="col-2 mb-3" for="a-accs_price">Price:</label>
+						<input class="col-2 mb-3 form-control" id="a-accs_price" name="accs_price" type="number" value="0">
+
+						<fieldset class="form-group col-4 col-md-2">
+							<input class="filled-in" id="a-accs_status" name="accs_status" type="checkbox" value="1">
+							<label for="a-accs_status">Available?:</label>
+						</fieldset>
+
+						<label class="col-2 mb-3" for="a-accs_count">Count:</label>
+						<input class="col-2 mb-3 form-control" id="a-accs_count" name="accs_count" type="number" value="0">
+
+						<label class="col-2 mb-3" for="a-accs_width">Cutout Width:</label>
+						<input class="col-2 mb-3 form-control" id="a-accs_width" name="accs_width" type="number" value="0">
+
+						<label class="col-2 mb-3" for="a-accs_depth">Cutout Depth:</label>
+						<input class="col-2 mb-3 form-control" id="a-accs_depth" name="accs_depth" type="number" value="0">
+
+						<div class="btn btn-primary col-12" onClick="update_accs()">Update</div>
+					</form>
+				</div>
+				<hr>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-dismiss="modal" type="button">Close &#10008;</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="addAccsLabel" class="modal fade" id="addAccs" role="dialog" tabindex="-1">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="margin-top: 7rem;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="modal-title">
+					<h2 class="d-inline text-primary"><i class="fas fa-plus h2 text-success"></i> Add Accessory</h2>
+				</div><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&#10008;</span></button>
+			</div>
+			<div class="modal-body">
+				<div class="container">
+					<div class="row">
+						<h2 class="col-12">Edit: <span class="text-primary" id="accsName"></span></h2>
+					</div>
+					<hr>
+					<form id="add_accs" class=" row">
+						<input type="hidden" name="action" value="add_accs">
+
+						<label class="col-12 mb-3" for="accs_name">Accessory Name:</label>
+						<input class="col-12 mb-3 form-control" type="text" id="accs_name" name="accs_name">
+						
+						<fieldset class="form-group col-3">
+							<label for="accs_type">Type:</label>
+							<select class="mdb-select" id="accs_type" name="accs_type" type="text" data-required="true">
+								<option value="1">Sink</option>
+								<option value="2">Faucet</option>
+								<option value="3">Other</option>
+							</select>
+						</fieldset>
+
+						<label class="col-2 mb-3" for="accs_model">Model:</label>
+						<input class="col-2 mb-3 form-control" id="accs_model" name="accs_model" type="text" value="0">
+
+						<label class="col-2 mb-3" for="accs_cost">Cost:</label>
+						<input class="col-2 mb-3 form-control" id="accs_cost" name="accs_cost" type="number" value="0">
+
+						<label class="col-2 mb-3" for="accs_price">Price:</label>
+						<input class="col-2 mb-3 form-control" id="accs_price" name="accs_price" type="number" value="0">
+
+						<fieldset class="form-group col-4 col-md-2">
+							<input class="filled-in" id="accs_status" name="accs_status" type="checkbox" value="1">
+							<label for="a-accs_status">Available?:</label>
+						</fieldset>
+
+						<label class="col-2 mb-3" for="accs_count">Count:</label>
+						<input class="col-2 mb-3 form-control" id="accs_count" name="accs_count" type="number" value="0">
+
+						<label class="col-2 mb-3" for="accs_width">Cutout Width:</label>
+						<input class="col-2 mb-3 form-control" id="accs_width" name="accs_width" type="number" value="0">
+
+						<label class="col-2 mb-3" for="accs_depth">Cutout Depth:</label>
+						<input class="col-2 mb-3 form-control" id="accs_depth" name="accs_depth" type="number" value="0">
+
+						<div class="btn btn-primary col-12" onClick="update_accs()">Update</div>
+					</form>
+				</div>
+				<hr>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-dismiss="modal" type="button">Close &#10008;</button>
+			</div>
+		</div>
+	</div>
+</div>
