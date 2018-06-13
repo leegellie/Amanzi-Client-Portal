@@ -71,12 +71,10 @@
 										}
 										?>
 									</td>
-									<td class="text-center"><?= $results['price_4'] ?></td>
-									<td class="text-center"><?= $results['price_5'] ?></td>
-									<td class="text-center"><?= $results['price_6'] ?></td>
-									<td class="text-center"><?= $results['price_7'] ?></td>
+									<td class="text-center"><?= $results['accs_width'] ?></td>
+									<td class="text-center"><?= $results['accs_depth'] ?></td>
 									<td class="text-center btn-sm btn-primary m-0" onClick="editMarbModal(<?= $editString ?>)"><i class="fas fa-wrench"></i></td>
-									<td class="text-center btn-sm btn-danger m-0" onClick="delete_marble(<?= $results['id'] ?>)"><i class="fas fa-trash"></i></td>
+									<td class="text-center btn-sm btn-danger m-0" onClick="delete_marble(<?= $results['accs_id'] ?>)"><i class="fas fa-trash"></i></td>
 								</tr>
 		<?
 	}
