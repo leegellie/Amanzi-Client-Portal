@@ -54,7 +54,7 @@
 										} elseif ($results['accs_code'] == 2){
 											echo "Faucet";
 										} else {
-											echo "Accessory"
+											echo "Accessory";
 										}
 										?>
 									</td>
