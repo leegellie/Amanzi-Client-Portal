@@ -50,7 +50,7 @@
 									<td>
 										<?
 										if ($results['accs_code'] == 1) {
-											echo "Sink"''
+											echo "Sink";
 										} elseif ($results['accs_code'] == 2){
 											echo "Faucet";
 										} else {
