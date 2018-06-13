@@ -347,215 +347,215 @@ if ($action=="staff_summary") {
 	echo $html;
 }
 
-if ($action=="get_staff_list") {
-
-	unset($_POST['action']);
-	$results = "";
-	$search = new user_action;
-
-	echo "<hr>";
-	echo '<div id="resultsTable1" class="row"><select id="weekSelect">';
-	echo '<option value="0">Select Week</option>';
-
-	define('NL', "\n");
-
-	$year           = 2018;
-	$firstDayOfYear = mktime(0, 0, 0, 1, 1, $year);
-	$nextSunday     = strtotime('sunday', $firstDayOfYear);
-	$nextSaturday     = strtotime('saturday', $nextSunday);
-
-	while (date('Y', $nextSunday) == $year) {
-		echo date('c', $nextSunday), '-', date('c', $nextSaturday), NL;
-
-		$nextSunday = strtotime('+1 week', $nextSunday);
-		$nextSaturday = strtotime('+1 week', $nextSaturday);
-	}
-	
-
-	echo '</seletc></div>';
-	echo '<div id="resultsTable1" class="row">';
-	echo '<h2 id="" class="text-success w-100">Staff</h2>';
-
-	foreach($search->get_staff_list() as $results) {
-		if (($results['job_status'] < 41 && $results['job_status'] > 24) || ($results['job_status'] > 13 && $results['job_status'] < 41  && $results['acct_rep'] == 6)) {
-			?>
-				<div  class="col-9 col-md-5 text-primary"><h3><?= $results['job_name']; ?></h3></div>
-				<div class="col-2 hidden-md-down">
-					<h3><?= $results['quote_num']; ?></h3>
-				</div>
-				<div class="col-2 hidden-md-down">
-					<h3><?= $results['order_num']; ?></h3>
-				</div>
-				<div class="col-3 col-md-2 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
-						<span class="hidden-md-down">View </span>
-						<i class="fas fa-eye"></i>
-					</div>
-				</div>
-			<?
-			$installs = new materials_action;
-			foreach($search->get_install_materials($results['id']) as $row) {
-			?>
-				<div class="col-12">
-					<div class="container d-flex">
-						<div class="col-4">Install: <?= $row['install_name']; ?></div>
-						<div class="col-4">Sink: <?= $row['sk_detail']; ?></div>
-						<div class="col-4">Range: <?= $row['range_model']; ?></div>
-					</div>
-					<div class="container d-flex">
-						<div class="col-2">Material: <?= $row['material']; ?></div>
-						<div class="col-4">Color: <?= $row['color']; ?></div>
-						<div class="col-2">SqFt: <?= $row['SqFt']; ?></div>
-						<div class="col-2">Selected: <?= $row['selected']; ?></div>
-						<div class="col-2">Lot: <?= $row['lot']; ?></div>
-					</div>
-				</div>
-				<hr>
-			<?
-			}
-			?>
-				<hr>
-			<?
-		}
-	}
-	echo '<hr style="height:5px;margin-top:15px;background:magenta;">';
-
-	echo '<h2 id="" class="text-success w-100">Materials Ordered / In Staging</h2>';
-	foreach($search->get_materials_needed() as $results) {
-		if ($results['job_status'] > 40 && $results['job_status'] < 44 && $results['job_status'] != 26) {
-			?>
-				<div  class="col-9 col-md-8 text-primary"><h3><?= $results['job_name']; ?></h3></div>
-				<div class="col-1 hidden-md-down">
-					<h3><?= $results['quote_num']; ?></h3>
-				</div>
-				<div class="col-1 hidden-md-down">
-					<h3><?= $results['order_num']; ?></h3>
-				</div>
-				<div class="col-3 col-md-2 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
-						<span class="hidden-md-down">View </span>
-						<i class="fas fa-eye"></i>
-					</div>
-				</div>
-			<?
-			$installs = new materials_action;
-
-			foreach($search->get_install_materials($results['id']) as $row) {
-			?>
-				<div class="col-12">
-					<div class="container d-flex">
-						<div class="col-4">Install: <?= $row['install_name']; ?></div>
-						<div class="col-4">Sink: <?= $row['sk_detail']; ?></div>
-						<div class="col-4">Range: <?= $row['range_model']; ?></div>
-					</div>
-					<div class="container d-flex">
-						<div class="col-2">Material: <?= $row['material']; ?></div>
-						<div class="col-4">Color: <?= $row['color']; ?></div>
-						<div class="col-2">SqFt: <?= $row['SqFt']; ?></div>
-						<div class="col-2">Selected: <?= $row['selected']; ?></div>
-						<div class="col-2">Lot: <?= $row['lot']; ?></div>
-					</div>
-					<div class="container d-flex">
-					<?
-						if($row['material_status'] == 1) {
-					?>
-						<div class="col-6 text-danger"><b>Status: To be assigned/ordered.</b></div>
-						<div class="col-3 btn btn-sm btn-primary orderMaterials" onClick="matOredered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered</div>
-						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
-					<?
-						} else if($row['material_status'] == 2) {
-					?>
-						<div class="col-6 text-success"><b>Status: Materials ordered. Est. delivery <?= date('Y-m-d', strtotime($row['material_date'])) ?></b></div>
-						<div class="col-3">Reference: <?= $row['assigned_material'] ?></div>
-						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
-					<?
-						} else if($row['material_status'] == 3) {
-					?>
-						<div class="col-6 text-primary"><b>Status: Materials On Hand</b></div>
-						<div class="col-6">Assigned Material: <?= $row['assigned_material'] ?></div>
-					<?
-						}
-					?>
-
-					</div>
-				</div>
-				<hr>
-			<?
-			}
-			?>
-				<hr>
-			<?
-		}
-	}
-	echo '<hr style="height:5px;margin-top:15px;background:magenta;">';
-	echo '<h2 id="" class="text-success w-100">Materials On Hold</h2>';
-	foreach($search->get_materials_needed() as $results) {
-		if ($results['job_status'] == 49 && $results['job_status'] != 26) {
-			?>
-				<div  class="col-9 col-md-8 text-primary"><h3><?= $results['job_name']; ?></h3></div>
-				<div class="col-1 hidden-md-down">
-					<h3><?= $results['quote_num']; ?></h3>
-				</div>
-				<div class="col-1 hidden-md-down">
-					<h3><?= $results['order_num']; ?></h3>
-				</div>
-				<div class="col-3 col-md-2 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
-						<span class="hidden-md-down">View </span>
-						<i class="fas fa-eye"></i>
-					</div>
-				</div>
-			<?
-			$installs = new materials_action;
-			foreach($search->get_install_materials($results['id']) as $row) {
-			?>
-				<div class="col-12">
-					<div class="container d-flex">
-						<div class="col-4">Install: <?= $row['install_name']; ?></div>
-						<div class="col-4">Sink: <?= $row['sk_detail']; ?></div>
-						<div class="col-4">Range: <?= $row['range_model']; ?></div>
-					</div>
-					<div class="container d-flex">
-						<div class="col-2">Material: <?= $row['material']; ?></div>
-						<div class="col-4">Color: <?= $row['color']; ?></div>
-						<div class="col-2">SqFt: <?= $row['SqFt']; ?></div>
-						<div class="col-2">Selected: <?= $row['selected']; ?></div>
-						<div class="col-2">Lot: <?= $row['lot']; ?></div>
-					</div>
-				</div>
-				<hr>
-			<?
-			}
-			?>
-				<hr>
-			<?
-		}
-	}
-	echo '<hr style="height:5px;margin-top:15px;background:magenta;">';
-	echo '<h2 id="" class="text-success w-100">Delivered to Saw</h2>';
-	foreach($search->get_materials_needed() as $results) {
-		if ($results['job_status'] == 44 && $results['job_status'] != 26) {
-			?>
-				<div  class="col-9 col-md-8 text-primary"><h3><?= $results['job_name']; ?></h3></div>
-				<div class="col-1 hidden-md-down">
-					<h3><?= $results['quote_num']; ?></h3>
-				</div>
-				<div class="col-1 hidden-md-down">
-					<h3><?= $results['order_num']; ?></h3>
-				</div>
-				<div class="col-3 col-md-2 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
-						<span class="hidden-md-down">View </span>
-						<i class="fas fa-eye"></i>
-					</div>
-				</div>
-				<hr>
-			<?
-		}
-	}
-	echo "</div>";
-	echo '<hr style="height:5px;margin-top:15px;background:magenta;">';
-}
+//if ($action=="get_staff_list") {
+//
+//	unset($_POST['action']);
+//	$results = "";
+//	$search = new user_action;
+//
+//	echo "<hr>";
+//	echo '<div id="resultsTable1" class="row"><select id="weekSelect">';
+//	echo '<option value="0">Select Week</option>';
+//
+//	define('NL', "\n");
+//
+//	$year           = 2018;
+//	$firstDayOfYear = mktime(0, 0, 0, 1, 1, $year);
+//	$nextSunday     = strtotime('sunday', $firstDayOfYear);
+//	$nextSaturday     = strtotime('saturday', $nextSunday);
+//
+//	while (date('Y', $nextSunday) == $year) {
+//		echo date('c', $nextSunday), '-', date('c', $nextSaturday), NL;
+//
+//		$nextSunday = strtotime('+1 week', $nextSunday);
+//		$nextSaturday = strtotime('+1 week', $nextSaturday);
+//	}
+//	
+//
+//	echo '</seletc></div>';
+//	echo '<div id="resultsTable1" class="row">';
+//	echo '<h2 id="" class="text-success w-100">Staff</h2>';
+//
+//	foreach($search->get_staff_list() as $results) {
+//		if (($results['job_status'] < 41 && $results['job_status'] > 24) || ($results['job_status'] > 13 && $results['job_status'] < 41  && $results['acct_rep'] == 6)) {
+//			?>
+//				<div  class="col-9 col-md-5 text-primary"><h3><?= $results['job_name']; ?></h3></div>
+//				<div class="col-2 hidden-md-down">
+//					<h3><?= $results['quote_num']; ?></h3>
+//				</div>
+//				<div class="col-2 hidden-md-down">
+//					<h3><?= $results['order_num']; ?></h3>
+//				</div>
+//				<div class="col-3 col-md-2 text-right">
+//					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
+//						<span class="hidden-md-down">View </span>
+//						<i class="fas fa-eye"></i>
+//					</div>
+//				</div>
+//			<?
+//			$installs = new materials_action;
+//			foreach($search->get_install_materials($results['id']) as $row) {
+//			?>
+//				<div class="col-12">
+//					<div class="container d-flex">
+//						<div class="col-4">Install: <?= $row['install_name']; ?></div>
+//						<div class="col-4">Sink: <?= $row['sk_detail']; ?></div>
+//						<div class="col-4">Range: <?= $row['range_model']; ?></div>
+//					</div>
+//					<div class="container d-flex">
+//						<div class="col-2">Material: <?= $row['material']; ?></div>
+//						<div class="col-4">Color: <?= $row['color']; ?></div>
+//						<div class="col-2">SqFt: <?= $row['SqFt']; ?></div>
+//						<div class="col-2">Selected: <?= $row['selected']; ?></div>
+//						<div class="col-2">Lot: <?= $row['lot']; ?></div>
+//					</div>
+//				</div>
+//				<hr>
+//			<?
+//			}
+//			?>
+//				<hr>
+//			<?
+//		}
+//	}
+//	echo '<hr style="height:5px;margin-top:15px;background:magenta;">';
+//
+//	echo '<h2 id="" class="text-success w-100">Materials Ordered / In Staging</h2>';
+//	foreach($search->get_materials_needed() as $results) {
+//		if ($results['job_status'] > 40 && $results['job_status'] < 44 && $results['job_status'] != 26) {
+//			?>
+//				<div  class="col-9 col-md-8 text-primary"><h3><?= $results['job_name']; ?></h3></div>
+//				<div class="col-1 hidden-md-down">
+//					<h3><?= $results['quote_num']; ?></h3>
+//				</div>
+//				<div class="col-1 hidden-md-down">
+//					<h3><?= $results['order_num']; ?></h3>
+//				</div>
+//				<div class="col-3 col-md-2 text-right">
+//					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
+//						<span class="hidden-md-down">View </span>
+//						<i class="fas fa-eye"></i>
+//					</div>
+//				</div>
+//			<?
+//			$installs = new materials_action;
+//
+//			foreach($search->get_install_materials($results['id']) as $row) {
+//			?>
+//				<div class="col-12">
+//					<div class="container d-flex">
+//						<div class="col-4">Install: <?= $row['install_name']; ?></div>
+//						<div class="col-4">Sink: <?= $row['sk_detail']; ?></div>
+//						<div class="col-4">Range: <?= $row['range_model']; ?></div>
+//					</div>
+//					<div class="container d-flex">
+//						<div class="col-2">Material: <?= $row['material']; ?></div>
+//						<div class="col-4">Color: <?= $row['color']; ?></div>
+//						<div class="col-2">SqFt: <?= $row['SqFt']; ?></div>
+//						<div class="col-2">Selected: <?= $row['selected']; ?></div>
+//						<div class="col-2">Lot: <?= $row['lot']; ?></div>
+//					</div>
+//					<div class="container d-flex">
+//					<?
+//						if($row['material_status'] == 1) {
+//					?>
+//						<div class="col-6 text-danger"><b>Status: To be assigned/ordered.</b></div>
+//						<div class="col-3 btn btn-sm btn-primary orderMaterials" onClick="matOredered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered</div>
+//						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
+//					<?
+//						} else if($row['material_status'] == 2) {
+//					?>
+//						<div class="col-6 text-success"><b>Status: Materials ordered. Est. delivery <?= date('Y-m-d', strtotime($row['material_date'])) ?></b></div>
+//						<div class="col-3">Reference: <?= $row['assigned_material'] ?></div>
+//						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
+//					<?
+//						} else if($row['material_status'] == 3) {
+//					?>
+//						<div class="col-6 text-primary"><b>Status: Materials On Hand</b></div>
+//						<div class="col-6">Assigned Material: <?= $row['assigned_material'] ?></div>
+//					<?
+//						}
+//					?>
+//
+//					</div>
+//				</div>
+//				<hr>
+//			<?
+//			}
+//			?>
+//				<hr>
+//			<?
+//		}
+//	}
+//	echo '<hr style="height:5px;margin-top:15px;background:magenta;">';
+//	echo '<h2 id="" class="text-success w-100">Materials On Hold</h2>';
+//	foreach($search->get_materials_needed() as $results) {
+//		if ($results['job_status'] == 49 && $results['job_status'] != 26) {
+//			?>
+//				<div  class="col-9 col-md-8 text-primary"><h3><?= $results['job_name']; ?></h3></div>
+//				<div class="col-1 hidden-md-down">
+//					<h3><?= $results['quote_num']; ?></h3>
+//				</div>
+//				<div class="col-1 hidden-md-down">
+//					<h3><?= $results['order_num']; ?></h3>
+//				</div>
+//				<div class="col-3 col-md-2 text-right">
+//					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
+//						<span class="hidden-md-down">View </span>
+//						<i class="fas fa-eye"></i>
+//					</div>
+//				</div>
+//			<?
+//			$installs = new materials_action;
+//			foreach($search->get_install_materials($results['id']) as $row) {
+//			?>
+//				<div class="col-12">
+//					<div class="container d-flex">
+//						<div class="col-4">Install: <?= $row['install_name']; ?></div>
+//						<div class="col-4">Sink: <?= $row['sk_detail']; ?></div>
+//						<div class="col-4">Range: <?= $row['range_model']; ?></div>
+//					</div>
+//					<div class="container d-flex">
+//						<div class="col-2">Material: <?= $row['material']; ?></div>
+//						<div class="col-4">Color: <?= $row['color']; ?></div>
+//						<div class="col-2">SqFt: <?= $row['SqFt']; ?></div>
+//						<div class="col-2">Selected: <?= $row['selected']; ?></div>
+//						<div class="col-2">Lot: <?= $row['lot']; ?></div>
+//					</div>
+//				</div>
+//				<hr>
+//			<?
+//			}
+//			?>
+//				<hr>
+//			<?
+//		}
+//	}
+//	echo '<hr style="height:5px;margin-top:15px;background:magenta;">';
+//	echo '<h2 id="" class="text-success w-100">Delivered to Saw</h2>';
+//	foreach($search->get_materials_needed() as $results) {
+//		if ($results['job_status'] == 44 && $results['job_status'] != 26) {
+//			?>
+//				<div  class="col-9 col-md-8 text-primary"><h3><?= $results['job_name']; ?></h3></div>
+//				<div class="col-1 hidden-md-down">
+//					<h3><?= $results['quote_num']; ?></h3>
+//				</div>
+//				<div class="col-1 hidden-md-down">
+//					<h3><?= $results['order_num']; ?></h3>
+//				</div>
+//				<div class="col-3 col-md-2 text-right">
+//					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
+//						<span class="hidden-md-down">View </span>
+//						<i class="fas fa-eye"></i>
+//					</div>
+//				</div>
+//				<hr>
+//			<?
+//		}
+//	}
+//	echo "</div>";
+//	echo '<hr style="height:5px;margin-top:15px;background:magenta;">';
+//}
 
 if ($action=="location_log") {
 	unset($_POST['action']);

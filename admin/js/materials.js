@@ -296,11 +296,8 @@ function assignMat(thisForm) {
             $('div').modal('hide');
             $("#materialBtn").click();
         },
-        error: function(xhr, status, error) {
-            // alert("Error submitting form: " + xhr.responseText);
-            successNote = "Error submitting form: " + xhr.responseText;
-            $('#editSuccess').html(succesStarter + successNote + successEnder);
-            document.getElementById('closeFocus').focus();
+        error: function(data) {
+			alert(data);
         }
     });
 }
@@ -321,11 +318,8 @@ $(document).ready(function() {
             success: function(data) {
                 $('#matResults').html(data);
             },
-            error: function(xhr, status, error) {
-                // alert("Error submitting form: " + xhr.responseText);
-                successNote = "Error submitting form: " + xhr.responseText;
-                $('#editSuccess').html(succesStarter + successNote + successEnder);
-                document.getElementById('closeFocus').focus();
+            error: function(data) {
+                alert(data);
             }
         });
     });
