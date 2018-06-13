@@ -121,7 +121,7 @@ class materials_action {
 				ON status.id = projects.job_status 
 			 WHERE projects.job_status > 11 
 			   AND projects.job_status < 50 
-			   AND (NOT install_date = '2200-01-01' AND NOT template_date = '2200-01-01') 
+			   AND !(install_date = '2200-01-01' AND template_date = '2200-01-01')
 			   AND isActive = 1 
 		  ORDER BY projects.install_date ASC
 		  ");
