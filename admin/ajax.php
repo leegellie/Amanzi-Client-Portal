@@ -5042,7 +5042,13 @@ if ($action=="view_selected_pjt") {
 		$html = '<div class="row d-none w-100 d-print-flex">';
 
 		$html .= '<div class="col-4 mt-5 text-left">';
-		$html .= '<h2 class="text-primary">ESTIMATE</h2>';
+		if ($results['job_status'] < 22) {
+			$html .= '<h2 class="text-primary">ESTIMATE</h2>';
+		} elseif ($results['job_status'] < 85 && $results['job_status'] != 89) {
+			$html .= '<h2 class="text-primary">QUOTATION</h2>';
+		} elseif ($results['job_status'] == 85) {
+			$html .= '<h2 class="text-primary">INVOICE</h2>';
+		}
 		$html .= $results['clientCompany'] . '<br>';
 		$html .= 'FAO: ' . $results['clientFname'] . ' ' . $results['clientLname'] . '<br>';
 		if ($results['cAdd1'] > 0) {
@@ -5751,8 +5757,18 @@ if ($action=="view_selected_pjt") {
 		<?
 	}
 	echo "<hr>";
-	echo '<h3 class="col-12 d-none d-print-block">Notice:</h3>';
-	echo '<div class="col-12 d-none d-print-block" id="estimate">This is an estimated cost for the project requested and is not an actual quatation. After accepting an estimate, a deposit will be required. At that point a template will be scheduled and carried out which will then allow us to provide you with an in depth <b>quotation</b> for the job.</div>';
+
+	if ($results['job_status'] < 22) {
+		echo '<h3 class="col-12 d-none d-print-block">Notice:</h3>';
+		echo '<div class="col-12 d-none d-print-block" id="estimate">This is an estimated cost for the project requested and is not an actual quatation. After accepting an estimate, a deposit will be required. At that point a template will be scheduled and carried out which will then allow us to provide you with an in depth <b>quotation</b> for the job.</div>';
+	} elseif ($results['job_status'] < 85 && $results['job_status'] != 89) {
+		echo '<h3 class="col-12 d-none d-print-block">Disclaimer:</h3>';
+		echo '<div class="col-12 d-none d-print-block" id="estimate">' . "Amanzi has quoted this job based on information provided and, if applicable, templating of the job site.  If there are any changes to material, layout or accessoried this price may change at Amanzi's discretion. Re-visits due to customer/client not being ready for the job or on site when installers arrive may incur a 'trip charge' for each failed journey.</div>";
+	} elseif ($results['job_status'] == 85) {
+		echo '<h3 class="col-12 d-none d-print-block">Terms:</h3>';
+		echo '<div class="col-12 d-none d-print-block" id="estimate">' . "Please pay balance remaining by the agreed terms and conditions in your contract.</div>";
+	}
+
 	echo '<h5 class="col-12 d-none d-print-block text-center mt-5">&copy; ' . date('Y') . ' - Amanzi Marble, Granite &amp; Tile. All rights reserved.</h5>';
 
 
