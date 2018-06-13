@@ -5544,11 +5544,11 @@ if ($action=="view_selected_pjt") {
 
 	$cmt_user = "'" . $_SESSION['id'] . "'";
 	$html .= '	<div class="d-print-none">';
-	$html .= '		<h4 class="d-inline">Comments</h4><div id="makeCommentBtn" class="btn btn-primary d-inline ml-2 float-right" cmt_type="pjt" onClick="makeComment(this,' . $cmt_user . ');"><i class="fas fa-comment"></i></div>';
+	$html .= '		<div id="makeCommentBtn" class="btn btn-primary d-inline ml-2 float-right" cmt_type="pjt" onClick="makeComment(this,' . $cmt_user . ');"><i class="fas fa-comment"></i></div>';
 
 	$html .= '		<ul class="nav nav-tabs nav-justified peach-gradient" role="tablist">';
-	$html .= '			<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_comments" role="tab">Comments</a></li>';
-	$html .= '			<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_log" role="tab">Log</a></li>';
+	$html .= '			<li class="nav-item"><a class="text-dark nav-link active" style="font-size: 24px;" data-toggle="tab" href="#panel_comments" role="tab">Comments</a></li>';
+	$html .= '			<li class="nav-item"><a class="text-dark nav-link" style="font-size: 24px;" data-toggle="tab" href="#panel_log" role="tab">Log</a></li>';
 	$html .= '		</ul>';
 	$html .= '		<div class="tab-content px-0 border">';
 	$html .= '			<div class="tab-pane fade in show active" id="panel_comments" role="tabpanel">';
