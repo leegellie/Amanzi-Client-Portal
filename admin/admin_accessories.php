@@ -122,17 +122,17 @@
 
 						<fieldset class="form-group col-3">
 							<label class="" for="a-accs_model">Model:</label>
-							<input class="form-control" id="a-accs_model" name="accs_model" type="text" value="0">
+							<input class="form-control" id="a-accs_model" name="accs_model" type="text">
 						</fieldset>
 
 						<fieldset class="form-group col-3">
 							<label class="" for="a-accs_cost">Cost:</label>
-							<input class="form-control" id="a-accs_cost" name="accs_cost" type="number" value="0">
+							<input class="form-control" id="a-accs_cost" name="accs_cost" type="number" value="0.00">
 						</fieldset>
 
 						<fieldset class="form-group col-3">
 							<label class="" for="a-accs_price">Price:</label>
-							<input class="form-control" id="a-accs_price" name="accs_price" type="number" value="0">
+							<input class="form-control" id="a-accs_price" name="accs_price" type="number" value="0.00">
 						</fieldset>
 
 						<fieldset class="form-group col-4 col-md-2">
