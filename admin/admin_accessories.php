@@ -16,7 +16,6 @@
 										<th scope="col">Name</th>
 										<th class="text-center" scope="col">Cost</th>
 										<th class="text-center" scope="col">Price</th>
-										<th class="text-center" scope="col">Count</th>
 										<th class="text-center" scope="col">Available</th>
 										<th class="text-center" scope="col">Width</th>
 										<th class="text-center" scope="col">Depth</th>
