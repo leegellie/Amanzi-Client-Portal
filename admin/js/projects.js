@@ -1249,7 +1249,6 @@ function entry_reject(pid) {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			alert(data);
 			pjtBack();
 		},
 		error: function(data) {

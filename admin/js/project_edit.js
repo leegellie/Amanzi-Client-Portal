@@ -8,11 +8,11 @@
 //		success: function(data) {
 //			$("#acct_rep").append(data);
 //		},
-//		error: function(xhr, status, error) {
-//			// alert("Error submitting form: " + xhr.responseText);
-//			successNote = "Error submitting form: "+xhr.responseText;
-//			$('#editSuccess').html(succesStarter+successNote+successEnder);
-//			document.getElementById('closeFocus').focus();
+//		error: function(data) {
+//			alert(data);
+//			
+//			
+//			
 //		}
 //	});
 //}
@@ -105,11 +105,11 @@ function viewThisProject($a,$b) {
 			$('.mdb-select').material_select();
 			$pName = $('#projectName').text();
 		},
-		error: function(xhr, status, error) {
-			// alert("Error submitting form: " + xhr.responseText);
-			successNote = "Error submitting form: "+xhr.responseText;
-			$('#editSuccess').html(succesStarter+successNote+successEnder);
-			document.getElementById('closeFocus').focus();
+		error: function(data) {
+			alert(data);
+			
+			
+			
 		}
 	});
 	$('#materials-block').hide();
@@ -142,11 +142,11 @@ function getStatuses() {
             }
 			$('.mdb-select').material_select();
         },
-        error: function(xhr, status, error) {
-            // alert("Error submitting form: " + xhr.responseText);
+        error: function(data) {
+            alert(data);
             successNote = "Error submitting form: " + xhr.responseText;
             $('#editSuccess').html(succesStarter + successNote + successEnder);
-            document.getElementById('closeFocus').focus();
+            
         }
     });
 }
@@ -177,11 +177,11 @@ function statusSet(){
 			var selOption = '#changeStatus option[value='+ $status[0] +']';
 			$(selOption).attr('selected', 'selected');
 		},
-		error: function(xhr, status, error) {
-			// alert("Error submitting form: " + xhr.responseText);
-			successNote = "Error submitting form: "+xhr.responseText;
-			$('#editSuccess').html(succesStarter+successNote+successEnder);
-			document.getElementById('closeFocus').focus();
+		error: function(data) {
+			alert(data);
+			
+			
+			
 		}
 	});
 }
@@ -205,11 +205,11 @@ function getComments(ref) {
 		success: function(data) {
 			$('#commentList').append(data);
 		},
-		error: function(xhr, status, error) {
-			// alert("Error submitting form: " + xhr.responseText);
-			successNote = "Error submitting form: "+xhr.responseText;
-			$('#editSuccess').html(succesStarter+successNote+successEnder);
-			document.getElementById('closeFocus').focus();
+		error: function(data) {
+			alert(data);
+			
+			
+			
 		}
 	});
 }
@@ -224,11 +224,11 @@ function getSqFt() {
 			var $SqFtText = ' <span class="font-italic"><sup>(' + data + ' SqFt)</sup></span>';
 			$('#clientName').append($SqFtText);
 		},
-		error: function(xhr, status, error) {
-			// alert("Error submitting form: " + xhr.responseText);
-			successNote = "Error submitting form: "+xhr.responseText;
-			$('#editSuccess').html(succesStarter+successNote+successEnder);
-			document.getElementById('closeFocus').focus();
+		error: function(data) {
+			alert(data);
+			
+			
+			
 		}
 	});
 
@@ -245,11 +245,11 @@ function getSqFt() {
 //		success: function(data) {
 //			$("#edgeGet").text(data);
 //		},
-//		error: function(xhr, status, error) {
-//			// alert("Error submitting form: " + xhr.responseText);
-//			successNote = "Error submitting form: "+xhr.responseText;
-//			$('#editSuccess').html(succesStarter+successNote+successEnder);
-//			document.getElementById('closeFocus').focus();
+//		error: function(data) {
+//			alert(data);
+//			
+//			
+//			
 //		}
 //	});
 //	$.ajax({
@@ -259,11 +259,11 @@ function getSqFt() {
 //		success: function(data) {
 //			$("#holesGet").text(data);
 //		},
-//		error: function(xhr, status, error) {
-//			// alert("Error submitting form: " + xhr.responseText);
-//			successNote = "Error submitting form: "+xhr.responseText;
-//			$('#editSuccess').html(succesStarter+successNote+successEnder);
-//			document.getElementById('closeFocus').focus();
+//		error: function(data) {
+//			alert(data);
+//			
+//			
+//			
 //		}
 //	});
 //	$.ajax({
@@ -273,11 +273,11 @@ function getSqFt() {
 //		success: function(data) {
 //			$("#rangeGet").text(data);
 //		},
-//		error: function(xhr, status, error) {
-//			// alert("Error submitting form: " + xhr.responseText);
-//			successNote = "Error submitting form: "+xhr.responseText;
-//			$('#editSuccess').html(succesStarter+successNote+successEnder);
-//			document.getElementById('closeFocus').focus();
+//		error: function(data) {
+//			alert(data);
+//			
+//			
+//			
 //		}
 //	});
 //}
@@ -449,11 +449,11 @@ $(document).ready(function() {
 			success: function(data) {
 				$("#tableResults").replaceWith('<div width="100%" id="tableResults" style="background:none">' + data + '</div>');
 			},
-			error: function(xhr, status, error) {
-				// alert("Error submitting form: " + xhr.responseText);
-				successNote = "Error submitting form: "+xhr.responseText;
-				$('#editSuccess').html(succesStarter+successNote+successEnder);
-				document.getElementById('closeFocus').focus();
+			error: function(data) {
+				alert(data);
+				
+				
+				
 			}
 		});
 		e.preventDefault();
