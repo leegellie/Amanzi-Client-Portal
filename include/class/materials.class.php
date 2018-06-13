@@ -113,7 +113,18 @@ class materials_action {
 	public function get_materials_needed() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$q = $conn->prepare("SELECT projects.*, status.name AS status FROM projects JOIN status ON status.id = projects.job_status WHERE projects.job_status > 11 AND projects.job_status < 50 AND isActive = 1 ORDER BY projects.install_date ASC");
+		$q = $conn->prepare("
+			SELECT projects.*, 
+				   status.name AS status 
+			  FROM projects 
+			  JOIN status 
+				ON status.id = projects.job_status 
+			 WHERE projects.job_status > 11 
+			   AND projects.job_status < 50 
+			   AND (NOT install_date = '2200-01-01' AND NOT template_date = '2200-01-01') 
+			   AND isActive = 1 
+		  ORDER BY projects.install_date ASC
+		  ");
 		$q->execute();
 		return $row = $q->fetchAll();
 	}
