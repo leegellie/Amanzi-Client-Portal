@@ -126,13 +126,13 @@
 						</fieldset>
 
 						<fieldset class="form-group col-3">
-							<label class="col-2 mb-2" for="a-accs_cost">Cost:</label>
-							<input class="col-2 mb-3 form-control" id="a-accs_cost" name="accs_cost" type="number" value="0">
+							<label class="" for="a-accs_cost">Cost:</label>
+							<input class="form-control" id="a-accs_cost" name="accs_cost" type="number" value="0">
 						</fieldset>
 
 						<fieldset class="form-group col-3">
-							<label class="col-2 mb-2" for="a-accs_price">Price:</label>
-							<input class="col-2 mb-3 form-control" id="a-accs_price" name="accs_price" type="number" value="0">
+							<label class="" for="a-accs_price">Price:</label>
+							<input class="form-control" id="a-accs_price" name="accs_price" type="number" value="0">
 						</fieldset>
 
 						<fieldset class="form-group col-4 col-md-2">
@@ -141,18 +141,18 @@
 						</fieldset>
 
 						<fieldset class="form-group col-3">
-							<label class="col-2 mb-3" for="a-accs_count">Count:</label>
-							<input class="col-2 mb-3 form-control" id="a-accs_count" name="accs_count" type="number" value="0">
+							<label class="" for="a-accs_count">Count:</label>
+							<input class="form-control" id="a-accs_count" name="accs_count" type="number" value="0">
 						</fieldset>
 
 						<fieldset class="form-group col-3">
-							<label class="col-2 mb-3" for="a-accs_width">Cutout Width:</label>
-							<input class="col-2 mb-3 form-control" id="a-accs_width" name="accs_width" type="number" value="0">
+							<label class="" for="a-accs_width">Cutout Width:</label>
+							<input class=" form-control" id="a-accs_width" name="accs_width" type="number" value="0">
 						</fieldset>
 
 						<fieldset class="form-group col-3">
-							<label class="col-2 mb-3" for="a-accs_depth">Cutout Depth:</label>
-							<input class="col-2 mb-3 form-control" id="a-accs_depth" name="accs_depth" type="number" value="0">
+							<label class="" for="a-accs_depth">Cutout Depth:</label>
+							<input class=" form-control" id="a-accs_depth" name="accs_depth" type="number" value="0">
 						</fieldset>
 
 						<div class="btn btn-primary col-12" onClick="update_accs()">Update</div>
