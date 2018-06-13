@@ -5094,7 +5094,15 @@ if ($action=="view_selected_pjt") {
 
 		$html .= '<div class="col-12 d-print-none"><div class="btn btn-warning float-right" onClick="pjtBack()"><i class="fas fa-reply"></i>&nbsp;&nbsp; Back</div></div>';
 		$printThis = "$('#pjtDetails').printThis()";
-		$html .= '<div class="col-12 d-print-none ' . $noProg . '"><div class="btn btn-primary float-right mr-3" onClick="' . $printThis . '"><i class="fas fa-print"></i>&nbsp;&nbsp; Estimate</div></div>';
+		$html .= '<div class="col-12 d-print-none ' . $noProg . '"><div class="btn btn-primary float-right mr-3" onClick="' . $printThis . '"><i class="fas fa-print"></i>&nbsp;&nbsp; ';
+		if ($results['job_status'] < 22) {
+			$html .= 'ESTIMATE';
+		} elseif ($results['job_status'] < 85 && $results['job_status'] != 89) {
+			$html .= 'QUOTE';
+		} elseif ($results['job_status'] == 85) {
+			$html .= 'INVOICE';
+		}
+		$html .= '</div></div>';
 		$html .= '<h2 class="d-print-none">Client:</h2>';
 		$html .= '<h2 id="clientName" class="d-inline d-print-none text-primary text-uppercase">' . $results['clientCompany'] . ' ' . $results['clientFname'] . ' ' . $results['clientLname'] . ' <em><sup class=" ' . $noProg . '">(' . $eSqFt[0] . ' SqFt - $' . $tax_print .')</sup></em></h2>';
 		$html .= '<hr class="d-print-none">';
