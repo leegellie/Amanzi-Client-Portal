@@ -111,7 +111,7 @@
 						<label class="col-12 mb-3" for="a-accs_name">Accessory Name:</label>
 						<input class="col-12 mb-3 form-control" type="text" id="a-accs_name" name="accs_name">
 						
-						<fieldset class="form-group col-3">
+						<fieldset class="form-group col-12">
 							<label for="a-accs_type">Type:</label>
 							<select class="mdb-select" id="a-accs_type" name="accs_type" type="text" data-required="true">
 								<option value="1">Sink</option>
