@@ -5077,7 +5077,15 @@ if ($action=="view_selected_pjt") {
 		$tax = number_format($tax, 2, '.', ','); 
 		$tax_print = number_format($price_tax, 2, '.', ','); 
 		$html .= '<div class="col-4 text-center pr-0"><img src="../images/logo-bw.png" class="w-100">';
-		$html .= '<h2 class="w-100 text-primary text-center mt-4">Est. Cost: $' . $tax_print . '</h2>';
+
+		if ($job_status < 22) {
+			$html .= '<h2 class="w-100 text-primary text-center mt-4">Est. Cost: $' . $tax_print . '</h2>';
+		} elseif ($job_status < 85 && $job_status != 89) {
+			$html .= '<h2 class="w-100 text-primary text-center mt-4">Price: $' . $tax_print . '</h2>';
+		} elseif ($job_status == 85) {
+			$html .= '<h2 class="w-100 text-primary text-center mt-4">Final Price: $' . $tax_print . '</h2>';
+		}
+
 		$html .= '</div>';
 
 		$html .= '<div class="col-4 mt-5 text-right pr-0">';
