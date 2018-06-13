@@ -437,7 +437,7 @@ function editAccsModal(accs_id,accs_code,accs_model,accs_name,accs_cost,accs_pri
 	$('#a-accs_status').val(p3);
 	$('#a-accs_width').val(p4);
 	$('#a-accs_depth').val(p5);
-	$('#editMarble').modal('show');
+	$('#editAccs').modal('show');
 }
 
 $(document).ready(function(){
