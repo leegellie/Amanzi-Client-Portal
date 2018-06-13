@@ -2,7 +2,7 @@
                 <div id="user-data" class="col-12">
 					<div class="row mb-3 pt-3" style="position: sticky; top: 0">
 						<h1 class="text-primary col-10">Sinks, Faucets &amp; Accessories</h1>
-						<div class="btn btn-primary col-2 mx-0" onClick="$('#materialAddAccs').modal('show');"><i class="fas fa-plus"></i> Add</div>
+						<div class="btn btn-primary col-2 mx-0" onClick="$('#addAccs').modal('show');"><i class="fas fa-plus"></i> Add</div>
 					</div>
 					<hr>
                     <div id="user-block" class="content">
@@ -72,8 +72,8 @@
 									</td>
 									<td class="text-center"><?= $results['accs_width'] ?></td>
 									<td class="text-center"><?= $results['accs_depth'] ?></td>
-									<td class="text-center btn-sm btn-primary m-0" onClick="editMarbModal(<?= $editString ?>)"><i class="fas fa-wrench"></i></td>
-									<td class="text-center btn-sm btn-danger m-0" onClick="delete_marble(<?= $results['accs_id'] ?>)"><i class="fas fa-trash"></i></td>
+									<td class="text-center btn-sm btn-primary m-0" onClick="editAccsModal(<?= $editString ?>)"><i class="fas fa-wrench"></i></td>
+									<td class="text-center btn-sm btn-danger m-0" onClick="delete_accessory(<?= $results['accs_id'] ?>)"><i class="fas fa-trash"></i></td>
 								</tr>
 		<?
 	}
@@ -84,7 +84,7 @@
 						</div>
            			</div>
 					<div class="row mb-5 pt-5 d-flex" style="position: sticky; top: 0 text-right align-right">
-						<div class="btn btn-primary col-2 mx-0 float-right" onClick="$('#materialAddMarble').modal('show');"><i class="fas fa-plus"></i> Add</div>
+						<div class="btn btn-primary col-2 mx-0 float-right" onClick="$('#addAccs').modal('show');"><i class="fas fa-plus"></i> Add</div>
 					</div>
 
 				</div>
