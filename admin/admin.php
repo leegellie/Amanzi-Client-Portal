@@ -426,6 +426,20 @@ function editMarbModal(id,name,p0,p1,p2,p3,p4,p5,p6,p7,notes) {
 	$('#i-notes').val(notes);
 	$('#editMarble').modal('show');
 }
+
+function editAccsModal(accs_id,accs_code,accs_model,accs_name,accs_cost,accs_price,accs_status,accs_width,accs_depth) {
+	$('#a-accs_id').val(id);
+	$('#a-accs_code').text(name);
+	$('#a-accs_model').val(name);
+	$('#a-accs_name').val(p0);
+	$('#a-accs_cost').val(p1);
+	$('#a-accs_price').val(p2);
+	$('#a-accs_status').val(p3);
+	$('#a-accs_width').val(p4);
+	$('#a-accs_depth').val(p5);
+	$('#editMarble').modal('show');
+}
+
 $(document).ready(function(){
 	$("#searchBox").on("keyup", function() {
 		var value = $(this).val().toLowerCase();

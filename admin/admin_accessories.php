@@ -79,7 +79,6 @@
 	}
 	echo $accs;
 ?>
-
 							</table>
 						</div>
            			</div>
