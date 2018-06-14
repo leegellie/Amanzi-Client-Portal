@@ -42,7 +42,13 @@
 	$accs = '';
 	$get_accs = new project_action;
 	foreach($get_accs->get_accs() as $results) {
-		$editString = $results['accs_id'] . ",'" . $results['accs_code'] . "'," . $results['accs_model'] . "'," . htmlspecialchars($results['accs_name']) . ',' . $results['accs_cost'] . ',' . $results['accs_price'] . ',' . $results['accs_status'] . ',' . $results['accs_width'] . ',' . $results['accs_depth'];
+		?>
+								<script>
+									$name_string = <?= $results['accs_name'] ?>;
+									$name_string = escape($name_string);
+								</script>
+		<?
+		$editString = $results['accs_id'] . ",'" . $results['accs_code'] . "'," . $results['accs_model'] . "'," . $results['accs_cost'] . ',' . $results['accs_price'] . ',' . $results['accs_status'] . ',' . $results['accs_width'] . ',' . $results['accs_depth'];
 ?>
 								<tr class="filter">
 									<td class="text-center"><?= $results['accs_id'] ?></td>
@@ -72,7 +78,7 @@
 									</td>
 									<td class="text-center"><?= $results['accs_width'] ?></td>
 									<td class="text-center"><?= $results['accs_depth'] ?></td>
-									<td class="text-center btn-sm btn-primary m-0" onClick="editAccsModal(<?= $editString ?>)"><i class="fas fa-wrench"></i></td>
+									<td class="text-center btn-sm btn-primary m-0" onClick="editAccsModal(<?= $editString ?>,unescape($name_string))"><i class="fas fa-wrench"></i></td>
 									<td class="text-center btn-sm btn-danger m-0" onClick="delete_accessory(<?= $results['accs_id'] ?>)"><i class="fas fa-trash"></i></td>
 								</tr>
 		<?
