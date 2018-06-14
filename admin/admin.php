@@ -428,6 +428,7 @@ function editMarbModal(id,name,p0,p1,p2,p3,p4,p5,p6,p7,notes) {
 }
 
 function editAccsModal( accs_id, accs_code, accs_model, accs_cost, accs_price, accs_status, accs_width, accs_depth, accs_name) {
+	accs_name = unescape(accs_name);
 	$('#a-accs_id').val(accs_id);
 	$('#a-accs_code').val(accs_code);
 	$('#a-accs_model').val(accs_model);
