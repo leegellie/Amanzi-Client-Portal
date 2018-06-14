@@ -44,7 +44,7 @@
 	foreach($get_accs->get_accs() as $results) {
 		?>
 								<script>
-									$name_string = escape(<?= $results['accs_name'] ?>);
+									$name_string = escape(document.write(<?= $results['accs_name'] ?>);
 								</script>
 		<?
 		$editString = $results['accs_id'] . ",'" . $results['accs_code'] . "'," . $results['accs_model'] . "'," . $results['accs_cost'] . ',' . $results['accs_price'] . ',' . $results['accs_status'] . ',' . $results['accs_width'] . ',' . $results['accs_depth'];
