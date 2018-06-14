@@ -78,7 +78,7 @@
 									</td>
 									<td class="text-center"><?= $results['accs_width'] ?></td>
 									<td class="text-center"><?= $results['accs_depth'] ?></td>
-									<td class="text-center btn-sm btn-primary m-0" onClick="editAccsModal(<?= $editString ?>,unescape($name_string))"><i class="fas fa-wrench"></i></td>
+									<td class="text-center btn-sm btn-primary m-0" onClick="editAccsModal(<?= $editString ?>,$name_string)"><i class="fas fa-wrench"></i></td>
 									<td class="text-center btn-sm btn-danger m-0" onClick="delete_accessory(<?= $results['accs_id'] ?>)"><i class="fas fa-trash"></i></td>
 								</tr>
 		<?
