@@ -60,7 +60,7 @@ function escapeHtml (string) {
     return entityMap[s];
   });
 }
-									$name_string = escapeHtml(<?= $results['accs_name'] ?>);
+$name_string = escapeHtml(<?= $results['accs_name'] ?>);
 								</script>
 		<?
 		$editString = $results['accs_id'] . ",'" . $results['accs_code'] . "'," . $results['accs_model'] . "'," . $results['accs_cost'] . ',' . $results['accs_price'] . ',' . $results['accs_status'] . ',' . $results['accs_width'] . ',' . $results['accs_depth'];
@@ -71,7 +71,7 @@ function escapeHtml (string) {
 										<?
 										if ($results['accs_code'] == 1) {
 											echo "Sink";
-										} elseif ($results['accs_code'] == 2){
+										} elseif ($results['accs_code'] == 2) {
 											echo "Faucet";
 										} else {
 											echo "Accessory";

@@ -133,9 +133,126 @@ function job_hold() {
 				"hideEasing": "linear",
 				"showMethod": "fadeIn",
 				"hideMethod": "fadeOut"
-			}
+			};
 			$('#job_hold').modal('hide');
 			viewThisProject($pid, $uid);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+function mat_hold_modal(uid,iid,pid) {
+	$('#mh-pid').val('');
+	$('#mh-iid').val('');
+	$('#mh-staff').val('');
+	$('#mh-hold_reason').val('');
+	$('#mh-pid').val(pid);
+	$('#mh-iid').val(iid);
+	$('#mh-staff').val(uid);
+	$('#mat_hold_modal').modal('show');
+}
+
+function mat_hold() {
+	if ($('#mh-hold_reason').val() == '') {
+		alert("You must enter a reason for placing the material on hold.");
+		return;
+	}
+	var user = $('#mh-staff').val();
+	var pid = $('#mh-pid').val();
+	var iid = $('#mh-iid').val();
+	var cmt_comment = $('#mh-hold_reason').val();
+
+	var datastring = 'action=mat_hold&user=' + user + '&pid=' + pid + '&iid=' + iid + '&cmt_comment=' + cmt_comment;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log(data);
+			Command: toastr["error"]("Material placed on HOLD.", "Projects")
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": false,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": 300,
+				"hideDuration": 1000,
+				"timeOut": 5000,
+				"extendedTimeOut": 1000,
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			};
+			$('#mat_hold_modal').modal('hide');
+			// viewThisProject($pid, $uid);
+			$('#mh-pid').val('');
+			$('#mh-iid').val('');
+			$('#mh-staff').val('');
+			$('#mh-hold_reason').val('');
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
+function mat_release_modal(uid,iid,pid) {
+	$('#mr-pid').val('');
+	$('#mr-iid').val('');
+	$('#mr-staff').val('');
+	$('#mr-release_reason').val('');
+	$('#mr-pid').val(pid);
+	$('#mr-iid').val(iid);
+	$('#mr-staff').val(uid);
+	$('#mat_release_modal').modal('show');
+}
+
+function mat_release() {
+	if ($('#mr-release_reason').val() == '') {
+		alert("You must enter a reason for releasing the material from hold.");
+		return;
+	}
+	var user = $('#mr-staff').val();
+	var pid = $('#mr-pid').val();
+	var iid = $('#mr-iid').val();
+	var cmt_comment = $('#mr-release_reason').val();
+
+	var datastring = 'action=mat_release&user=' + user + '&pid=' + pid + '&iid=' + iid + '&cmt_comment=' + cmt_comment;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log(data);
+			Command: toastr["error"]("Material Released from HOLD.", "Projects")
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": false,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": 300,
+				"hideDuration": 1000,
+				"timeOut": 5000,
+				"extendedTimeOut": 1000,
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			};
+			$('#mat_release_modal').modal('hide');
+			// viewThisProject($pid, $uid);
+			$('#mr-pid').val('');
+			$('#mr-iid').val('');
+			$('#mr-staff').val('');
+			$('#mr-release_reason').val('');
 		},
 		error: function(data) {
 			console.log(data);
@@ -1809,17 +1926,23 @@ function pullEditPjt(pjtToEdit) {
 function upload_multi(){
 	var fileSelect_temp = $('#multi_upload_input_temp')[0];
 	var fileSelect_fab = $('#multi_upload_input_fab')[0];
+	var fileSelect_inst = $('#multi_upload_input_inst')[0];
 	var files_temp = fileSelect_temp.files;
 	var files_fab = fileSelect_fab.files;
+	var files_inst = fileSelect_inst.files;
 	var myFormData = new FormData();
 
-	for (var i = 0;i < files_temp.length; i++){
+	for (var i = 0; i < files_temp.length; i++){
 		var file = files_temp[i];
 		myFormData.append('multiFile_temp[]', file, file.name);  
 	}
-	for (var i = 0;i < files_fab.length; i++){
+	for (var i = 0; i < files_fab.length; i++){
 		var file = files_fab[i];
 		myFormData.append('multiFile_fab[]', file, file.name);  
+	}
+	for (var i = 0; i < files_inst.length; i++){
+		var file = files_inst[i];
+		myFormData.append('multiFile_inst[]', file, file.name);  
 	}
 	myFormData.append('uid', $uid);
 	myFormData.append('id', $pid);
@@ -1834,6 +1957,9 @@ function upload_multi(){
 		data: myFormData,
 		success: function() {
 			viewThisProject($pid,$uid);
+		},
+		error: function(data) {
+			//alert(data);
 		},
 		complete: function() {
 			Command: toastr["success"]("Files successfully uploaded.", "Projects")
@@ -1854,7 +1980,7 @@ function upload_multi(){
 			  "showMethod": "fadeIn",
 			  "hideMethod": "fadeOut"
 			}
-
+			viewThisProject($pid,$uid);
 		}
 	});
 }

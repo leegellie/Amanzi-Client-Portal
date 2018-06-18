@@ -25,8 +25,6 @@ class log_action {
 		$q->bindParam('long',$long);
 		$q->execute();
 	}
-
-
 }
 
 
@@ -711,6 +709,68 @@ class project_action {
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	public function get_material_update($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		$sql = "UPDATE installs SET mat_hold = 1 WHERE id = :id";
+		$q = $conn->prepare($sql);
+		$q->bindParam('id',$a['iid']);
+		$q->execute();
+
+
+		$q = $conn->prepare("
+			SELECT projects.order_num,
+				   projects.quote_num,
+				   projects.job_name,
+				   projects.uid,
+				   rep.fname AS rep_name,
+				   rep.email AS rep_email,
+				   mat.fname AS mat_name,
+				   mat.email AS mat_email
+			  FROM projects
+			  JOIN users rep
+				ON rep.id = :user
+			  JOIN users mat
+				ON mat.id = projects.acct_rep
+			 WHERE projects.id = :pid");
+		$q->bindParam('pid',$a['pid']);
+		$q->bindParam('user',$a['user']);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function get_material_release($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		$sql = "UPDATE installs SET mat_hold = 0 WHERE id = :id";
+		$q = $conn->prepare($sql);
+		$q->bindParam('id',$a['iid']);
+		$q->execute();
+
+
+		$q = $conn->prepare("
+			SELECT projects.order_num,
+				   projects.quote_num,
+				   projects.job_name,
+				   projects.uid,
+				   rep.fname AS rep_name,
+				   rep.email AS rep_email,
+				   mat.fname AS mat_name,
+				   mat.email AS mat_email
+			  FROM projects
+			  JOIN users rep
+				ON rep.id = :user
+			  JOIN users mat
+				ON mat.id = projects.acct_rep
+			 WHERE projects.id = :pid");
+		$q->bindParam('pid',$a['pid']);
+		$q->bindParam('user',$a['user']);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
 
 	public function get_material_status($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
@@ -1353,7 +1413,7 @@ class project_action {
 	}
 
 	// SELECT PROJECT LIST BASED ON USER CRITERIA 
-	public function get_templates() {
+	public function get_templates($a) {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
@@ -1372,7 +1432,11 @@ class project_action {
 			   ON users.id = projects.uid 
 			WHERE template_date >= CURDATE() 
 			  AND template_date < '2200-01-01' 
-			  AND projects.isActive = 1
+			  AND projects.isActive = 1 ";
+			if ($a > 0) {
+				$sql .= "AND template_teams.temp_user_id = " . $a;
+			}
+			$sql .= "
 			ORDER BY 
 				  team ASC, 
 				  temp_first_stop DESC, 
@@ -1507,7 +1571,7 @@ class project_action {
 
 
 	// SELECT PROJECT LIST BASED ON USER CRITERIA 
-	public function get_installs() {
+	public function get_installs($a) {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -1516,6 +1580,7 @@ class project_action {
 				projects.*, 
 				status.name AS status, 
 				install_teams.inst_team_name AS team,
+				install_teams.inst_lead_id,
 				users.access_level AS ual
 			FROM projects 
 			JOIN status 
@@ -1526,8 +1591,12 @@ class project_action {
 			   ON users.id = projects.uid 
 			WHERE 
 				install_date >= CURDATE() 
-			AND projects.isActive = 1
 			AND install_date < '2200-01-01' 
+			  AND projects.isActive = 1 ";
+			if ($a > 0) {
+				$sql .= "AND install_teams.inst_lead_id = " . $a;
+			}
+			$sql .= "
 			ORDER BY 
 				team ASC, 
 				first_stop DESC, 

@@ -55,9 +55,28 @@ include('includes.php');
 <div class="container pageLook">
 	<div class="grid fluid">
     	<div class="row">
-<?
-require_once ('materials_pull.php');
-?>
+            <div class="col-12" style="margin-left:0">
+                <div id="materials-data" class="col-12">
+
+					<div class="btn btn-primary btn-lg text-center w-100 mr-4" id="materialBtn">Pull Materials List</div>
+
+					<div id="materials-block" class="content">
+						<div class="col-12" id="matResults"></div>
+					</div>
+
+
+					<div id="pjt-block" class="content">
+						<div class="col-12" id="pjtResults"></div>
+					</div>
+					<div id="inst-list" class="content mt-4">
+						<div class="col-12" id="pjtDetails"></div>
+					</div>
+					<div id="inst-block" class="content">
+						<div class="col-12" id="instDetails"></div>
+					</div>
+
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -75,113 +94,12 @@ include ('modal_sink_edit.php');
 include ('modal_contact_verif.php');
 include ('modal_user_discount.php');
 include ('modal_entry_reject.php');
-	
+include ('modal_material_select.php');
+include ('modal_material_assign.php');
+include ('modal_material_order.php');
+include ('modal_hold_notice.php');
+include ('modal_mat_hold.php');
+include ('modal_release_hold.php');
 ?>
-
-<div class="modal fade" id="materialSelect" tabindex="-1" role="dialog" aria-labelledby="materialSelectLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document" style="margin-top: 7rem;">
-		<div class="modal-content">
-			<div class="modal-header">
-				<i class="fa fa-paper-plane-o"></i>
-				<div class="modal-title">Select Material</div>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&#10008;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="container">
-					<div class="container">
-						<div class="row px-0">
-							<select class="levelFilter col-12 mb-3 form-control input-lg">
-								<option class="btn btn-lg btn-dark mx-1 px-4" value="0">Filter...</option>
-								<option class="btn btn-lg btn-dark mx-1 px-4" value="1">Level 1</option>
-								<option class="btn btn-lg btn-dark mx-1 px-4" value="2">Level 2</option>
-								<option class="btn btn-lg btn-dark mx-1 px-4" value="3">Level 3</option>
-								<option class="btn btn-lg btn-dark mx-1 px-4" value="4">Level 4</option>
-								<option class="btn btn-lg btn-dark mx-1 px-4" value="5">Level 5</option>
-								<option class="btn btn-lg btn-dark mx-1 px-4" value="6">Level 6</option>
-								<option class="btn btn-lg btn-dark mx-1 px-4" value="7">Level 7</option>
-								<option class="btn btn-lg btn-dark mx-1 px-4" value="8">Level 8</option>
-								<option class="btn btn-lg btn-dark mx-1 px-4" value="9">Specialty</option>
-							</select>
-							<input class="form-control input-lg searchMat col-12 mb-3" placeholder="Search">
-						</div>
-					</div>
-					<div id="matSelectCards" class="row">
-
-
-					</div>
-					<hr>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close &#10008;</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="materialAssign" tabindex="-1" role="dialog" aria-labelledby="materialAssignLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document" style="margin-top: 7rem;">
-		<div class="modal-content">
-			<div class="modal-header">
-				<i class="fa fa-paper-plane-o"></i>
-				<div class="modal-title">Assign Material to <span class="mAssign"></span></div>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&#10008;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="container">
-					<form id="assign_material" class="setMaterial row">
-						<input type="hidden" name="action" value="assign_material">
-						<input type="hidden" name="iid" value="">
-						<input type="hidden" name="material_status" value="3">
-						<label for="assigned_material" class="col-2">Assign Material:</label>
-						<input type="text" name="assigned_material" class="col-4 form-control">
-						<button type="submit" class="btn btn-primary ml-3">Assign Material</button>
-					</form>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close &#10008;</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div class="modal fade" id="materialOrder" tabindex="-1" role="dialog" aria-labelledby="materialOrderLabel" aria-hidden="true">
-	<div class="modal-dialog modal-lg" role="document" style="margin-top: 7rem;">
-		<div class="modal-content">
-			<div class="modal-header">
-				<i class="fa fa-paper-plane-o"></i>
-				<div class="modal-title">Ordered Materials for <span class="mAssign"></span></div>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&#10008;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="container">
-					<form id="ordered_material" class="odrerMaterial row">
-						<input type="hidden" name="action" value="ordered_material">
-						<input type="hidden" name="iid" value="">
-						<input type="hidden" name="material_status" value="2">
-						<label class="col-2" for="assigned_material">Order Reference:</label>
-						<input class="col-3 form-control" type="text" name="assigned_material">
-						<label class="col-2" for="material_date">Expected Date:</label>
-						<input class="col-3 form-control" id="material_date" name="material_date" type="date">
-						<button type="submit" class="btn btn-primary ml-3">Materials Ordered</button>
-					</form>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close &#10008;</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<script>
-</script>
 </body>
 </html>

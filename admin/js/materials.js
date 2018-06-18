@@ -7,7 +7,6 @@ var succesStarter = '<div class="metro window-overlay"><div class="window shadow
 
 var successEnder = '</div><div id="closeFocus" class="button bg-yellow fg-white bd-red" style="width:75px; bottom:5px; margin-left:345px; margin-bottom:10px" tabindex="0" onclick="closeSuccess()">Close &#10008;</div></div>';
 
-
 function add_marble(e) {
 	$('.btn').hide();
 	var form = $('form#add_marble');

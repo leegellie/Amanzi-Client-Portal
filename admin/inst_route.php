@@ -23,7 +23,7 @@ GET THE TEMPLATE TEAM INFO
 $conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$q = $conn->prepare("SELECT * FROM install_teams");
+$q = $conn->prepare("SELECT * FROM install_teams WHERE isActive = 1");
 $q->execute();
 $rows = $q->fetchAll(PDO::FETCH_ASSOC);
 
