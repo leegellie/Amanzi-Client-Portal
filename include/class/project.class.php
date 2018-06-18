@@ -1612,7 +1612,36 @@ class project_action {
 		}
 	}
   
-  //SELECT PROJECT LIST BASED ON STATUS
+	public function incomplete_installs($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = "
+			SELECT projects.*, 
+				   status.name AS status, 
+				   install_teams.inst_team_name AS team,
+				   install_teams.inst_lead_id,
+				   users.access_level AS ual
+			  FROM projects 
+			  JOIN status 
+				ON status.id = projects.job_status 
+			  JOIN install_teams 
+				ON install_teams.inst_team_id = projects.install_team 
+			  JOIN users 
+			    ON users.id = projects.uid 
+			 WHERE install_date < CURDATE() 
+			   AND job_status < 84
+			   AND projects.isActive = 1";
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}
+	}
+
+	//SELECT PROJECT LIST BASED ON STATUS
   public function get_templates_timeline($a) {
     try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);

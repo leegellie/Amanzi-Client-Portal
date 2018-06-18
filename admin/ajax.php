@@ -2151,7 +2151,7 @@ if ($action=="installs_list") {
 						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
 					?></div>
 					<div  class="col-1">
-						<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div>
+						<div id="<?= $results['id']; ?>" class="btn <? if($results['job_status'] > 79 || $results['job_status'] == 73 || $results['job_status'] == 72) { echo 'btn-primary'; } else { echo 'btn-danger'; } ?> w-100" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div>
 					</div>
 				</div>
 				<hr>
