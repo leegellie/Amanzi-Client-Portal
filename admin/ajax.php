@@ -2537,7 +2537,7 @@ if ($action=="timelines_list") {
 		$stat = $t['job_status'];
 		if ($stat > 11 && $stat < 20) {
 			$status = tempStatus($stat);
-			temlpate_button($t,$status);
+			template_button($t,$status);
 		}
 	}
 
