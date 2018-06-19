@@ -2646,7 +2646,7 @@ if ($action=="timelines_list") {
 
 	foreach($template_pro as $t) {
 		$stat = $t['job_status'];
-		if ($stat > 16 && $stat < 30) {
+		if ($stat > 24 && $stat < 40) {
 			$status = fabStatus($stat);
 			production_button($t,$status);
 		}
