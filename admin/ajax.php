@@ -2433,11 +2433,11 @@ if ($action=="timelines_list") {
 		$date = $date->format('m/d');
 		$compile =  '		<div class="row">';
 		$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-		$compile .= '			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>' . $date . ' - ' . $t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+		$compile .= '			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>' . $t['job_name']."</b><br>".$t['status_name'].'" data-content="';
 		if (htmlentities($t['job_notes']) != '') {
 			$compile .= '	Notes: ' . htmlentities($t['job_notes']);
 		}
-		$compile .= ' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '. $status .'" style="width:100%; cursor:pointer">';
+		$compile .= ' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '. $status .'" style="width:100%; cursor:pointer">' . $date . ' - ';
 		if ($t['order_num'] > 0) {
 			$compile .= 'O-'.$t['order_num'].' - ';
 		} elseif ($t['quote_num'] > 0) {
