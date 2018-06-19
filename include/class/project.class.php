@@ -1451,6 +1451,43 @@ class project_action {
 			return $this->_message;
 		}
 	}
+
+	public function incomplete_templates() {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = "
+			SELECT projects.*, 
+				   status.name AS status, 
+				   install_teams.inst_team_name AS team,
+				   install_teams.inst_lead_id,
+				   users.access_level AS ual
+			  FROM projects 
+			  JOIN status 
+				ON status.id = projects.job_status 
+			  JOIN install_teams 
+				ON install_teams.inst_team_id = projects.install_team 
+			  JOIN users 
+			    ON users.id = projects.uid 
+			 WHERE template_date < CURDATE() 
+			   AND job_status < 84
+			   AND projects.isActive = 1";
+			if ($a > 0) {
+				$sql .= "AND template_teams.temp_user_id = " . $a;
+			}
+			$sql .= "
+			ORDER BY install_date ASC";
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}
+	}
+
+
+
 	public function get_programming() {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
@@ -1632,6 +1669,11 @@ class project_action {
 			 WHERE install_date < CURDATE() 
 			   AND job_status < 84
 			   AND projects.isActive = 1";
+			if ($a > 0) {
+				$sql .= "AND install_teams.inst_lead_id = " . $a;
+			}
+			$sql .= "
+			ORDER BY install_date ASC";
 			$q = $conn->prepare($sql);
 			$q->execute();
 			return $row = $q->fetchAll(PDO::FETCH_ASSOC);

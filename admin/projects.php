@@ -169,6 +169,7 @@ USER'S EMAIL = <?= $user_email ?>
 	include ('modal_user_discount.php');
 	include ('modal_entry_reject.php');
 	include ('modal_hold_notice.php');
+	include ('modal_release_hold.php');
 	?>
 
 	<script>

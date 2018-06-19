@@ -268,7 +268,7 @@ if ($action=="mat_release") {
 	$job = '';
 	$uid = '';
 	$change_mat_hold = new project_action;
-	foreach( $change_mat_hold -> get_material_update($_POST) as $r ) {
+	foreach( $change_mat_hold -> get_material_release($_POST) as $r ) {
 		$repEmail = $r['rep_email'];
 		$repName = $r['rep_name'];
 		$matEmail = $r['mat_email'];
@@ -1421,6 +1421,95 @@ if ($action=="templates_list") {
 	$results = "";
 	unset($_POST['action']);
 	$today = date('Y-m-d');
+
+
+	?>
+		<div class="row">
+			<h3>Unfinished Templates</h3>
+		</div>
+	<?
+
+	function template_item($results) {
+		$template_item = '
+				<div class="row">
+					<div class="col-md-1">';
+						if ($results['job_status'] < 14 || $results['job_status'] > 19) { 
+							if ( $results['ual'] == 11 ) { 
+								$template_item .= '<i class="fas fa-home text-primary"></i>'; 
+							} else { 
+								$template_item .= '<i class="fas fa-building text-secondary"></i>'; 
+							}; 
+						} else if ($results['job_status'] == 14) {
+							$template_item .= '<i class="fas fa-car faa-passing animated text-success"></i>'; 
+						} else if ($results['job_status'] == 15) {
+							$template_item .= '<i class="fas fa-ruler-combined faa-shake animated text-success"></i>'; 
+						} else if ($results['job_status'] == 16) {
+							$template_item .= '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
+						} else if ($results['job_status'] == 17) {
+							$template_item .= '<i class="fas fa-check text-success"></i>'; 
+						} else if ($results['job_status'] == 19) {
+							$template_item .= '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
+						}
+						$template_item .= '</div>';
+						$template_item .= '<div class="col-6 col-md-1 ';
+						if ( $results['ual'] == 0 ) {
+							$template_item .= 'text-muted'; 
+						} else { 
+							$template_item .= 'text-primary'; 
+						}; 
+						$template_item .= '">' . $results['team'] . '</div>';
+						$template_item .= '<div class="col-6 col-md-1 text-danger">';
+						if ($results['temp_first_stop'] == 1 && $results['temp_am'] == 1) { 
+							$template_item .= '1st Stop AM'; 
+						} elseif ($results['temp_first_stop'] == 1 && $results['temp_pm'] != 1) { 
+							$template_item .= '1st Stop'; 
+						} elseif ($results['temp_am'] == 1) { 
+							$template_item .= 'AM'; 
+						} elseif ($results['temp_first_stop'] != 1 && $results['temp_am'] != 1 && $results['pm'] != 1) { 
+							$template_item .= ''; 
+						} elseif ($results['temp_first_stop'] == 1 && $results['temp_pm'] == 1) { 
+							$template_item .= '1st Stop PM'; 
+						} elseif ($results['temp_pm'] == 1) { 
+							$template_item .= 'PM'; 
+						} 
+						$template_item .= '</div>';
+						$template_item .= '<div class="col-md-3 text-primary">' . $results['job_name'] . '</div>';
+						$template_item .= '<div class="col-6 col-md-1 text-primary">' . $results['quote_num'] . '</div>';
+						$template_item .= '<div class="col-6 col-md-1 text-primary">' . $results['order_num'] . '</div>';
+						$template_item .= '<div class="col-md-3 text-primary">';
+						$address = '';
+						$address .= $results['address_1'];
+						if ($results['address_2'] > '') {
+							$address .= ', ' . $results['address_2'];
+						}
+						$address .= ', ' . $results['city'];
+						$address .= ', ' . $results['state'];
+						$address .= ', ' . $results['zip'];
+						$template_item .= '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
+						$template_item .= '</div>';
+						$template_item .= '<div  class="col-1">';
+						$template_item .= '<div id="' . $results['id'] . '" class="btn btn-primary w-100" onClick="viewThisProject(' .  $results['id'] . ',' . $results['uid'] . ');"><i class="fas fa-eye"></i></div>';
+						$template_item .= '</div>';
+						$template_item .= '</div>';
+						$template_item .= '<hr>';
+		return $template_item;
+	}
+
+	$get_entries = new project_action;
+	$items = $get_entries->incomplete_installs($a);
+
+	if(is_array($items) && !empty($items)) {
+		foreach($items as $results) {
+				echo template_item($results);
+
+		}
+	} else {
+		?>
+			<div class="col-12">No outstanding jobs.</div>
+			<hr>
+		<?
+	}
+
 	if (date('w', strtotime($today)) != 0 && date('w', strtotime($today)) != 6 ) {
 		?>
 		<div class="row">
@@ -1430,50 +1519,7 @@ if ($action=="templates_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_templates($a) as $results) {
 			if ($results['template_date'] == $today){
-				?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 14 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 14) {
-							echo '<i class="fas fa-car faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 15) {
-							echo '<i class="fas fa-ruler-combined faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 16) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 17) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 19) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['template_team'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-					<?
-						$address = '';
-						$address .= $results['address_1'];
-						if ($results['address_2'] > '') {
-							$address .= ', ' . $results['address_2'];
-						}
-						$address .= ', ' . $results['city'];
-						$address .= ', ' . $results['state'];
-						$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
-				</div>
-				<hr>
-				<?
+				echo template_item($results);
 			}
 		}
 	}
@@ -1488,50 +1534,7 @@ if ($action=="templates_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_templates($a) as $results) {
 			if ($results['template_date'] == $tomorrow){
-				?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 14 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 14) {
-							echo '<i class="fas fa-car faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 15) {
-							echo '<i class="fas fa-ruler-combined faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 16) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 17) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 19) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-					<?
-						$address = '';
-						$address .= $results['address_1'];
-						if ($results['address_2'] > '') {
-							$address .= ', ' . $results['address_2'];
-						}
-						$address .= ', ' . $results['city'];
-						$address .= ', ' . $results['state'];
-						$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
-				</div>
-				<hr>
-				<?
+				echo template_item($results);
 			}
 		}
 	}
@@ -1545,50 +1548,7 @@ if ($action=="templates_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_templates($a) as $results) {
 			if ($results['template_date'] == $plus2){
-				?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 14 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 14) {
-							echo '<i class="fas fa-car faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 15) {
-							echo '<i class="fas fa-ruler-combined faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 16) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 17) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 19) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-					<?
-						$address = '';
-						$address .= $results['address_1'];
-						if ($results['address_2'] > '') {
-							$address .= ', ' . $results['address_2'];
-						}
-						$address .= ', ' . $results['city'];
-						$address .= ', ' . $results['state'];
-						$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
-				</div>
-				<hr>
-				<?
+				echo template_item($results);
 			}
 		}
 	}
@@ -1602,50 +1562,7 @@ if ($action=="templates_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_templates($a) as $results) {
 			if ($results['template_date'] == $plus3){
-				?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 14 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 14) {
-							echo '<i class="fas fa-car faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 15) {
-							echo '<i class="fas fa-ruler-combined faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 16) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 17) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 19) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-					<?
-						$address = '';
-						$address .= $results['address_1'];
-						if ($results['address_2'] > '') {
-							$address .= ', ' . $results['address_2'];
-						}
-						$address .= ', ' . $results['city'];
-						$address .= ', ' . $results['state'];
-						$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
-				</div>
-				<hr>
-				<?
+				echo template_item($results);
 			}
 		}
 	}
@@ -1659,50 +1576,7 @@ if ($action=="templates_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_templates($a) as $results) {
 			if ($results['template_date'] == $plus4){
-				?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 14 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 14) {
-							echo '<i class="fas fa-car faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 15) {
-							echo '<i class="fas fa-ruler-combined faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 16) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 17) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 19) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-					<?
-						$address = '';
-						$address .= $results['address_1'];
-						if ($results['address_2'] > '') {
-							$address .= ', ' . $results['address_2'];
-						}
-						$address .= ', ' . $results['city'];
-						$address .= ', ' . $results['state'];
-						$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
-				</div>
-				<hr>
-				<?
+				echo template_item($results);
 			}
 		}
 	}
@@ -1716,50 +1590,7 @@ if ($action=="templates_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_templates($a) as $results) {
 			if ($results['template_date'] == $plus5){
-				?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 14 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 14) {
-							echo '<i class="fas fa-car faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 15) {
-							echo '<i class="fas fa-ruler-combined faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 16) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 17) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 19) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-					<?
-						$address = '';
-						$address .= $results['address_1'];
-						if ($results['address_2'] > '') {
-							$address .= ', ' . $results['address_2'];
-						}
-						$address .= ', ' . $results['city'];
-						$address .= ', ' . $results['state'];
-						$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
-				</div>
-				<hr>
-				<?
+				echo template_item($results);
 			}
 		}
 	}
@@ -1773,50 +1604,7 @@ if ($action=="templates_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_templates($a) as $results) {
 			if ($results['template_date'] == $plus6){
-				?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 14 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 14) {
-							echo '<i class="fas fa-car faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 15) {
-							echo '<i class="fas fa-ruler-combined faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 16) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 17) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 19) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-					<?
-						$address = '';
-						$address .= $results['address_1'];
-						if ($results['address_2'] > '') {
-							$address .= ', ' . $results['address_2'];
-						}
-						$address .= ', ' . $results['city'];
-						$address .= ', ' . $results['state'];
-						$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
-				</div>
-				<hr>
-				<?
+				echo template_item($results);
 			}
 		}
 	}
@@ -1830,50 +1618,7 @@ if ($action=="templates_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_templates($a) as $results) {
 			if ($results['template_date'] == $plus7){
-				?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 14 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 14) {
-							echo '<i class="fas fa-car faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 15) {
-							echo '<i class="fas fa-ruler-combined faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 16) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 17) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 19) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-					<?
-						$address = '';
-						$address .= $results['address_1'];
-						if ($results['address_2'] > '') {
-							$address .= ', ' . $results['address_2'];
-						}
-						$address .= ', ' . $results['city'];
-						$address .= ', ' . $results['state'];
-						$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1"><div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div></div>
-				</div>
-				<hr>
-				<?
+				echo template_item($results);
 			}
 		}
 	}
@@ -1933,7 +1678,7 @@ if ($action=="programming_list") {
 			}
 			$date = new DateTime($results['install_date']);
 			$date = $date->format('m/d');
-			?>" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
+			?>" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
 				<div class="row">
 					<div class="col-md-1 h5">
 						<?
@@ -1975,7 +1720,7 @@ if ($action=="saw_list") {
 		}
 		$date = new DateTime($results['install_date']);
 		$date = $date->format('m/d');
-		?>" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
+		?>" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
 			<div class="row">
 				<div class="col-md-1 h5">
 					<?
@@ -2016,7 +1761,7 @@ if ($action=="cnc_list") {
 		}
 		$date = new DateTime($results['install_date']);
 		$date = $date->format('m/d');
-		?>" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
+		?>" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
 			<div class="row">
 				<div class="col-md-1 h5">
 					<?
@@ -2057,7 +1802,7 @@ if ($action=="polishing_list") {
 		}
 		$date = new DateTime($results['install_date']);
 		$date = $date->format('m/d');
-		?>" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
+		?>" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
 			<div class="row">
 				<div class="col-md-1 h5">
 					<?
@@ -2096,8 +1841,105 @@ if ($action=="installs_list") {
 	unset($_POST['action']);
 
 	$today = date('Y-m-d');
+
+
+	function install_item($results) {
+		$install_item = '
+				<div class="row">
+					<div class="col-md-1">';
+						if ($results['job_status'] < 81 ) { 
+							if ( $results['ual'] == 11 ) { 
+								$install_item .= '<i class="fas fa-home text-primary"></i>'; 
+							} else { 
+								$install_item .= '<i class="fas fa-building text-secondary"></i>'; 
+							}; 
+						} else if ($results['job_status'] == 81) {
+							$install_item .= '<i class="fas fa-truck-loading text-success"></i>'; 
+						} else if ($results['job_status'] == 82) {
+							$install_item .= '<i class="fas fa-truck faa-passing animated text-success"></i>'; 
+						} else if ($results['job_status'] == 83) {
+							$install_item .= '<i class="fas fa-gavel faa-shake animated text-success"></i>'; 
+						} else if ($results['job_status'] == 84) {
+							$install_item .= '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
+						} else if ($results['job_status'] == 85) {
+							$install_item .= '<i class="fas fa-check text-success"></i>'; 
+						} else if ($results['job_status'] == 86) {
+							$install_item .= '<i class="fas far-thumbs-up faa-tada animated text-danger"></i>'; 
+						} else if ($results['job_status'] == 89) {
+							$install_item .= '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
+						}
+						$install_item .= '</div>';
+						$install_item .= '<div class="col-6 col-md-1 ';
+						if ( $results['ual'] == 0 ) {
+							$install_item .= 'text-muted'; 
+						} else { 
+							$install_item .= 'text-primary'; 
+						}; 
+						$install_item .= '">' . $results['team'] . '</div>';
+						$install_item .= '<div class="col-6 col-md-1 text-danger">';
+						if ($results['first_stop'] == 1 && $results['am'] == 1) { 
+							$install_item .= '1st Stop AM'; 
+						} elseif ($results['first_stop'] == 1 && $results['pm'] != 1) { 
+							$install_item .= '1st Stop'; 
+						} elseif ($results['am'] == 1) { 
+							$install_item .= 'AM'; 
+						} elseif ($results['first_stop'] != 1 && $results['am'] != 1 && $results['pm'] != 1) { 
+							$install_item .= ''; 
+						} elseif ($results['first_stop'] == 1 && $results['pm'] == 1) { 
+							$install_item .= '1st Stop PM'; 
+						} elseif ($results['pm'] == 1) { 
+							$install_item .= 'PM'; 
+						} 
+						$install_item .= '</div>';
+						$install_item .= '<div class="col-md-3 text-primary">' . $results['job_name'] . '</div>';
+						$install_item .= '<div class="col-6 col-md-1 text-primary">' . $results['quote_num'] . '</div>';
+						$install_item .= '<div class="col-6 col-md-1 text-primary">' . $results['order_num'] . '</div>';
+						$install_item .= '<div class="col-md-3 text-primary">';
+						$address = '';
+						$address .= $results['address_1'];
+						if ($results['address_2'] > '') {
+							$address .= ', ' . $results['address_2'];
+						}
+						$address .= ', ' . $results['city'];
+						$address .= ', ' . $results['state'];
+						$address .= ', ' . $results['zip'];
+						$install_item .= '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
+						$install_item .= '</div>';
+						$install_item .= '<div  class="col-1">';
+						$install_item .= '<div id="' . $results['id'] . '" class="btn ';
+						if ($results['job_status'] > 79 || $results['job_status'] == 73 || $results['job_status'] == 72) { 
+							$install_item .= 'btn-primary '; 
+						} else { 
+							$install_item .= 'btn-danger '; 
+						} 
+						$install_item .= ' w-100" style="cursor:pointer" onClick="viewThisProject(' .  $results['id'] . ',' . $results['uid'] . ');"><i class="fas fa-eye"></i></div>';
+						$install_item .= '</div>';
+						$install_item .= '</div>';
+						$install_item .= '<hr>';
+		return $install_item;
+	}
+
+?>
+		<div class="row">
+			<h3>Unfinished Installs</h3>
+		</div>
+<?
+	$get_entries = new project_action;
+	$items = $get_entries->incomplete_installs($a);
+
+	if(is_array($items) && !empty($items)) {
+		foreach($items as $results) {
+				echo install_item($results);
+		}
+	} else {
+?>
+			<div class="col-12">No outstanding jobs.</div>
+			<hr>
+<?
+	}
+
 	if (date('w', strtotime($today)) != 0 && date('w', strtotime($today)) != 6 ) {
-	?>
+?>
 		<div class="row">
 			<h3><?= $today ?> : <? getWeekday($today) ?></h3>
 		</div>
@@ -2106,57 +1948,7 @@ if ($action=="installs_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_installs($a) as $results) {
 			if ($results['install_date'] == $today){
-			?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 81 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 81) {
-							echo '<i class="fas fa-truck-loading text-success"></i>'; 
-						} else if ($results['job_status'] == 82) {
-							echo '<i class="fas fa-truck faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 83) {
-							echo '<i class="fas fa-gavel faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 84) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 85) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 86) {
-							echo '<i class="fas far-thumbs-up faa-tada animated text-danger"></i>'; 
-						} else if ($results['job_status'] == 89) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-						<?
-							$address = '';
-							$address .= $results['address_1'];
-							if ($results['address_2'] > '') {
-								$address .= ', ' . $results['address_2'];
-							}
-							$address .= ', ' . $results['city'];
-							$address .= ', ' . $results['state'];
-							$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1">
-						<div id="<?= $results['id']; ?>" class="btn <? if($results['job_status'] > 79 || $results['job_status'] == 73 || $results['job_status'] == 72) { echo 'btn-primary'; } else { echo 'btn-danger'; } ?> w-100" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div>
-					</div>
-				</div>
-				<hr>
-		
-			<?
+				echo install_item($results);
 			}
 		}
 	}
@@ -2174,57 +1966,7 @@ if ($action=="installs_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_installs($a) as $results) {
 			if ($results['install_date'] == $tomorrow){
-			?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 81 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 81) {
-							echo '<i class="fas fa-truck-loading text-success"></i>'; 
-						} else if ($results['job_status'] == 82) {
-							echo '<i class="fas fa-truck faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 83) {
-							echo '<i class="fas fa-gavel faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 84) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 85) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 86) {
-							echo '<i class="fas far-thumbs-up faa-tada animated text-danger"></i>'; 
-						} else if ($results['job_status'] == 89) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-						<?
-							$address = '';
-							$address .= $results['address_1'];
-							if ($results['address_2'] > '') {
-								$address .= ', ' . $results['address_2'];
-							}
-							$address .= ', ' . $results['city'];
-							$address .= ', ' . $results['state'];
-							$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1">
-						<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div>
-					</div>
-				</div>
-				<hr>
-		
-			<?
+				echo install_item($results);
 			}
 		}
 	}
@@ -2240,57 +1982,7 @@ if ($action=="installs_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_installs($a) as $results) {
 			if ($results['install_date'] == $plus2){
-			?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 81 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 81) {
-							echo '<i class="fas fa-truck-loading text-success"></i>'; 
-						} else if ($results['job_status'] == 82) {
-							echo '<i class="fas fa-truck faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 83) {
-							echo '<i class="fas fa-gavel faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 84) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 85) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 86) {
-							echo '<i class="fas far-thumbs-up faa-tada animated text-danger"></i>'; 
-						} else if ($results['job_status'] == 89) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-						<?
-							$address = '';
-							$address .= $results['address_1'];
-							if ($results['address_2'] > '') {
-								$address .= ', ' . $results['address_2'];
-							}
-							$address .= ', ' . $results['city'];
-							$address .= ', ' . $results['state'];
-							$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1">
-						<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div>
-					</div>
-				</div>
-				<hr>
-		
-			<?
+				echo install_item($results);
 			}
 		}
 	}
@@ -2306,57 +1998,7 @@ if ($action=="installs_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_installs($a) as $results) {
 			if ($results['install_date'] == $plus3){
-			?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 81 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 81) {
-							echo '<i class="fas fa-truck-loading text-success"></i>'; 
-						} else if ($results['job_status'] == 82) {
-							echo '<i class="fas fa-truck faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 83) {
-							echo '<i class="fas fa-gavel faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 84) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 85) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 86) {
-							echo '<i class="fas far-thumbs-up faa-tada animated text-danger"></i>'; 
-						} else if ($results['job_status'] == 89) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-						<?
-							$address = '';
-							$address .= $results['address_1'];
-							if ($results['address_2'] > '') {
-								$address .= ', ' . $results['address_2'];
-							}
-							$address .= ', ' . $results['city'];
-							$address .= ', ' . $results['state'];
-							$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1">
-						<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div>
-					</div>
-				</div>
-				<hr>
-		
-			<?
+				echo install_item($results);
 			}
 		}
 	}
@@ -2372,57 +2014,7 @@ if ($action=="installs_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_installs($a) as $results) {
 			if ($results['install_date'] == $plus4){
-			?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 81 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 81) {
-							echo '<i class="fas fa-truck-loading text-success"></i>'; 
-						} else if ($results['job_status'] == 82) {
-							echo '<i class="fas fa-truck faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 83) {
-							echo '<i class="fas fa-gavel faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 84) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 85) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 86) {
-							echo '<i class="fas far-thumbs-up faa-tada animated text-danger"></i>'; 
-						} else if ($results['job_status'] == 89) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-						<?
-							$address = '';
-							$address .= $results['address_1'];
-							if ($results['address_2'] > '') {
-								$address .= ', ' . $results['address_2'];
-							}
-							$address .= ', ' . $results['city'];
-							$address .= ', ' . $results['state'];
-							$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1">
-						<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div>
-					</div>
-				</div>
-				<hr>
-		
-			<?
+				echo install_item($results);
 			}
 		}
 	}
@@ -2438,57 +2030,7 @@ if ($action=="installs_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_installs($a) as $results) {
 			if ($results['install_date'] == $plus5){
-			?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 81 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 81) {
-							echo '<i class="fas fa-truck-loading text-success"></i>'; 
-						} else if ($results['job_status'] == 82) {
-							echo '<i class="fas fa-truck faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 83) {
-							echo '<i class="fas fa-gavel faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 84) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 85) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 86) {
-							echo '<i class="fas far-thumbs-up faa-tada animated text-danger"></i>'; 
-						} else if ($results['job_status'] == 89) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-						<?
-							$address = '';
-							$address .= $results['address_1'];
-							if ($results['address_2'] > '') {
-								$address .= ', ' . $results['address_2'];
-							}
-							$address .= ', ' . $results['city'];
-							$address .= ', ' . $results['state'];
-							$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1">
-						<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div>
-					</div>
-				</div>
-				<hr>
-		
-			<?
+				echo install_item($results);
 			}
 		}
 	}
@@ -2504,57 +2046,7 @@ if ($action=="installs_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_installs($a) as $results) {
 			if ($results['install_date'] == $plus6){
-			?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 81 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 81) {
-							echo '<i class="fas fa-truck-loading text-success"></i>'; 
-						} else if ($results['job_status'] == 82) {
-							echo '<i class="fas fa-truck faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 83) {
-							echo '<i class="fas fa-gavel faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 84) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 85) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 86) {
-							echo '<i class="fas far-thumbs-up faa-tada animated text-danger"></i>'; 
-						} else if ($results['job_status'] == 89) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-						<?
-							$address = '';
-							$address .= $results['address_1'];
-							if ($results['address_2'] > '') {
-								$address .= ', ' . $results['address_2'];
-							}
-							$address .= ', ' . $results['city'];
-							$address .= ', ' . $results['state'];
-							$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1">
-						<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div>
-					</div>
-				</div>
-				<hr>
-		
-			<?
+				echo install_item($results);
 			}
 		}
 	}
@@ -2570,57 +2062,7 @@ if ($action=="installs_list") {
 		$get_entries = new project_action;
 		foreach($get_entries->get_installs($a) as $results) {
 			if ($results['install_date'] == $plus7){
-			?>
-				<div class="row">
-					<div class="col-md-1">
-						<? 
-						if ($results['job_status'] < 81 ) { 
-							if ( $results['ual'] == 11 ) { 
-								echo '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								echo '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 81) {
-							echo '<i class="fas fa-truck-loading text-success"></i>'; 
-						} else if ($results['job_status'] == 82) {
-							echo '<i class="fas fa-truck faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 83) {
-							echo '<i class="fas fa-gavel faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 84) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 85) {
-							echo '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 86) {
-							echo '<i class="fas far-thumbs-up faa-tada animated text-danger"></i>'; 
-						} else if ($results['job_status'] == 89) {
-							echo '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						?>
-					</div>
-					<div class="col-6 col-md-1 <? if ( $results['ual'] == 0 ) { echo 'text-muted'; } else { echo 'text-primary'; }; ?>"><?= $results['team']; ?></div>
-					<div class="col-6 col-md-1 text-danger"><? if ($results['temp_first_stop'] == 1) { echo '1st Stop'; } elseif ($results['temp_am'] == 1) { echo 'AM'; } elseif ($results['temp_pm'] == 1) { echo 'PM'; } ?></div>
-					<div class="col-md-3 text-primary"><?= $results['job_name']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['quote_num']; ?></div>
-					<div class="col-6 col-md-1 text-primary"><?= $results['order_num']; ?></div>
-					<div class="col-md-3 text-primary">
-						<?
-							$address = '';
-							$address .= $results['address_1'];
-							if ($results['address_2'] > '') {
-								$address .= ', ' . $results['address_2'];
-							}
-							$address .= ', ' . $results['city'];
-							$address .= ', ' . $results['state'];
-							$address .= ', ' . $results['zip'];
-						echo '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-					?></div>
-					<div  class="col-1">
-						<div id="<?= $results['id']; ?>" class="btn btn-primary w-100" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>);"><i class="fas fa-eye"></i></div>
-					</div>
-				</div>
-				<hr>
-		
-			<?
+				echo install_item($results);
 			}
 		}
 	}
@@ -2914,17 +2356,17 @@ if ($action=="timelines_list") {
 	echo       	'		<h3>Templating</h3>';
 	echo 		'		<div class="row d-flex justify-content-between">';
 	$thisBtn = "'.estapproved'";
-	echo 		'			<div class="btn btn-info px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Estimate Approved" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');"><i class="far fa-file-check"></i></div>';
+	echo 		'			<div class="btn btn-info px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Estimate Approved" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-file-check"></i></div>';
 	$thisBtn = "'.tempsched'";
-	echo 		'			<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Scheduled" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');"><i class="far fa-calendar-alt"></i></div>';
+	echo 		'			<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Scheduled" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-calendar-alt"></i></div>';
 	$thisBtn = "'.tempinroute'";
-	echo 		'			<div class="btn btn-secondary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Templaters in Route" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');"><i class="far fa-car"></i></div>';
+	echo 		'			<div class="btn btn-secondary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Templaters in Route" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-car"></i></div>';
 	$thisBtn = "'.tempstart'";
-	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Started" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-ruler"></i></div>';
+	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Started" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-ruler"></i></div>';
 	$thisBtn = "'.tempincomp'";
-	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Incomplete" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-exclamation-triangle"></i></div>';
+	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Incomplete" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-exclamation-triangle"></i></div>';
 	$thisBtn = "'.temphold'";
-	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template on Hold" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.'); "><i class="fas fa-times-octagon"></i></div>';
+	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template on Hold" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.'); " style="cursor:pointer"><i class="fas fa-times-octagon"></i></div>';
 	echo 		'		</div><hr>';
 			foreach($temp_list as $temp) {
 				foreach($temp['details'] as $t) {
@@ -2934,7 +2376,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%; cursor:pointer">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -2956,15 +2398,15 @@ if ($action=="timelines_list") {
 	echo        '		<h3>In Sales</h3>';
 	echo 		'		<div class="row d-flex justify-content-between">';
 	$thisBtn = "'.quoteprep'";
-	echo 		'			<div class="btn btn-primary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Preparing Quote" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');"><i class="far fa-pencil-alt"></i></div>';
+	echo 		'			<div class="btn btn-primary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Preparing Quote" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-pencil-alt"></i></div>';
 	$thisBtn = "'.quotecheck'";
-	echo 		'			<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quote Check" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-check"></i></div>';
+	echo 		'			<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quote Check" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-check"></i></div>';
 	$thisBtn = "'.quoted'";
-	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quoted" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');"><i class="fab fa-telegram-plane"></i></div>';
+	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quoted" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fab fa-telegram-plane"></i></div>';
 	$thisBtn = "'.quotealter'";
-	echo 		'			<div class="btn btn-info px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Altering Quote" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-ruler-combined"></i></div>';
+	echo 		'			<div class="btn btn-info px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Altering Quote" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-ruler-combined"></i></div>';
 	$thisBtn = "'.quotereject'";
-	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quote Rejected" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');"><span class="fa-layers fa-fw"><i class="fas fa-dollar-sign" data-fa-transform="grow-2"></i><span class="fa-layers-text fa-inverse" data-fa-transform="shrink-5 rotate--30" style="font-weight:900">Reject</span></span></div>';
+	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quote Rejected" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><span class="fa-layers fa-fw"><i class="fas fa-dollar-sign" data-fa-transform="grow-2"></i><span class="fa-layers-text fa-inverse" data-fa-transform="shrink-5 rotate--30" style="font-weight:900">Reject</span></span></div>';
 	echo 		'		</div><hr>';
 			foreach($sale_list as $sale) {
 				foreach($sale['details'] as $t) {
@@ -2974,7 +2416,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$sale['button'].'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$sale['button'].'" style="width:100%; cursor:pointer">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -2996,15 +2438,15 @@ if ($action=="timelines_list") {
 	echo		'		<h3>Fabrication</h3>';
 	echo 		'		<div class="row d-flex justify-content-between">';
 	$thisBtn = "'.prog'";
-	echo 		'			<div class="btn btn-primary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Programming" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');"><i class="far fa-file-check"></i></div>';
+	echo 		'			<div class="btn btn-primary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Programming" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-file-check"></i></div>';
 	$thisBtn = "'.matr'";
-	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Materials Staging" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-container-storage"></i></div>';
+	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Materials Staging" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-container-storage"></i></div>';
 	$thisBtn = "'.saw'";
-	echo 		'			<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Saw" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-sun"></i></div>';
+	echo 		'			<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Saw" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-sun"></i></div>';
 	$thisBtn = "'.cnc'";
-	echo 		'			<div class="btn btn-secondary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="CNC" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');"><span class="fa-layers fa-fw"><i class="fas fa-certificate"></i><span class="fa-layers-text fa-inverse" data-fa-transform="shrink-1 rotate--30" style="font-weight:900; color:black">CNC</span></span></div>';
+	echo 		'			<div class="btn btn-secondary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="CNC" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><span class="fa-layers fa-fw"><i class="fas fa-certificate"></i><span class="fa-layers-text fa-inverse" data-fa-transform="shrink-1 rotate--30" style="font-weight:900; color:black">CNC</span></span></div>';
 	$thisBtn = "'.polish'";
-	echo 		'			<div class="btn btn-info px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Polishing" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');"><i class="far fa-shield-alt"></i></div>';
+	echo 		'			<div class="btn btn-info px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Polishing" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-shield-alt"></i></div>';
 	echo 		'		</div><hr>';
 	echo		'		<div class="row">';
 	echo		'			<h4>Programming</h4>';
@@ -3019,7 +2461,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%; cursor:pointer">';
 						if ($t['order_num'] > 0) {
 							echo 'O-'.$t['order_num'].' - ';
 						} elseif ($t['quote_num'] > 0) {
@@ -3046,7 +2488,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%; cursor:pointer">';
 						if ($t['order_num'] > 0) {
 							echo 'O-'.$t['order_num'].' - ';
 						} elseif ($t['quote_num'] > 0) {
@@ -3075,7 +2517,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%; cursor:pointer>';
 						if ($t['order_num'] > 0) {
 							echo 'O-'.$t['order_num'].' - ';
 						} elseif ($t['quote_num'] > 0) {
@@ -3104,7 +2546,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%; cursor:pointer">';
 						if ($t['order_num'] > 0) {
 							echo 'O-'.$t['order_num'].' - ';
 						} elseif ($t['quote_num'] > 0) {
@@ -3134,7 +2576,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%; cursor:pointer>';
 						if ($t['order_num'] > 0) {
 							echo 'O-'.$t['order_num'].' - ';
 						} elseif ($t['quote_num'] > 0) {
@@ -3156,19 +2598,19 @@ if ($action=="timelines_list") {
 	echo		'		<h3>Installs</h3>';
 	echo 		'		<div class="row d-flex justify-content-between">';
 	$thisBtn = "'.polishdeliv'";
-	echo 		'			<div class="btn btn-primary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Ready to Install" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-container-storage"></i></div>';
+	echo 		'			<div class="btn btn-primary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Ready to Install" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-container-storage"></i></div>';
 	$thisBtn = "'.instsched'";
-	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Scheduled" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');"><i class="far fa-calendar-alt"></i></div>';
+	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Scheduled" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-calendar-alt"></i></div>';
 	$thisBtn = "'.insttruck'";
-	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install In Truck" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-truck-container"></i></div>';
+	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install In Truck" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-truck-container"></i></div>';
 	$thisBtn = "'.instinroute'";
-	echo 		'			<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install in Route" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-truck"></i></div>';
+	echo 		'			<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install in Route" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-truck"></i></div>';
 	$thisBtn = "'.inststart'";
-	echo 		'			<div class="btn btn-secondary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Started" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-chess-clock-alt"></i></div>';
+	echo 		'			<div class="btn btn-secondary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Started" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-chess-clock-alt"></i></div>';
 	$thisBtn = "'.instincomp'";
-	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Incomplete" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-exclamation-triangle"></i></div>';
+	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Incomplete" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-exclamation-triangle"></i></div>';
 	$thisBtn = "'.insthold'";
-	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install On Hold" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');"><i class="fas fa-times-octagon"></i></div>';
+	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install On Hold" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-times-octagon"></i></div>';
 	echo 		'		</div><hr>';
 			foreach($install_list as $install) {
 				foreach($install['details'] as $t) {
@@ -3178,7 +2620,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$install['button'].'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$install['button'].'" style="width:100%; cursor:pointer>';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3228,7 +2670,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%">'. $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%; cursor:pointer>'. $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3256,7 +2698,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%">'. $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%; cursor:pointer">'. $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3284,7 +2726,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%">'. $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%; cursor:pointer">'. $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3312,7 +2754,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%">'. $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%; cursor:pointer>'. $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3360,7 +2802,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.salesStatus($t['job_status']).'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.salesStatus($t['job_status']).'" style="width:100%; cursor:pointer">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3386,7 +2828,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.salesStatus($t['job_status']).'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.salesStatus($t['job_status']).'" style="width:100%; cursor:pointer">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3412,7 +2854,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.salesStatus($t['job_status']).'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.salesStatus($t['job_status']).'" style="width:100%; cursor:pointer">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3439,7 +2881,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.salesStatus($t['job_status']).'" style="width:100%">';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.salesStatus($t['job_status']).'" style="width:100%; cursor:pointer">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3494,7 +2936,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.materialsStatus($t['job_status']).'" style="width:100%">' . $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.materialsStatus($t['job_status']).'" style="width:100%; cursor:pointer">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3522,7 +2964,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.materialsStatus($t['job_status']).'" style="width:100%">' . $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.materialsStatus($t['job_status']).'" style="width:100%; cursor:pointer">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3550,7 +2992,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.materialsStatus($t['job_status']).'" style="width:100%">' . $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.materialsStatus($t['job_status']).'" style="width:100%; cursor:pointer">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3578,7 +3020,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.materialsStatus($t['job_status']).'" style="width:100%">' . $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.materialsStatus($t['job_status']).'" style="width:100%; cursor:pointer">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3628,7 +3070,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.fabStatus($t['job_status']).'" style="width:100%">' . $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.fabStatus($t['job_status']).'" style="width:100%; cursor:pointer">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3657,7 +3099,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.fabStatus($t['job_status']).'" style="width:100%">' . $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.fabStatus($t['job_status']).'" style="width:100%; cursor:pointer">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3685,7 +3127,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.fabStatus($t['job_status']).'" style="width:100%">' . $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.fabStatus($t['job_status']).'" style="width:100%; cursor:pointer">' . $date;
 						if ($t['order_num'] > 0) {
 							echo ' - O-'.$t['order_num'].' - ';
 						} elseif ($t['quote_num'] > 0) {
@@ -3713,7 +3155,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.fabStatus($t['job_status']).'" style="width:100%">' . $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.fabStatus($t['job_status']).'" style="width:100%; cursor:pointer">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3749,7 +3191,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.fabStatus($t['job_status']).'" style="width:100%">' . $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.fabStatus($t['job_status']).'" style="width:100%; cursor:pointer">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3777,7 +3219,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%; cursor:pointer">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3805,7 +3247,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%; cursor:pointer">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3834,7 +3276,7 @@ if ($action=="timelines_list") {
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%">' . $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$temp['button'].'" style="width:100%; cursor:pointer">' . $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -3894,7 +3336,7 @@ if ($action=="entry_list") {
 				<h3><?= $results['order_num']; ?></h3>
 			</div>
 	        <div class="col-3 col-md-2 text-right">
-				<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
+				<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);" style="cursor:pointer">
 					<span class="hidden-md-down">View </span>
 					<i class="fas fa-eye"></i>
 				</div>
@@ -4117,10 +3559,10 @@ if ($action=="user_search_list") {
 					<div class="col-3 hidden-md-down"><?= $results['email']; ?></div>
 					<div class="col-6 col-md-2 text-primary"><?= $results['fname']; ?> <?= $results['lname']; ?></div>
 					<div class="col-3 col-md-1 text-right">
-						<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="editThisUser(this.id);">Edit <i class="icon-wrench"></i></div>
+						<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="editThisUser(this.id);" style="cursor:pointer">Edit <i class="icon-wrench"></i></div>
 					</div>
 					<div class="col-3 col-md-1 text-right">
-						<div id="" class="btn btn-sm btn-success" uid="<?= $results['id'] ?>" uNameC="<?= $results['company'] ?>" uNameF="<?= $results['fname'] ?>" uNameL="<?= $results['lname'] ?>" onClick="custAddPjt(this);">New Pjt <i class="fas fa-tasks"></i></div>
+						<div id="" class="btn btn-sm btn-success" uid="<?= $results['id'] ?>" uNameC="<?= $results['company'] ?>" uNameF="<?= $results['fname'] ?>" uNameL="<?= $results['lname'] ?>" onClick="custAddPjt(this);" style="cursor:pointer">New Pjt <i class="fas fa-tasks"></i></div>
 					</div>
 				</div>
 				<hr>
@@ -4136,10 +3578,10 @@ if ($action=="user_search_list") {
 					<div class="col-3 hidden-md-down"><?= $results['email']; ?></div>
 					<div class="col-6 col-md-2 text-primary text-uppercase"><?= $results['fname']; ?> <?= $results['lname']; ?></div>
 					<div class="col-3 col-md-1 text-right">
-						<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="editThisUser(this.id);">Edit <i class="icon-wrench"></i></div>
+						<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="editThisUser(this.id);" style="cursor:pointer">Edit <i class="icon-wrench"></i></div>
 					</div>
 					<div class="col-3 col-md-1 text-right">
-						<div id="" class="btn btn-sm btn-success" uid="<?= $results['id'] ?>" uNameC="<?= $results['company'] ?>" uNameF="<?= $results['fname'] ?>" uNameL="<?= $results['lname'] ?>" onClick="custAddPjt(this);">New Pjt <i class="fas fa-tasks"></i></div>
+						<div id="" class="btn btn-sm btn-success" uid="<?= $results['id'] ?>" uNameC="<?= $results['company'] ?>" uNameF="<?= $results['fname'] ?>" uNameL="<?= $results['lname'] ?>" onClick="custAddPjt(this);" style="cursor:pointer">New Pjt <i class="fas fa-tasks"></i></div>
 					</div>
 				</div>
 				<hr>
@@ -4592,7 +4034,7 @@ if ($action == "user_project_user_search") {
 					}
 					?>
 				<div class="col-3 col-md-1">
-					<div id="<?= $results['id']; ?>" access_level="<?= $results['access_level']; ?>" class="btn btn-primary float-right" onClick="selectThisUser(this.id,'<?= $a; ?>');">Select</div>
+					<div id="<?= $results['id']; ?>" access_level="<?= $results['access_level']; ?>" class="btn btn-primary float-right" onClick="selectThisUser(this.id,'<?= $a; ?>');" style="cursor:pointer">Select</div>
 				</div>
 			</div>
 			<?
@@ -5145,7 +4587,7 @@ if ($action=="pjt_user_list") {
 				<div class="col-1 hidden-md-down"><h5><?= $results['quote_num']; ?></h5></div>
 				<div class="col-1 hidden-md-down"><h5><?= $results['order_num']; ?></h5></div>
 				<div class="col-3 col-md-2 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-primary" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);">
+					<div id="<?= $results['id']; ?>" class="btn btn-primary" onClick="viewThisProject(this.id,<?= $results['uid']; ?>);" style="cursor:pointer">
 						<span class="hidden-md-down">View </span>
 						<i class="fas fa-eye"></i>
 					</div>
@@ -5183,7 +4625,7 @@ if ($action=="pjt_user_list") {
 				<div class="col-2 hidden-md-down"><?= $results['email']; ?></div>
 				<div class="col-2 text-primary"><?= $results['fname']; ?> <?= $results['lname']; ?></div>
 				<div class="col-3 col-md-1 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="projectsForUser(this.id);">
+					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="projectsForUser(this.id);" style="cursor:pointer">
 						<span class='hidden-md-down'>View </span><i class="fas fa-eye"></i>
 					</div>
 				</div>
@@ -5219,7 +4661,7 @@ if ($action=="find_user_pjts") {
 				<h3><?= $results['order_num']; ?></h3>
 			</div>
 	        <div class="col-3 col-md-2 text-right">
-				<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="viewThisProject(this.id,$uid);">
+				<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="viewThisProject(this.id,$uid);" style="cursor:pointer">
 					<span class="hidden-md-down">View </span>
 					<i class="fas fa-eye"></i>
 				</div>
@@ -5275,9 +4717,9 @@ if ($action=="get_pjt_for_update") {
 		$return_string .= 'temp_am::' . $result['temp_am'] . '||';
 		$return_string .= 'temp_first_stop::' . $result['temp_first_stop'] . '||';
 		$return_string .= 'temp_pm::' . $result['temp_pm'] . '||';
-    	$return_string .= 'job_lat::' . $result['job_lat'] . '||';
-    	$return_string .= 'job_long::' . $result['job_long'] . '||';
-    	$return_string .= 'job_sqft::' . $result['job_sqft'] . '||';
+    $return_string .= 'job_lat::' . $result['job_lat'] . '||';
+    $return_string .= 'job_long::' . $result['job_long'] . '||';
+    $return_string .= 'job_sqft::' . $result['job_sqft'] . '||';
 		$return_string .= 'isActive::' . $result['isActive'];
     
 	}
@@ -5454,9 +4896,9 @@ if ($action=="view_selected_pjt") {
 
 		$html .= '</div>';
 
-		$html .= '<div class="col-12 d-print-none"><div class="btn btn-warning float-right" onClick="pjtBack()"><i class="fas fa-reply"></i>&nbsp;&nbsp; Back</div></div>';
+		$html .= '<div class="col-12 d-print-none"><div class="btn btn-warning float-right" onClick="pjtBack()" style="cursor:pointer"><i class="fas fa-reply"></i>&nbsp;&nbsp; Back</div></div>';
 		$printThis = "$('#pjtDetails').printThis()";
-		$html .= '<div class="col-12 d-print-none ' . $noProg . $noMoney. '"><div class="btn btn-primary float-right mr-3" onClick="' . $printThis . '"><i class="fas fa-print"></i>&nbsp;&nbsp; ';
+		$html .= '<div class="col-12 d-print-none ' . $noProg . $noMoney. '"><div class="btn btn-primary float-right mr-3" onClick="' . $printThis . '" style="cursor:pointer"><i class="fas fa-print"></i>&nbsp;&nbsp; ';
 		if ($job_status < 22) {
 			$html .= 'ESTIMATE';
 		} elseif ($job_status < 85 && $job_status != 89) {
@@ -5473,11 +4915,11 @@ if ($action=="view_selected_pjt") {
 		if($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4) {
 			$html .= '
 			<div class="file-field col-12">
-				<div class="btn btn-success float-left">
+				<div class="btn btn-sm btn-success float-left">
 					<span>Upload template files</span>
 					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_temp"/>
 				</div>
-				<div class="file-path-wrapper float-right w-75 pt-2">
+				<div class="file-path-wrapper float-right w-75 pt-1">
 					<input class="file-path validate" type="text" placeholder="Upload one or more files"/>
 				</div>
 			</div>';
@@ -5485,11 +4927,11 @@ if ($action=="view_selected_pjt") {
 		if($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 5) {
 			$html .= '
 			<div class="file-field col-12">
-				<div class="btn btn-success float-left">
+				<div class="btn btn-sm btn-success float-left">
 					<span>Upload fabrication files</span>
 					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_fab"/>
 				</div>
-				<div class="file-path-wrapper float-right w-75 pt-2">
+				<div class="file-path-wrapper float-right w-75 pt-1">
 					<input class="file-path validate" type="text" placeholder="Upload one or more files">
 				</div>
 			</div>';
@@ -5497,18 +4939,18 @@ if ($action=="view_selected_pjt") {
 		if($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 10) {
 			$html .= '
 			<div class="file-field col-12">
-				<div class="btn btn-success float-left">
+				<div class="btn btn-sm btn-success float-left">
 					<span>Upload installation files</span>
 					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_inst"/>
 				</div>
-				<div class="file-path-wrapper float-right w-75 pt-2">
+				<div class="file-path-wrapper float-right w-75 pt-1">
 					<input class="file-path validate" type="text" placeholder="Upload one or more files">
 				</div>
 			</div>';
 		}
 		if($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4 || $_SESSION['access_level'] == 5 || $_SESSION['access_level'] == 10) {
 			$html .= '
-					<div id="uploadmulti" class="btn btn-primary d-print-none mr-3 ml-auto" onClick="upload_multi();">Upload</div>';
+					<div id="uploadmulti" class="btn btn-primary d-print-none mr-3 ml-auto" onClick="upload_multi();" style="cursor:pointer">Upload</div>';
 		}
 		$html .= '</div>';
 		$html .= '<hr class="d-print-none">';
@@ -5528,8 +4970,8 @@ if ($action=="view_selected_pjt") {
 		}
 
 
-		$rejectSale = '<div class="btn btn-sm btn-danger float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',26)"><i class="fas fa-times"></i> Job Rejected</div>';
-		$jobHold = '<div class="btn btn-sm btn-danger float-right" onClick="jobHold('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['job_status'] . ')"><i class="fas fa-times"></i> Job Hold</div>';
+		$rejectSale = '<div class="btn btn-sm btn-danger float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',26)" style="cursor:pointer"><i class="fas fa-times"></i> Job Rejected</div>';
+		$jobHold = '<div class="btn btn-sm btn-danger float-right" onClick="jobHold('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['job_status'] . ')" style="cursor:pointer"><i class="fas fa-times"></i> Job Hold</div>';
 
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2) {
 			if (($results['job_status'] > 11 && $results['job_status'] < 20) || $results['job_status'] > 23) {
@@ -5541,79 +4983,79 @@ if ($action=="view_selected_pjt") {
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2) {
 			if ($results['job_status'] == 11) {
 				$html .= $rejectSale;
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',12)"><i class="fas fa-check"></i> Estimate Approved</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',12)" style="cursor:pointer"><i class="fas fa-check"></i> Estimate Approved</div>';
 			}
 			if ($results['job_status'] == 10) {
 				$html .= $rejectSale;
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',11)"><i class="fas fa-check"></i> Estimated</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',11)" style="cursor:pointer"><i class="fas fa-check"></i> Estimated</div>';
 			}
 			if ($results['job_status'] == 17) {
 				$html .= $rejectSale;
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',21)"><i class="fas fa-check"></i> Preparing Quote</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',21)" style="cursor:pointer"><i class="fas fa-check"></i> Preparing Quote</div>';
 			}
 			if ($results['job_status'] == 21) {
 				$html .= $rejectSale;
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',22)"><i class="fas fa-check"></i> Quote Checked</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',22)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Checked</div>';
 			}
 			if ($results['job_status'] == 22) {
 				$html .= $rejectSale;
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',23)"><i class="fas fa-check"></i> Quote Submitted</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',23)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
 			}
 			if ($results['job_status'] == 23) {
 				$html .= $rejectSale;
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',25)"><i class="fas fa-check"></i> Quote Approved</div>';
-				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',24)"><i class="fas fa-check"></i> Quote to Alter</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',25)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Approved</div>';
+				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',24)" style="cursor:pointer"><i class="fas fa-check"></i> Quote to Alter</div>';
 			}
 			if ($results['job_status'] == 24) {
 				$html .= $rejectSale;
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',23)"><i class="fas fa-check"></i> Quote Submitted</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',23)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
 			}
 		}
 		//TEMPLATING
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4) {
 			if ($results['job_status'] == 12) {
 				$html .= $jobHold;
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',13)"><i class="fas fa-check"></i> Template Scheduled</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',13)" style="cursor:pointer"><i class="fas fa-check"></i> Template Scheduled</div>';
 			}
 			if ($results['job_status'] == 13) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',14)"><i class="fas fa-times"></i> Template Enroute</div>';
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',15)"><i class="fas fa-check"></i> Template Started</div>';
+				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',14)" style="cursor:pointer"><i class="fas fa-times"></i> Template Enroute</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',15)" style="cursor:pointer"><i class="fas fa-check"></i> Template Started</div>';
 			}
 			if ($results['job_status'] == 14) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',16)"><i class="fas fa-times"></i> Template Incomplete</div>';
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',17)"><i class="fas fa-check"></i> Template Complete</div>';
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',15)"><i class="fas fa-check"></i> Template Started</div>';
+				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',16)" style="cursor:pointer"><i class="fas fa-times"></i> Template Incomplete</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',17)" style="cursor:pointer"><i class="fas fa-check"></i> Template Complete</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',15)" style="cursor:pointer"><i class="fas fa-check"></i> Template Started</div>';
 			}
 			if ($results['job_status'] == 15) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',16)"><i class="fas fa-times"></i> Template Incomplete</div>';
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',17)"><i class="fas fa-check"></i> Template Complete</div>';
+				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',16)" style="cursor:pointer"><i class="fas fa-times"></i> Template Incomplete</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',17)" style="cursor:pointer"><i class="fas fa-check"></i> Template Complete</div>';
 			}
 			if ($results['job_status'] == 16) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',13)"><i class="fas fa-times"></i> Template Rescheduled</div>';
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',17)"><i class="fas fa-check"></i> Template Complete</div>';
+				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',13)" style="cursor:pointer"><i class="fas fa-times"></i> Template Rescheduled</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',17)" style="cursor:pointer"><i class="fas fa-check"></i> Template Complete</div>';
 			}
 			if ($results['job_status'] == 19) {
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',11)"><i class="fas fa-check"></i> Template Started</div>';
-				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',10)"><i class="fas fa-check"></i> Template Scheduled</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',11)" style="cursor:pointer"><i class="fas fa-check"></i> Template Started</div>';
+				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',10)" style="cursor:pointer"><i class="fas fa-check"></i> Template Scheduled</div>';
 			}
 		}
 		// PROGRAMMING
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 5) {
 			if ($results['job_status'] == 25 || $results['job_status'] == 30) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',31)"><i class="fas fa-check"></i> Programming Started</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',31)" style="cursor:pointer"><i class="fas fa-check"></i> Programming Started</div>';
 			}
 			if ($results['job_status'] == 31) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',32)"><i class="fas fa-check"></i> Programming Complete</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',32)" style="cursor:pointer"><i class="fas fa-check"></i> Programming Complete</div>';
 			}
 			if ($results['job_status'] == 39) {
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',31)"><i class="fas fa-check"></i> Programming Started</div>';
-				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',30)"><i class="fas fa-check"></i> Programming Scheduled</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',31)" style="cursor:pointer"><i class="fas fa-check"></i> Programming Started</div>';
+				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',30)" style="cursor:pointer"><i class="fas fa-check"></i> Programming Scheduled</div>';
 			}
 		}
 		// MATERIALS
@@ -5623,90 +5065,90 @@ if ($action=="view_selected_pjt") {
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 7) {
 			if ($results['job_status'] == 44 || $results['job_status'] == 50) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',51)"><i class="fas fa-check"></i> Saw Started</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',51)" style="cursor:pointer"><i class="fas fa-check"></i> Saw Started</div>';
 			}
 			if ($results['job_status'] == 51) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',52)"><i class="fas fa-check"></i> Saw Complete</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',52)" style="cursor:pointer"><i class="fas fa-check"></i> Saw Complete</div>';
 			}
 			if ($results['job_status'] == 52) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',53)"><i class="fas fa-check"></i> Delivered to CNC</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',53)" style="cursor:pointer"><i class="fas fa-check"></i> Delivered to CNC</div>';
 			}
 			if ($results['job_status'] == 59) {
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',51)"><i class="fas fa-check"></i> Saw Started</div>';
-				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',50)"><i class="fas fa-check"></i> Saw Scheduled</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',51)" style="cursor:pointer"><i class="fas fa-check"></i> Saw Started</div>';
+				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',50)" style="cursor:pointer"><i class="fas fa-check"></i> Saw Scheduled</div>';
 			}
 		}
 		// CNC
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 8) {
 			if ($results['job_status'] == 53 || $results['job_status'] == 60) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',61)"><i class="fas fa-check"></i> CNC Started</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',61)" style="cursor:pointer"><i class="fas fa-check"></i> CNC Started</div>';
 			}
 			if ($results['job_status'] == 61) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',62)"><i class="fas fa-check"></i> CNC Complete</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',62)" style="cursor:pointer"><i class="fas fa-check"></i> CNC Complete</div>';
 			}
 			if ($results['job_status'] == 62) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',63)"><i class="fas fa-check"></i> Delivered to Polishing</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',63)" style="cursor:pointer"><i class="fas fa-check"></i> Delivered to Polishing</div>';
 			}
 			if ($results['job_status'] == 69) {
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',61)"><i class="fas fa-check"></i> CNC Started</div>';
-				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',60)"><i class="fas fa-check"></i> CNC Scheduled</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',61)" style="cursor:pointer"><i class="fas fa-check"></i> CNC Started</div>';
+				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',60)" style="cursor:pointer"><i class="fas fa-check"></i> CNC Scheduled</div>';
 			}
 		}
 		// POLISHING
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 9) {
 			if ($results['job_status'] == 63 || $results['job_status'] == 70) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',71)"><i class="fas fa-check"></i> Polishing Started</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',71)" style="cursor:pointer"><i class="fas fa-check"></i> Polishing Started</div>';
 			}
 			if ($results['job_status'] == 71) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',72)"><i class="fas fa-check"></i> Polishing Complete</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',72)" style="cursor:pointer"><i class="fas fa-check"></i> Polishing Complete</div>';
 			}
 			if ($results['job_status'] == 72) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',73)"><i class="fas fa-check"></i> Ready to Install</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',73)" style="cursor:pointer"><i class="fas fa-check"></i> Ready to Install</div>';
 			}
 			if ($results['job_status'] == 79) {
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',71)"><i class="fas fa-check"></i> Polishing Started</div>';
-				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',70)"><i class="fas fa-check"></i> Polishing Scheduled</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',71)" style="cursor:pointer"><i class="fas fa-check"></i> Polishing Started</div>';
+				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',70)" style="cursor:pointer"><i class="fas fa-check"></i> Polishing Scheduled</div>';
 			}
 		}
 		// INSTALLS
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 10) {
 			if ($results['job_status'] == 73) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',80)"><i class="fas fa-check"></i> Install Scheduled</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',80)" style="cursor:pointer"><i class="fas fa-check"></i> Install Scheduled</div>';
 			}
 			if ($results['job_status'] == 80) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',81)"><i class="fas fa-check"></i> In Truck</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',81)" style="cursor:pointer"><i class="fas fa-check"></i> In Truck</div>';
 			}
 			if ($results['job_status'] == 81) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',82)"><i class="fas fa-check"></i> En Route</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',82)" style="cursor:pointer"><i class="fas fa-check"></i> En Route</div>';
 			}
 			if ($results['job_status'] == 82) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',83)"><i class="fas fa-check"></i> Install Started</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',83)" style="cursor:pointer"><i class="fas fa-check"></i> Install Started</div>';
 			}
 			if ($results['job_status'] == 83) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',85)"><i class="fas fa-check"></i> Install Complete</div>';
-				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',84)"><i class="fas fa-check"></i> Install Inomplete</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',85)" style="cursor:pointer"><i class="fas fa-check"></i> Install Complete</div>';
+				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',84)" style="cursor:pointer"><i class="fas fa-check"></i> Install Inomplete</div>';
 			}
 			if ($results['job_status'] == 84) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',80)"><i class="fas fa-check"></i> Install Rescheduled</div>';
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',85)"><i class="fas fa-check"></i> Close Job</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',80)" style="cursor:pointer"><i class="fas fa-check"></i> Install Rescheduled</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',85)" style="cursor:pointer"><i class="fas fa-check"></i> Close Job</div>';
 			}
 			if ($results['job_status'] == 89) {
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',83)"><i class="fas fa-check"></i> Install Started</div>';
-				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',80)"><i class="fas fa-check"></i> Install Scheduled</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',83)" style="cursor:pointer"><i class="fas fa-check"></i> Install Started</div>';
+				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',80)" style="cursor:pointer"><i class="fas fa-check"></i> Install Scheduled</div>';
 			}
 		}
 
@@ -5735,16 +5177,16 @@ if ($action=="view_selected_pjt") {
 		$html .= '<h2 class="d-inline text-primary text-uppercase" id="projectName">' . $results['job_name'] . '</h2>';
 
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 3 ) {
-			$html .= '<div id="enteredDbBtn" class="btn btn-sm btn-warning d-inline ml-2 float-right d-print-none" onClick="entered_anya(' . $results['id'] . ');">Entered <i class="fas fa-database"></i></div>';
-			$html .= '<div id="rejectedDbBtn" class="btn btn-sm btn-danger d-inline ml-2 float-right d-print-none" onClick="entry_reject(' . $results['id'] . ');">Reject <i class="fas fa-thumbs-down"></i></div>';
+			$html .= '<div id="enteredDbBtn" class="btn btn-sm btn-warning d-inline ml-2 float-right d-print-none" onClick="entered_anya(' . $results['id'] . ');" style="cursor:pointer">Entered <i class="fas fa-database"></i></div>';
+			$html .= '<div id="rejectedDbBtn" class="btn btn-sm btn-danger d-inline ml-2 float-right d-print-none" onClick="entry_reject(' . $results['id'] . ');" style="cursor:pointer">Reject <i class="fas fa-thumbs-down"></i></div>';
 		}
 
 		//if ( $results['order_num'] > 0 ) {
 			//$html .= '<a target="_blank" id="viewMaster" class="btn btn-sm btn-info d-inline d-print-none ml-2 float-right" href="http://dashboard.amanzigranite.com/eFiles/' . $results['order_num'] . '/' . $results['order_num'] . '_shop_sheet.pdf">View Template <i class="fas fa-file-pdf"></i></a>';
 		//}
 
-		$html .= '<div id="sendAnya" class="btn btn-sm btn-success d-print-none ml-2 float-right ' . $noProg . $noMoney . '" onClick="sendQuoteData();">Send to Entry <i class="fas fa-paper-plane"></i></div>';
-		$html .= '<div id="editPjtBtn" class="btn btn-sm btn-primary d-print-none ml-2 float-right ' . $noProg . '" onClick="pullEditPjt(' . $results['id'] . ');">Edit <i class="fas fa-wrench"></i></div>';
+		$html .= '<div id="sendAnya" class="btn btn-sm btn-success d-print-none ml-2 float-right ' . $noProg . $noMoney . '" onClick="sendQuoteData();" style="cursor:pointer">Send to Entry <i class="fas fa-paper-plane"></i></div>';
+		$html .= '<div id="editPjtBtn" class="btn btn-sm btn-primary d-print-none ml-2 float-right ' . $noProg . '" onClick="pullEditPjt(' . $results['id'] . ');" style="cursor:pointer">Edit <i class="fas fa-wrench"></i></div>';
 
 		$html .= '<div class="clearfix"></div>'; 
 		$html .= '<hr class="d-print-none">'; 
@@ -5764,7 +5206,7 @@ if ($action=="view_selected_pjt") {
 		} 
 		$html .= '%</h3>'; 
 		$adjustText = "adjustDiscoutsM('" . $results['clientCompany'] . ' - ' . $results['clientFname'] . ' ' . $results['clientLname'] . "'," . $results['clientDiscount'] .",". $results['discount_quartz'] .")"; 
-		$html .= '<div onClick="'.$adjustText.'" class="btn btn-sm btn-success col-2 mx-0 mt-0 mb-2 ' . $noProg . $noMoney . ' d-print-none">Adjust <i class="fas fa-percent"></i></div>';  
+		$html .= '<div onClick="'.$adjustText.'" class="btn btn-sm btn-success col-2 mx-0 mt-0 mb-2 ' . $noProg . $noMoney . ' d-print-none" style="cursor:pointer">Adjust <i class="fas fa-percent"></i></div>';  
 		$html .= '</div>'; 
 
 		if ($results['clientDiscount'] > 0) { 
@@ -5787,13 +5229,13 @@ if ($action=="view_selected_pjt") {
 			if ($results['mngr_approved'] == 0) {
 				$html .= '	<div class="col-10 text-center"><h2 class="text-center text-danger col-12">This is NOT A VALID ESTIMATE. Awaiting aproval.</h2></div>'; 
 				if ($_SESSION['access_level'] == 1) { 
-					$html .= '	<button class="col-2 btn btn-success d-print-none float-right mx-0" type="button" onClick="approveLoss(1,' . round($price_tax,2) . ',' . $_SESSION['id'] . ')">Approve <i class="far fa-check mr-2"></i></button>'; 
+					$html .= '	<button class="col-2 btn btn-success d-print-none float-right mx-0" type="button" onClick="approveLoss(1,' . round($price_tax,2) . ',' . $_SESSION['id'] . ')" style="cursor:pointer">Approve <i class="far fa-check mr-2"></i></button>'; 
 				}
 			} else {
 				if (round($results['mngr_approved_price'],2) != round($price_tax,2)) {
 					$html .= '	<div class="col-10 text-center"><h2 class="text-center text-danger col-12">This job has changed since it was approved and will need new approval.</h2></div>'; 
 					if ($_SESSION['access_level'] == 1) { 
-						$html .= '	<button class="col-2 btn btn-success d-print-none float-right mx-0" type="button" onClick="approveLoss(1,' . round($price_tax,2) . ',' . $_SESSION['id'] . ')">Approve <i class="far fa-check"></i></button>'; 
+						$html .= '	<button class="col-2 btn btn-success d-print-none float-right mx-0" type="button" onClick="approveLoss(1,' . round($price_tax,2) . ',' . $_SESSION['id'] . ')" style="cursor:pointer">Approve <i class="far fa-check"></i></button>'; 
 					}
 				}
 			}
@@ -5905,11 +5347,11 @@ if ($action=="view_selected_pjt") {
 		$html .= '		<div class="col-12">Builder: <b>' . $results['builder'] . '</b></div>'; 
 		$html .= '		<div class="d-none" id="address_verify">' . $results['address_1'] . '</div>';
 		$html .= '		<div class="col-12">Address: <b><a class="text-primary" target="_blank" href="https://maps.google.com/?q=' . $results['address_1'] . ', ';
-		if ($results['address_2'] > 0) {
+		if ($results['address_2'] > '') {
 			$html .= $results['address_2'] . ', ';
 		}
 		$html .= $results['city'] . ', ' . $results['state'] . ' ' . $results['zip'] . '"><i class="fas fa-map d-print-none"></i> ' . $results['address_1'] . ', ';
-		if ($results['address_2'] > 0) {
+		if ($results['address_2'] > '') {
 			$html .= $results['address_2'] . ', ';
 		}
 		$html .= $results['city'] . ', ' . $results['state'] . ' ' . $results['zip'] . '</a></b></div>';
@@ -5956,7 +5398,7 @@ if ($action=="view_selected_pjt") {
 
 	$cmt_user = "'" . $_SESSION['id'] . "'";
 	$html .= '	<div class="d-print-none">';
-	$html .= '		<div id="makeCommentBtn" class="btn btn-primary d-inline ml-2 float-right" cmt_type="pjt" onClick="makeComment(this,' . $cmt_user . ');"><i class="fas fa-comment"></i></div>';
+	$html .= '		<div id="makeCommentBtn" class="btn btn-primary d-inline ml-2 float-right" cmt_type="pjt" onClick="makeComment(this,' . $cmt_user . ');"><i class="fas fa-comment" style="cursor:pointer"></i></div>';
 
 	$html .= '		<ul class="nav nav-tabs nav-justified aqua-gradient" role="tablist">';
 	$html .= '			<li class="nav-item"><a class="text-dark nav-link active" style="font-size: 24px;" data-toggle="tab" href="#panel_comments" role="tab">Comments</a></li>';
@@ -5987,7 +5429,7 @@ if ($action=="view_selected_pjt") {
 		foreach($fileList as $filename) {
 			if (strpos($filename, '.') !== false) {
 				$filename = str_replace('#','%23',$filename);
-				$html .= "<a class='btn btn-primary mb-2 mr-2 d-inline-block' href='/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/" . $filename . "' target='_blank'>" . $filename . "</a>";
+				$html .= "<a class='btn btn-sm btn-primary mb-2 mr-2 d-inline-block' href='/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/" . $filename . "' target='_blank'>" . $filename . "</a>";
 			}
 		}
 		if (!empty($fileList)) {
@@ -6006,7 +5448,7 @@ if ($action=="view_selected_pjt") {
 		foreach($fileList as $filename) {
 			if (strpos($filename, '.') !== false) {
 				$filename = str_replace('#','%23',$filename);
-				$html .= "<a class='btn btn-primary mb-2 mr-2 d-inline-block' href='/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/template/" . $filename . "' target='_blank'>" . $filename . "</a>";
+				$html .= "<a class='btn btn-sm btn-primary mb-2 mr-2 d-inline-block' href='/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/template/" . $filename . "' target='_blank'>" . $filename . "</a>";
 			}
 		}
 		if (!empty($fileList)) {
@@ -6025,7 +5467,7 @@ if ($action=="view_selected_pjt") {
 		foreach($fileList as $filename) {
 			if (strpos($filename, '.') !== false) {
 				$filename = str_replace('#','%23',$filename);
-				$html .= "<a class='btn btn-primary mb-2 mr-2 d-inline-block' href='/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/fab/" . $filename . "' target='_blank'>" . $filename . "</a>";
+				$html .= "<a class='btn btn-sm btn-primary mb-2 mr-2 d-inline-block' href='/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/fab/" . $filename . "' target='_blank'>" . $filename . "</a>";
 			}
 		}
 		if (!empty($fileList)) {
@@ -6044,7 +5486,7 @@ if ($action=="view_selected_pjt") {
 		foreach($fileList as $filename) {
 			if (strpos($filename, '.') !== false) {
 				$filename = str_replace('#','%23',$filename);
-				$html .= "<a class='btn btn-primary mb-2 mr-2 d-inline-block' href='/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/inst/" . $filename . "' target='_blank'>" . $filename . "</a>";
+				$html .= "<a class='btn btn-sm btn-primary mb-2 mr-2 d-inline-block' href='/job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/inst/" . $filename . "' target='_blank'>" . $filename . "</a>";
 			}
 		}
 		if (!empty($fileList)) {
@@ -6068,7 +5510,7 @@ if ($action=="view_selected_pjt") {
 	echo '<div class="col-12 d-print-none">';
 	foreach ($rows as $row) {
 		$iName = "'".$row['type_name']."'";
-		echo '		<div class="btn btn-sm btn-primary ' . $noProg . '" onClick="newInstall(' . $row['type_id'] . ',' . $iName . ')">' . $row['type_name'] . ' <i class="fas fa-plus"></i></div>';
+		echo '		<div class="btn btn-sm btn-primary ' . $noProg . '" onClick="newInstall(' . $row['type_id'] . ',' . $iName . ')" style="cursor:pointer">' . $row['type_name'] . ' <i class="fas fa-plus"></i></div>';
 	}
 	echo '</div>';
 	echo '		<hr class="d-print-none">';
@@ -6078,13 +5520,13 @@ if ($action=="view_selected_pjt") {
 		?>
 			<hr>
 			<div class="row w-100 d-flex d-print-flex">
-	        	<div class="col-4 col-md-4 text-primary"><div class="d-inline d-print-none" onClick="delete_install(<?= $results['id']; ?>,<?= $results['pid']; ?>,'<?= $results['install_name']; ?>')"> <i class="fas fa-trash text-danger"></i></div><h4 class="d-inline text-uppercase"> <?= $results['type_name']; ?> - <?= $results['install_name']; ?> </h4></div>
+	        	<div class="col-4 col-md-4 text-primary"><div class="d-inline d-print-none" onClick="delete_install(<?= $results['id']; ?>,<?= $results['pid']; ?>,'<?= $results['install_name']; ?>')" style="cursor:pointer"> <i class="fas fa-trash text-danger"></i></div><h4 class="d-inline text-uppercase"> <?= $results['type_name']; ?> - <?= $results['install_name']; ?> </h4></div>
     	    	<div class="col-3 col-md-3 text-dark"><h5><?= $results['color']; ?></h5></div>
         		<div class="col-3 col-md-2 text-right text-dark"><h5><?= $results['SqFt']; ?> SqFt</h5></div>
 	        	<div class="col-2 col-md-3 text-right text-success float-right d-none d-print-block"><h4>$<?= number_format($results['install_price'], 2, '.', ','); ?></h4></div>
     	    	<div class="col-3 col-md-2 text-right text-dark d-print-none"><h4 class="<?= $noProg ?>">$<?= number_format($results['install_price'], 2, '.', ','); ?></h4></div>
 		        <div class="col-2 col-md-1 text-right d-print-none">
-					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="viewThisInstall(this.id,$uid,$pid);">View <i class="icon-eye"></i></div>
+					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="viewThisInstall(this.id,$uid,$pid);" style="cursor:pointer">View <i class="icon-eye"></i></div>
 				</div>
 			</div>
 			<div class="w-100 row d-none d-print-none">
@@ -6140,7 +5582,7 @@ if ($action=="view_selected_pjt") {
 				if ($results['mat_hold'] == 1) {
 			?>
 				<div class="col-9 text-danger"><b>MATERIALS ON HOLD</b></div>
-				<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_release_modal(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['pid'] ?>)">Release Hold <i class="fas fa-ban"></i></div>
+				<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_release_modal(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['pid'] ?>)" style="cursor:pointer">Release Hold <i class="fas fa-ban"></i></div>
 			<?
 				} else {
 					if($results['material_status'] == 1) {
@@ -6243,14 +5685,14 @@ if ($action=="view_selected_inst") {
 		$html = '<h3>Install details for: </h3>';
 		$html .= '<h1 class="d-inline text-primary" id="installName">' . $results['type_name'] . ' - ' . $results['install_name'] . '</h1>';
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 5) {
-			$html .= '<div class="btn btn-success btnCopy float-right" onClick="' . $programmingModal . '"><i class="fas fa-copy"></i></div>';
+			$html .= '<div class="btn btn-success btnCopy float-right" onClick="' . $programmingModal . '" style="cursor:pointer"><i class="fas fa-copy"></i></div>';
 		}
 
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 3) {
-			$html .= '<div class="btn btn-success btnCopy float-right" onClick="' . $copyModal . '"><i class="fas fa-copy"></i></div>';
+			$html .= '<div class="btn btn-success btnCopy float-right" onClick="' . $copyModal . '" style="cursor:pointer"><i class="fas fa-copy"></i></div>';
 		}
 
-		$html .= '<div id="editInstBtn" class="btn btn-primary d-inline ml-2 float-right" onClick="pullEditInst(' . $results['id'] . ');">Edit <i class="fas fa-wrench"></i></div>';
+		$html .= '<div id="editInstBtn" class="btn btn-primary d-inline ml-2 float-right" onClick="pullEditInst(' . $results['id'] . ');" style="cursor:pointer">Edit <i class="fas fa-wrench"></i></div>';
 
 		$html .= '<hr>';
 		$html .= '<div>';
@@ -6393,8 +5835,8 @@ if ($action=="view_selected_inst") {
 	$modalAction = "'show'";
 	$html .= '<div class="d-print-none w-100">';
 	$html .= '	<h3 class="d-inline text-primary">Pieces </h3>';
-	$html .= '	<div class="btn-floating btn-sm btn-warning text-center" onClick="$(' . $modalName . ').modal(' . $modalAction . ')"><i class="fas fa-info p-absolute" style="top: 10px; position: absolute; margin-left: -3px;"></i></div>';
-	$html .= '	<div class="btn btn-success ml-2" onClick="pieceAdder()">Add <i class="fas fa-plus"></i></div>';
+	$html .= '	<div class="btn-floating btn-sm btn-warning text-center" onClick="$(' . $modalName . ').modal(' . $modalAction . ')" style="cursor:pointer"><i class="fas fa-info p-absolute" style="top: 10px; position: absolute; margin-left: -3px;"></i></div>';
+	$html .= '	<div class="btn btn-success ml-2" onClick="pieceAdder()" style="cursor:pointer">Add <i class="fas fa-plus"></i></div>';
 	$html .= '	<hr>';
 	$html .= '	<div id="pieceList" class="col-12 d-print-none">';
 	$backsplash = '';
@@ -6402,7 +5844,7 @@ if ($action=="view_selected_inst") {
 	$instR = new project_action;
 	foreach( $instR->pieces_data_fetch($_POST) as $r ) {
 		$html .= '	<div class="row">';
-		$html .= '		<h4 class="d-inline col-12 col-md-2 text-warning text-uppercase"><i class="fas fa-trash-alt text-danger h6" style="cursor:pointer" onClick="deletePiece(' . $r['piece_id'] . ')"></i> <i class="fas fa-wrench text-primary h6" style="cursor:pointer" onClick="edit_piece(' . $r['piece_id'] . ')"></i> ' . $r['piece_name'] . '</h4>';
+		$html .= '		<h4 class="d-inline col-12 col-md-2 text-warning text-uppercase"><i class="fas fa-trash-alt text-danger h6" style="cursor:pointer" onClick="deletePiece(' . $r['piece_id'] . ')" style="cursor:pointer"></i> <i class="fas fa-wrench text-primary h6" style="cursor:pointer" onClick="edit_piece(' . $r['piece_id'] . ')" style="cursor:pointer"></i> ' . $r['piece_name'] . '</h4>';
 
 		$html .= '	</div>';
 		$html .= '	<div class="row">';
@@ -6512,7 +5954,7 @@ if ($action=="view_selected_inst") {
 
 	$html .= '<div class="d-print-none w-100">';
 	$html .= '	<h3 class="d-inline text-primary">Sinks / Faucets </h3>';
-	$html .= '	<div class="btn btn-success ml-2" onClick="sinkAdder()">Add <i class="fas fa-plus"></i></div>';
+	$html .= '	<div class="btn btn-success ml-2" onClick="sinkAdder()" style="cursor:pointer">Add <i class="fas fa-plus"></i></div>';
 	$html .= '	<hr>';
 	$html .= '	<div id="accsList" class="col-12 d-print-none">';
 	$instS = new project_action;
@@ -6520,7 +5962,7 @@ if ($action=="view_selected_inst") {
 		$html .= '	<div class="row">';
 		$sink_pull = $r['sink_id'] . "," . $r['sink_iid'] . "," . $r['sink_part'] . "," . $r['sink_model'] . "," . $r['sink_mount'] . "," . $r['sink_provided'] . "," . $r['sink_holes'] . "," . $r['sink_soap'] . "," . $r['cutout_width'] . "," . $r['cutout_depth'] . "," . $r['sink_cost'] . "," . $r['sink_price'] . "," . $r['cutout_price'];
 		$html .= '<div class="d-none" id="sho_' . $r['sink_id'] . '">' . $r['sink_holes_other'] . '</div>';
-		$html .= '		<h4 class="d-inline col-12 text-warning"><i class="fas fa-trash-alt text-danger h6" style="cursor:pointer" onClick="deleteSink(' . $r['sink_id'] . ')"></i> <i class="fas fa-wrench text-primary h6" style="cursor:pointer" onClick="editSink(' . $sink_pull . ')"></i> ';
+		$html .= '		<h4 class="d-inline col-12 text-warning"><i class="fas fa-trash-alt text-danger h6" style="cursor:pointer" onClick="deleteSink(' . $r['sink_id'] . ')" style="cursor:pointer"></i> <i class="fas fa-wrench text-primary h6" style="cursor:pointer" onClick="editSink(' . $sink_pull . ')" style="cursor:pointer"></i> ';
 		if ($r['sink_name'] > '') {
 			if ($r['piece_name'] > 0) {
 				$html .= 'Sink for piece ' . $r['piece_name'] . '<br>';
@@ -6659,7 +6101,7 @@ if ($action=="install_search_list") {
 				<h3><?= $results['install_name']; ?></h3>
 			</div>
 	        <div class="col-3 col-md-2 text-right">
-				<div id="<?= $results['id']; ?>" class="btn btn-primary" onClick="pullEditInst(this.id);">Edit <i class="icon-wrench"></i></div>
+				<div id="<?= $results['id']; ?>" class="btn btn-primary" onClick="pullEditInst(this.id);" style="cursor:pointer">Edit <i class="icon-wrench"></i></div>
 			</div>
 		<?
 	}
