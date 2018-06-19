@@ -2228,6 +2228,7 @@ if ($action=="timelines_list") {
 	unset($_POST['action']);
 	$get_entries = new project_action;
 	$template_pro = $get_entries -> get_templates_timeline($_SESSION['id']);
+	$installs_pro = $get_entries -> get_installs_timeline($_SESSION['id']);
 
 	$temp_list = array();
 	$all_pjts = array();
@@ -2702,7 +2703,7 @@ if ($action=="timelines_list") {
 
 
 
-	foreach($template_pro as $t) {
+	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if (($stat > 29 && $stat < 40) || $stat == 25) {
 			$status = progStatus($stat);
@@ -2742,7 +2743,7 @@ if ($action=="timelines_list") {
 	echo		'		</div>';
 
 
-	foreach($template_pro as $t) {
+	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if (($stat > 39 && $stat < 50) || $stat == 32 && $stat != 44) {
 			$status = matStatus($stat);
@@ -2783,7 +2784,7 @@ if ($action=="timelines_list") {
 	echo		'		</div>';
 
 
-	foreach($template_pro as $t) {
+	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if (($stat > 49 && $stat < 60) || $stat == 44 && $stat != 53) {
 			$status = sawStatus($stat);
@@ -2823,7 +2824,7 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 	echo		'			<h4>CNC</h4>';
 	echo		'		</div>';
-	foreach($template_pro as $t) {
+	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if (($stat > 59 && $stat < 70) || $stat == 53 && $stat != 63) {
 			$status = cncStatus($stat);
@@ -2861,7 +2862,7 @@ if ($action=="timelines_list") {
 	echo		'			<h4>Polishing</h4>';
 	echo		'		</div>';
 
-	foreach($template_pro as $t) {
+	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if (($stat > 69 && $stat < 80) || $stat == 63 && $stat != 73) {
 			$status = polStatus($stat);
@@ -2918,7 +2919,7 @@ if ($action=="timelines_list") {
 	echo 		'		</div><hr>';
 
 
-	foreach($template_pro as $t) {
+	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if (($stat > 79 && $stat < 90) || $stat == 73) {
 			$status = instStatus($stat);
@@ -3431,7 +3432,7 @@ if ($action=="timelines_list") {
 	echo 	'		<div class="col-12 col-md-3"><h3>To Install</h3>';
 
 
-	foreach($template_pro as $t) {
+	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if ((time()+(60*60*24*4)) > strtotime($t['install_date']) && ($stat < 80 || $stat != 73)) {
 			$status = instStatus($stat);
@@ -3470,7 +3471,7 @@ if ($action=="timelines_list") {
 	echo 	'		<div class="col-12 col-md-3"><h3>Install Scheduled</h3>';
 
 
-	foreach($template_pro as $t) {
+	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if ($stat > 79 || $stat == 73 && $stat != 84 && $stat != 85) {
 			$status = instStatus($stat);
@@ -3507,7 +3508,7 @@ if ($action=="timelines_list") {
 
 	echo 		'	<div class="col-12 col-md-3"><h3>Install Complete/Incomplete</h3>';
 
-	foreach($template_pro as $t) {
+	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if ($stat ==84 || $stat == 85) {
 			$status = instStatus($stat);
@@ -3544,7 +3545,7 @@ if ($action=="timelines_list") {
 
 
 	echo 		'	<div class="col-12 col-md-3"><h3>Install On Hold</h3>';
-	foreach($template_pro as $t) {
+	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if ($stat == 89) {
 			$status = instStatus($stat);

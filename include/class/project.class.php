@@ -1694,12 +1694,58 @@ class project_action {
 				FROM projects 
 			  	JOIN status 
 				  ON status.id = projects.job_status 
-			   WHERE (projects.template_date < '2200-01-01' 
-			   	 AND projects.install_date > CURDATE()
-			   	 AND projects.isActive = 1) 
-			      OR (projects.template_date < '2200-01-01' 
-			   	 AND projects.template_date > CURDATE()
-				 AND projects.isActive = 1)
+			   WHERE projects.template_date < '2200-01-01' 
+			   	 AND projects.template_date >= CURDATE()
+				 AND projects.isActive = 1
+			ORDER BY projects.install_date ASC,
+					 projects.am DESC,
+					 projects.first_stop DESC,
+					 projects.pm ASC,
+					 projects.template_date ASC,
+					 projects.temp_am DESC,
+					 projects.temp_first_stop DESC,
+					 projects.temp_pm ASC,
+					 projects.urgent DESC,
+					 projects.job_status";
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$rows = $q->fetchAll(PDO::FETCH_ASSOC);
+		return $rows;
+//      $tmp = array();
+//
+//      foreach($rows as $row)
+//      {
+//          //$tmp[$job['install_date']][] = $job['job_name'];
+//          $tmp[$row['short_name']][] = $row;
+//      }
+//      $output = array();
+//
+//      foreach($tmp as $type => $labels)
+//      {
+//          $output[] = array(
+//              'short_name' => $type,
+//              'detail' => $labels
+//          );
+//      }
+//      return $output;
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}  
+  }
+  public function get_installs_timeline($a) {
+    try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      
+			$sql = "
+			SELECT 	*, projects.id AS pid, status.name, status.stage, status.short_name, status.name AS status_name, status.id AS status
+				FROM projects 
+			  	JOIN status 
+				  ON status.id = projects.job_status 
+			   WHERE projects.template_date < '2200-01-01' 
+			   	 AND projects.install_date >= CURDATE()
+			   	 AND projects.isActive = 1
 			ORDER BY projects.install_date ASC,
 					 projects.am DESC,
 					 projects.first_stop DESC,
