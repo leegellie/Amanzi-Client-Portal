@@ -2091,6 +2091,22 @@ if ($action=="installs_list") {
 	}
 }
 
+
+	function tempStatus($stat) {
+		if ($stat == 12) {
+			return " btn-muted text-dark";
+		} elseif ($stat == 13) {
+			return " btn-secondary";
+		} elseif ($stat == 14) {
+			return " btn-primary";
+		} elseif ($stat == 15) {
+			return " btn-success";
+		} elseif ($stat == 16 || $stat == 19) {
+			return " btn-danger";
+		} elseif ($stat == 17) {
+			return " btn-warning";
+		}
+	}
 	function salesStatus($stat) {
 		if ($stat == 17) {
 			return " btn-muted text-dark";
@@ -2103,6 +2119,48 @@ if ($action=="installs_list") {
 		} elseif ($stat == 26) {
 			return " btn-danger";
 		} elseif ($stat == 25) {
+			return " btn-warning";
+		}
+	}
+	function materialsStatus($stat) {
+		if ($stat < 33) {
+			return " btn-muted text-dark";
+		} elseif ($stat == 40) {
+			return " btn-secondary";
+		} elseif ($stat == 41) {
+			return " btn-primary";
+		} elseif ($stat == 42) {
+			return " btn-success";
+		} elseif ($stat == 49) {
+			return " btn-danger";
+		} elseif ($stat == 43) {
+			return " btn-warning";
+		}
+	}
+	function fabStatus($stat) {
+		if ($stat < 44) {
+			return " btn-muted text-dark";
+		} elseif ($stat == 50 || $stat == 60 ||$stat == 70) {
+			return " btn-primary";
+		} elseif ($stat == 51 || $stat == 61 ||$stat == 71) {
+			return " btn-success";
+		} elseif ($stat == 59 || $stat == 49 || $stat == 69 ||$stat == 79) {
+			return " btn-danger";
+		} elseif ($stat == 52 || $stat == 62 ||$stat == 72) {
+			return " btn-warning";
+		}
+	}
+
+	function instStatus($stat) {
+		if ($stat < 44) {
+			return " btn-muted text-dark";
+		} elseif ($stat == 50 || $stat == 60 ||$stat == 70) {
+			return " btn-primary";
+		} elseif ($stat == 51 || $stat == 61 ||$stat == 71) {
+			return " btn-success";
+		} elseif ($stat == 59 || $stat == 49 || $stat == 69 ||$stat == 79) {
+			return " btn-danger";
+		} elseif ($stat == 52 || $stat == 62 ||$stat == 72) {
 			return " btn-warning";
 		}
 	}
@@ -2370,10 +2428,54 @@ if ($action=="timelines_list") {
 	$classLight = "'btn-light'";
 
 
-	function temlpate_button($t,$status) {
+	function template_button($t,$status) {
+		$date = new DateTime($t['template_date']);
+		$date = $date->format('m/d');
+		$compile =  '		<div class="row">';
+		$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
+		$compile .= '			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>' . $date . ' - ' . $t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+		if (htmlentities($t['job_notes']) != '') {
+			$compile .= '	Notes: ' . htmlentities($t['job_notes']);
+		}
+		$compile .= ' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '. $status .'" style="width:100%; cursor:pointer">';
+		if ($t['order_num'] > 0) {
+			$compile .= 'O-'.$t['order_num'].' - ';
+		} elseif ($t['quote_num'] > 0) {
+			$compile .= 'q-'.$t['quote_num'].' - ';
+		}
+		if ($t['job_sqft'] > 0) {
+			$compile .= ''.$t['job_sqft'].'<sup>sf</sup> - ';
+		}
+		$compile .= $t['job_name'].'</button>';
+		$compile .=  '		</div>';
+		echo $compile;
+	}
+	function sales_button($t,$status) {
 		$compile =  '		<div class="row">';
 		$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 		$compile .= '			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+		if (htmlentities($t['job_notes']) != '') {
+			$compile .= '	Notes: ' . htmlentities($t['job_notes']);
+		}
+		$compile .= ' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '. $status .'" style="width:100%; cursor:pointer">';
+		if ($t['order_num'] > 0) {
+			$compile .= 'O-'.$t['order_num'].' - ';
+		} elseif ($t['quote_num'] > 0) {
+			$compile .= 'q-'.$t['quote_num'].' - ';
+		}
+		if ($t['job_sqft'] > 0) {
+			$compile .= ''.$t['job_sqft'].'<sup>sf</sup> - ';
+		}
+		$compile .= $t['job_name'].'</button>';
+		$compile .=  '		</div>';
+		echo $compile;
+	}
+	function production_button($t,$status) {
+		$date = new DateTime($t['install_date']);
+		$date = $date->format('m/d');
+		$compile =  '		<div class="row">';
+		$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
+		$compile .= '			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>' . $date . ' - ' . $t['job_name']."</b><br>".$t['status_name'].'" data-content="';
 		if (htmlentities($t['job_notes']) != '') {
 			$compile .= '	Notes: ' . htmlentities($t['job_notes']);
 		}
@@ -2434,8 +2536,8 @@ if ($action=="timelines_list") {
 	foreach($template_pro as $t) {
 		$stat = $t['job_status'];
 		if ($stat > 16 && $stat < 30) {
-			temlpate_button($t,$stat);
-			echo $stat;
+			$status = tempStatus($stat);
+			temlpate_button($t,$status);
 		}
 	}
 
@@ -2484,8 +2586,8 @@ if ($action=="timelines_list") {
 	foreach($template_pro as $t) {
 		$stat = $t['job_status'];
 		if ($stat > 16 && $stat < 30) {
-			temlpate_button($t,$stat);
-			echo $stat;
+			$status = salesStatus($stat);
+			sales_button($t,$status);
 		}
 	}
 
@@ -2732,21 +2834,6 @@ echo		'		<div class="row">';
 	echo 		'</div>';
 
 
-	function tempStatus($stat) {
-		if ($stat == 12) {
-			return " btn-muted text-dark";
-		} elseif ($stat == 13) {
-			return " btn-secondary";
-		} elseif ($stat == 14) {
-			return " btn-primary";
-		} elseif ($stat == 15) {
-			return " btn-success";
-		} elseif ($stat == 16 || $stat == 19) {
-			return " btn-danger";
-		} elseif ($stat == 17) {
-			return " btn-warning";
-		}
-	}
 	echo		'<div class="tab-pane fade" id="panel_templates" role="tabpanel">';
 	echo 		'<div class="row">';
 	echo 		'	<div class="col-12 col-md-3"><h3>Templates to Scedule</h3>';
@@ -2864,22 +2951,6 @@ echo		'		<div class="row">';
 	echo 	'	</div>';
 	echo 	'	</div>';
 
-//	function salesStatus($stat) {
-//		if ($stat == 17) {
-//			return " btn-muted text-dark";
-//		} elseif ($stat == 21 || $stat == 24) {
-//			return " btn-primary";
-//		} elseif ($stat == 22) {
-//			return " btn-secondary";
-//		} elseif ($stat == 23) {
-//			return " btn-success";
-//		} elseif ($stat == 26) {
-//			return " btn-danger";
-//		} elseif ($stat == 25) {
-//			return " btn-warning";
-//		}
-//	}
-
 	echo	'	<div class="tab-pane fade" id="panel_sales" role="tabpanel">';
 	echo 		'<div class="row">';
 
@@ -2992,23 +3063,6 @@ echo		'		<div class="row">';
 	echo 	'	</div>';
 
 
-
-
-	function materialsStatus($stat) {
-		if ($stat < 33) {
-			return " btn-muted text-dark";
-		} elseif ($stat == 40) {
-			return " btn-secondary";
-		} elseif ($stat == 41) {
-			return " btn-primary";
-		} elseif ($stat == 42) {
-			return " btn-success";
-		} elseif ($stat == 49) {
-			return " btn-danger";
-		} elseif ($stat == 43) {
-			return " btn-warning";
-		}
-	}
 
 
 
@@ -3130,21 +3184,6 @@ echo		'		<div class="row">';
 	echo 	'	</div>';
 
 
-
-
-	function fabStatus($stat) {
-		if ($stat < 44) {
-			return " btn-muted text-dark";
-		} elseif ($stat == 50 || $stat == 60 ||$stat == 70) {
-			return " btn-primary";
-		} elseif ($stat == 51 || $stat == 61 ||$stat == 71) {
-			return " btn-success";
-		} elseif ($stat == 59 || $stat == 49 || $stat == 69 ||$stat == 79) {
-			return " btn-danger";
-		} elseif ($stat == 52 || $stat == 62 ||$stat == 72) {
-			return " btn-warning";
-		}
-	}
 
 	echo	'	<div class="tab-pane fade" id="panel_fab" role="tabpanel">';
 	echo 		'<div class="row">';
