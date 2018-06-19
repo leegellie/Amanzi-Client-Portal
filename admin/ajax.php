@@ -1648,7 +1648,7 @@ if ($action=="programming_list") {
 				<div class="row">
 					<div class="col-md-1 h5">
 						<?
-			if((time()+(60*60*24*5)) > strtotime($results['install_date']) && $results['job_status'] <32) {
+			if((time()+(60*60*24*5)) > strtotime($results['install_date']) && ($results['job_status'] < 32 || $results['job_status'] == 39)) {
 				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 			}
 						?>
@@ -1679,14 +1679,8 @@ if ($action=="programming_list") {
 			$date = new DateTime($results['install_date']);
 			$date = $date->format('m/d');
 			?>" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
-				<div class="row">
-					<div class="col-md-1 h5">
-						<?
-			if((time()+(60*60*24*5)) > strtotime($results['install_date']) && ($results['job_status'] < 32 || $results['job_status'] == 39)) {
-				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
-			}
-						?>
-					</div>
+					<div class="row">
+					<div class="col-md-1"><i class="fas fa-check text-success"></i></div>
 					<div class="col-md-2 h5"><?= $date ?></div>
 					<div class="col-md-5 h5 text-left"><?= $results['job_name']; ?></div>
 					<div class="col-md-2 h5"><?= $results['quote_num']; ?></div>
@@ -1704,38 +1698,67 @@ if ($action=="saw_list") {
 	unset($_POST['action']);
 	$get_entries = new project_action;
 	foreach($get_entries->get_saw($_SESSION['id']) as $results) {
-		?>
-		<hr>
-		<div class="w-100 btn <?
-		if ($results['job_status'] == 44 || $results['job_status'] == 50) {
-			?>btn-muted mdb-color lighten-5 text-dark<?
-		} elseif ($results['job_status'] == 51) {
-			?>btn-success<?
-		} elseif ($results['job_status'] == 52) {
-			?>peach-gradient<?
-		} elseif ($results['job_status'] == 53) {
-			?>btn-success<?
-		} elseif ($results['job_status'] == 59) {
-			?>btn-danger<?
-		}
-		$date = new DateTime($results['install_date']);
-		$date = $date->format('m/d');
-		?>" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
-			<div class="row">
-				<div class="col-md-1 h5">
-					<?
-		if((time()+(60*60*24*4)) > strtotime($results['install_date']) && ($results['job_status'] < 53 || $results['job_status'] == 59)) {
-			echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
-		}
-					?>
+		if ($results['job_status'] != 52) {
+			?>
+			<hr>
+			<div class="w-100 btn <?
+			if ($results['job_status'] == 44 || $results['job_status'] == 50) {
+				?>btn-muted mdb-color lighten-5 text-dark<?
+			} elseif ($results['job_status'] == 51) {
+				?>btn-success<?
+			} elseif ($results['job_status'] == 52) {
+				?>peach-gradient<?
+			} elseif ($results['job_status'] == 53) {
+				?>btn-success<?
+			} elseif ($results['job_status'] == 59) {
+				?>btn-danger<?
+			}
+			$date = new DateTime($results['install_date']);
+			$date = $date->format('m/d');
+			?>" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
+				<div class="row">
+					<div class="col-md-1 h5">
+						<?
+			if((time()+(60*60*24*4)) > strtotime($results['install_date']) && ($results['job_status'] < 53 || $results['job_status'] != 59)) {
+				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
+			}
+						?>
+					</div>
+					<div class="col-md-2 h5"><?= $date ?></div>
+					<div class="col-md-5 h5 text-left"><?= $results['job_name']; ?></div>
+					<div class="col-md-2 h5"><?= $results['quote_num']; ?></div>
+					<div class="col-md-2 h5"><?= $results['order_num']; ?></div>
 				</div>
-				<div class="col-md-2 h5"><?= $date ?></div>
-				<div class="col-md-5 h5 text-left"><?= $results['job_name']; ?></div>
-				<div class="col-md-2 h5"><?= $results['quote_num']; ?></div>
-				<div class="col-md-2 h5"><?= $results['order_num']; ?></div>
 			</div>
-		</div>
 		<?
+		} else {
+			?>
+			<hr>
+			<div class="w-100 btn <?
+			if ($results['job_status'] == 44 || $results['job_status'] == 50) {
+				?>btn-muted mdb-color lighten-5 text-dark<?
+			} elseif ($results['job_status'] == 51) {
+				?>btn-success<?
+			} elseif ($results['job_status'] == 52) {
+				?>peach-gradient<?
+			} elseif ($results['job_status'] == 53) {
+				?>btn-success<?
+			} elseif ($results['job_status'] == 59) {
+				?>btn-danger<?
+			}
+			$date = new DateTime($results['install_date']);
+			$date = $date->format('m/d');
+			?>" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
+				<div class="row">
+					<div class="col-md-1 h5"><i class="fas fa-check fa-pulse text-success"></i></div>
+					<div class="col-md-2 h5"><?= $date ?></div>
+					<div class="col-md-5 h5 text-left"><?= $results['job_name']; ?></div>
+					<div class="col-md-2 h5"><?= $results['quote_num']; ?></div>
+					<div class="col-md-2 h5"><?= $results['order_num']; ?></div>
+				</div>
+			</div>
+<?
+		}
 	}
 }
 
