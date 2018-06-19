@@ -2115,9 +2115,9 @@ if ($action=="timelines_list") {
 
 	$temp_list = array();
 	$all_pjts = array();
-	foreach($template_pro as $pro) {
-		$temp_app['details'] = $pro['detail'];
-		$temp_list[0] = $temp_app;
+//	foreach($template_pro as $pro) {
+//		$temp_app['details'] = $pro['detail'];
+//		$temp_list[0] = $temp_app;
 //		if($pro['detail'] != ''){
 //			$allp['button'] = 'bg-info estapproved';
 //			$allp['details'] = $pro['detail'];
@@ -2359,7 +2359,7 @@ if ($action=="timelines_list") {
 //				break;
 //
 //		}
-	}
+//	}
 	$classInfo = "'btn-info'";
 	$classPrimary = "'btn-primary'";
 	$classDanger = "'btn-danger'";
