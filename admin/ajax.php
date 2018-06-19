@@ -2137,6 +2137,64 @@ if ($action=="installs_list") {
 			return " btn-warning";
 		}
 	}
+	function progStatus($stat) {
+		if ($stat < 31) {
+			return " btn-muted text-dark";
+		} elseif ($stat == 32) {
+			return " btn-primary";
+		} elseif ($stat == 51) {
+			return " btn-success";
+		} elseif ($stat == 59) {
+			return " btn-danger";
+		}
+	}
+	function matStatus($stat) {
+		if ($stat < 41) {
+			return " btn-muted text-dark";
+		} elseif ($stat == 42) {
+			return " btn-primary";
+		} elseif ($stat == 41) {
+			return " btn-success";
+		} elseif ($stat == 49) {
+			return " btn-danger";
+		}
+	}
+	function sawStatus($stat) {
+		if ($stat < 51) {
+			return " btn-muted text-dark";
+		} elseif ($stat == 52) {
+			return " btn-primary";
+		} elseif ($stat == 51) {
+			return " btn-success";
+		} elseif ($stat == 59) {
+			return " btn-danger";
+		}
+	}
+
+	function cncStatus($stat) {
+		if ($stat < 61) {
+			return " btn-muted text-dark";
+		} elseif ($stat == 62) {
+			return " btn-primary";
+		} elseif ($stat == 61) {
+			return " btn-success";
+		} elseif ($stat == 69) {
+			return " btn-danger";
+		}
+	}
+
+	function polStatus($stat) {
+		if ($stat < 71) {
+			return " btn-muted text-dark";
+		} elseif ($stat == 72) {
+			return " btn-primary";
+		} elseif ($stat == 71) {
+			return " btn-success";
+		} elseif ($stat == 79) {
+			return " btn-danger";
+		}
+	}
+
 	function fabStatus($stat) {
 		if ($stat < 44) {
 			return " btn-muted text-dark";
@@ -2647,7 +2705,7 @@ if ($action=="timelines_list") {
 	foreach($template_pro as $t) {
 		$stat = $t['job_status'];
 		if (($stat > 29 && $stat < 40) || $stat == 25) {
-			$status = fabStatus($stat);
+			$status = progStatus($stat);
 			production_button($t,$status);
 		}
 	}
