@@ -2479,6 +2479,7 @@ if ($action=="timelines_list") {
 			$stat = $t['job_status'];
 			if ($stat > 16 && $stat < 30) {
 				temlpate_button($t,$stat);
+				echo $stat;
 			}
 		}
 	}
