@@ -2473,7 +2473,7 @@ if ($action=="timelines_list") {
 
 
 	foreach($template_pro as $temp) {
-		$t = $temp['detail']
+		$t = $temp['detail'];
 		$stat = $t['job_status'];
 		echo temlpate_button($t,$stat);
 	}
