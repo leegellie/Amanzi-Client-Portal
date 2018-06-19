@@ -2388,7 +2388,7 @@ if ($action=="timelines_list") {
 		}
 		$compile .= $t['job_name'].'</button>';
 		$compile .=  '		</div>';
-		return $compile;
+		echo $compile;
 	}
 
 	echo 		'<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">';
@@ -2478,7 +2478,7 @@ if ($action=="timelines_list") {
 		foreach($temp['details'] as $t) {
 			$stat = $t['job_status'];
 			if ($stat > 16 && $stat < 30) {
-				echo temlpate_button($t,$stat);
+				temlpate_button($t,$stat);
 			}
 		}
 	}
@@ -2510,7 +2510,7 @@ if ($action=="timelines_list") {
 //	echo       	'		</div>';
 //				}
 //			}
-//	echo 		'	</div>';
+	echo 		'	</div>';
 
 
 
