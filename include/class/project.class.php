@@ -1701,13 +1701,14 @@ class project_action {
 			   	 AND projects.template_date > CURDATE()
 				 AND projects.isActive = 1)
 			ORDER BY projects.install_date ASC,
-					 projects.urgent DESC,
 					 projects.am DESC,
 					 projects.first_stop DESC,
 					 projects.pm ASC,
+					 projects.template_date ASC,
 					 projects.temp_am DESC,
 					 projects.temp_first_stop DESC,
-					 projects.temp_pm ASC";
+					 projects.temp_pm ASC,
+					 projects.urgent DESC";
 			$q = $conn->prepare($sql);
 			$q->execute();
 			$rows = $q->fetchAll(PDO::FETCH_ASSOC);
