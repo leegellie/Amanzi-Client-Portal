@@ -2477,7 +2477,9 @@ if ($action=="timelines_list") {
 	foreach($temp_list as $temp) {
 		foreach($temp['details'] as $t) {
 			$stat = $t['job_status'];
-			echo temlpate_button($t,$stat);
+			if ($stat > 16 && $stat < 30) {
+				echo temlpate_button($t,$stat);
+			}
 		}
 	}
 
@@ -2486,8 +2488,6 @@ if ($action=="timelines_list") {
 //	foreach($sale_list as $sale) {
 //				foreach($sale['details'] as $t) {
 //					$stat = $t['job_status'];
-//
-//
 //// ADD function
 //					echo temlpate_button($t,$stat);
 //
