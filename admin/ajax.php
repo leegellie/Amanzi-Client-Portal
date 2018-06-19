@@ -3430,7 +3430,6 @@ if ($action=="timelines_list") {
 
 	echo 	'		<div class="col-12 col-md-3"><h3>To Install</h3>';
 
-	if((time()+(60*60*24*4)) > strtotime($t['install_date']) && ($results['job_status'] < 53 || $results['job_status'] != 59)) {
 
 	foreach($template_pro as $t) {
 		$stat = $t['job_status'];
