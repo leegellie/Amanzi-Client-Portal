@@ -2474,13 +2474,11 @@ if ($action=="timelines_list") {
 
 
 
-	foreach($temp_list as $temp) {
-		foreach($temp['details'] as $t) {
-			$stat = $t['job_status'];
-			if ($stat > 16 && $stat < 30) {
-				temlpate_button($t,$stat);
-				echo $stat;
-			}
+	foreach($template_pro as $t) {
+		$stat = $t['job_status'];
+		if ($stat > 16 && $stat < 30) {
+			temlpate_button($t,$stat);
+			echo $stat;
 		}
 	}
 

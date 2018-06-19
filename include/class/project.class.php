@@ -1711,23 +1711,24 @@ class project_action {
 			$q = $conn->prepare($sql);
 			$q->execute();
 			$rows = $q->fetchAll(PDO::FETCH_ASSOC);
-      $tmp = array();
-
-      foreach($rows as $row)
-      {
-          //$tmp[$job['install_date']][] = $job['job_name'];
-          $tmp[$row['short_name']][] = $row;
-      }
-      $output = array();
-
-      foreach($tmp as $type => $labels)
-      {
-          $output[] = array(
-              'short_name' => $type,
-              'detail' => $labels
-          );
-      }
-      return $output;
+		return $rows;
+//      $tmp = array();
+//
+//      foreach($rows as $row)
+//      {
+//          //$tmp[$job['install_date']][] = $job['job_name'];
+//          $tmp[$row['short_name']][] = $row;
+//      }
+//      $output = array();
+//
+//      foreach($tmp as $type => $labels)
+//      {
+//          $output[] = array(
+//              'short_name' => $type,
+//              'detail' => $labels
+//          );
+//      }
+//      return $output;
 		} catch(PDOException $e) {
 			$this->_message = "ERROR: " . $e->getMessage();
 			return $this->_message;
