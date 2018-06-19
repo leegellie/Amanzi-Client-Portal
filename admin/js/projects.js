@@ -1797,7 +1797,9 @@ function compilePjtEdit(data) {
 		var split = res[i].split('::');
 		obj[split[0]] = split[1];
 	}
-	$('#pjt_name').text(obj.job_name);
+  console.log("obj_data = ", obj);
+
+  $('#pjt_name').text(obj.job_name);
 	$('#p-acct_rep').val(obj.acct_rep);
 	$('#p-pid').val(obj.id);
 	$('#p-uid').val(obj.uid);
@@ -1846,6 +1848,10 @@ function compilePjtEdit(data) {
 	$('#p-geo_lat').val(obj.job_lat);
 	$('#p-geo_long').val(obj.job_long);
 	$('#p-job_sqft').val(obj.job_sqft);
+  
+//   $('#p-geo-lat').val(obj.job_lat);
+// 	$('#p-geo-long').val(obj.job_long);
+// 	$('#p-job-sqft').val(obj.job_sqft);
 	//$('#p-isActive').val(obj.isActive);
 	if (obj.isActive == 1) {
 		$('#p-isActive').prop("checked", true);

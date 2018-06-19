@@ -4912,42 +4912,51 @@ if ($action=="view_selected_pjt") {
 		$html .= '<hr class="d-print-none">';
 		  // **** Display the Multi upload button  **** //
 		$html .= '<div class="row d-print-none">';
+		$html .= '<div class="file-field col-12';
 		if($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4) {
-			$html .= '
-			<div class="file-field col-12">
-				<div class="btn btn-sm btn-success float-left">
-					<span>Upload template files</span>
-					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_temp"/>
-				</div>
-				<div class="file-path-wrapper float-right w-75 pt-1">
-					<input class="file-path validate" type="text" placeholder="Upload one or more files"/>
-				</div>
-			</div>';
-		} 
+			$html .= ' d-block';
+		} else {
+			$html .= ' d-none';
+		}
+		$html .= '">
+			<div class="btn btn-sm btn-success float-left">
+				<span>Upload template files</span>
+				<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_temp"/>
+			</div>
+			<div class="file-path-wrapper float-right w-75 pt-1">
+				<input class="file-path validate" type="text" placeholder="Upload one or more files"/>
+			</div>
+		</div>';
+		$html .= '<div class="file-field col-12';
 		if($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 5) {
-			$html .= '
-			<div class="file-field col-12">
-				<div class="btn btn-sm btn-success float-left">
-					<span>Upload fabrication files</span>
-					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_fab"/>
-				</div>
-				<div class="file-path-wrapper float-right w-75 pt-1">
-					<input class="file-path validate" type="text" placeholder="Upload one or more files">
-				</div>
-			</div>';
+			$html .= ' d-block';
+		} else {
+			$html .= ' d-none';
 		}
+		$html .= '">
+			<div class="btn btn-sm btn-success float-left">
+				<span>Upload fabrication files</span>
+				<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_fab"/>
+			</div>
+			<div class="file-path-wrapper float-right w-75 pt-1">
+				<input class="file-path validate" type="text" placeholder="Upload one or more files">
+			</div>
+		</div>';
+		$html .= '<div class="file-field col-12';
 		if($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 10) {
-			$html .= '
-			<div class="file-field col-12">
-				<div class="btn btn-sm btn-success float-left">
-					<span>Upload installation files</span>
-					<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_inst"/>
-				</div>
-				<div class="file-path-wrapper float-right w-75 pt-1">
-					<input class="file-path validate" type="text" placeholder="Upload one or more files">
-				</div>
-			</div>';
+			$html .= ' d-block';
+		} else {
+			$html .= ' d-none';
 		}
+		$html .= '">
+			<div class="btn btn-sm btn-success float-left">
+				<span>Upload installation files</span>
+				<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_inst"/>
+			</div>
+			<div class="file-path-wrapper float-right w-75 pt-1">
+				<input class="file-path validate" type="text" placeholder="Upload one or more files">
+			</div>
+		</div>';
 		if($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4 || $_SESSION['access_level'] == 5 || $_SESSION['access_level'] == 10) {
 			$html .= '
 					<div id="uploadmulti" class="btn btn-primary d-print-none mr-3 ml-auto" onClick="upload_multi();" style="cursor:pointer">Upload</div>';
