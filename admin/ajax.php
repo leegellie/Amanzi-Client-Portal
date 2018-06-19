@@ -2091,6 +2091,21 @@ if ($action=="installs_list") {
 	}
 }
 
+	function salesStatus($stat) {
+		if ($stat == 17) {
+			return " btn-muted text-dark";
+		} elseif ($stat == 21 || $stat == 24) {
+			return " btn-primary";
+		} elseif ($stat == 22) {
+			return " btn-secondary";
+		} elseif ($stat == 23) {
+			return " btn-success";
+		} elseif ($stat == 26) {
+			return " btn-danger";
+		} elseif ($stat == 25) {
+			return " btn-warning";
+		}
+	}
 
 if ($action=="timelines_list") {
 	$results = "";
@@ -2101,248 +2116,247 @@ if ($action=="timelines_list") {
 	$temp_list = array();
 	$all_pjts = array();
 	foreach($template_pro as $pro) {
-		if($pro['detail'] != ''){
-			$allp['button'] = 'bg-info estapproved';
-			$allp['details'] = $pro['detail'];
-			$all_pjts[0] = $allp;
-		}
-		
-		switch($pro['short_name']) {
-// TEMPLATES
-			case 'estapproved':     //Status = 12:Blue Button
-				$temp_app['button'] = 'bg-info estapproved';
-				$temp_app['details'] = $pro['detail'];
-				$temp_list[0] = $temp_app;
-				break;
-			case 'tempsched':       //Status = 13:Orange Button 
-				$temp_sched['button'] = 'bg-warning tempsched';    
-				$temp_sched['details'] = $pro['detail'];
-				$temp_list[1] = $temp_sched;
-				break;
-			case 'tempinroute':     //Status = 14:Purple Button
-				$temp_route['button'] = 'bg-secondary tempinroute';  
-				$temp_route['details'] = $pro['detail'];
-				$temp_list[4] = $temp_route;
-				break;
-			case 'tempstart':       //Status = 15:Green Button
-				$temp_start['button'] = 'bg-success tempstart';
-				$temp_start['details'] = $pro['detail'];
-				$temp_list[3] = $temp_start;
-				break;
-			case 'tempincomp':      //Status = 16:Red Button
-				$temp_incomp['button'] = 'bg-danger tempincomp';
-				$temp_incomp['details'] = $pro['detail'];
-				$temp_list[5] = $temp_incomp;
-				break;
-//			case 'tempcomp':        //Status = 17:Orange Button
-//				$temp_comp['button'] = 'bg-warning'; 
-//				$temp_comp = $pro['detail'];
-//				$temp_list[6] = $temp_comp;
+//		if($pro['detail'] != ''){
+//			$allp['button'] = 'bg-info estapproved';
+//			$allp['details'] = $pro['detail'];
+//			$all_pjts[0] = $allp;
+//		}
+//		switch($pro['short_name']) {
+//// TEMPLATES
+//			case 'estapproved':     //Status = 12:Blue Button
+//				$temp_app['button'] = 'bg-info estapproved';
+//				$temp_app['details'] = $pro['detail'];
+//				$temp_list[0] = $temp_app;
 //				break;
-			case 'temphold':        //Status = 19: Red Button
-				$temp_hold['button'] = 'bg-danger temphold';
-				$temp_hold['details'] = $pro['detail'];
-				$temp_list[2] = $temp_hold;
-				break;
-// SALES
-			case 'quoteprep':       //Status = 21
-				$sale_prep['button'] = 'bg-primary quoteprep';
-				$sale_prep['details'] = $pro['detail'];
-				$sale_list[1] = $sale_prep;
-				break;
-			case 'quotecheck':      //Status = 22
-				$sale_check['button'] = 'bg-warning quotecheck';
-				$sale_check['details'] = $pro['detail'];
-				$sale_list[2] = $sale_check;
-				break;
-			case 'quoted':          //Status = 23
-				$sale_quo['button'] = 'bg-success quoted';
-				$sale_quo['details'] = $pro['detail'];
-				$sale_list[3] = $sale_quo;
-				break;
-			case 'quotealter':      //Status = 24
-				$sale_alter['button'] = 'bg-info quotealter';
-				$sale_alter['details'] = $pro['detail'];
-				$sale_list[4] = $sale_alter;
-				break;
-			case 'quotereject':     //Status = 26
-				$sale_reject['button'] = 'bg-danger quotereject';
-				$sale_reject['details'] = $pro['detail'];
-				$sale_list[0] = $sale_reject;
-				break;
-// fabrication
-
-			case 'quoteaccept':     //Status = 25: Yellow Button
-				$fabrication['button'] = 'bg-primary quoteaccept prog'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[0] = $fabrication;
-				break;
-			case 'progsched':       //Status = 30:Blue Button
-				$fabrication['button'] = 'bg-primary progsched prog'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[1] = $fabrication;
-				break;
-			case 'progstart':       //Status = 31
-				$fabrication['button'] = 'bg-primary progstart prog'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[2] = $fabrication;
-				break;
-			case 'progcomp':        //Status = 32
-				$fabrication['button'] = 'bg-primary progcomp matr'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[4] = $fabrication;
-				break;
-			case 'proghold':        //Status = 39
-				$fabrication['button'] = 'bg-danger proghold prog'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[3] = $fabrication;
-				break;
-			case 'matsched':        //Status = 40
-				$fabrication['button'] = 'bg-success matsched matr'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[5] = $fabrication;
-				break;
-			case 'matordered':        //Status = 41
-				$fabrication['button'] = 'bg-success matordered matr'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[6] = $fabrication;
-				break;
-			case 'matsonhand':        //Status = 42
-				$fabrication['button'] = 'bg-success matsonhand matr'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[7] = $fabrication;
-				break;
-			case 'matsready':        //Status = 43
-				$fabrication['button'] = 'bg-success matsready matr'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[8] = $fabrication;
-				break;
-			case 'matdeliv':        //Status = 44
-				$fabrication['button'] = 'bg-warning matdeliv saw'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[10] = $fabrication;
-				break;
-			case 'mathold':        //Status = 49
-				$fabrication['button'] = 'bg-danger mathold matr'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[9] = $fabrication;
-				break;
-			case 'sawsched':        //Status = 50
-				$fabrication['button'] = 'bg-warning sawsched saw'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[11] = $fabrication;
-				break;
-			case 'sawstart':        //Status = 51
-				$fabrication['button'] = 'bg-warning sawstart saw'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[12] = $fabrication;
-				break;
-			case 'sawcomp':        //Status = 52
-				$fabrication['button'] = 'bg-warning sawcomp saw'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[13] = $fabrication;
-				break;
-			case 'sawdeliv':        //Status = 53
-				$fabrication['button'] = 'bg-warning sawdeliv cnc'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[15] = $fabrication;
-				break;
-			case 'sawhold':        //Status = 59
-				$fabrication['button'] = 'bg-danger sawhold saw'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[14] = $fabrication;
-				break;
-			case 'cncsched':        //Status = 60
-				$fabrication['button'] = 'bg-secondary cncsched cnc'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[16] = $fabrication;
-				break;
-			case 'cncstart':        //Status = 61
-				$fabrication['button'] = 'bg-secondary cncstart cnc'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[17] = $fabrication;
-				break;
-			case 'cnccomp':        //Status = 62
-				$fabrication['button'] = 'bg-secondary cnccomp cnc'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[18] = $fabrication;
-				break;
-			case 'cncdeliv':        //Status = 63
-				$fabrication['button'] = 'bg-info cncdeliv polish'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[20] = $fabrication;
-				break;
-			case 'cnchold':        //Status = 69
-				$fabrication['button'] = 'bg-danger cnchold cnc'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[19] = $fabrication;
-				break;
-			case 'polishsched':        //Status = 70
-				$fabrication['button'] = 'bg-info polishsched polish'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[21] = $fabrication;
-				break;
-			case 'polishstart':        //Status = 71
-				$fabrication['button'] = 'bg-info polishstart polish'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[22] = $fabrication;
-				break;
-			case 'polishcomp':        //Status = 72
-				$fabrication['button'] = 'bg-info polishcomp polish'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[23] = $fabrication;
-				break;
-			case 'polishhold':        //Status = 79
-				$fabrication['button'] = 'bg-danger polishhold polish'; 
-				$fabrication['details'] = $pro['detail'];
-				$fabrication_list[24] = $fabrication;
-				break;
-// INSTALLS
-			case 'polishdeliv':        //Status = 73
-				$install['button'] = 'bg-light polishdeliv'; 
-				$install['details'] = $pro['detail'];
-				$install_list[0] = $install;
-				break;
-			case 'instsched':        //Status = 80: Blue Button
-				$install['button'] = 'bg-primary instsched'; 
-				$install['details'] = $pro['detail'];
-				$install_list[1] = $install;
-				break;
-			case 'insttruck':        //Status = 81
-				$install['button'] = 'bg-success insttruck'; 
-				$install['details'] = $pro['detail'];
-				$install_list[2] = $install;
-				break;
-			case 'instinroute':        //Status = 82
-				$install['button'] = 'bg-success instinroute'; 
-				$install['details'] = $pro['detail'];
-				$install_list[3] = $install;
-				break;
-			case 'inststart':        //Status = 83
-				$install['button'] = 'bg-warning inststart'; 
-				$install['details'] = $pro['detail'];
-				$install_list[4] = $install;
-				break;
-			case 'instincomp':        //Status = 84
-				$install['button'] = 'bg-danger instincomp'; 
-				$install['details'] = $pro['detail'];
-				$install_list[6] = $install;
-				break;
-			case 'instcomp':        //Status = 85
-				$install['button'] = 'bg-alert instcomp'; 
-				$install['details'] = $pro['detail'];
-				$install_list[5] = $install;
-				break;
-			case 'instapproved':        //Status = 86
-				$proghold = $pro['detail'];
-				break;
-			case 'insthold':        //Status = 89: Red Button
-				$install['button'] = 'bg-danger insthold'; 
-				$install['details'] = $pro['detail'];
-				$install_list[7] = $install;
-				break;
-
-		}
+//			case 'tempsched':       //Status = 13:Orange Button 
+//				$temp_sched['button'] = 'bg-warning tempsched';    
+//				$temp_sched['details'] = $pro['detail'];
+//				$temp_list[1] = $temp_sched;
+//				break;
+//			case 'tempinroute':     //Status = 14:Purple Button
+//				$temp_route['button'] = 'bg-secondary tempinroute';  
+//				$temp_route['details'] = $pro['detail'];
+//				$temp_list[4] = $temp_route;
+//				break;
+//			case 'tempstart':       //Status = 15:Green Button
+//				$temp_start['button'] = 'bg-success tempstart';
+//				$temp_start['details'] = $pro['detail'];
+//				$temp_list[3] = $temp_start;
+//				break;
+//			case 'tempincomp':      //Status = 16:Red Button
+//				$temp_incomp['button'] = 'bg-danger tempincomp';
+//				$temp_incomp['details'] = $pro['detail'];
+//				$temp_list[5] = $temp_incomp;
+//				break;
+////			case 'tempcomp':        //Status = 17:Orange Button
+////				$temp_comp['button'] = 'bg-warning'; 
+////				$temp_comp = $pro['detail'];
+////				$temp_list[6] = $temp_comp;
+////				break;
+//			case 'temphold':        //Status = 19: Red Button
+//				$temp_hold['button'] = 'bg-danger temphold';
+//				$temp_hold['details'] = $pro['detail'];
+//				$temp_list[2] = $temp_hold;
+//				break;
+//// SALES
+//			case 'quoteprep':       //Status = 21
+//				$sale_prep['button'] = 'bg-primary quoteprep';
+//				$sale_prep['details'] = $pro['detail'];
+//				$sale_list[1] = $sale_prep;
+//				break;
+//			case 'quotecheck':      //Status = 22
+//				$sale_check['button'] = 'bg-warning quotecheck';
+//				$sale_check['details'] = $pro['detail'];
+//				$sale_list[2] = $sale_check;
+//				break;
+//			case 'quoted':          //Status = 23
+//				$sale_quo['button'] = 'bg-success quoted';
+//				$sale_quo['details'] = $pro['detail'];
+//				$sale_list[3] = $sale_quo;
+//				break;
+//			case 'quotealter':      //Status = 24
+//				$sale_alter['button'] = 'bg-info quotealter';
+//				$sale_alter['details'] = $pro['detail'];
+//				$sale_list[4] = $sale_alter;
+//				break;
+//			case 'quotereject':     //Status = 26
+//				$sale_reject['button'] = 'bg-danger quotereject';
+//				$sale_reject['details'] = $pro['detail'];
+//				$sale_list[0] = $sale_reject;
+//				break;
+//// fabrication
+//
+//			case 'quoteaccept':     //Status = 25: Yellow Button
+//				$fabrication['button'] = 'bg-primary quoteaccept prog'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[0] = $fabrication;
+//				break;
+//			case 'progsched':       //Status = 30:Blue Button
+//				$fabrication['button'] = 'bg-primary progsched prog'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[1] = $fabrication;
+//				break;
+//			case 'progstart':       //Status = 31
+//				$fabrication['button'] = 'bg-primary progstart prog'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[2] = $fabrication;
+//				break;
+//			case 'progcomp':        //Status = 32
+//				$fabrication['button'] = 'bg-primary progcomp matr'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[4] = $fabrication;
+//				break;
+//			case 'proghold':        //Status = 39
+//				$fabrication['button'] = 'bg-danger proghold prog'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[3] = $fabrication;
+//				break;
+//			case 'matsched':        //Status = 40
+//				$fabrication['button'] = 'bg-success matsched matr'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[5] = $fabrication;
+//				break;
+//			case 'matordered':        //Status = 41
+//				$fabrication['button'] = 'bg-success matordered matr'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[6] = $fabrication;
+//				break;
+//			case 'matsonhand':        //Status = 42
+//				$fabrication['button'] = 'bg-success matsonhand matr'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[7] = $fabrication;
+//				break;
+//			case 'matsready':        //Status = 43
+//				$fabrication['button'] = 'bg-success matsready matr'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[8] = $fabrication;
+//				break;
+//			case 'matdeliv':        //Status = 44
+//				$fabrication['button'] = 'bg-warning matdeliv saw'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[10] = $fabrication;
+//				break;
+//			case 'mathold':        //Status = 49
+//				$fabrication['button'] = 'bg-danger mathold matr'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[9] = $fabrication;
+//				break;
+//			case 'sawsched':        //Status = 50
+//				$fabrication['button'] = 'bg-warning sawsched saw'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[11] = $fabrication;
+//				break;
+//			case 'sawstart':        //Status = 51
+//				$fabrication['button'] = 'bg-warning sawstart saw'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[12] = $fabrication;
+//				break;
+//			case 'sawcomp':        //Status = 52
+//				$fabrication['button'] = 'bg-warning sawcomp saw'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[13] = $fabrication;
+//				break;
+//			case 'sawdeliv':        //Status = 53
+//				$fabrication['button'] = 'bg-warning sawdeliv cnc'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[15] = $fabrication;
+//				break;
+//			case 'sawhold':        //Status = 59
+//				$fabrication['button'] = 'bg-danger sawhold saw'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[14] = $fabrication;
+//				break;
+//			case 'cncsched':        //Status = 60
+//				$fabrication['button'] = 'bg-secondary cncsched cnc'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[16] = $fabrication;
+//				break;
+//			case 'cncstart':        //Status = 61
+//				$fabrication['button'] = 'bg-secondary cncstart cnc'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[17] = $fabrication;
+//				break;
+//			case 'cnccomp':        //Status = 62
+//				$fabrication['button'] = 'bg-secondary cnccomp cnc'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[18] = $fabrication;
+//				break;
+//			case 'cncdeliv':        //Status = 63
+//				$fabrication['button'] = 'bg-info cncdeliv polish'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[20] = $fabrication;
+//				break;
+//			case 'cnchold':        //Status = 69
+//				$fabrication['button'] = 'bg-danger cnchold cnc'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[19] = $fabrication;
+//				break;
+//			case 'polishsched':        //Status = 70
+//				$fabrication['button'] = 'bg-info polishsched polish'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[21] = $fabrication;
+//				break;
+//			case 'polishstart':        //Status = 71
+//				$fabrication['button'] = 'bg-info polishstart polish'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[22] = $fabrication;
+//				break;
+//			case 'polishcomp':        //Status = 72
+//				$fabrication['button'] = 'bg-info polishcomp polish'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[23] = $fabrication;
+//				break;
+//			case 'polishhold':        //Status = 79
+//				$fabrication['button'] = 'bg-danger polishhold polish'; 
+//				$fabrication['details'] = $pro['detail'];
+//				$fabrication_list[24] = $fabrication;
+//				break;
+//// INSTALLS
+//			case 'polishdeliv':        //Status = 73
+//				$install['button'] = 'bg-light polishdeliv'; 
+//				$install['details'] = $pro['detail'];
+//				$install_list[0] = $install;
+//				break;
+//			case 'instsched':        //Status = 80: Blue Button
+//				$install['button'] = 'bg-primary instsched'; 
+//				$install['details'] = $pro['detail'];
+//				$install_list[1] = $install;
+//				break;
+//			case 'insttruck':        //Status = 81
+//				$install['button'] = 'bg-success insttruck'; 
+//				$install['details'] = $pro['detail'];
+//				$install_list[2] = $install;
+//				break;
+//			case 'instinroute':        //Status = 82
+//				$install['button'] = 'bg-success instinroute'; 
+//				$install['details'] = $pro['detail'];
+//				$install_list[3] = $install;
+//				break;
+//			case 'inststart':        //Status = 83
+//				$install['button'] = 'bg-warning inststart'; 
+//				$install['details'] = $pro['detail'];
+//				$install_list[4] = $install;
+//				break;
+//			case 'instincomp':        //Status = 84
+//				$install['button'] = 'bg-danger instincomp'; 
+//				$install['details'] = $pro['detail'];
+//				$install_list[6] = $install;
+//				break;
+//			case 'instcomp':        //Status = 85
+//				$install['button'] = 'bg-alert instcomp'; 
+//				$install['details'] = $pro['detail'];
+//				$install_list[5] = $install;
+//				break;
+//			case 'instapproved':        //Status = 86
+//				$proghold = $pro['detail'];
+//				break;
+//			case 'insthold':        //Status = 89: Red Button
+//				$install['button'] = 'bg-danger insthold'; 
+//				$install['details'] = $pro['detail'];
+//				$install_list[7] = $install;
+//				break;
+//
+//		}
 	}
 	$classInfo = "'btn-info'";
 	$classPrimary = "'btn-primary'";
@@ -2353,6 +2367,27 @@ if ($action=="timelines_list") {
 	$classSuccess = "'btn-success'";
 	$classLight = "'btn-light'";
 
+
+	function temlpate_button($t,$status) {
+		$compile =  '		<div class="row">';
+		$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
+		$compile .= '			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+		if (htmlentities($t['job_notes']) != '') {
+			$compile .= '	Notes: ' . htmlentities($t['job_notes']);
+		}
+		$compile .= ' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '. $status .'" style="width:100%; cursor:pointer">';
+		if ($t['order_num'] > 0) {
+			$compile .= 'O-'.$t['order_num'].' - ';
+		} elseif ($t['quote_num'] > 0) {
+			$compile .= 'q-'.$t['quote_num'].' - ';
+		}
+		if ($t['job_sqft'] > 0) {
+			$compile .= ''.$t['job_sqft'].'<sup>sf</sup> - ';
+		}
+		$compile .= $t['job_name'].'</button>';
+		$compile .=  '		</div>';
+		return $compile;
+	}
 
 	echo 		'<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">';
 	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_overview" role="tab">Overview</a></li>';
@@ -2391,6 +2426,10 @@ if ($action=="timelines_list") {
 	$thisBtn = "'.temphold'";
 	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template on Hold" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.'); " style="cursor:pointer"><i class="fas fa-times-octagon"></i></div>';
 	echo 		'		</div><hr>';
+
+
+
+
 			foreach($temp_list as $temp) {
 				foreach($temp['details'] as $t) {
 	echo        '		<div class="row">';
@@ -2416,7 +2455,6 @@ if ($action=="timelines_list") {
 
 
 
-
 	echo    	'	<div id="resultsTable2" class="col-sm-3 striped">';
 	echo        '		<h3>In Sales</h3>';
 	echo 		'		<div class="row d-flex justify-content-between">';
@@ -2431,28 +2469,44 @@ if ($action=="timelines_list") {
 	$thisBtn = "'.quotereject'";
 	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quote Rejected" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><span class="fa-layers fa-fw"><i class="fas fa-dollar-sign" data-fa-transform="grow-2"></i><span class="fa-layers-text fa-inverse" data-fa-transform="shrink-5 rotate--30" style="font-weight:900">Reject</span></span></div>';
 	echo 		'		</div><hr>';
-			foreach($sale_list as $sale) {
-				foreach($sale['details'] as $t) {
-	echo		'		<div class="row">';
-					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
-					if (htmlentities($t['job_notes']) != '') {
-	echo 		'	Notes: ' . htmlentities($t['job_notes']);
-					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$sale['button'].'" style="width:100%; cursor:pointer">';
-					if ($t['order_num'] > 0) {
-						echo 'O-'.$t['order_num'].' - ';
-					} elseif ($t['quote_num'] > 0) {
-						echo 'q-'.$t['quote_num'].' - ';
-					}
-					if ($t['job_sqft'] > 0) {
-						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
-					}
-	echo 				$t['job_name'].'</button>';
-	echo       	'		</div>';
-				}
-			}
-	echo 		'	</div>';
+
+
+
+	foreach($template_pro as $t) {
+		$stat = $t['job_status'];
+		echo temlpate_button($t,$stat);
+	}
+
+
+
+//	foreach($sale_list as $sale) {
+//				foreach($sale['details'] as $t) {
+//					$stat = $t['job_status'];
+//
+//
+//// ADD function
+//					echo temlpate_button($t,$stat);
+//
+//	echo		'		<div class="row">';
+//					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
+//	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+//					if (htmlentities($t['job_notes']) != '') {
+//	echo 		'	Notes: ' . htmlentities($t['job_notes']);
+//					}
+//	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$sale['button'].'" style="width:100%; cursor:pointer">';
+//					if ($t['order_num'] > 0) {
+//						echo 'O-'.$t['order_num'].' - ';
+//					} elseif ($t['quote_num'] > 0) {
+//						echo 'q-'.$t['quote_num'].' - ';
+//					}
+//					if ($t['job_sqft'] > 0) {
+//						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
+//					}
+//	echo 				$t['job_name'].'</button>';
+//	echo       	'		</div>';
+//				}
+//			}
+//	echo 		'	</div>';
 
 
 
@@ -2479,6 +2533,7 @@ if ($action=="timelines_list") {
 	//               if(isset($fabrication_list[$i])){
 				foreach($fabrication['details'] as $t) {
 					if ($t['stage'] == 3) {
+
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
 	echo    	'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
@@ -2799,21 +2854,21 @@ echo		'		<div class="row">';
 	echo 	'	</div>';
 	echo 	'	</div>';
 
-	function salesStatus($stat) {
-		if ($stat == 17) {
-			return " btn-muted text-dark";
-		} elseif ($stat == 21 || $stat == 24) {
-			return " btn-primary";
-		} elseif ($stat == 22) {
-			return " btn-secondary";
-		} elseif ($stat == 23) {
-			return " btn-success";
-		} elseif ($stat == 26) {
-			return " btn-danger";
-		} elseif ($stat == 25) {
-			return " btn-warning";
-		}
-	}
+//	function salesStatus($stat) {
+//		if ($stat == 17) {
+//			return " btn-muted text-dark";
+//		} elseif ($stat == 21 || $stat == 24) {
+//			return " btn-primary";
+//		} elseif ($stat == 22) {
+//			return " btn-secondary";
+//		} elseif ($stat == 23) {
+//			return " btn-success";
+//		} elseif ($stat == 26) {
+//			return " btn-danger";
+//		} elseif ($stat == 25) {
+//			return " btn-warning";
+//		}
+//	}
 
 	echo	'	<div class="tab-pane fade" id="panel_sales" role="tabpanel">';
 	echo 		'<div class="row">';
