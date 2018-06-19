@@ -2769,7 +2769,18 @@ if ($action=="timelines_list") {
 	echo		'		<div class="row">';
 	echo		'			<h4>Saw</h4>';
 	echo		'		</div>';
-			foreach($fabrication_list as $fabrication) {
+
+
+	foreach($template_pro as $t) {
+		$stat = $t['job_status'];
+		if (($stat > 39 && $stat < 50) || $stat == 44) {
+			$status = matStatus($stat);
+			production_button($t,$status);
+		}
+	}
+
+
+	foreach($fabrication_list as $fabrication) {
 	//               if(isset($fabrication_list[$i])){
 				foreach($fabrication['details'] as $t) {
 					if ($t['stage'] == 5) {
