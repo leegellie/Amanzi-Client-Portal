@@ -1684,8 +1684,8 @@ class project_action {
 	}
 
 	//SELECT PROJECT LIST BASED ON STATUS
-  public function get_templates_timeline($a) {
-    try {
+	public function get_templates_timeline($a) {
+		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       
@@ -1710,42 +1710,25 @@ class project_action {
 			$q = $conn->prepare($sql);
 			$q->execute();
 			$rows = $q->fetchAll(PDO::FETCH_ASSOC);
-		return $rows;
-//      $tmp = array();
-//
-//      foreach($rows as $row)
-//      {
-//          //$tmp[$job['install_date']][] = $job['job_name'];
-//          $tmp[$row['short_name']][] = $row;
-//      }
-//      $output = array();
-//
-//      foreach($tmp as $type => $labels)
-//      {
-//          $output[] = array(
-//              'short_name' => $type,
-//              'detail' => $labels
-//          );
-//      }
-//      return $output;
+			return $rows;
 		} catch(PDOException $e) {
 			$this->_message = "ERROR: " . $e->getMessage();
 			return $this->_message;
 		}  
   }
-  public function get_installs_timeline($a) {
-    try {
+	public function get_installs_timeline($a) {
+		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      
+
 			$sql = "
 			SELECT 	*, projects.id AS pid, status.name, status.stage, status.short_name, status.name AS status_name, status.id AS status
 				FROM projects 
-			  	JOIN status 
+				JOIN status 
 				  ON status.id = projects.job_status 
 			   WHERE projects.install_date < '2200-01-01' 
-			   	 AND projects.install_date >= CURDATE()
-			   	 AND projects.isActive = 1
+				 AND projects.install_date >= CURDATE()
+				 AND projects.isActive = 1
 			ORDER BY projects.install_date ASC,
 					 projects.am DESC,
 					 projects.first_stop DESC,
@@ -1759,29 +1742,12 @@ class project_action {
 			$q = $conn->prepare($sql);
 			$q->execute();
 			$rows = $q->fetchAll(PDO::FETCH_ASSOC);
-		return $rows;
-//      $tmp = array();
-//
-//      foreach($rows as $row)
-//      {
-//          //$tmp[$job['install_date']][] = $job['job_name'];
-//          $tmp[$row['short_name']][] = $row;
-//      }
-//      $output = array();
-//
-//      foreach($tmp as $type => $labels)
-//      {
-//          $output[] = array(
-//              'short_name' => $type,
-//              'detail' => $labels
-//          );
-//      }
-//      return $output;
+			return $rows;
 		} catch(PDOException $e) {
 			$this->_message = "ERROR: " . $e->getMessage();
 			return $this->_message;
 		}  
-  }
+	}
 
 	// SELECT PROJECT DATA BASED ON LIST SELECT 
 	public function project_data_fetch($a) {
