@@ -1743,7 +1743,7 @@ class project_action {
 				FROM projects 
 			  	JOIN status 
 				  ON status.id = projects.job_status 
-			   WHERE projects.template_date < '2200-01-01' 
+			   WHERE projects.install_date < '2200-01-01' 
 			   	 AND projects.install_date >= CURDATE()
 			   	 AND projects.isActive = 1
 			ORDER BY projects.install_date ASC,
