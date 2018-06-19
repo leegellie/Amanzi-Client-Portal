@@ -2116,6 +2116,8 @@ if ($action=="timelines_list") {
 	$temp_list = array();
 	$all_pjts = array();
 	foreach($template_pro as $pro) {
+		$temp_app['details'] = $pro['detail'];
+		$temp_list[0] = $temp_app;
 //		if($pro['detail'] != ''){
 //			$allp['button'] = 'bg-info estapproved';
 //			$allp['details'] = $pro['detail'];
@@ -2472,8 +2474,7 @@ if ($action=="timelines_list") {
 
 
 
-	foreach($template_pro as $temp) {
-		$t = $temp['detail'];
+	foreach($temp_list['details'] as $t) {
 		$stat = $t['job_status'];
 		echo temlpate_button($t,$stat);
 	}
