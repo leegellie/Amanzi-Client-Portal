@@ -1682,7 +1682,7 @@ if ($action=="programming_list") {
 				<div class="row">
 					<div class="col-md-1 h5">
 						<?
-			if((time()+(60*60*24*5)) > strtotime($results['install_date']) && $results['job_status'] <32) {
+			if((time()+(60*60*24*5)) > strtotime($results['install_date']) && ($results['job_status'] < 32 || $results['job_status'] == 39)) {
 				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 			}
 						?>
@@ -1724,7 +1724,7 @@ if ($action=="saw_list") {
 			<div class="row">
 				<div class="col-md-1 h5">
 					<?
-		if((time()+(60*60*24*4)) > strtotime($results['install_date']) && $results['job_status'] < 52) {
+		if((time()+(60*60*24*4)) > strtotime($results['install_date']) && ($results['job_status'] < 53 || $results['job_status'] == 59)) {
 			echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 		}
 					?>
@@ -2448,6 +2448,7 @@ if ($action=="timelines_list") {
 	$thisBtn = "'.polish'";
 	echo 		'			<div class="btn btn-info px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Polishing" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-shield-alt"></i></div>';
 	echo 		'		</div><hr>';
+
 	echo		'		<div class="row">';
 	echo		'			<h4>Programming</h4>';
 	echo		'		</div>';
@@ -2457,7 +2458,7 @@ if ($action=="timelines_list") {
 					if ($t['stage'] == 3) {
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo    	'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo    	'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
@@ -2475,6 +2476,8 @@ if ($action=="timelines_list") {
 					}
 				}
 			}
+
+
 	echo		'		<div class="row">';
 	echo		'			<h4>Materials</h4>';
 	echo		'		</div>';
@@ -2484,7 +2487,7 @@ if ($action=="timelines_list") {
 					if ($t['stage'] == 4) {
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo 		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo 		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
@@ -2511,13 +2514,14 @@ if ($action=="timelines_list") {
 	//               if(isset($fabrication_list[$i])){
 				foreach($fabrication['details'] as $t) {
 					if ($t['stage'] == 5) {
-	echo		'		<div class="row">';
+
+echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo 		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo 		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%; cursor:pointer>';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%; cursor:pointer">';
 						if ($t['order_num'] > 0) {
 							echo 'O-'.$t['order_num'].' - ';
 						} elseif ($t['quote_num'] > 0) {
@@ -2528,6 +2532,7 @@ if ($action=="timelines_list") {
 						}
 	echo 					$t['job_name'].'</button>';
 	echo		'		</div>';
+
 					}
 				}
 			}
@@ -2542,7 +2547,7 @@ if ($action=="timelines_list") {
 					if ($t['stage'] == 6) {
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo 		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo 		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
@@ -2562,7 +2567,6 @@ if ($action=="timelines_list") {
 			}
 
 
-
 	echo		'		<div class="row">';
 	echo		'			<h4>Polishing</h4>';
 	echo		'		</div>';
@@ -2572,11 +2576,11 @@ if ($action=="timelines_list") {
 					if ($t['stage'] == 7) {
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo 		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo 		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%; cursor:pointer>';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%; cursor:pointer">';
 						if ($t['order_num'] > 0) {
 							echo 'O-'.$t['order_num'].' - ';
 						} elseif ($t['quote_num'] > 0) {
@@ -2590,6 +2594,7 @@ if ($action=="timelines_list") {
 					}
 				}
 			} 
+
 	echo		'	</div>';
 
 
@@ -2614,13 +2619,14 @@ if ($action=="timelines_list") {
 	echo 		'		</div><hr>';
 			foreach($install_list as $install) {
 				foreach($install['details'] as $t) {
+
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo 		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo 		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$install['button'].'" style="width:100%; cursor:pointer>';
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$install['button'].'" style="width:100%; cursor:pointer">';
 					if ($t['order_num'] > 0) {
 						echo 'O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -2636,9 +2642,6 @@ if ($action=="timelines_list") {
 	echo		'	</div>';
 	echo 		'</div>';
 	echo 		'</div>';
-
-
-
 
 
 	function tempStatus($stat) {
@@ -2666,11 +2669,11 @@ if ($action=="timelines_list") {
 						$date = new DateTime($t['template_date']);
 						$date = $date->format('m/d');
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%; cursor:pointer>'. $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%; cursor:pointer">'. $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -2694,7 +2697,7 @@ if ($action=="timelines_list") {
 						$date = new DateTime($t['template_date']);
 						$date = $date->format('m/d');
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
@@ -2722,7 +2725,7 @@ if ($action=="timelines_list") {
 						$date = new DateTime($t['template_date']);
 						$date = $date->format('m/d');
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
@@ -2750,11 +2753,11 @@ if ($action=="timelines_list") {
 						$date = new DateTime($t['template_date']);
 						$date = $date->format('m/d');
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
-	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%; cursor:pointer>'. $date;
+	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.tempStatus($t['job_status']).'" style="width:100%; cursor:pointer">'. $date;
 					if ($t['order_num'] > 0) {
 						echo ' - O-'.$t['order_num'].' - ';
 					} elseif ($t['quote_num'] > 0) {
@@ -2798,7 +2801,7 @@ if ($action=="timelines_list") {
 					if ( $t['job_status'] == 17) {
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
@@ -2824,7 +2827,7 @@ if ($action=="timelines_list") {
 					if ( $t['job_status'] == 21 || $t['job_status'] == 22 || $t['job_status'] == 24) {
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
@@ -2850,7 +2853,7 @@ if ($action=="timelines_list") {
 					if ( $t['job_status'] == 23) {
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
@@ -2877,7 +2880,7 @@ if ($action=="timelines_list") {
 					if ( $t['job_status'] == 25 || $t['job_status'] == 26) {
 	echo		'		<div class="row">';
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
@@ -2932,7 +2935,7 @@ if ($action=="timelines_list") {
 						$date = new DateTime($t['install_date']);
 						$date = $date->format('m/d');
 					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
 					if (htmlentities($t['job_notes']) != '') {
 	echo 		'	Notes: ' . htmlentities($t['job_notes']);
 					}
@@ -5853,7 +5856,7 @@ if ($action=="view_selected_inst") {
 	$instR = new project_action;
 	foreach( $instR->pieces_data_fetch($_POST) as $r ) {
 		$html .= '	<div class="row">';
-		$html .= '		<h4 class="d-inline col-12 col-md-2 text-warning text-uppercase"><i class="fas fa-trash-alt text-danger h6" style="cursor:pointer" onClick="deletePiece(' . $r['piece_id'] . ')" style="cursor:pointer"></i> <i class="fas fa-wrench text-primary h6" style="cursor:pointer" onClick="edit_piece(' . $r['piece_id'] . ')" style="cursor:pointer"></i> ' . $r['piece_name'] . '</h4>';
+		$html .= '		<h4 class="d-inline col-12 col-md-2 text-warning text-uppercase"><i class="fas fa-trash-alt text-danger h6" style="cursor:pointer" onClick="deletePiece(' . $r['piece_id'] . ')" ></i> <i class="fas fa-wrench text-primary h6" onClick="edit_piece(' . $r['piece_id'] . ')" style="cursor:pointer"></i> ' . $r['piece_name'] . '</h4>';
 
 		$html .= '	</div>';
 		$html .= '	<div class="row">';
@@ -5971,7 +5974,7 @@ if ($action=="view_selected_inst") {
 		$html .= '	<div class="row">';
 		$sink_pull = $r['sink_id'] . "," . $r['sink_iid'] . "," . $r['sink_part'] . "," . $r['sink_model'] . "," . $r['sink_mount'] . "," . $r['sink_provided'] . "," . $r['sink_holes'] . "," . $r['sink_soap'] . "," . $r['cutout_width'] . "," . $r['cutout_depth'] . "," . $r['sink_cost'] . "," . $r['sink_price'] . "," . $r['cutout_price'];
 		$html .= '<div class="d-none" id="sho_' . $r['sink_id'] . '">' . $r['sink_holes_other'] . '</div>';
-		$html .= '		<h4 class="d-inline col-12 text-warning"><i class="fas fa-trash-alt text-danger h6" style="cursor:pointer" onClick="deleteSink(' . $r['sink_id'] . ')" style="cursor:pointer"></i> <i class="fas fa-wrench text-primary h6" style="cursor:pointer" onClick="editSink(' . $sink_pull . ')" style="cursor:pointer"></i> ';
+		$html .= '		<h4 class="d-inline col-12 text-warning"><i class="fas fa-trash-alt text-danger h6" onClick="deleteSink(' . $r['sink_id'] . ')" style="cursor:pointer"></i> <i class="fas fa-wrench text-primary h6" onClick="editSink(' . $sink_pull . ')" style="cursor:pointer"></i> ';
 		if ($r['sink_name'] > '') {
 			if ($r['piece_name'] > 0) {
 				$html .= 'Sink for piece ' . $r['piece_name'] . '<br>';
