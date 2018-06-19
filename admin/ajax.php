@@ -2474,9 +2474,11 @@ if ($action=="timelines_list") {
 
 
 
-	foreach($temp_list['details'] as $t) {
-		$stat = $t['job_status'];
-		echo temlpate_button($t,$stat);
+	foreach($temp_list as $temp) {
+		foreach($temp['details'] as $t) {
+			$stat = $t['job_status'];
+			echo temlpate_button($t,$stat);
+		}
 	}
 
 
