@@ -2472,7 +2472,7 @@ if ($action=="timelines_list") {
 
 
 
-	foreach($template_pro as $t) {
+	foreach($template_pro['detail'] as $t) {
 		$stat = $t['job_status'];
 		echo temlpate_button($t,$stat);
 	}
