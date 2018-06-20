@@ -924,7 +924,7 @@ if ($action=="get_materials_needed") {
 			}
 		}
 
-	return $tmp_arr;
+		return $tmp_arr;
 	}
 
 
