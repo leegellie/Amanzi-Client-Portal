@@ -248,7 +248,7 @@ function update_quartz(e) {
 
 
 
-function matOredered(iid,iName) {
+function matOrdered(iid,iName) {
 	$('.mAssign').text(iName);
 	$('input[name=iid]').val(iid);
 	$('#materialOrder').modal('show');

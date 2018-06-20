@@ -584,7 +584,7 @@ if ($action=="get_staff_list") {
 						if($row['material_status'] == 1) {
 					?>
 						<div class="col-6 text-danger"><b>Status: To be assigned/ordered.</b></div>
-						<div class="col-3 btn btn-sm btn-primary orderMaterials" onClick="matOredered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered</div>
+						<div class="col-3 btn btn-sm btn-primary orderMaterials" onClick="matOrdered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered</div>
 						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
 					<?
 						} else if($row['material_status'] == 2) {
@@ -864,7 +864,7 @@ if ($action=="get_materials_needed") {
 				$tmp_arr .= '
 						<div class="col-5 text-danger"><b>'. $status . '</b></div>
 						<div class="col-1 btn btn-sm btn-danger mr-2" onClick="noMaterial(' . $result['id'] . ')">N/A <i class="fas fa-ban"></i></div>
-						<div class="col-2 btn btn-sm btn-success mr-2 orderMaterials" onClick="matOredered('. $result['id'] .',\''. $result['install_name'] .'\')" >Ordered <i class="far fa-calendar-check"></i></div>
+						<div class="col-2 btn btn-sm btn-success mr-2 orderMaterials" onClick="matOrdered('. $result['id'] .',\''. $result['install_name'] .'\')" >Ordered <i class="far fa-calendar-check"></i></div>
 						<div class="col-2 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(' . $result['id'] . ',\'' . $result['install_name'] . '\')">Have Materials <i class="fas fa-check"></i></div>
 						<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_hold_modal(' . $_SESSION['id'] . ',' . $result['id'] . ',' . $result['pid'] . ')">Material Hold <i class="fas fa-ban"></i></div>
 					</div>
@@ -1049,7 +1049,7 @@ if ($action=="get_materials_needed") {
 <?				if($row['material_status'] == 1) { ?>
 					<div class="col-7 text-danger"><b>Status: To be assigned/ordered.</b></div>
 					<div class="col-1 btn btn-sm btn-danger mr-2" onClick="noMaterial(<?= $row['id'] ?>)">N/A <i class="fas fa-ban"></i></div>
-					<div class="col-2 btn btn-sm btn-success mr-2 orderMaterials" onClick="matOredered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered <i class="far fa-calendar-check"></i></div>
+					<div class="col-2 btn btn-sm btn-success mr-2 orderMaterials" onClick="matOrdered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered <i class="far fa-calendar-check"></i></div>
 					<div class="col-2 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials <i class="fas fa-check"></i></div>
 <?				} else if($row['material_status'] == 2) { ?>
 					<div class="col-6 text-success"><b>Status: Materials ordered. Est. delivery <?= date('Y-m-d', strtotime($row['material_date'])) ?></b></div>
@@ -3057,8 +3057,6 @@ if ($action=="timelines_list") {
 	echo 	'	</div>';
 	echo 	'</div>';
 
-
-
 	echo	'<div class="tab-pane fade" id="panel_fab" role="tabpanel">';
 	echo 	'	<div class="row">';
 	echo 	'		<div class="col-12 col-md-3"><h3>To Fabricate</h3>';
@@ -3070,19 +3068,16 @@ if ($action=="timelines_list") {
 		}
 	}
 	echo 	'		</div>';
-
-
-	echo 		'	<div class="col-12 col-md-3"><h3>Saw</h3>';
+	echo 	'		<div class="col-12 col-md-3"><h3>Saw</h3>';
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
-		if (($stat > 49 && $stat < 60 && $stat != 53) || $stat == 44) {
+		if ( ($stat > 49 && $stat < 60 && $stat != 53) || $stat == 44) {
 			$status = sawStatus($stat);
 			production_button($t,$status);
 		}
 	}
 	echo 	'		</div>';
-
-	echo 		'	<div class="col-12 col-md-3"><h3>CNC Machine</h3>';
+	echo 	'		<div class="col-12 col-md-3"><h3>CNC Machine</h3>';
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if (($stat > 59 && $stat < 70) || $stat == 53 && $stat != 63) {
@@ -3091,9 +3086,7 @@ if ($action=="timelines_list") {
 		}
 	}
 	echo 	'		</div>';
-
-
-	echo 		'	<div class="col-12 col-md-3"><h3>Polishing</h3>';
+	echo 	'		<div class="col-12 col-md-3"><h3>Polishing</h3>';
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if (($stat > 69 && $stat < 80) || $stat == 63 && $stat != 73) {
@@ -3102,16 +3095,12 @@ if ($action=="timelines_list") {
 		}
 	}
 	echo 	'		</div>';
-
-
-
 	echo 	'	</div>';
 	echo 	'</div>';
 
 	echo	'<div class="tab-pane fade" id="panel_installs" role="tabpanel">';
 	echo 	'	<div class="row">';
 	echo 	'		<div class="col-12 col-md-3"><h3>To Install</h3>';
-
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if ((time()+(60*60*24*4)) > strtotime($t['install_date']) && ($stat < 80 || $stat != 73)) {
@@ -3120,7 +3109,6 @@ if ($action=="timelines_list") {
 		}
 	}
 	echo 	'		</div>';
-
 	echo 	'		<div class="col-12 col-md-3"><h3>Install Scheduled</h3>';
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
@@ -3130,7 +3118,6 @@ if ($action=="timelines_list") {
 		}
 	}
 	echo 	'		</div>';
-
 	echo 	'		<div class="col-12 col-md-3"><h3>Install Complete/Incomplete</h3>';
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
@@ -3140,8 +3127,6 @@ if ($action=="timelines_list") {
 		}
 	}
 	echo 	'		</div>';
-
-
 	echo 	'		<div class="col-12 col-md-3"><h3>Install On Hold</h3>';
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
