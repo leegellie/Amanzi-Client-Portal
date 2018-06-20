@@ -783,9 +783,6 @@ if ($action=="get_materials_needed") {
 	echo '<li class="nav-item">';
 	echo '<a class="nav-link" id="mSaw-tab" data-toggle="tab" href="#mSaw" role="tab" aria-controls="mSaw" aria-selected="false"><h5>Delivered to Saw</h5></a>';
 	echo '</li>';
-	echo '<li class="nav-item">';
-	echo '<a class="nav-link" id="mHold-tab" data-toggle="tab" href="#mHold" role="tab" aria-controls="mHold" aria-selected="false"><h5>On Hold</h5></a>';
-	echo '</li>';
 	echo '</ul>';
 	echo '<div class="tab-content w-100" id="myTabContent">';
 	$tmp = array();
@@ -889,6 +886,61 @@ if ($action=="get_materials_needed") {
 		return $tmp_arr;
 	}
 
+	function show_pull_head($result) {
+		$head_arr = '
+			<div class="w-100 d-flex">
+				<div class="col-9 col-md-8 text-primary"><h3>' . $result['job_name'] . '</h3></div>
+				<div class="col-md-1 hidden-md-down"><h4>' . $result['quote_num'] . '</h4></div>
+				<div class="col-md-1 hidden-md-down"><h4>' . $result['order_num'] . '</h4></div>
+				<div class="col-3 col-md-2 text-right">
+					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,'. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
+				</div>
+			</div>
+			<div class="w-100 d-flex">
+				<div class="col-6">Install Date: <b>' . format_date($result['install_date']) . '</b></div>
+			</div>
+			<hr>';
+		return $head_arr;
+	}
+
+	function show_pull($result, $status) {
+		$tmp_arr = '
+			<div class="col-12">
+				<div class="container d-md-flex">
+					<div class="col-md-4">Install: <strong>' . $result['install_name'] . '</strong></div>
+					<div class="col-md-2">Range: <strong>' . $result['range_model'] . '</strong></div>
+					<div class="col-md-2">SqFt: <strong>' . $result['SqFt'] . '</strong></div>
+					<div class="col-md-2">Slabs: <strong>' . $result['slabs'] . '</strong></div>
+					<div class="col-md-2">Selected: <strong>' . $result['selected'] . '</strong></div>
+				</div>
+				<div class="container d-md-flex">
+					<div class="col-md-2">Material: <strong>' . $result['material'] . '</strong></div>
+					<div class="col-md-5">Color: <strong>' . $result['color'] . '</strong></div>
+					<div class="col-md-5">Lot: <strong>' . $result['lot'] . '</strong></div>
+				</div>
+				<hr>
+				<div class="container d-flex">';  
+		if ($result['mat_hold'] == 1) {
+			$tmp_arr .= '
+					<div class="col-7 text-danger"><b>MATERIALS ON HOLD</b></div>
+					<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_release_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Release Hold <i class="fas fa-ban"></i></div>
+				</div>
+			</div>
+			<hr>'; 
+		} else {
+			$tmp_arr .= '
+				<div class="col-4 text-right">
+					<div id="' . $results['id'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,' . $results['uid'] . ');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
+					<div id="' . $results['id'] . '" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
+				</div>
+				</div>
+			</div>
+			<hr>'; 
+		}
+		return $tmp_arr;
+	}
+
+
 	function getminstatus($pjts, $field, $value) {
 		foreach($pjts as $key => $pjt) {
 			if ( $pjt[$field] === $value ) {
@@ -898,15 +950,10 @@ if ($action=="get_materials_needed") {
 		return false;
 	}
 
-
-
-
-
 	$first_tab = '<div id="toOrder" class="tab-pane fade show active" role="tabpanel" aria-labelledby="toOrder-tab">';
 	$second_tab = '<div id="mOrdered" class="tab-pane fade" role="tabpanel" aria-labelledby="mOrdered-tab">';
 	$third_tab = '<div id="mOnHand" class="tab-pane fade" role="tabpanel" aria-labelledby="mOnHand-tab">';
-
-
+	$fourth_tab = '<div id="toDeliver" class="tab-pane fade" role="tabpanel" aria-labelledby="toDeliver-tab">';
 
 	foreach($materialsbyname as $results) {
 		$index1 = 0;
@@ -936,129 +983,21 @@ if ($action=="get_materials_needed") {
 				$status = 'Status: Materials On Hand';
 				if($index3 == 0) {
 					$third_tab .= show_pjt_head($result);
+					$fourth_tab .= show_pull_head($result);
 					$index3++;    
 				}
 				$third_tab .= show_pjts($result,$status);
+				$fourth_tab .= show_pull($result,$status);
 			}
 		}
 	}
 	echo $first_tab . '</div>';
 	echo $second_tab . '</div>';
-	echo $third_tab . '</div>'; ?>
+	echo $third_tab . '</div>';
+	echo $fourth_tab . '</div>'; ?>
 	<hr>
 
-<?	echo '<div id="toDeliver" class="tab-pane fade" role="tabpanel" aria-labelledby="toDeliver-tab">';
-
-	foreach($search->get_materials_needed() as $results) {
-		if ($results['job_status'] == 42 || $results['job_status'] == 43) {
-			$cDate = strtotime("now");
-			$weekOut = date('Y-m-d', strtotime($cDate . "+7 days"));
-			$iDate = strtotime($results['install_date']);
-			$installDate = date('Y-m-d', strtotime($iDate));
-			if( $iDate < $cDate ) { ?>
-				<div class="w-100 d-flex">
-	
-					<div class="col-5 text-primary"><h3><?= $results['job_name']; ?></h3></div>
-					<div class="col-3">
-						<h3>Order: <?= $results['order_num']; ?></h3>
-					</div>
-					<div class="col-4 text-right">
-						<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
-						<div id="<?= $results['id']; ?>" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
-					</div>
-					
-				</div>
-				<div class="w-100 d-flex">
-					<div class="col-3">Install Date: <b><?= $results['install_date']; ?></b></div>
-					<div class="col-9">Job Notes: <?= $results['job_notes']; ?></div>
-				</div>
-				<hr>
-
-<?				$installs = new materials_action;
-				foreach($search->get_install_materials($results['id']) as $row) {?>
-					<div class="col-12">
-						<div class="container">
-							<div class="col-12">Sink: <?= $row['sk_detail']; ?></div>
-							<div class="col-12 text-muted">Sales Note: <?= $row['lot']; ?> - <?= $row['color']; ?></div>
-							<div class="col-12">Assigned: <?= $row['assigned_material']; ?></div>
-							<div class="col-12">Notes: <?= $row['install_notes']; ?></div>
-						</div>
-					</div>
-					<hr>
-<?				} ?>
-					<hr>
-<?			}
-		}
-	}
-	echo '</div>';
-	echo '<div id="mHold" class="tab-pane fade" role="tabpanel" aria-labelledby="mHold-tab">';
-	foreach($search->get_materials_needed() as $results) {
-		if ($results['install_date'] == '2200-01-01') {
-			$results['install_date'] = 'Not Set.';
-		}
-		if ($results['template_date'] == '2200-01-01') {
-			$results['template_date'] = 'Not Set.';
-		}
-		if ($results['job_status'] == 49) { ?>
-			<div class="w-100 d-flex">
-				<div class="col-9 col-md-5 text-primary"><h3><?= $results['job_name']; ?></h3></div>
-				<div class="col-md-3 hidden-md-down">
-					<h3><?= $results['quote_num']; ?></h3>
-				</div>
-				<div class="col-md-3 hidden-md-down">
-					<h3><?= $results['order_num']; ?></h3>
-				</div>
-				<div class="col-3 col-md-1 text-right">
-					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="$('#instDetails').html('');viewThisProject(this.id,<?= $results['uid']; ?>);">
-						<span class="hidden-md-down">View </span>
-						<i class="fas fa-eye"></i>
-					</div>
-				</div>
-			</div>
-			<div class="w-100 d-flex">
-				<div class="col-6">Template Date: <?= $results['template_date']; ?></div><div class="col-6">Install Date: <?= $results['install_date']; ?></div>
-			</div>
-			<hr>
-<?			$installs = new materials_action;
-			foreach($search->get_install_materials($results['id']) as $row) { ?>
-				<div class="col-12">
-					<div class="container d-md-flex">
-						<div class="col-md-4">Install: <?= $row['install_name']; ?></div>
-						<div class="col-md-4">Sink: <?= $row['sk_detail']; ?></div>
-						<div class="col-md-4">Range: <?= $row['range_model']; ?></div>
-					</div>
-					<div class="container d-md-flex">
-						<div class="col-md-2">Material: <?= $row['material']; ?></div>
-						<div class="col-md-3">Color: <?= $row['color']; ?></div>
-						<div class="col-md-2">SqFt: <?= $row['SqFt']; ?></div>
-						<div class="col-md-2">Selected: <?= $row['selected']; ?></div>
-						<div class="col-md-3">Lot: <?= $row['lot']; ?></div>
-					</div>
-					<hr>
-					<div class="container d-flex">
-<?				if($row['material_status'] == 1) { ?>
-					<div class="col-7 text-danger"><b>Status: To be assigned/ordered.</b></div>
-					<div class="col-1 btn btn-sm btn-danger mr-2" onClick="noMaterial(<?= $row['id'] ?>)">N/A <i class="fas fa-ban"></i></div>
-					<div class="col-2 btn btn-sm btn-success mr-2 orderMaterials" onClick="matOrdered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered <i class="far fa-calendar-check"></i></div>
-					<div class="col-2 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials <i class="fas fa-check"></i></div>
-<?				} else if($row['material_status'] == 2) { ?>
-					<div class="col-6 text-success"><b>Status: Materials ordered. Est. delivery <?= date('Y-m-d', strtotime($row['material_date'])) ?></b></div>
-					<div class="col-3">Reference: <?= $row['assigned_material'] ?></div>
-					<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
-<? 				} else if($row['material_status'] == 3) { ?>
-					<div class="col-6 text-primary"><b>Status: Materials On Hand</b></div>
-					<div class="col-6">Assigned Material: <?= $row['assigned_material'] ?></div>
-<?				} else if($row['material_status'] == 4) { ?>
-					<div class="col-6 text-muted"><b>Status: Materials not needed.</b></div>
-<?				} ?>
-				</div>
-			</div>
-			<hr>
-<?			} ?>
-			<hr>
-<?		} 
-	}
-	echo '</div>';
+<?
 
 	echo '<div id="mSaw" class="tab-pane fade" role="tabpanel" aria-labelledby="mSaw-tab">';
 	foreach($search->get_materials_needed() as $results) {

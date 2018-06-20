@@ -83,7 +83,7 @@ if ($access_level < 11) {
 
 <?
 	}
-	if ($access_level == 6 || $access_level == 1) {
+	if ($access_level == 6 || $access_level == 1 || ($division == "2B" && $department == 0)) {
 ?>
 				<li class="nav-item py-3 px-4 dropdown">
 					<a class="dropdown-toggle text-white" id="toolsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Materials</a>
