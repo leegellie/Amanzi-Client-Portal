@@ -2999,7 +2999,7 @@ if ($action=="timelines_list") {
 
 	foreach($template_pro as $t) {
 		$stat = $t['job_status'];
-		if ($stat > 12 && $stat < 16) {
+		if ($stat > 13 && $stat < 16) {
 			$status = tempStatus($stat);
 			template_button($t,$status);
 		}
