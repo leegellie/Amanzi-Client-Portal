@@ -787,17 +787,26 @@ if ($action=="get_materials_needed") {
 	echo '<div class="tab-content w-100" id="myTabContent">';
 	$tmp = array();
 	$pjts = $search->get_materials(); //Get the projects between with job_status > 10 and job_status < 50
-
 	//GROUP THE $pjts BY JOB NAME
-
 	foreach($pjts as $pjt) {
 		$tmp[$pjt['job_name']][] = $pjt;
 	}
-
 	$materialsbyname = array();
-
 	foreach($tmp as $type => $labels) {
 		$materialsbyname[] = array(
+			'job_name' => $type,
+			'detail' => $labels
+		);
+	}
+
+	$pull_array = array();
+	$pull_list = $search->get_pull_list(); //Get the projects between with job_status > 10 and job_status < 50
+	foreach($pull_list as $pjt) {
+		$pull_array[$pjt['job_name']][] = $pjt;
+	}
+	$pullbymaterialsbyname = array();
+	foreach($pull_array as $type => $labels) {
+		$pullbymaterialsbyname[] = array(
 			'job_name' => $type,
 			'detail' => $labels
 		);
@@ -983,18 +992,29 @@ if ($action=="get_materials_needed") {
 				$status = 'Status: Materials On Hand';
 				if($index3 == 0) {
 					$third_tab .= show_pjt_head($result);
-					$fourth_tab .= show_pull_head($result);
 					$index3++;    
 				}
 				$third_tab .= show_pjts($result,$status);
-				$fourth_tab .= show_pull($result,$status);
 			}
 		}
 	}
 	echo $first_tab . '</div>';
 	echo $second_tab . '</div>';
 	echo $third_tab . '</div>';
-	echo $fourth_tab . '</div>'; ?>
+
+	foreach($materialsbyname as $results) {
+		$index1 = 0;
+		foreach($results['detail'] as $result){
+			if($index1 == 0) {
+				$fourth_tab .= show_pull_head($result);
+				$index1++;
+			}
+			$fourth_tab .= show_pull($result,$status);
+		}
+	}
+	echo $fourth_tab . '</div>';
+
+?>
 	<hr>
 
 <?
