@@ -923,7 +923,8 @@ if ($action=="get_materials_needed") {
 				</div>'; 
 			}
 		}
-		return $tmp_arr;
+
+	return $tmp_arr;
 	}
 
 
