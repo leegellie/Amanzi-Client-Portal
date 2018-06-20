@@ -1002,7 +1002,7 @@ if ($action=="get_materials_needed") {
 	echo $second_tab . '</div>';
 	echo $third_tab . '</div>';
 
-	foreach($materialsbyname as $results) {
+	foreach($pullbymaterialsbyname as $results) {
 		$index1 = 0;
 		foreach($results['detail'] as $result){
 			if($index1 == 0) {
