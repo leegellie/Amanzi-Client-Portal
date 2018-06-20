@@ -1,4 +1,3 @@
-a
 $uid = '';
 
 jQuery(document).ready(function($){
@@ -66,7 +65,6 @@ jQuery(document).ready(function($){
 
 
 	function submitForm(fid){
-		
 		//var data = new FormData($('#waiver')[0]);
 		var datastring = {
 			'fname' : $('input[name=fname]').val(),
@@ -81,7 +79,7 @@ jQuery(document).ready(function($){
 			'zip' : $('input[name=zip]').val(),
 			'guests' : $('input[name=guests]').val(),
 			'record' : $('input[name=formID]').val()
-		}
+		};
 
 		$.ajax({
 			type: "POST",
@@ -105,7 +103,7 @@ jQuery(document).ready(function($){
 
 		$('section').fadeOut(500);
 
-		$('#select-form').fadeIn(500)
+		$('#select-form').fadeIn(500);
 		$('.masthead').fadeIn(500);
 		$('.mastfoot').fadeIn(500);
 		$('.sigBox').show();
