@@ -246,8 +246,6 @@ function update_quartz(e) {
 	});
 }
 
-
-
 function matOrdered(iid,iName) {
 	$('.mAssign').text(iName);
 	$('input[name=iid]').val(iid);
