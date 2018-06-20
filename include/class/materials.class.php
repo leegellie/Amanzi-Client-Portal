@@ -166,9 +166,9 @@ class materials_action {
 				   status.name AS status
 			  FROM projects 
 			  JOIN status ON status.id = projects.job_status 
-			  JOIN (	SELECT pid, color, lot, SUM(slabs) AS mat_slabs
+			  JOIN (	SELECT pid, color, lot, mat_hold, SUM(slabs) AS mat_slabs
 						  FROM installs 
-					  GROUP BY pid, lot, color) 
+					  GROUP BY pid, lot, color, mat_hold) 
 				AS materials
 				ON materials.pid = projects.id
 			 WHERE projects.job_status > 11 
