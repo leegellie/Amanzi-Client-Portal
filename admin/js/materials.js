@@ -24,13 +24,27 @@ function add_marble(e) {
 	var price_6 = form.find('input[name=price_6]').val();
 	var price_7 = form.find('input[name=price_7]').val();
 	var fNotes = form.find('input[name=notes]').val();
-	if (price_1 < 1) {price_1=0}
-	if (price_2 < 1) {price_2=0}
-	if (price_3 < 1) {price_3=0}
-	if (price_4 < 1) {price_4=0}
-	if (price_5 < 1) {price_5=0}
-	if (price_6 < 1) {price_6=0}
-	if (price_7 < 1) {price_7=0}
+	if (price_1 < 1) {
+		price_1=0;
+	}
+	if (price_2 < 1) {
+		price_2=0;
+	}
+	if (price_3 < 1) {
+		price_3=0;
+	}
+	if (price_4 < 1) {
+		price_4=0;
+	}
+	if (price_5 < 1) {
+		price_5=0;
+	}
+	if (price_6 < 1) {
+		price_6=0;
+	}
+	if (price_7 < 1) {
+		price_7=0;
+	}
 
 	var datastring = "action=add_marble&name=" + fName + "&price_1=" + price_1 + "&price_2=" + price_2 + "&price_3=" + price_3 + "&price_4=" + price_4 + "&price_5=" + price_5 + "&price_6=" + price_6 + "&price_7=" + price_7 + "&notes=" + fNotes;
 	
@@ -51,6 +65,7 @@ function add_marble(e) {
 		}
 	});
 }
+
 function delete_marble(marbId) {
 	if (confirm('Are you sure you want to delete this from the database?')) {
 		var datastring = "action=delete_marble&id=" + marbId;
@@ -73,6 +88,7 @@ function delete_marble(marbId) {
     	return;
 	}
 }
+
 function update_marble(e) {
 	$('.btn').hide();
 	var form = $('form#edit_marble');
@@ -298,6 +314,7 @@ function assignMat(thisForm) {
         }
     });
 }
+
 $(document).ready(function() {
 
     $("form").on("submit", function(event) {

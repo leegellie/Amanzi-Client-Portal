@@ -1,4 +1,4 @@
-
+a
 $uid = '';
 
 jQuery(document).ready(function($){
@@ -91,7 +91,7 @@ jQuery(document).ready(function($){
 				$uid = data;
 			},
 			error : function(data){
-				alert(data);
+				console.log(data);
 			},
 			complete: function(){
 				formSuccess();
