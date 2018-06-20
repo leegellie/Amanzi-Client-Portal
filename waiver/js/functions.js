@@ -1,4 +1,4 @@
-$uid = '';
+var $uid = '';
 
 jQuery(document).ready(function($){
 	$(window).keydown(function(event){
@@ -11,9 +11,11 @@ jQuery(document).ready(function($){
 	var $sigdiv = $("#signature");
 
 	$('#clearSig').click( function() {
-		$sigdiv.jSignature() // inits the jSignature widget.
+		$sigdiv.jSignature();
+		// inits the jSignature widget.
 		// after some doodling...
-		$sigdiv.jSignature("destroy") // clears the canvas and rerenders the decor on it.
+		$sigdiv.jSignature("destroy");
+		// clears the canvas and rerenders the decor on it.
 	});
 
 	function formIn(id){
@@ -29,10 +31,10 @@ jQuery(document).ready(function($){
 	}
 
 	$('.start-form').click(function() {
-		$link = $(this).attr('link');
+		var $link = $(this).attr('link');
 		console.log($link);
 		formIn($link);
-	})
+	});
 
 	$('.close-form').click(function() {
 		var closeId = '#' + $(this).closest("section").prop("id");
@@ -44,7 +46,7 @@ jQuery(document).ready(function($){
 		},600);
 		$sigdiv.jSignature("destroy");
 		setID();
-	})
+	});
 
 	$('.reset-btn').click(function(){
         //console.log($(this).closest('form').attr('id'));
@@ -125,7 +127,7 @@ jQuery(document).ready(function($){
 			alert('Please let us know how you heard about us.');
 		} else {
 			$('button').attr('disabled', 'disabled');
-			thisForm = this.id;
+			var thisForm = this.id;
 			submitForm(thisForm);
 		}
 		event.preventDefault();
