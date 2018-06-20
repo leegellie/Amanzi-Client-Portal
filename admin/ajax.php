@@ -930,8 +930,8 @@ if ($action=="get_materials_needed") {
 		} else {
 			$tmp_arr .= '
 				<div class="col-4 text-right">
-					<div id="' . $results['id'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,' . $results['uid'] . ');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
-					<div id="' . $results['id'] . '" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
+					<div id="' . $result['id'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,' . $result['uid'] . ');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
+					<div id="' . $result['id'] . '" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
 				</div>
 				</div>
 			</div>
