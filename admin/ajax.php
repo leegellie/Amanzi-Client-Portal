@@ -2228,6 +2228,7 @@ if ($action=="timelines_list") {
 	unset($_POST['action']);
 	$get_entries = new project_action;
 	$template_pro = $get_entries -> get_templates_timeline($_SESSION['id']);
+	$sales_pro = $get_entries -> get_sales_timeline($_SESSION['id']);
 	$installs_pro = $get_entries -> get_installs_timeline($_SESSION['id']);
 
 	$temp_list = array();
@@ -2642,7 +2643,7 @@ if ($action=="timelines_list") {
 
 
 
-	foreach($template_pro as $t) {
+	foreach($sales_pro as $t) {
 		$stat = $t['job_status'];
 		if ($stat > 16 && $stat < 30) {
 			$status = salesStatus($stat);
@@ -3142,7 +3143,7 @@ if ($action=="timelines_list") {
 	echo 		'	<div class="col-12 col-md-3"><h3>Quoteing In Progress</h3>';
 
 
-	foreach($template_pro as $t) {
+	foreach($sales_pro as $t) {
 		$stat = $t['job_status'];
 		if ($stat > 20 && $stat < 25) {
 			$status = salesStatus($stat);
@@ -3178,7 +3179,7 @@ if ($action=="timelines_list") {
 	echo 		'	<div class="col-12 col-md-3"><h3>Quote Submitted</h3>';
 
 
-	foreach($template_pro as $t) {
+	foreach($sales_pro as $t) {
 		$stat = $t['job_status'];
 		if ($stat == 23) {
 			$status = salesStatus($stat);
@@ -3214,7 +3215,7 @@ if ($action=="timelines_list") {
 
 	echo 		'	<div class="col-12 col-md-3"><h3>Quote Approved/Rejected</h3>';
 
-	foreach($template_pro as $t) {
+	foreach($sales_pro as $t) {
 		$stat = $t['job_status'];
 		if ($stat == 25 || $stat == 26) {
 			$status = salesStatus($stat);

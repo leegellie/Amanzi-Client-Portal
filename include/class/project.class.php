@@ -1716,6 +1716,38 @@ class project_action {
 			return $this->_message;
 		}  
   }
+	public function get_sales_timeline($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      
+			$sql = "
+			SELECT 	*, projects.id AS pid, status.name, status.stage, status.short_name, status.name AS status_name, status.id AS status
+				FROM projects 
+			  	JOIN status 
+				  ON status.id = projects.job_status 
+			   WHERE projects.job_status > 16
+			   	 AND projects.job_status < 30
+				 AND projects.isActive = 1
+			ORDER BY projects.install_date ASC,
+					 projects.am DESC,
+					 projects.first_stop DESC,
+					 projects.pm ASC,
+					 projects.template_date ASC,
+					 projects.temp_am DESC,
+					 projects.temp_first_stop DESC,
+					 projects.temp_pm ASC,
+					 projects.urgent DESC,
+					 projects.job_status";
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$rows = $q->fetchAll(PDO::FETCH_ASSOC);
+			return $rows;
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}  
+  }
 	public function get_installs_timeline($a) {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
