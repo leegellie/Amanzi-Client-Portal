@@ -1423,75 +1423,76 @@ if ($action=="templates_list") {
 		$template_item = '
 				<div class="row">
 					<div class="col-md-1">';
-						if ($results['job_status'] < 20 && $results['job_status'] != 17 && $results['install_date'] < date("Y-m-d")) { 
-							if ( $results['ual'] == 11 ) { 
-								$template_item .= '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								$template_item .= '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 14) {
-							$template_item .= '<i class="fas fa-car faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 15) {
-							$template_item .= '<i class="fas fa-ruler-combined faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 16) {
-							$template_item .= '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 17) {
-							$template_item .= '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 19) {
-							$template_item .= '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						$template_item .= '</div>';
-						$template_item .= '<div class="col-6 col-md-1 ';
-						if ( $results['ual'] == 0 ) {
-							$template_item .= 'text-muted'; 
-						} else { 
-							$template_item .= 'text-primary'; 
-						}; 
-						$template_item .= '">' . $results['team'] . '</div>';
-						$template_item .= '<div class="col-6 col-md-1 text-danger">';
-						if ($results['temp_first_stop'] == 1 && $results['temp_am'] == 1) { 
-							$template_item .= '1st Stop AM'; 
-						} elseif ($results['temp_first_stop'] == 1 && $results['temp_pm'] != 1) { 
-							$template_item .= '1st Stop'; 
-						} elseif ($results['temp_am'] == 1) { 
-							$template_item .= 'AM'; 
-						} elseif ($results['temp_first_stop'] != 1 && $results['temp_am'] != 1 && $results['pm'] != 1) { 
-							$template_item .= ''; 
-						} elseif ($results['temp_first_stop'] == 1 && $results['temp_pm'] == 1) { 
-							$template_item .= '1st Stop PM'; 
-						} elseif ($results['temp_pm'] == 1) { 
-							$template_item .= 'PM'; 
-						} 
-						$template_item .= '</div>';
-						$template_item .= '<div class="col-md-3 text-primary">' . $results['job_name'] . '</div>';
-						$template_item .= '<div class="col-6 col-md-1 text-primary">' . $results['quote_num'] . '</div>';
-						$template_item .= '<div class="col-6 col-md-1 text-primary">' . $results['order_num'] . '</div>';
-						$template_item .= '<div class="col-md-3 text-primary">';
-						$address = '';
-						$address .= $results['address_1'];
-						if ($results['address_2'] > '') {
-							$address .= ', ' . $results['address_2'];
-						}
-						$address .= ', ' . $results['city'];
-						$address .= ', ' . $results['state'];
-						$address .= ', ' . $results['zip'];
-						$template_item .= '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-						$template_item .= '</div>';
-						$template_item .= '<div  class="col-1">';
-						$template_item .= '<div id="' . $results['id'] . '" class="btn btn-primary w-100" onClick="viewThisProject(' .  $results['id'] . ',' . $results['uid'] . ');"><i class="fas fa-eye"></i></div>';
-						$template_item .= '</div>';
-						$template_item .= '</div>';
-						$template_item .= '<hr>';
+		if ($results['job_status'] < 14 || $results['job_status'] > 19) { 
+			if ( $results['ual'] == 11 ) { 
+				$template_item .= '<i class="fas fa-home text-primary"></i>'; 
+			} else { 
+				$template_item .= '<i class="fas fa-building text-secondary"></i>'; 
+			}; 
+		} else if ($results['job_status'] == 14) {
+			$template_item .= '<i class="fas fa-car faa-passing animated text-success"></i>'; 
+		} else if ($results['job_status'] == 15) {
+			$template_item .= '<i class="fas fa-ruler-combined faa-shake animated text-success"></i>'; 
+		} else if ($results['job_status'] == 16) {
+			$template_item .= '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
+		} else if ($results['job_status'] == 17) {
+			$template_item .= '<i class="fas fa-check text-success"></i>'; 
+		} else if ($results['job_status'] == 19) {
+			$template_item .= '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
+		}
+		$template_item .= '</div>';
+		$template_item .= '<div class="col-6 col-md-1 ';
+		if ( $results['ual'] == 0 ) {
+			$template_item .= 'text-muted'; 
+		} else { 
+			$template_item .= 'text-primary'; 
+		}; 
+		$template_item .= '">' . $results['team'] . '</div>';
+		$template_item .= '<div class="col-6 col-md-1 text-danger">';
+		if ($results['temp_first_stop'] == 1 && $results['temp_am'] == 1) { 
+			$template_item .= '1st Stop AM'; 
+		} elseif ($results['temp_first_stop'] == 1 && $results['temp_pm'] != 1) { 
+			$template_item .= '1st Stop'; 
+		} elseif ($results['temp_am'] == 1) { 
+			$template_item .= 'AM'; 
+		} elseif ($results['temp_first_stop'] != 1 && $results['temp_am'] != 1 && $results['pm'] != 1) { 
+			$template_item .= ''; 
+		} elseif ($results['temp_first_stop'] == 1 && $results['temp_pm'] == 1) { 
+			$template_item .= '1st Stop PM'; 
+		} elseif ($results['temp_pm'] == 1) { 
+			$template_item .= 'PM'; 
+		} 
+		$template_item .= '</div>';
+		$template_item .= '<div class="col-md-3 text-primary">' . $results['job_name'] . '</div>';
+		$template_item .= '<div class="col-6 col-md-1 text-primary">' . $results['quote_num'] . '</div>';
+		$template_item .= '<div class="col-6 col-md-1 text-primary">' . $results['order_num'] . '</div>';
+		$template_item .= '<div class="col-md-3 text-primary">';
+		$address = '';
+		$address .= $results['address_1'];
+		if ($results['address_2'] > '') {
+			$address .= ', ' . $results['address_2'];
+		}
+		$address .= ', ' . $results['city'];
+		$address .= ', ' . $results['state'];
+		$address .= ', ' . $results['zip'];
+		$template_item .= '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
+		$template_item .= '</div>';
+		$template_item .= '<div  class="col-1">';
+		$template_item .= '<div id="' . $results['id'] . '" class="btn btn-primary w-100" onClick="viewThisProject(' .  $results['id'] . ',' . $results['uid'] . ');"><i class="fas fa-eye"></i></div>';
+		$template_item .= '</div>';
+		$template_item .= '</div>';
+		$template_item .= '<hr>';
 		return $template_item;
 	}
 
 	$get_entries = new project_action;
-	$items = $get_entries->incomplete_installs($a);
+	$items = $get_entries->incomplete_templates($a);
 
 	if(is_array($items) && !empty($items)) {
 		foreach($items as $results) {
+			if ($results['job_status'] < 20 && $results['job_status'] != 17 && $results['template_date'] < date("Y-m-d")) { 
 				echo template_item($results);
-
+			}
 		}
 	} else {
 		?>

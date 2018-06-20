@@ -1452,7 +1452,7 @@ class project_action {
 		}
 	}
 
-	public function incomplete_templates() {
+	public function incomplete_templates($a) {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -1466,7 +1466,7 @@ class project_action {
 			  JOIN status 
 				ON status.id = projects.job_status 
 			  JOIN install_teams 
-				ON install_teams.inst_team_id = projects.install_team 
+				ON template_teams.temp_team_id = projects.template_team 
 			  JOIN users 
 			    ON users.id = projects.uid 
 			 WHERE template_date < CURDATE() 
