@@ -916,14 +916,9 @@ if ($action=="get_materials_needed") {
 		$tmp_arr = '
 			<div class="col-12">
 				<div class="container d-md-flex">
-					<div class="col-md-4">Install: <strong>' . $result['install_name'] . '</strong></div>
-					<div class="col-md-2">Range: <strong>' . $result['range_model'] . '</strong></div>
-					<div class="col-md-2">SqFt: <strong>' . $result['SqFt'] . '</strong></div>
-					<div class="col-md-2">Slabs: <strong>' . $result['slabs'] . '</strong></div>
-					<div class="col-md-2">Selected: <strong>' . $result['selected'] . '</strong></div>
+					<div class="col-md-2">Slabs: <strong>' . $result['mat_slabs'] . '</strong></div>
 				</div>
 				<div class="container d-md-flex">
-					<div class="col-md-2">Material: <strong>' . $result['material'] . '</strong></div>
 					<div class="col-md-5">Color: <strong>' . $result['color'] . '</strong></div>
 					<div class="col-md-5">Lot: <strong>' . $result['lot'] . '</strong></div>
 				</div>
