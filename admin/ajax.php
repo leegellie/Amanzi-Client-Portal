@@ -756,7 +756,7 @@ function format_date($date) {
 		$return = 'Not Set';
 	} else {
 		$date = date_create($date);
-		$return = date_format($date,'m/d/y');
+		$return = date_format($date,'m/d');
 	}
 	return $return;
 }
