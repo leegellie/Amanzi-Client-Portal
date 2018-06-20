@@ -282,7 +282,7 @@ function mat_release() {
 //			viewThisProject($pid, $uid);
 //		},
 //		error: function(data) {
-//			alert(data);
+//			console.log(data);
 //			successNote = "Error submitting form: "+xhr.responseText;
 //			
 //			
@@ -371,7 +371,7 @@ function update_discounts($access_level) {
 			viewThisProject($pid, $uid);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 }
@@ -443,7 +443,7 @@ function quartzcalc($mat, $price) {
 			});
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 }
@@ -593,7 +593,7 @@ function recalculateInstall(iid) {
 			viewThisInstall($iid, $pid, $uid);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 }
@@ -610,7 +610,7 @@ function delete_install(iid,pid,instName) {
 				viewThisProject($pid,$uid);
 			},
 			error: function(data) {
-				alert(data);
+				console.log(data);
 			}
 		});
 	} else {
@@ -629,7 +629,7 @@ function deletePiece(sid) {
 				recalculateInstall($iid);
 			},
 			error: function(data) {
-				alert(data);
+				console.log(data);
 			}
 		});
 	} else {
@@ -654,7 +654,7 @@ function editSink(sink_id, sink_iid, sink_part, sink_model, sink_mount, sink_pro
 			$('#e-sink_part').append(data);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		},
 		complete: function() {
 			$('.mdb-select').material_select('destroy');
@@ -695,7 +695,7 @@ function deleteSink(isid) {
 				recalculateInstall($iid);
 			},
 			error: function(data) {
-				alert(data);
+				console.log(data);
 			}
 		});
 	} else {
@@ -763,7 +763,7 @@ function sinkAdder() {
 			$('#add_sink').modal('show');
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 	$('.mdb-select').material_select();
@@ -987,7 +987,7 @@ function update_sink(form) {
 			$('#edit_sink').modal('hide');
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 			$('#updateSinkBtn').show();
 		}, 
 		complete: function() {
@@ -1244,7 +1244,7 @@ function edit_piece(ipid) {
 			compile_piece_edit(data);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 }
@@ -1353,7 +1353,7 @@ function entered_anya(pid) {
 			pjtBack();
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 }
@@ -1369,7 +1369,7 @@ function entry_reject(pid) {
 			pjtBack();
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 }
@@ -1385,7 +1385,7 @@ function loadEntries(){
 			$('#tableResults').append(data);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 			
 			
 			
@@ -1405,7 +1405,7 @@ function loadTemplates() {
 			$('#tableResults').append(data);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 	setTimeout(loadTemplates, 5000);
@@ -1422,7 +1422,7 @@ function loadProgramming() {
 			$('#tableResults').append(data);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 	setTimeout(loadProgramming, 5000);
@@ -1439,7 +1439,7 @@ function loadSaw() {
 			$('#tableResults').append(data);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 	setTimeout(loadSaw, 2000);
@@ -1456,7 +1456,7 @@ function loadCNC() {
 			$('#tableResults').append(data);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 	setTimeout(loadCNC, 2000);
@@ -1473,7 +1473,7 @@ function loadPolishing() {
 			$('#tableResults').append(data);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 	setTimeout(loadPolishing, 2000);
@@ -1490,7 +1490,7 @@ function loadInstalls() {
 			setTimeout(loadInstalls, 10000);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 	//setTimeout(loadInstalls, 5000);
@@ -1509,7 +1509,7 @@ function loadTimelines() {
 		$('[data-toggle=popover]').popover();
     },
     error: function(data) {
-      alert(data);
+      console.log(data);
 			
 			
 			  
@@ -1619,7 +1619,7 @@ function sendQuoteData() {
 				$('#email-success').modal('show');
 			},
 			error: function(data) {
-				alert(data);
+				console.log(data);
 				successNote = "Error submitting form: "+xhr.responseText;
 			},
 			complete: function(data) {
@@ -1639,7 +1639,7 @@ function makeComment(e,cmt_user) {
 			$('#commentor').text(data);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 
@@ -1718,7 +1718,7 @@ function pullEditInst(instToEdit) {
 			compileInstEdit(data);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 			successNote = "Error submitting form: "+xhr.responseText;
 			
 			
@@ -1920,7 +1920,7 @@ function pullEditPjt(pjtToEdit) {
 			compilePjtEdit(data);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 			successNote = "Error submitting form: "+xhr.responseText;
 			
 			
@@ -1965,7 +1965,7 @@ function upload_multi(){
 			viewThisProject($pid,$uid);
 		},
 		error: function(data) {
-			//alert(data);
+			//console.log(data);
 		},
 		complete: function() {
 			Command: toastr["success"]("Files successfully uploaded.", "Projects")
@@ -2023,7 +2023,7 @@ function updateInstall() {
 		type: 'POST',
 		success: function(data) {
 			if (isNaN(data)) {
-				alert(data);
+				console.log(data);
 			} else {
 				$('#editInstall').modal('hide');
 				Command: toastr["success"]("Install data saved!", "Projects")
@@ -2389,7 +2389,7 @@ $(document).ready(function() {
         	type        : 'POST',
         	success     : function(data){
 				if (isNaN(data)) {
-					alert(data);
+					console.log(data);
 				} else {
 					$('#addComment').modal('hide');
 					$('#commentForm')[0].reset();

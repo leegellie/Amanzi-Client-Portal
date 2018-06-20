@@ -680,7 +680,6 @@ if ($action=="get_staff_list") {
 	echo "</div>";
 	echo '<hr style="height:5px;margin-top:15px;background:magenta;">';
 }
-
 if ($action=="location_log") {
 	unset($_POST['action']);
 	$logUser = $_SESSION['id'];
@@ -689,14 +688,12 @@ if ($action=="location_log") {
 	$update_location = new log_action;
 	echo $update_location -> location_log($logUser,$lat,$long);
 }
-
 if ($action=="ordered_material") {
 	unset($_POST['action']);
 	$run = new materials_action;
 	$run -> ordered_material($_POST);
 	echo $run;
 }
-
 if ($action=="add_marble") {
 	unset($_POST['action']);
 	$add_marble = new materials_action;
@@ -712,7 +709,6 @@ if ($action=="update_marble") {
 	$update_marble = new materials_action;
 	$update_marble -> update_marble($_POST);
 }
-
 if ($action=="add_quartz") {
 	unset($_POST['action']);
 	$add_quartz = new materials_action;
@@ -728,34 +724,28 @@ if ($action=="update_quartz") {
 	$update_quartz = new materials_action;
 	$update_quartz -> update_quartz($_POST);
 }
-
 if ($action=="assign_material") {
 	unset($_POST['action']);
 	$run = new materials_action;
 	$run -> assign_material($_POST);
 }
-
 if ($action=="no_material") {
 	unset($_POST['action']);
 	$run = new materials_action;
 	$run -> no_material($_POST);
 }
-
 if ($action=="material_delivered") {
 	$pid = $_POST['pid'];
 	unset($_POST['action']);
 	unset($_POST['pid']);
 	$run = new materials_action;
 	$run -> material_delivered($pid);
-
 	$_POST = array();
-
 	$_POST['cmt_ref_id'] = $pid;
 	$_POST['cmt_type'] = 'pjt';
 	$_POST['cmt_user'] = $_SESSION['id'];
 	$_POST['cmt_comment'] = 'Delivered to Fabrication.';
 	$_POST['cmt_priority'] = 'log';
-
 	$log_project = new log_action;
 	$log = $log_project -> pjt_changes($_POST);
 }
@@ -775,10 +765,8 @@ if ($action=="get_materials_needed") {
 	unset($_POST['action']);
 	$results = "";
 	$search = new materials_action;
-
 	echo "<hr>";
 	echo '<div id="resultsTable1" class="row striped">';
-
 	echo '<ul class="nav nav-tabs w-100 mb-3" id="myTab" role="tablist">';
 	echo '<li class="nav-item">';
 	echo '<a class="nav-link active" id="toOrder-tab" data-toggle="tab" href="#toOrder" role="tab" aria-controls="toOrder" aria-selected="true"><h5>To Order/Schedule</h5></a>';
@@ -804,9 +792,11 @@ if ($action=="get_materials_needed") {
 	$pjts = $search->get_materials(); //Get the projects between with job_status > 10 and job_status < 50
 
 	//GROUP THE $pjts BY JOB NAME
+
 	foreach($pjts as $pjt) {
 		$tmp[$pjt['job_name']][] = $pjt;
 	}
+
 	$materialsbyname = array();
 
 	foreach($tmp as $type => $labels) {
@@ -1433,7 +1423,7 @@ if ($action=="templates_list") {
 		$template_item = '
 				<div class="row">
 					<div class="col-md-1">';
-						if ($results['job_status'] < 14 || $results['job_status'] > 19) { 
+						if ($results['job_status'] < 20 && $results['job_status'] != 17 && $results['install_date'] < date("Y-m-d")) { 
 							if ( $results['ual'] == 11 ) { 
 								$template_item .= '<i class="fas fa-home text-primary"></i>'; 
 							} else { 
