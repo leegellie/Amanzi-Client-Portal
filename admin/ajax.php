@@ -957,9 +957,7 @@ if ($action=="get_materials_needed") {
 	function show_pull_head($result) {
 		$head_arr = '
 			<div class="w-100 d-flex">
-				<div class="col-md-1"><h3>';
-		$head_arr = format_date($result['install_date']);
-		$head_arr = '</h3></div>
+				<div class="col-md-1"><h3>' . format_date($result['install_date']) . '</h3></div>
 				<div class="col-9 col-md-8 text-primary"><h3>' . $result['order_num'] . ' - ' . $result['job_name'] . '</h3></div>
 				<div class="col-2 col-md-3 text-right">
 					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(' . $result['pid'] . ','. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
