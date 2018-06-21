@@ -970,12 +970,10 @@ if ($action=="get_materials_needed") {
 	function show_pull($result, $status) {
 		$tmp_arr = '
 			<div class="container d-md-flex">
-				<div class="col-md-2">Slabs: <strong>' . $result['mat_slabs'] . '</strong></div>
+				<div class="col-md-1">Slabs: <strong>' . $result['mat_slabs'] . '</strong></div>
 				<div class="col-md-3">Color: <strong>' . $result['color'] . '</strong></div>
-				<div class="col-md-3">Lot: <strong>' . $result['lot'] . '</strong></div>
-			</div>
-			<div class="container d-md-flex">
-				<div class="col-md-12">Assigned Material: <strong>' . $result['assigned_material'] . '</strong></div>
+				<div class="col-md-4">Lot: <strong>' . $result['lot'] . '</strong></div>
+				<div class="col-md-4">Assigned Material: <strong>' . $result['assigned_material'] . '</strong></div>
 			</div>'; 
 		return $tmp_arr;
 	}
