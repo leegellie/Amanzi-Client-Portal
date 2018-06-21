@@ -1027,11 +1027,13 @@ if ($action=="get_materials_needed") {
 	foreach($pullbymaterialsbyname as $results) {
 		$index = 0;
 		foreach($results['detail'] as $result){
-			if($index == 0) {
-				$fourth_tab .= show_pull_head($result);
-				$index++;
+			if ( !($result['assigned_material'] < 1) && !($result['lot'] < 1) ) {
+				if($index == 0) {
+					$fourth_tab .= show_pull_head($result);
+					$index++;
+				}
+				$fourth_tab .= show_pull($result,$status);
 			}
-			$fourth_tab .= show_pull($result,$status);
 		}
 		$fourth_tab .= '<hr>';
 	}
