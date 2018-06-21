@@ -909,7 +909,10 @@ if ($action=="get_materials_needed") {
 			</div>
 			<div class="col-2 btn btn-sm btn-danger mr-2" onclick="mat_hold_modal(' . $_SESSION['id'] . ',' . $result['id'] . ',' . $result['pid'] . ')">
 				Material Hold <i class="fas fa-ban"></i>
-			</div>';
+			</div>
+		</div>
+	</div>
+	<hr>';
 			} else if ($result['material_status'] == 2) {
 				$tmp_arr .= '
 			<div class="col-5 text-success">
@@ -923,7 +926,10 @@ if ($action=="get_materials_needed") {
 			</div>
 			<div class="col-2 btn btn-sm btn-danger mr-2" onclick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">
 				Material Hold <i class="fas fa-ban"></i>
-			</div>';
+			</div>
+		</div>
+	</div>
+	<hr>';
 			} else if ($result['material_status'] == 3) {
 				$tmp_arr .= '
 			<div class="col-5 text-primary">
@@ -934,7 +940,10 @@ if ($action=="get_materials_needed") {
 			</div>
 			<div class="col-2 btn btn-sm btn-danger mr-2" onclick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">
 				Material Hold <i class="fas fa-ban"></i>
-			</div>';
+			</div>
+		</div>
+	</div>
+	<hr>';
 			} else if ($result['material_status'] == 4) {
 				$tmp_arr .= '
 			<div class="col-10 text-muted">
@@ -942,13 +951,12 @@ if ($action=="get_materials_needed") {
 			</div>
 			<div class="col-2 btn btn-sm btn-danger mr-2" onclick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">
 				Material Hold <i class="fas fa-ban"></i>
-			</div>';
-			}
-		}
-		$tmp_arr .= '
+			</div>
 		</div>
 	</div>
 	<hr>';
+			}
+		}
 		return $tmp_arr;
 	}
 
