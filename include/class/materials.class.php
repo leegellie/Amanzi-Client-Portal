@@ -157,33 +157,28 @@ class materials_action {
 		$q->execute();
 		return $row = $q->fetchAll();
 	}
-	
-	public function get_pull_list() {
-		try {
-			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$q = $conn->prepare("
-				SELECT *,
-					   status.name AS status
-				  FROM projects 
-				  JOIN status ON status.id = projects.job_status 
-				  JOIN (	SELECT pid, color, lot, mat_hold,  SUM(slabs) AS mat_slabs
-							  FROM installs 
-						  GROUP BY pid, lot, color, mat_hold ) 
-					AS materials
-					ON materials.pid = projects.id
-				 WHERE projects.job_status > 11 
-				   AND projects.job_status < 50 
-				   AND !(projects.install_date = '2200-01-01' AND projects.template_date = '2200-01-01')
-				   AND projects.isActive = 1 
-			  ORDER BY projects.install_date ASC
-			  ");
-			$q->execute();
-			return $row = $q->fetchAll();
-		} catch(PDOException $e) {
-			$this->_message = "ERROR: " . $e->getMessage();
-		}
-		return $this->_message;
+
+  public function get_pull_list() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("
+			SELECT *,
+				   status.name AS status
+			  FROM projects 
+			  JOIN status ON status.id = projects.job_status 
+			  JOIN (	SELECT pid, color, lot, SUM(slabs) AS mat_slabs
+						  FROM installs 
+					  GROUP BY pid, lot, color) 
+				AS materials
+				ON materials.pid = projects.id
+			 WHERE projects.job_status > 11 
+			   AND projects.job_status < 50 
+			   AND !(projects.install_date = '2200-01-01' AND projects.template_date = '2200-01-01')
+			   AND projects.isActive = 1 
+		  ORDER BY projects.install_date ASC
+		  ");
+		$q->execute();
+		return $row = $q->fetchAll();
 	}
 
 	public function ordered_material($a) {
