@@ -132,7 +132,7 @@ function update_marble(e) {
 			location.reload(true);
 		},
 		error: function(data) {
-			console.log('update_marble: ' data);
+			console.log('update_marble: ' + data);
 		},
 		complete: function() {
 			$('.btn').show();
@@ -185,7 +185,7 @@ function add_quartz(e) {
 			location.reload(true);
 		},
 		error: function(data) {
-			console.log('add_quartz: ' data);
+			console.log('add_quartz: ' + data);
 		},
 		complete: function() {
 			$('.btn').show();
@@ -206,7 +206,7 @@ function delete_quartz(marbId) {
 				location.reload(true);
 			},
 			error: function(data) {
-				console.log('delete_quartz: ' data);
+				console.log('delete_quartz: ' + data);
 			},
 			complete: function() {
 			}
@@ -254,7 +254,7 @@ function update_quartz(e) {
 			//location.reload(true);
 		},
 		error: function(data) {
-			console.log('update_quartz: ' data);
+			console.log('update_quartz: ' + data);
 		},
 		complete: function() {
 			$('.btn').show();
@@ -310,7 +310,7 @@ function assignMat(thisForm) {
             $("#materialBtn").click();
         },
         error: function(data) {
-			console.log('assignMat: ' data);
+			console.log('assignMat: ' + data);
         }
     });
 }
