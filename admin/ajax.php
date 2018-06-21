@@ -765,7 +765,6 @@ if ($action=="get_materials_needed") {
 	unset($_POST['action']);
 	$results = "";
 	$search = new materials_action;
-	$search2 = new materials_action;
 	echo "<hr>";
 	echo '<div id="resultsTable1" class="row striped">';
 	echo '<ul class="nav nav-tabs w-100 mb-3" id="myTab" role="tablist">';
@@ -801,7 +800,7 @@ if ($action=="get_materials_needed") {
 	}
 
 	$pull_array = array();
-	$pull_list = $search2->get_pull_list(); //Get the projects between with job_status > 10 and job_status < 50
+	$pull_list = $search->get_pull_list(); //Get the projects between with job_status > 10 and job_status < 50
 	foreach($pull_list as $pjt) {
 		$pull_array[$pjt['job_name']][] = $pjt;
 	}
@@ -899,10 +898,12 @@ if ($action=="get_materials_needed") {
 	function show_pull_head($result) {
 		$head_arr = '
 			<div class="w-100 d-flex">
-				<div class="col-md-1"><h3>' . format_date($result['install_date']) . '</h3></div>
+				<div class="col-md-1"><h3>';
+		$head_arr = format_date($result['install_date']);
+		$head_arr = '</h3></div>
 				<div class="col-9 col-md-8 text-primary"><h3>' . $result['order_num'] . ' - ' . $result['job_name'] . '</h3></div>
 				<div class="col-2 col-md-3 text-right">
-					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,'. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
+					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(' . $result['pid'] . ','. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
 					<div id="' . $result['id'] . '" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
 				</div>
 			</div>
