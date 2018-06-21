@@ -842,9 +842,7 @@ if ($action=="get_materials_needed") {
 			Install Date: <b>' . format_date($result['install_date']) . '</b>
 		</div>
 	</div>
-	<hr>
-	<div class="container d-flex">
-		<div class="col-12">';
+	<hr>';
 		return $head_arr;
 	}
 	
@@ -894,6 +892,8 @@ if ($action=="get_materials_needed") {
 		} else {
 			if ($result['material_status'] == 1) {
 				$tmp_arr .= '
+	<div class="container d-flex">
+		<div class="col-7 text-danger">
 			<div class="col-5 text-danger">
 				<b>'. $status . '</b>
 			</div>
@@ -914,6 +914,8 @@ if ($action=="get_materials_needed") {
 	<hr>';
 			} else if ($result['material_status'] == 2) {
 				$tmp_arr .= '
+	<div class="container d-flex">
+		<div class="col-7 text-danger">
 			<div class="col-5 text-success">
 				<b>'. $status .date("Y-m-d",strtotime($result['material_date'])).'</b>
 			</div>
@@ -931,6 +933,8 @@ if ($action=="get_materials_needed") {
 	<hr>';
 			} else if ($result['material_status'] == 3) {
 				$tmp_arr .= '
+	<div class="container d-flex">
+		<div class="col-7 text-danger">
 			<div class="col-5 text-primary">
 				<b>Status: Materials On Hand</b>
 			</div>
@@ -945,6 +949,8 @@ if ($action=="get_materials_needed") {
 	<hr>';
 			} else if ($result['material_status'] == 4) {
 				$tmp_arr .= '
+	<div class="container d-flex">
+		<div class="col-7 text-danger">
 			<div class="col-10 text-muted">
 				<b>Status: Materials not needed.</b>
 			</div>
