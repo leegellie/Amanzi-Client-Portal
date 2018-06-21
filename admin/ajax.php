@@ -762,6 +762,7 @@ function format_date($date) {
 }
 
 if ($action=="get_materials_needed") {
+	echo "hello";
 	unset($_POST['action']);
 	$results = "";
 	$search = new materials_action;
