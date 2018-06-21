@@ -915,12 +915,14 @@ if ($action=="get_materials_needed") {
 				<div class="container d-md-flex">
 					<div class="col-md-2">Slabs: <strong>' . $result['mat_slabs'] . '</strong></div>
 					<div class="col-md-3">Color: <strong>' . $result['color'] . '</strong></div>
-					<div class="col-md-3">Lot: <strong>' . $result['lot'] . '</strong></div>';
-		if ($result['mat_hold'] == 1) {
-			$tmp_arr .= '
-					<div class="col-2 text-danger"><b>MATERIALS ON HOLD</b></div>
-					<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_release_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Release Hold <i class="fas fa-ban"></i></div>
-				</div>'; 
+					<div class="col-md-3">Lot: <strong>' . $result['lot'] . '</strong></div>
+				</div>
+			</div>
+			<div class="col-12">
+				<div class="container d-md-flex">
+					<div class="col-md-3">Assigned Material: <strong>' . $result['assigned_materials'] . '</strong></div>
+				</div>
+			</div>'; 
 		}
 		return $tmp_arr;
 	}
