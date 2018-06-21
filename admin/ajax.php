@@ -4691,6 +4691,16 @@ if ($action=="view_selected_pjt") {
 		$price_tax = $ePjtCost + $tax; 
 		$tax = number_format($tax, 2, '.', ','); 
 		$tax_print = number_format($price_tax, 2, '.', ','); 
+		$profit = 0;
+		$project_costs = 0;
+		$prof_calc = new project_action; 
+		$matCost = $prof_calc->sum_costs($pid); 
+		$wSqFt = $eSqFt[0]; 
+		$labor = $wSqFt * 20; 
+		$labor = $labor * 1.2; 
+		$project_costs = $labor + $matCost; 
+		$profit = $ePjtCost - $project_costs; 
+
 		$html .= '<div class="col-4 text-center pr-0"><img src="../images/logo-bw.png" class="w-100">';
 
 		if ($job_status < 22) {
@@ -4799,6 +4809,11 @@ if ($action=="view_selected_pjt") {
 		}
 
 
+		$approval = 0;
+		if (round($results['mngr_approved_price'],2) != round($price_tax,2) || $profit < 100) {
+			$approval = 1;
+		}
+
 		$rejectSale = '<div class="btn btn-sm btn-danger float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',26)" style="cursor:pointer"><i class="fas fa-times"></i> Job Rejected</div>';
 		$jobHold = '<div class="btn btn-sm btn-danger float-right" onClick="jobHold('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['job_status'] . ')" style="cursor:pointer"><i class="fas fa-times"></i> Job Hold</div>';
 
@@ -4828,12 +4843,23 @@ if ($action=="view_selected_pjt") {
 			}
 			if ($results['job_status'] == 22) {
 				$html .= $rejectSale;
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',23)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
+				if ($approval == 0){
+					$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',23)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
+				} else {
+					$alertText
+					$html .= '<div class="btn btn-sm btn-muted float-right" onClick="alert(\'Approval is needed before this job can progress.\')" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
+				}
 			}
 			if ($results['job_status'] == 23) {
 				$html .= $rejectSale;
-				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',25)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Approved</div>';
-				$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',24)" style="cursor:pointer"><i class="fas fa-check"></i> Quote to Alter</div>';
+				if ($approval == 0){
+					$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',25)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Approved</div>';
+					$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',24)" style="cursor:pointer"><i class="fas fa-check"></i> Quote to Alter</div>';
+				} else {
+					$alertText
+					$html .= '<div class="btn btn-sm btn-muted float-right" onClick="alert(\'Approval is needed before this job can progress.\')" style="cursor:pointer"><i class="fas fa-check"></i> Quote Approved</div>';
+					$html .= '<div class="btn btn-sm btn-muted float-right" onClick="alert(\'Approval is needed before this job can progress.\')" style="cursor:pointer"><i class="fas fa-check"></i> Quote to Alter</div>';
+				}
 			}
 			if ($results['job_status'] == 24) {
 				$html .= $rejectSale;
@@ -5041,17 +5067,7 @@ if ($action=="view_selected_pjt") {
 		if ($results['clientDiscount'] > 0) { 
 			$html .= '<h4 id="discountPercent" class="text-dark text-right col-12 d-none d-print-block">Discounts: Marble/Granite: <span id="pct">' . $results['clientDiscount'] . '</span>% - Quartz: <span id="qpct">' . $results['discount_quartz'] . '</span>%</h4><div class="text-dark text-right d-none d-print-block h6 pr-3"><small>Applied before totals.</small></div>'; 
 		} 
-		$profit = 0;
-		$project_costs = 0;
-		
-		$prof_calc = new project_action; 
-		$matCost = $prof_calc->sum_costs($pid); 
-		$wSqFt = $eSqFt[0]; 
-		$labor = $wSqFt * 20; 
-		$labor = $labor * 1.2; 
-		$project_costs = $labor + $matCost; 
-		$profit = $ePjtCost - $project_costs; 
-		
+	
 		$html .= '<hr>'; 
 		if ($profit < 100) {
 			$html .= '<div class="row">'; 
@@ -5063,6 +5079,7 @@ if ($action=="view_selected_pjt") {
 			} else {
 				if (round($results['mngr_approved_price'],2) != round($price_tax,2)) {
 					$html .= '	<div class="col-10 text-center"><h2 class="text-center text-danger col-12">This job has changed since it was approved and will need new approval.</h2></div>'; 
+					
 					if ($_SESSION['access_level'] == 1) { 
 						$html .= '	<button class="col-2 btn btn-success d-print-none float-right mx-0" type="button" onClick="approveLoss(1,' . round($price_tax,2) . ',' . $_SESSION['id'] . ')" style="cursor:pointer">Approve <i class="far fa-check"></i></button>'; 
 					}
