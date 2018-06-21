@@ -856,7 +856,6 @@ if ($action=="get_materials_needed") {
 					<div class="col-7 text-danger"><b>MATERIALS ON HOLD</b></div>
 					<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_release_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Release Hold <i class="fas fa-ban"></i></div>
 				</div>
-			</div>
 			<hr>
 			<div class="container d-flex">
 				<div class="col-12">';
@@ -903,7 +902,6 @@ if ($action=="get_materials_needed") {
 					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(' . $result['pid'] . ','. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
 					<div id="' . $result['id'] . '" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
 				</div>
-			</div>
 			<hr>';
 		return $head_arr;
 	}
