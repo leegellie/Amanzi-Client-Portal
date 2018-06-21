@@ -275,7 +275,7 @@ function matOnHand(iid,iName) {
 }
 
 function noMaterial(iid) {
-	if (confirm("Press a button!")) {
+	if (confirm("Are you sure this install requires no material?")) {
 		var form = 'action=no_material&material_status=4&iid=' + iid;
 		assignMat(form);
 	} else {
