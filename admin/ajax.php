@@ -857,47 +857,35 @@ if ($action=="get_materials_needed") {
 					<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_release_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Release Hold <i class="fas fa-ban"></i></div>
 				</div>
 			</div>
-			<hr>'; 
+			<hr>
+			<div class="container d-flex">';
 		} else {
 			if ($result['material_status'] == 1) {
 				$tmp_arr .= '
-				<div class="container d-flex">
-					<div class="col-5 text-danger"><b>'. $status . '</b></div>
-					<div class="col-1 btn btn-sm btn-danger mr-2" onClick="noMaterial(' . $result['id'] . ')">N/A <i class="fas fa-ban"></i></div>
-					<div class="col-2 btn btn-sm btn-success mr-2 orderMaterials" onClick="matOrdered('. $result['id'] .',\''. $result['install_name'] .'\')" >Ordered <i class="far fa-calendar-check"></i></div>
-					<div class="col-2 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(' . $result['id'] . ',\'' . $result['install_name'] . '\')">Have Materials <i class="fas fa-check"></i></div>
-					<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_hold_modal(' . $_SESSION['id'] . ',' . $result['id'] . ',' . $result['pid'] . ')">Material Hold <i class="fas fa-ban"></i></div>
-				</div>
-			</div>
-			<hr>'; 
+				<div class="col-5 text-danger"><b>'. $status . '</b></div>
+				<div class="col-1 btn btn-sm btn-danger mr-2" onClick="noMaterial(' . $result['id'] . ')">N/A <i class="fas fa-ban"></i></div>
+				<div class="col-2 btn btn-sm btn-success mr-2 orderMaterials" onClick="matOrdered('. $result['id'] .',\''. $result['install_name'] .'\')" >Ordered <i class="far fa-calendar-check"></i></div>
+				<div class="col-2 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(' . $result['id'] . ',\'' . $result['install_name'] . '\')">Have Materials <i class="fas fa-check"></i></div>
+				<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_hold_modal(' . $_SESSION['id'] . ',' . $result['id'] . ',' . $result['pid'] . ')">Material Hold <i class="fas fa-ban"></i></div>';
 			} else if ($result['material_status'] == 2) {
 				$tmp_arr .= '
-				<div class="container d-flex">
-					<div class="col-5 text-success"><b>'. $status .date("Y-m-d",strtotime($result['material_date'])).'</b></div>
-					<div class="col-3">Reference: '.$result['assigned_material'].'</div>
-					<div class="col-2 btn btn-sm btn-primary haveMaterials" onClick="matOnHand('. $result['id'] .',\''. $result['install_name'] .'\')">Have Materials</div>
-					<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Material Hold <i class="fas fa-ban"></i></div>
-				</div>
-			</div>
-			<hr>';
+				<div class="col-5 text-success"><b>'. $status .date("Y-m-d",strtotime($result['material_date'])).'</b></div>
+				<div class="col-3">Reference: '.$result['assigned_material'].'</div>
+				<div class="col-2 btn btn-sm btn-primary haveMaterials" onClick="matOnHand('. $result['id'] .',\''. $result['install_name'] .'\')">Have Materials</div>
+				<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Material Hold <i class="fas fa-ban"></i></div>';
 			} else if ($result['material_status'] == 3) {
 				$tmp_arr .= '
-				<div class="container d-flex">
-					<div class="col-5 text-primary"><b>Status: Materials On Hand</b></div>
-					<div class="col-5">Assigned Material: '.$result['assigned_material'].'</div>
-					<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Material Hold <i class="fas fa-ban"></i></div>
-				</div>
-			</div>
-			<hr>';
+				<div class="col-5 text-primary"><b>Status: Materials On Hand</b></div>
+				<div class="col-5">Assigned Material: '.$result['assigned_material'].'</div>
+				<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Material Hold <i class="fas fa-ban"></i></div>';
 			} else if ($result['material_status'] == 4) {
 				$tmp_arr .= '
-				<div class="container d-flex">
-					<div class="col-10 text-muted"><b>Status: Materials not needed.</b></div>
-					<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Material Hold <i class="fas fa-ban"></i></div>
-				</div>
+				<div class="col-10 text-muted"><b>Status: Materials not needed.</b></div>
+				<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Material Hold <i class="fas fa-ban"></i></div>';
+			}
+			$tmp_arr .= '
 			</div>
 			<hr>';
-			}
 		}
 		return $tmp_arr;
 	}
