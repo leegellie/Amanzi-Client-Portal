@@ -275,8 +275,12 @@ function matOnHand(iid,iName) {
 }
 
 function noMaterial(iid) {
-	var form = 'action=no_material&material_status=4&iid=' + iid;
-	assignMat(form);
+	if (confirm("Press a button!")) {
+		var form = 'action=no_material&material_status=4&iid=' + iid;
+		assignMat(form);
+	} else {
+    	return;
+	}
 }
 
 function material_delivered(pid) {
