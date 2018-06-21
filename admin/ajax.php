@@ -920,7 +920,7 @@ if ($action=="get_materials_needed") {
 			</div>
 			<div class="col-12">
 				<div class="container d-md-flex">
-					<div class="col-md-3">Assigned Material: <strong>' . $result['assigned_materials'] . '</strong></div>
+					<div class="col-md-3">Assigned Material: <strong>' . $result['assigned_material'] . '</strong></div>
 				</div>
 			</div>'; 
 		return $tmp_arr;
