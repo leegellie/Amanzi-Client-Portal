@@ -975,7 +975,7 @@ if ($action=="get_materials_needed") {
 				<div class="col-md-3">Lot: <strong>' . $result['lot'] . '</strong></div>
 			</div>
 			<div class="container d-md-flex">
-				<div class="col-md-3">Assigned Material: <strong>' . $result['assigned_material'] . '</strong></div>
+				<div class="col-md-12">Assigned Material: <strong>' . $result['assigned_material'] . '</strong></div>
 			</div>'; 
 		return $tmp_arr;
 	}
@@ -1041,7 +1041,7 @@ if ($action=="get_materials_needed") {
 			}
 			$fourth_tab .= show_pull($result,$status);
 		}
-		$fourth_tab . '<hr>';
+		$fourth_tab .= '<hr>';
 	}
 	echo $fourth_tab . '</div>';
 
