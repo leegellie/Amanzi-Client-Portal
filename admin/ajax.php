@@ -765,6 +765,7 @@ if ($action=="get_materials_needed") {
 	unset($_POST['action']);
 	$results = "";
 	$search = new materials_action;
+	$search2 = new materials_action;
 	echo "<hr>";
 	echo '<div id="resultsTable1" class="row striped">';
 	echo '<ul class="nav nav-tabs w-100 mb-3" id="myTab" role="tablist">';
@@ -800,7 +801,7 @@ if ($action=="get_materials_needed") {
 	}
 
 	$pull_array = array();
-	$pull_list = $search->get_pull_list(); //Get the projects between with job_status > 10 and job_status < 50
+	$pull_list = $search2->get_pull_list(); //Get the projects between with job_status > 10 and job_status < 50
 	foreach($pull_list as $pjt) {
 		$pull_array[$pjt['job_name']][] = $pjt;
 	}
