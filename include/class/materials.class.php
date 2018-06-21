@@ -176,7 +176,10 @@ class materials_action {
 				   AND projects.job_status < 50 
 				   AND !(projects.install_date = '2200-01-01' AND projects.template_date = '2200-01-01')
 				   AND projects.isActive = 1 
-			  ORDER BY projects.install_date ASC
+			  ORDER BY projects.install_date ASC,
+					   projects.first_stop DESC,
+					   projects.am DESC,
+					   projects.pm DESC
 			  ");
 			$q->execute();
 			return $row = $q->fetchAll();
