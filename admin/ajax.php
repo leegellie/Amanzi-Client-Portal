@@ -4866,6 +4866,9 @@ if ($action=="view_selected_pjt") {
 				$html .= $rejectSale;
 				$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',23)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
 			}
+			if ($results['job_status'] == 49) {
+				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',40)" style="cursor:pointer"><i class="fas fa-check"></i> Remove Job Hold</div>';
+			}
 		}
 		//TEMPLATING
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 4) {
@@ -4916,6 +4919,11 @@ if ($action=="view_selected_pjt") {
 		}
 		// MATERIALS
 		// Skipped for now
+		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 6) {
+			if ($results['job_status'] == 49) {
+				$html .= '<div class="btn btn-sm btn-secondary float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',40)" style="cursor:pointer"><i class="fas fa-check"></i> Remove Job Hold</div>';
+			}
+		}
 
 		// SAW
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 7) {
