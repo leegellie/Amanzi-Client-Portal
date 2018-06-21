@@ -756,7 +756,7 @@ function format_date($date) {
 		$return = 'Not Set';
 	} else {
 		$date = date_create($date);
-		$return = date_format($date,'m/d');
+		$return = date_format($date,'m/d/y');
 	}
 	return $return;
 }
@@ -812,7 +812,7 @@ if ($action=="get_materials_needed") {
 		);
 	}
 	//GROUP BY END
-	
+
 	function show_pjt_head($result) {
 		$head_arr = '
 			<div class="w-100 d-flex">
@@ -830,7 +830,7 @@ if ($action=="get_materials_needed") {
 			<hr>';
 		return $head_arr;
 	}
-	
+
 	function show_pjts($result, $status) {
 		$tmp_arr = '
 			<div class="col-12">
@@ -846,10 +846,10 @@ if ($action=="get_materials_needed") {
 					<div class="col-md-5">Color: <strong>' . $result['color'] . '</strong></div>
 					<div class="col-md-5">Lot: <strong>' . $result['lot'] . '</strong></div>
 				</div>
-				<hr>';
+				<hr>
+				<div class="container d-flex">';  
 		if ($result['mat_hold'] == 1) {
-			$tmp_arr .= '
-				<div class="container d-flex">
+				$tmp_arr .= '
 						<div class="col-7 text-danger"><b>MATERIALS ON HOLD</b></div>
 						<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_release_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Release Hold <i class="fas fa-ban"></i></div>
 					</div>
@@ -898,11 +898,11 @@ if ($action=="get_materials_needed") {
 	function show_pull_head($result) {
 		$head_arr = '
 			<div class="w-100 d-flex">
-				<div class="col-md-1"><h3>' . format_date($result['install_date']) . '</h3></div>
-				<div class="col-9 col-md-8 text-primary"><h3>' . $result['order_num'] . ' - ' . $result['job_name'] . '</h3></div>
-				<div class="col-2 col-md-3 text-right">
+				<div class="col-md-3">Install Date: <b>' . format_date($result['install_date']) . '</b></div>
+				<div class="col-md-1 hidden-md-down"><h4>' . $result['order_num'] . '</h4></div>
+				<div class="col-9 col-md-7 text-primary"><h3>' . $result['job_name'] . '</h3></div>
+				<div class="col-2 col-md-2 text-right">
 					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,'. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
-					<div id="' . $result['id'] . '" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
 				</div>
 			</div>
 			<hr>';
@@ -915,14 +915,21 @@ if ($action=="get_materials_needed") {
 				<div class="container d-md-flex">
 					<div class="col-md-2">Slabs: <strong>' . $result['mat_slabs'] . '</strong></div>
 					<div class="col-md-3">Color: <strong>' . $result['color'] . '</strong></div>
-					<div class="col-md-3">Lot: <strong>' . $result['lot'] . '</strong></div>
+					<div class="col-md-3">Lot: <strong>' . $result['lot'] . '</strong></div>';
+		if ($result['mat_hold'] == 1) {
+			$tmp_arr .= '
+					<div class="col-2 text-danger"><b>MATERIALS ON HOLD</b></div>
+					<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_release_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Release Hold <i class="fas fa-ban"></i></div>
+				</div>'; 
+			} else {
+				$tmp_arr .= '
+					<div class="col-4 text-right">
+						<div id="' . $result['id'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,' . $result['uid'] . ');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
+						<div id="' . $result['id'] . '" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
+					</div>
 				</div>
 			</div>
-			<div class="col-12">
-				<div class="container d-md-flex">
-					<div class="col-md-3">Assigned Material: <strong>' . $result['assigned_materials'] . '</strong></div>
-				</div>
-			</div>'; 
+			<hr>'; 
 		}
 		return $tmp_arr;
 	}
