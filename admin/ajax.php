@@ -858,7 +858,8 @@ if ($action=="get_materials_needed") {
 				</div>
 			</div>
 			<hr>
-			<div class="container d-flex">';
+			<div class="container d-flex">
+				<div class="col-12">';
 		} else {
 			if ($result['material_status'] == 1) {
 				$tmp_arr .= '
@@ -884,6 +885,7 @@ if ($action=="get_materials_needed") {
 				<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Material Hold <i class="fas fa-ban"></i></div>';
 			}
 			$tmp_arr .= '
+				</div>
 			</div>
 			<hr>';
 		}
