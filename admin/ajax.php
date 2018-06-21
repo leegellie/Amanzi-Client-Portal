@@ -958,8 +958,8 @@ if ($action=="get_materials_needed") {
 		$head_arr = '
 			<div class="container d-flex">
 				<div class="col-md-1"><h3>' . format_date($result['install_date']) . '</h3></div>
-				<div class="col-9 col-md-8 text-primary"><h3>' . $result['order_num'] . ' - ' . $result['job_name'] . '</h3></div>
-				<div class="col-2 col-md-3 text-right">
+				<div class="col-9 col-md-7 text-primary"><h3>' . $result['order_num'] . ' - ' . $result['job_name'] . '</h3></div>
+				<div class="col-2 col-md-4 text-right">
 					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(' . $result['pid'] . ','. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
 					<div id="' . $result['id'] . '" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
 				</div>
@@ -1041,8 +1041,9 @@ if ($action=="get_materials_needed") {
 			}
 			$fourth_tab .= show_pull($result,$status);
 		}
+		$fourth_tab . '<hr>';
 	}
-	echo $fourth_tab . '<hr></div>';
+	echo $fourth_tab . '</div>';
 
 ?>
 	<hr>
