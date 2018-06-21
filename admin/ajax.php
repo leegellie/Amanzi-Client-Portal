@@ -826,9 +826,6 @@ if ($action=="get_materials_needed") {
 		}
 		$head_arr .= '
 		</div>
-		<div class="col-1">
-			
-		</div>
 		<div class="col-9 col-md-8 text-primary">
 			<h3>' . $result['order_num'] . ' - ' . $result['job_name'] . '</h3>
 		</div>
