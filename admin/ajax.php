@@ -963,6 +963,7 @@ if ($action=="get_materials_needed") {
 					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(' . $result['pid'] . ','. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
 					<div id="' . $result['id'] . '" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
 				</div>
+			</div>
 			<hr>';
 		return $head_arr;
 	}
@@ -970,16 +971,12 @@ if ($action=="get_materials_needed") {
 	function show_pull($result, $status) {
 		$tmp_arr = '
 			<div class="col-12">
-				<div class="container d-md-flex">
-					<div class="col-md-2">Slabs: <strong>' . $result['mat_slabs'] . '</strong></div>
-					<div class="col-md-3">Color: <strong>' . $result['color'] . '</strong></div>
-					<div class="col-md-3">Lot: <strong>' . $result['lot'] . '</strong></div>
-				</div>
+				<div class="col-md-2">Slabs: <strong>' . $result['mat_slabs'] . '</strong></div>
+				<div class="col-md-3">Color: <strong>' . $result['color'] . '</strong></div>
+				<div class="col-md-3">Lot: <strong>' . $result['lot'] . '</strong></div>
 			</div>
 			<div class="col-12">
-				<div class="container d-md-flex">
-					<div class="col-md-3">Assigned Material: <strong>' . $result['assigned_material'] . '</strong></div>
-				</div>
+				<div class="col-md-3">Assigned Material: <strong>' . $result['assigned_material'] . '</strong></div>
 			</div>'; 
 		return $tmp_arr;
 	}
