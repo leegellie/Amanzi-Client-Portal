@@ -921,9 +921,7 @@ if ($action=="get_materials_needed") {
 					<div class="col-2 text-danger"><b>MATERIALS ON HOLD</b></div>
 					<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_release_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Release Hold <i class="fas fa-ban"></i></div>
 				</div>'; 
-			}
 		}
-
 		return $tmp_arr;
 	}
 
