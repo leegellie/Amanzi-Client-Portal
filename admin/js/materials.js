@@ -58,7 +58,7 @@ function add_marble(e) {
 			location.reload(true);
 		},
 		error: function(data) {
-			console.log('add_marble: ' data);
+			console.log('add_marble: ' + data);
 		},
 		complete: function() {
 			$('.btn').show();
@@ -79,7 +79,7 @@ function delete_marble(marbId) {
 				alert('Material deleted.');
 			},
 			error: function(data) {
-				console.log('delete_marble: ' data);
+				console.log('delete_marble: ' + data);
 			},
 			complete: function() {
 			}
