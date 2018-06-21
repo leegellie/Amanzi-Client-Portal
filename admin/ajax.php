@@ -786,9 +786,7 @@ if ($action=="get_materials_needed") {
 	echo '</ul>';
 	echo '<div class="tab-content w-100" id="myTabContent">';
 	$tmp = array();
-	//Get the projects between with job_status > 10 and job_status < 50
-	$pjts = $search->get_materials();
-	
+	$pjts = $search->get_materials(); //Get the projects between with job_status > 10 and job_status < 50
 	//GROUP THE $pjts BY JOB NAME
 	foreach($pjts as $pjt) {
 		$tmp[$pjt['job_name']][] = $pjt;
@@ -802,7 +800,7 @@ if ($action=="get_materials_needed") {
 	}
 
 	$pull_array = array();
-	$pull_list = $search->get_pull_list();
+	$pull_list = $search->get_pull_list(); //Get the projects between with job_status > 10 and job_status < 50
 	foreach($pull_list as $pjt) {
 		$pull_array[$pjt['job_name']][] = $pjt;
 	}
@@ -814,7 +812,7 @@ if ($action=="get_materials_needed") {
 		);
 	}
 	//GROUP BY END
-	
+
 	function show_pjt_head($result) {
 		$head_arr = '
 			<div class="w-100 d-flex">
@@ -822,11 +820,7 @@ if ($action=="get_materials_needed") {
 				<div class="col-md-1 hidden-md-down"><h4>' . $result['quote_num'] . '</h4></div>
 				<div class="col-md-1 hidden-md-down"><h4>' . $result['order_num'] . '</h4></div>
 				<div class="col-3 col-md-2 text-right">
-					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(';
-		$head_arr .= "'#instDetails'";
-		$head_arr .= ').html(';
-		$head_arr .= "''";
-		$head_arr .= ');viewThisProject(this.id,'. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
+					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,'. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
 				</div>
 			</div>
 			<div class="w-100 d-flex">
@@ -836,7 +830,7 @@ if ($action=="get_materials_needed") {
 			<hr>';
 		return $head_arr;
 	}
-	
+
 	function show_pjts($result, $status) {
 		$tmp_arr = '
 			<div class="col-12">
@@ -852,10 +846,10 @@ if ($action=="get_materials_needed") {
 					<div class="col-md-5">Color: <strong>' . $result['color'] . '</strong></div>
 					<div class="col-md-5">Lot: <strong>' . $result['lot'] . '</strong></div>
 				</div>
-				<hr>';
+				<hr>
+				<div class="container d-flex">';  
 		if ($result['mat_hold'] == 1) {
-			$tmp_arr .= '
-				<div class="container d-flex">
+				$tmp_arr .= '
 						<div class="col-7 text-danger"><b>MATERIALS ON HOLD</b></div>
 						<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_release_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Release Hold <i class="fas fa-ban"></i></div>
 					</div>
@@ -904,13 +898,10 @@ if ($action=="get_materials_needed") {
 	function show_pull_head($result) {
 		$head_arr = '
 			<div class="w-100 d-flex">
-				<div class="col-md-1"><h3>';
-		$head_arr = format_date($result['install_date']);
-		$head_arr = '</h3></div>
+				<div class="col-md-2"><h4>' . format_date($result['install_date']) . '</h4></div>
 				<div class="col-9 col-md-8 text-primary"><h3>' . $result['order_num'] . ' - ' . $result['job_name'] . '</h3></div>
-				<div class="col-2 col-md-3 text-right">
-					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(' . $result['pid'] . ','. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
-					<div id="' . $result['id'] . '" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
+				<div class="col-2 col-md-2 text-right">
+					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,'. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
 				</div>
 			</div>
 			<hr>';
@@ -923,16 +914,25 @@ if ($action=="get_materials_needed") {
 				<div class="container d-md-flex">
 					<div class="col-md-2">Slabs: <strong>' . $result['mat_slabs'] . '</strong></div>
 					<div class="col-md-3">Color: <strong>' . $result['color'] . '</strong></div>
-					<div class="col-md-3">Lot: <strong>' . $result['lot'] . '</strong></div>
+					<div class="col-md-3">Lot: <strong>' . $result['lot'] . '</strong></div>';
+		if ($result['mat_hold'] == 1) {
+			$tmp_arr .= '
+					<div class="col-2 text-danger"><b>MATERIALS ON HOLD</b></div>
+					<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_release_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Release Hold <i class="fas fa-ban"></i></div>
+				</div>'; 
+			} else {
+				$tmp_arr .= '
+					<div class="col-4 text-right">
+						<div id="' . $result['id'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,' . $result['uid'] . ');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
+						<div id="' . $result['id'] . '" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
+					</div>
 				</div>
 			</div>
-			<div class="col-12">
-				<div class="container d-md-flex">
-					<div class="col-md-3">Assigned Material: <strong>' . $result['assigned_material'] . '</strong></div>
-				</div>
-			</div>'; 
+			<hr>'; 
+		}
 		return $tmp_arr;
 	}
+
 
 	function getminstatus($pjts, $field, $value) {
 		foreach($pjts as $key => $pjt) {
@@ -987,11 +987,11 @@ if ($action=="get_materials_needed") {
 	echo $third_tab . '</div>';
 
 	foreach($pullbymaterialsbyname as $results) {
-		$index = 0;
+		$index1 = 0;
 		foreach($results['detail'] as $result){
-			if($index == 0) {
+			if($index1 == 0) {
 				$fourth_tab .= show_pull_head($result);
-				$index++;
+				$index1++;
 			}
 			$fourth_tab .= show_pull($result,$status);
 		}
