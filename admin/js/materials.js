@@ -324,7 +324,9 @@ $(document).ready(function() {
     });
 
     $("#materialBtn").click(function() {
+		console.log("start");
         var datastring = "action=get_materials_needed";
+		console.log("datastring: " + datastring);
         $.ajax({
             type: "POST",
             url: "ajax.php",
@@ -333,7 +335,7 @@ $(document).ready(function() {
                 $('#matResults').html(data);
             },
             error: function(data) {
-                alert('materialBtn: ' data);
+                alert(data);
             }
         });
     });
