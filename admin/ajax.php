@@ -878,7 +878,9 @@ if ($action=="get_materials_needed") {
 			</div>
 		</div>
 	</div>
-	<hr>';
+	<hr>
+	<div class="container d-flex">
+		<div class="col-12">';
 		if ($result['mat_hold'] == 1) {
 			$tmp_arr .= '
 	<div class="container d-flex">
@@ -888,10 +890,7 @@ if ($action=="get_materials_needed") {
 		<div class="col-2 btn btn-sm btn-danger mr-2" onclick="mat_release_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">
 			Release Hold <i class="fas fa-ban"></i>
 		</div>
-	</div>
-	<hr>
-	<div class="container d-flex">
-		<div class="col-12">';
+	</div>';
 		} else {
 			if ($result['material_status'] == 1) {
 				$tmp_arr .= '
