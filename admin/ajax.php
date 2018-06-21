@@ -818,27 +818,19 @@ if ($action=="get_materials_needed") {
 	function show_pjt_head($result) {
 		$head_arr = '
 	<div class="w-100 d-flex">
+		<div class="col-1">
+			T:<b>'. format_date($result['template_date']) . '</b>
+		</div>
+		<div class="col-1">
+			I: <b>' . format_date($result['install_date']) . '</b>
+		</div>
 		<div class="col-9 col-md-8 text-primary">
-			<h3>' . $result['job_name'] . '</h3>
-		</div>
-		<div class="col-md-1 hidden-md-down">
-			<h4>' . $result['quote_num'] . '</h4>
-		</div>
-		<div class="col-md-1 hidden-md-down">
-			<h4>' . $result['order_num'] . '</h4>
+			<h3>' . $result['order_num'] . ' - ' . $result['job_name'] . '</h3>
 		</div>
 		<div class="col-3 col-md-2 text-right">
 			<div class="btn btn-sm btn-primary" id="' . $result['pid'] . '" onclick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,'. $result['uid'] .');">
 				<span class="hidden-md-down">View</span> <i class="fas fa-eye"></i>
 			</div>
-		</div>
-	</div>
-	<div class="w-100 d-flex">
-		<div class="col-6">
-			Template Date: <b>'. format_date($result['template_date']) . '</b>
-		</div>
-		<div class="col-6">
-			Install Date: <b>' . format_date($result['install_date']) . '</b>
 		</div>
 	</div>
 	<hr>';
