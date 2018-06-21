@@ -890,7 +890,6 @@ if ($action=="get_materials_needed") {
 			if ($result['material_status'] == 1) {
 				$tmp_arr .= '
 	<div class="container d-flex">
-		<div class="col-7 text-danger">
 			<div class="col-5 text-danger">
 				<b>'. $status . '</b>
 			</div>
@@ -906,13 +905,11 @@ if ($action=="get_materials_needed") {
 			<div class="col-2 btn btn-sm btn-danger mr-2" onclick="mat_hold_modal(' . $_SESSION['id'] . ',' . $result['id'] . ',' . $result['pid'] . ')">
 				Material Hold <i class="fas fa-ban"></i>
 			</div>
-		</div>
 	</div>
 	<hr>';
 			} else if ($result['material_status'] == 2) {
 				$tmp_arr .= '
 	<div class="container d-flex">
-		<div class="col-7 text-danger">
 			<div class="col-5 text-success">
 				<b>'. $status .date("Y-m-d",strtotime($result['material_date'])).'</b>
 			</div>
@@ -925,13 +922,11 @@ if ($action=="get_materials_needed") {
 			<div class="col-2 btn btn-sm btn-danger mr-2" onclick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">
 				Material Hold <i class="fas fa-ban"></i>
 			</div>
-		</div>
 	</div>
 	<hr>';
 			} else if ($result['material_status'] == 3) {
 				$tmp_arr .= '
 	<div class="container d-flex">
-		<div class="col-7 text-danger">
 			<div class="col-5 text-primary">
 				<b>Status: Materials On Hand</b>
 			</div>
@@ -941,20 +936,17 @@ if ($action=="get_materials_needed") {
 			<div class="col-2 btn btn-sm btn-danger mr-2" onclick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">
 				Material Hold <i class="fas fa-ban"></i>
 			</div>
-		</div>
 	</div>
 	<hr>';
 			} else if ($result['material_status'] == 4) {
 				$tmp_arr .= '
 	<div class="container d-flex">
-		<div class="col-7 text-danger">
 			<div class="col-10 text-muted">
 				<b>Status: Materials not needed.</b>
 			</div>
 			<div class="col-2 btn btn-sm btn-danger mr-2" onclick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">
 				Material Hold <i class="fas fa-ban"></i>
 			</div>
-		</div>
 	</div>
 	<hr>';
 			}
