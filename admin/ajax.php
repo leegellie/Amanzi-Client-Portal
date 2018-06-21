@@ -4844,9 +4844,10 @@ if ($action=="view_selected_pjt") {
 			if ($results['job_status'] == 22) {
 				$html .= $rejectSale;
 				if ($approval == 0){
+					$alertText;
 					$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',23)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
 				} else {
-					$alertText
+					$alertText;
 					$html .= '<div class="btn btn-sm btn-muted float-right" onClick="alert(\'Approval is needed before this job can progress.\')" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
 				}
 			}
@@ -4856,7 +4857,7 @@ if ($action=="view_selected_pjt") {
 					$html .= '<div class="btn btn-sm btn-success float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',25)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Approved</div>';
 					$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',24)" style="cursor:pointer"><i class="fas fa-check"></i> Quote to Alter</div>';
 				} else {
-					$alertText
+					$alertText;
 					$html .= '<div class="btn btn-sm btn-muted float-right" onClick="alert(\'Approval is needed before this job can progress.\')" style="cursor:pointer"><i class="fas fa-check"></i> Quote Approved</div>';
 					$html .= '<div class="btn btn-sm btn-muted float-right" onClick="alert(\'Approval is needed before this job can progress.\')" style="cursor:pointer"><i class="fas fa-check"></i> Quote to Alter</div>';
 				}
