@@ -4810,7 +4810,7 @@ if ($action=="view_selected_pjt") {
 
 
 		$approval = 0;
-		if (round($results['mngr_approved_price'],2) != round($price_tax,2) || $profit < 100) {
+		if (($results['mngr_approved'] == 1 && round($results['mngr_approved_price'],2) != round($price_tax,2)) || ($results['mngr_approved'] == 0 && $profit < 100)) {
 			$approval = 1;
 		}
 
