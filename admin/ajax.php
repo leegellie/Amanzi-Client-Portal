@@ -963,8 +963,7 @@ if ($action=="get_materials_needed") {
 					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(' . $result['pid'] . ','. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
 					<div id="' . $result['id'] . '" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
 				</div>
-			</div>
-			<hr>';
+			</div>';
 		return $head_arr;
 	}
 
@@ -1043,7 +1042,7 @@ if ($action=="get_materials_needed") {
 			$fourth_tab .= show_pull($result,$status);
 		}
 	}
-	echo $fourth_tab . '</div>';
+	echo $fourth_tab . '<hr></div>';
 
 ?>
 	<hr>
