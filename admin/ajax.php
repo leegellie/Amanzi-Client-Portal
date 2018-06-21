@@ -926,7 +926,6 @@ if ($action=="get_materials_needed") {
 		return $tmp_arr;
 	}
 
-
 	function getminstatus($pjts, $field, $value) {
 		foreach($pjts as $key => $pjt) {
 			if ( $pjt[$field] === $value ) {
@@ -980,11 +979,11 @@ if ($action=="get_materials_needed") {
 	echo $third_tab . '</div>';
 
 	foreach($pullbymaterialsbyname as $results) {
-		$index1 = 0;
+		$index = 0;
 		foreach($results['detail'] as $result){
-			if($index1 == 0) {
+			if($index == 0) {
 				$fourth_tab .= show_pull_head($result);
-				$index1++;
+				$index++;
 			}
 			$fourth_tab .= show_pull($result,$status);
 		}
