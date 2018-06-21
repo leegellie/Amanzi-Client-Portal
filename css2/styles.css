@@ -2,6 +2,46 @@
 @import 'font-awesome.css';
 @import 'bootstrap-combobox.css';
 
+.nav-justified {
+	width: 100%;
+	border-bottom: 0;
+}
+.nav-justified .nav-item {
+	float: none;
+}
+.nav-justified .nav-link {
+	text-align: center;
+	margin-bottom: 5px;
+}
+.nav-justified>.dropdown .dropdown-menu {
+	top: auto;
+	left: auto;
+}
+@media (min-width: 544px) {
+	.nav-justified .nav-item {
+		display: table-cell;
+		width: 1%;
+	}
+	.nav-justified .nav-link {
+		margin-bottom: 0;
+	}
+}
+.nav-justified .nav-link {
+	margin-right: 0;
+	border-radius: 0.25rem;
+}
+.nav-justified .nav-link.active, .nav-justified .nav-link.active:hover, .nav-justified .nav-link.active:focus {
+	border: 1px solid #ddd;
+}
+@media (min-width: 544px) {
+	.nav-justified .nav-link {
+		border-bottom: 1px solid #ddd;
+		border-radius: 0.25rem 0.25rem 0 0;
+	}
+	.nav-justified .nav-link.active, .nav-justified .nav-link.active:hover, .nav-justified .nav-link.active:focus {
+		border-bottom-color: #fff;
+	}
+}
 
 [data-toggle="collapse"]:after {
 	display: inline-block;
