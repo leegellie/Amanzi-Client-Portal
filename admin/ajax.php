@@ -786,7 +786,9 @@ if ($action=="get_materials_needed") {
 	echo '</ul>';
 	echo '<div class="tab-content w-100" id="myTabContent">';
 	$tmp = array();
-	$pjts = $search->get_materials(); //Get the projects between with job_status > 10 and job_status < 50
+	//Get the projects between with job_status > 10 and job_status < 50
+	$pjts = $search->get_materials();
+	
 	//GROUP THE $pjts BY JOB NAME
 	foreach($pjts as $pjt) {
 		$tmp[$pjt['job_name']][] = $pjt;
@@ -800,7 +802,7 @@ if ($action=="get_materials_needed") {
 	}
 
 	$pull_array = array();
-	$pull_list = $search->get_pull_list(); //Get the projects between with job_status > 10 and job_status < 50
+	$pull_list = $search->get_pull_list();
 	foreach($pull_list as $pjt) {
 		$pull_array[$pjt['job_name']][] = $pjt;
 	}
@@ -820,7 +822,11 @@ if ($action=="get_materials_needed") {
 				<div class="col-md-1 hidden-md-down"><h4>' . $result['quote_num'] . '</h4></div>
 				<div class="col-md-1 hidden-md-down"><h4>' . $result['order_num'] . '</h4></div>
 				<div class="col-3 col-md-2 text-right">
-					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,'. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
+					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(';
+		$head_arr .= "'#instDetails'";
+		$head_arr .= ').html(';
+		$head_arr .= "''";
+		$head_arr .= ');viewThisProject(this.id,'. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
 				</div>
 			</div>
 			<div class="w-100 d-flex">
