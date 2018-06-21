@@ -325,6 +325,8 @@ class login {
 			header('Location: /admin/projects.php?templates');
 		} elseif ($accessLevel->get_results('access_level') == 5) {
 			header('Location: /admin/projects.php?programming');
+		} elseif ($accessLevel->get_results('access_level') == 6) {
+			header('Location: /admin/materials.php');
 		} elseif ($accessLevel->get_results('access_level') == 7) {
 			header('Location: /admin/projects.php?saw');
 		} elseif ($accessLevel->get_results('access_level') == 8) {

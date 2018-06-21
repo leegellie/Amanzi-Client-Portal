@@ -18,6 +18,8 @@ if ($access_level < 11) {
 			$link = '/admin/projects.php?templates';
 		} elseif ($access_level == 5) {
 			$link = '/admin/projects.php?programming';
+		} elseif ($access_level == 6) {
+			$link = '/admin/materials.php';
 		} elseif ($access_level == 7) {
 			$link = '/admin/projects.php?saw';
 		} elseif ($access_level == 8) {
