@@ -818,11 +818,16 @@ if ($action=="get_materials_needed") {
 	function show_pjt_head($result) {
 		$head_arr = '
 	<div class="w-100 d-flex">
-		<div class="col-1">
-			T:<b>'. format_date($result['template_date']) . '</b>
+		<div class="col-2">';
+		if ($result['install_date'] != '2200-01-01'){
+			$head_arr .= '<h4>' . format_date($result['install_date']) . '</h4>';
+		} else {
+			$head_arr .= '<h4>T:' . format_date($result['template_date']) . '</h4>';
+		}
+		$head_arr .= '
 		</div>
 		<div class="col-1">
-			I: <b>' . format_date($result['install_date']) . '</b>
+			
 		</div>
 		<div class="col-9 col-md-8 text-primary">
 			<h3>' . $result['order_num'] . ' - ' . $result['job_name'] . '</h3>
