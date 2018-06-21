@@ -1029,19 +1029,18 @@ if ($action=="get_materials_needed") {
 		foreach($results['detail'] as $result){
 			if ( !($result['install_date'] == '2200-01-01') ) {
 				if($index == 0) {
+					$fourth_tab .= '<hr>';
 					$fourth_tab .= show_pull_head($result);
 					$index++;
 				}
 				$fourth_tab .= show_pull($result,$status);
 			}
 		}
-		$fourth_tab .= '<hr>';
 	}
 	echo $fourth_tab . '</div>';
 
 ?>
 	<hr>
-
 <?
 
 	echo '<div id="mSaw" class="tab-pane fade" role="tabpanel" aria-labelledby="mSaw-tab">';
