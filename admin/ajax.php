@@ -812,7 +812,7 @@ if ($action=="get_materials_needed") {
 		);
 	}
 	//GROUP BY END
-
+	
 	function show_pjt_head($result) {
 		$head_arr = '
 			<div class="w-100 d-flex">
@@ -830,7 +830,7 @@ if ($action=="get_materials_needed") {
 			<hr>';
 		return $head_arr;
 	}
-
+	
 	function show_pjts($result, $status) {
 		$tmp_arr = '
 			<div class="col-12">
@@ -846,10 +846,10 @@ if ($action=="get_materials_needed") {
 					<div class="col-md-5">Color: <strong>' . $result['color'] . '</strong></div>
 					<div class="col-md-5">Lot: <strong>' . $result['lot'] . '</strong></div>
 				</div>
-				<hr>
-				<div class="container d-flex">';  
+				<hr>';
 		if ($result['mat_hold'] == 1) {
-				$tmp_arr .= '
+			$tmp_arr .= '
+				<div class="container d-flex">
 						<div class="col-7 text-danger"><b>MATERIALS ON HOLD</b></div>
 						<div class="col-2 btn btn-sm btn-danger mr-2" onClick="mat_release_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Release Hold <i class="fas fa-ban"></i></div>
 					</div>
@@ -923,7 +923,6 @@ if ($action=="get_materials_needed") {
 					<div class="col-md-3">Assigned Material: <strong>' . $result['assigned_materials'] . '</strong></div>
 				</div>
 			</div>'; 
-		}
 		return $tmp_arr;
 	}
 
