@@ -842,7 +842,9 @@ if ($action=="get_materials_needed") {
 			Install Date: <b>' . format_date($result['install_date']) . '</b>
 		</div>
 	</div>
-	<hr>';
+	<hr>
+	<div class="container d-flex">
+		<div class="col-12">';
 		return $head_arr;
 	}
 	
@@ -878,9 +880,7 @@ if ($action=="get_materials_needed") {
 			</div>
 		</div>
 	</div>
-	<hr>
-	<div class="container d-flex">
-		<div class="col-12">';
+	<hr>';
 		if ($result['mat_hold'] == 1) {
 			$tmp_arr .= '
 	<div class="container d-flex">
