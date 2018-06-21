@@ -1029,7 +1029,7 @@ if ($action=="get_materials_needed") {
 		foreach($results['detail'] as $result){
 			if ( !($result['install_date'] == '2200-01-01') ) {
 				$job_status = $result['job_status'];
-				$lastDigit = substr($job_status, -2);
+				$lastDigit = substr($job_status, -1);
 				if ( !(lastDigit == 9) ) {
 					if($index == 0) {
 						$fourth_tab .= '<hr>';
