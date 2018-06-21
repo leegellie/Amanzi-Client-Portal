@@ -801,18 +801,18 @@ if ($action=="get_materials_needed") {
 		);
 	}
 
-	$pull_array = array();
-	$pull_list = $search->get_pull_list();
-	foreach($pull_list as $pjt) {
-		$pull_array[$pjt['job_name']][] = $pjt;
-	}
-	$pullbymaterialsbyname = array();
-	foreach($pull_array as $type => $labels) {
-		$pullbymaterialsbyname[] = array(
-			'job_name' => $type,
-			'detail' => $labels
-		);
-	}
+//	$pull_array = array();
+//	$pull_list = $search->get_pull_list();
+//	foreach($pull_list as $pjt) {
+//		$pull_array[$pjt['job_name']][] = $pjt;
+//	}
+//	$pullbymaterialsbyname = array();
+//	foreach($pull_array as $type => $labels) {
+//		$pullbymaterialsbyname[] = array(
+//			'job_name' => $type,
+//			'detail' => $labels
+//		);
+//	}
 	//GROUP BY END
 	
 	function show_pjt_head($result) {
@@ -982,16 +982,16 @@ if ($action=="get_materials_needed") {
 	echo $second_tab . '</div>';
 	echo $third_tab . '</div>';
 
-	foreach($pullbymaterialsbyname as $results) {
-		$index = 0;
-		foreach($results['detail'] as $result){
-			if($index == 0) {
-				$fourth_tab .= show_pull_head($result);
-				$index++;
-			}
-			$fourth_tab .= show_pull($result,$status);
-		}
-	}
+//	foreach($pullbymaterialsbyname as $results) {
+//		$index = 0;
+//		foreach($results['detail'] as $result){
+//			if($index == 0) {
+//				$fourth_tab .= show_pull_head($result);
+//				$index++;
+//			}
+//			$fourth_tab .= show_pull($result,$status);
+//		}
+//	}
 	echo $fourth_tab . '</div>';
 
 ?>
