@@ -767,7 +767,7 @@ if ($action=="get_materials_needed") {
 	$search = new materials_action;
 	echo "<hr>";
 	echo '<div id="resultsTable1" class="row striped">';
-	echo '<ul class="nav nav-tabs w-100 mb-3" id="myTab" role="tablist">';
+	echo '<ul class="nav nav-tabs nav-justified w-100 mb-3" id="myTab" role="tablist">';
 	echo '<li class="nav-item">';
 	echo '<a class="nav-link active" id="toOrder-tab" data-toggle="tab" href="#toOrder" role="tab" aria-controls="toOrder" aria-selected="true"><h5>To Order/Schedule</h5></a>';
 	echo '</li>';
