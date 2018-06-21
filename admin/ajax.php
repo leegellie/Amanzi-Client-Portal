@@ -786,9 +786,7 @@ if ($action=="get_materials_needed") {
 	echo '</ul>';
 	echo '<div class="tab-content w-100" id="myTabContent">';
 	$tmp = array();
-	//Get the projects between with job_status > 10 and job_status < 50
-	$pjts = $search->get_materials();
-	
+	$pjts = $search->get_materials(); //Get the projects between with job_status > 10 and job_status < 50
 	//GROUP THE $pjts BY JOB NAME
 	foreach($pjts as $pjt) {
 		$tmp[$pjt['job_name']][] = $pjt;
@@ -802,7 +800,7 @@ if ($action=="get_materials_needed") {
 	}
 
 	$pull_array = array();
-	$pull_list = $search->get_pull_list();
+	$pull_list = $search->get_pull_list(); //Get the projects between with job_status > 10 and job_status < 50
 	foreach($pull_list as $pjt) {
 		$pull_array[$pjt['job_name']][] = $pjt;
 	}
@@ -900,12 +898,10 @@ if ($action=="get_materials_needed") {
 	function show_pull_head($result) {
 		$head_arr = '
 			<div class="w-100 d-flex">
-				<div class="col-md-1"><h3>';
-		$head_arr = format_date($result['install_date']);
-		$head_arr = '</h3></div>
+				<div class="col-md-1"><h3>' . format_date($result['install_date']) . '</h3></div>
 				<div class="col-9 col-md-8 text-primary"><h3>' . $result['order_num'] . ' - ' . $result['job_name'] . '</h3></div>
 				<div class="col-2 col-md-3 text-right">
-					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(' . $result['pid'] . ','. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
+					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,'. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
 					<div id="' . $result['id'] . '" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
 				</div>
 			</div>
@@ -924,11 +920,13 @@ if ($action=="get_materials_needed") {
 			</div>
 			<div class="col-12">
 				<div class="container d-md-flex">
-					<div class="col-md-3">Assigned Material: <strong>' . $result['assigned_material'] . '</strong></div>
+					<div class="col-md-3">Assigned Material: <strong>' . $result['assigned_materials'] . '</strong></div>
 				</div>
 			</div>'; 
+		}
 		return $tmp_arr;
 	}
+
 
 	function getminstatus($pjts, $field, $value) {
 		foreach($pjts as $key => $pjt) {
@@ -983,11 +981,11 @@ if ($action=="get_materials_needed") {
 	echo $third_tab . '</div>';
 
 	foreach($pullbymaterialsbyname as $results) {
-		$index = 0;
+		$index1 = 0;
 		foreach($results['detail'] as $result){
-			if($index == 0) {
+			if($index1 == 0) {
 				$fourth_tab .= show_pull_head($result);
-				$index++;
+				$index1++;
 			}
 			$fourth_tab .= show_pull($result,$status);
 		}
