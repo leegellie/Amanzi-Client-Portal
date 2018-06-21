@@ -1027,7 +1027,7 @@ if ($action=="get_materials_needed") {
 	foreach($pullbymaterialsbyname as $results) {
 		$index = 0;
 		foreach($results['detail'] as $result){
-			if ( !($result['install_date'] == '2200-01-01' && $result['lot'] < 1) ) {
+			if ( !($result['install_date'] == '2200-01-01') ) {
 				if($index == 0) {
 					$fourth_tab .= show_pull_head($result);
 					$index++;
