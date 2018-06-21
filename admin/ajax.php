@@ -1028,12 +1028,16 @@ if ($action=="get_materials_needed") {
 		$index = 0;
 		foreach($results['detail'] as $result){
 			if ( !($result['install_date'] == '2200-01-01') ) {
-				if($index == 0) {
-					$fourth_tab .= '<hr>';
-					$fourth_tab .= show_pull_head($result);
-					$index++;
+				$job_status = $result['job_status'];
+				$lastDigit = substr($job_status, -2);
+				if ( !(lastDigit == 9) ) {
+					if($index == 0) {
+						$fourth_tab .= '<hr>';
+						$fourth_tab .= show_pull_head($result);
+						$index++;
+					}
+					$fourth_tab .= show_pull($result,$status);
 				}
-				$fourth_tab .= show_pull($result,$status);
 			}
 		}
 	}
