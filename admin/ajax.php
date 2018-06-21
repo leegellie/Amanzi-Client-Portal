@@ -4859,7 +4859,7 @@ if ($action=="view_selected_pjt") {
 				} else {
 					$alertText;
 					$html .= '<div class="btn btn-sm btn-muted float-right" onClick="alert(\'Approval is needed before this job can progress.\')" style="cursor:pointer"><i class="fas fa-check"></i> Quote Approved</div>';
-					$html .= '<div class="btn btn-sm btn-muted float-right" onClick="alert(\'Approval is needed before this job can progress.\')" style="cursor:pointer"><i class="fas fa-check"></i> Quote to Alter</div>';
+					$html .= '<div class="btn btn-sm btn-warning float-right" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',24)" style="cursor:pointer"><i class="fas fa-check"></i> Quote to Alter</div>';
 				}
 			}
 			if ($results['job_status'] == 24) {
