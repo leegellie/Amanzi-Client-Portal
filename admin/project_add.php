@@ -44,11 +44,11 @@
 											<input class="filled-in mr-4" name="pick_up" id="pick_up" type="checkbox" value="1">
 											<label for="pick_up" class="text-left">Customer Pick Up</label>
 										</fieldset>
-										<fieldset class="form-group col-4 col-md-3 text-left">
+										<fieldset class="form-group col-4 col-md-2 text-left">
 											<input class="filled-in mr-4" name="call_out_fee" id="call_out_fee" type="checkbox" value="1">
 											<label for="call_out_fee" class="text-left">Call Out Fee</label>
 										</fieldset>
-										<fieldset class="form-group col-4 col-md-3 text-left">
+										<fieldset class="form-group col-4 col-md-2 text-left">
 											<label for="responsible" class="text-left">Who is responsible</label>
 											<select class="mdb-select" name="responsible" id="responsible">
 												<option value="0" disabled>Select one</option>
@@ -75,7 +75,7 @@
 												<div class="input-group mb-3">
 													<input type="text" class="form-control" aria-label="Original Job Number" aria-describedby="search_jobs">
 													<div class="input-group-append">
-														<span class="input-group-text" id="search_jobs"><i class="search-icon"></i></span>
+														<span class="input-group-text" id="search_jobs"><i class="icon-search"></i></span>
 													</div>
 												</div>
 											</div>
