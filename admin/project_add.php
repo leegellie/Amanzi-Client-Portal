@@ -44,8 +44,8 @@
 											<input class="filled-in mr-4" name="pick_up" id="pick_up" type="checkbox" value="1">
 											<label for="pick_up" class="text-left">Customer Pick Up</label>
 										</fieldset>
-										<fieldset class="form-group col-4 col-md-3 text-left">
-											<input class="filled-in mr-4" name="call_out_fee d-none" id="call_out_fee" type="checkbox" value="1">
+										<fieldset class="form-group col-4 col-md-3 text-left d-none">
+											<input class="filled-in mr-4" name="call_out_fee" id="call_out_fee" type="checkbox" value="1">
 											<label for="call_out_fee" class="text-left">Call Out Fee</label>
 										</fieldset>
 									</div>
