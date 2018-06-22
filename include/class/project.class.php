@@ -47,7 +47,7 @@ class project_action {
 		$q = $conn->prepare("
 			 SELECT	*
 			   FROM projects
-			  WHERE order_num LIKE 
+			  WHERE order_num LIKE :job
 		");
 		$card = $a['pid'] . '%';
 		$q->bindParam('job', $card);
