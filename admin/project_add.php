@@ -10,10 +10,10 @@
                     	</div>
                         <div id="project-block" class="content">
 							<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">
-								<li class="nav-item"><a class="nav-link active" data-toggle="tab" role="tab">New Project</a></li>
-								<li class="nav-item"><a class="nav-link" data-toggle="tab" role="tab">Repair</a></li>
-								<li class="nav-item"><a class="nav-link" data-toggle="tab" role="tab">Rework</a></li>
-								<li class="nav-item"><a class="nav-link" data-toggle="tab" role="tab">Addition</a></li>
+								<li class="nav-item"><a class="nav-link active text-white" data-toggle="tab" role="tab">New Project</a></li>
+								<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" role="tab">Repair</a></li>
+								<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" role="tab">Rework</a></li>
+								<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" role="tab">Addition</a></li>
 							</ul>
                             <form id="add_project" enctype="multipart/form-data">
 								<div class="container pb-3">
