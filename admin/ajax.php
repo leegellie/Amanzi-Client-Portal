@@ -111,7 +111,7 @@ function get_holidays() {
 if ($action=="lookup_jobs") {
 	unset($_POST['action']);
 	$lookup_jobs = new project_action;
-	$jobs = $lookup_jobs -> lookup_jobs($_POST)
+	$jobs = $lookup_jobs -> lookup_jobs($_POST);
 //	foreach($lookup_jobs -> lookup_jobs($_POST) as $results) {
 //		$jobs .= $results['uid'] . '::' . $results['uCompany'] . '::' . $results['uFname'] . '::' . $results['uLname'] . '::' . $results['job_name'] . '::' . $results['order_num'] . '::' . $results['acct_rep'] . '::' . $results['builder'] . '::' . $results['address_1'] . '::' . $results['address_2'] . '::' . $results['city'] . '::' . $results['state'] . '::' . $results['zip'] . '::' . $results['contact_name'] . '::' . $results['contact_number'] . '::' . $results['contact_email'] . '::' . $results['alternate_name'] . '::' . $results['alternate_number'] . '::' . $results['alternate_email'] . '||';
 //	}
