@@ -41,7 +41,7 @@ function statusChange(user,pjt,status) {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log(data);
+			////console.log(data);
 			Command: toastr["success"]("Status Changed to " + JSON.stringify(data) + ".", "Projects")
 			toastr.options = {
 				"closeButton": true,
@@ -115,7 +115,7 @@ function job_hold() {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
 			Command: toastr["error"]("Job placed on HOLD.", "Projects")
 			toastr.options = {
 				"closeButton": true,
@@ -169,7 +169,7 @@ function mat_hold() {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
 			Command: toastr["error"]("Material placed on HOLD.", "Projects")
 			toastr.options = {
 				"closeButton": true,
@@ -228,7 +228,7 @@ function mat_release() {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
 			Command: toastr["error"]("Material Released from HOLD.", "Projects")
 			toastr.options = {
 				"closeButton": true,
@@ -298,7 +298,7 @@ function recalculate($cpSqFt) {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
 		},
 		error: function(data) {
 			console.log(data);
@@ -313,7 +313,7 @@ function update_inst_dicounts(pid) {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
 		},
 		error: function(data) {
 			console.log(data);
@@ -363,7 +363,7 @@ function update_discounts($access_level) {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
 			$('#custDiscount').text('');
 			$('#mDisc').val(0);
 			$('#qDisc').val(0);
@@ -388,7 +388,7 @@ function quartzcalc($mat, $price) {
 	var $SqFt = $($form).find('input[name=SqFt]').val();
 	var $slabs = $($form).find('input[name=slabs]').val();
 	var $cpSqFt_override = $($form).find('input[name=cpSqFt_override]').val();
-	console.log($cpSqFt_override);
+	//console.log($cpSqFt_override);
 	if ($("#updateInstall").is(":visible") == true) {
 		datastring = 'action=quartz_sqft_calc_update&pid=' + $pid + '&color=' + $mat + '&iid=' + $iid;
 	} else {
@@ -438,7 +438,7 @@ function quartzcalc($mat, $price) {
 				url: "ajax.php",
 				data: datastring,
 				success: function(data) {
-					console.log('Update data: '+data);
+					//console.log('Update data: '+data);
 				}
 			});
 		},
@@ -459,7 +459,7 @@ function marbcalc($mat, $price) {
 	var $discounta = 100 - parseInt($('#pct').text());
 	var cpSqFt = Math.ceil($price);
 	var $cpSqFt_override = $($form).find('input[name=cpSqFt_override]').val();
-	console.log('CpSqFt: ' + Math.ceil(cpSqFt));
+	//console.log('CpSqFt: ' + Math.ceil(cpSqFt));
 
 	if ($cpSqFt_override > 0) {
 		cpSqFt = Math.ceil($cpSqFt_override);
@@ -471,7 +471,7 @@ function marbcalc($mat, $price) {
 		}
 	}
 	priceTotal = cpSqFt * $SqFt;
-	console.log('Total: ' + Math.ceil(priceTotal));
+	//console.log('Total: ' + Math.ceil(priceTotal));
 	$($form).find('input[name=price_calc]').val(priceTotal);
 	$($form).find('input[name=cpSqFt]').val(cpSqFt);
 }
@@ -485,14 +485,14 @@ function check_address() {
 	var $city = $('input[name=city]').val();
 	var $zip = $('input[name=zip]').val();
 	var datastring = 'action=get_address_geo&address_1=' + $add1 + '&address_2=' + $add2 + '&city=' + $city + '&zip=' + $zip;
-	console.log(datastring);
+	//console.log(datastring);
 
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
 			var res = data.split("::");
 
 			if (data == 'Failed') {
@@ -606,7 +606,7 @@ function delete_install(iid,pid,instName) {
 			url: "ajax.php",
 			data: datastring,
 			success: function(data) {
-				console.log(data);
+				//console.log(data);
 				viewThisProject($pid,$uid);
 			},
 			error: function(data) {
@@ -686,7 +686,7 @@ function editSink(sink_id, sink_iid, sink_part, sink_model, sink_mount, sink_pro
 function deleteSink(isid) {
 	if (window.confirm("Are you sure you want to delete this sink from the Database?")) {
 		var datastring = 'action=delete_sink&isid=' + isid + '&iid=' + $iid;
-		console.log(datastring);
+		//console.log(datastring);
 		$.ajax({
 			type: "POST",
 			url: "ajax.php",
@@ -851,13 +851,13 @@ function add_sink(form) {
 					 '&cutout_price=' + $cPrice +
 					 '&sink_cost=' + $sCost +
 					 '&sink_name=' + $sink_name;
-	console.log(datastring);
+	//console.log(datastring);
 	$.ajax({
 		url: 'ajax.php',
 		data: datastring,
 		type: 'POST',
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
 			$('#sink_provided').val(0);
 			$('#sink_faucet').val('');
 			$('#sink_model').val('');
@@ -906,7 +906,7 @@ function add_sink(form) {
 			console.log(data);
 		}, 
 		complete: function(data) {
-			console.log(data);
+			//console.log(data);
 			$('#add_sink').modal('hide');
 			recalculateInstall($iid);
 		}
@@ -960,7 +960,7 @@ function update_sink(form) {
 	if ($model < 1 || $model == null) {
 		$model = 0;
 	} 
-	console.log($model);
+	//console.log($model);
 	var datastring = 'action=update_sink' +
 					 '&sink_id=' + $sink_id +
 					 '&sink_iid=' + $iid +
@@ -977,13 +977,13 @@ function update_sink(form) {
 					 '&cutout_price=' + $cPrice +
 					 '&sink_cost=' + $sCost +
 					 '&sink_name=' + $sink_name;
-	console.log(datastring);
+	//console.log(datastring);
 	$.ajax({
 		url: 'ajax.php',
 		data: datastring,
 		type: 'POST',
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
 			$('#edit_sink').modal('hide');
 		},
 		error: function(data) {
@@ -1125,9 +1125,9 @@ function addPiece(form) {
 //			}
 //		}
 	backsplash = Math.ceil((hBacksplash*wBacksplash)/144);
-	console.log(backsplash);
+	//console.log(backsplash);
 	SqFt = parseInt(SqFt) + backsplash;
-	console.log(SqFt);
+	//console.log(SqFt);
 	var riser = 0;
 //		if (hRiser == 0 || wRiser == 0) {
 //			if (hRiser != 0 || wRiser != 0) {
@@ -1143,7 +1143,7 @@ function addPiece(form) {
 //			}
 //		}
 	riser = Math.ceil((hRiser*wRiser)/144);
-	console.log(riser);
+	//console.log(riser);
 	SqFt = parseInt(SqFt) + riser;
 	$(pForm).find('#SqFt').val(SqFt);
 	$(pForm).find('#iid').val(Math.ceil($iid));
@@ -1187,13 +1187,13 @@ function addPiece(form) {
 	} else {
 		datastring = "action=add_piece&size_x=" + size_x + "&size_y=" + size_y +"&size_a=" + size_a +"&size_b=" + size_b +"&size_c=" + size_c +"&size_d=" + size_d +"&size_e=" + size_e +"&size_f=" + size_f +"&SqFt=" + SqFt +"&iid=" + iid +"&pid=" + pid +"&piece_name=" + piece_name +"&shape=" + shape +"&piece_edge=" + piece_edge +"&edge_length=" + edge_length +"&bs_height=" + bs_height +"&bs_length=" + bs_length +"&rs_height=" + rs_height +"&rs_length=" + rs_length +"&price_extra=" + price_extra +"&pcSqFt=" + pcSqFt +"&piece_active=1";
 	}
-	console.log(datastring);
+	//console.log(datastring);
 	$.ajax({
 		url: 'ajax.php',
 		data: datastring,
 		type: 'POST',
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
 			$('#add_piece').modal('hide');
 			if ($('.rect_shape').hasClass('d-none') == true) {
 				$('.rect_shape').removeClass('d-none');
@@ -1545,12 +1545,12 @@ function matCardSel($mat, $price, $cost) {
 	if ($material == 'marbgran') {
 		marbcalc($mat, $tPrice);
 		var costing = parseFloat($SqFt) * parseFloat($cost);
-		console.log(costing);
+		//console.log(costing);
 		$($instForm).find('input[name=materials_cost]').val(costing);
 	} else if ($material == 'quartz') {
 		quartzcalc($mat, $tPrice);
 		var costing = parseFloat($slabs) * parseFloat($cost);
-		console.log(costing);
+		//console.log(costing);
 		$($instForm).find('input[name=materials_cost]').val(costing);
 	}
 	if ($($instForm).find('input[name=materials_cost]').val() < 1) {
@@ -1607,7 +1607,7 @@ function sendQuoteData() {
 //	}
 
 	if ( $('#sendAnya').hasClass('disabled') ){
-		console.log('Already Sent!');
+		//console.log('Already Sent!');
 	} else {
 		$('#sendAnya').addClass('disabled');
 		datastring = 'action=email_anya&pid=' + $pid + '&uid=' + $uid;
@@ -1635,7 +1635,7 @@ function makeComment(e,cmt_user) {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
 			$('#commentor').text(data);
 		},
 		error: function(data) {
@@ -1797,7 +1797,7 @@ function compilePjtEdit(data) {
 		var split = res[i].split('::');
 		obj[split[0]] = split[1];
 	}
-  console.log("obj_data = ", obj);
+  //console.log("obj_data = ", obj);
 
   $('#pjt_name').text(obj.job_name);
 	$('#p-acct_rep').val(obj.acct_rep);
@@ -1819,14 +1819,14 @@ function compilePjtEdit(data) {
 	}
 	if ( obj.job_status < 20 && obj.job_status != 17  &&  obj.order_num.indexOf('o') < 1  &&  obj.order_num.indexOf('r') < 1  && obj.order_num.indexOf('O') < 1  &&  obj.order_num.indexOf('R') < 1 ) {
 		$('#p-install_date').prop('readonly', 'readonly');
-		console.log('killed');
+		//console.log('killed');
 	} else {
 		if (obj.job_sqft > 1 || ( obj.order_num.indexOf('o') > 0  ||  obj.order_num.indexOf('r') > 0  ||  obj.order_num.indexOf('O') > 0  ||  obj.order_num.indexOf('R') > 0 ) ) {
 			$("#p-install_date").prop('readonly', false);
-			console.log('true');
+			//console.log('true');
 		} else {
 			$("#p-install_date").prop('readonly', 'readonly');
-			console.log('false');
+			//console.log('false');
 		}
 	}
 	$('#p-po_cost').val('$ ' + obj.po_cost);
@@ -1916,7 +1916,7 @@ function pullEditPjt(pjtToEdit) {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
 			compilePjtEdit(data);
 		},
 		error: function(data) {
@@ -1952,7 +1952,7 @@ function upload_multi(){
 	}
 	myFormData.append('uid', $uid);
 	myFormData.append('id', $pid);
-	console.log(myFormData);
+	//console.log(myFormData);
 
 	$.ajax({
 		url: 'ajax.php',
@@ -2023,7 +2023,7 @@ function updateInstall() {
 		type: 'POST',
 		success: function(data) {
 			if (isNaN(data)) {
-				console.log(data);
+				//console.log(data);
 			} else {
 				$('#editInstall').modal('hide');
 				Command: toastr["success"]("Install data saved!", "Projects")
@@ -2069,7 +2069,7 @@ function approveLoss(mngr_approved,mngr_approved_price,mngr_approved_id) {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log($pid);
+			//console.log($pid);
 			viewThisProject($pid,$uid);
 		},
 		error: function(data) {
@@ -2084,7 +2084,7 @@ function approveLoss(mngr_approved,mngr_approved_price,mngr_approved_id) {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
 		},
 		error: function(data) {
 			console.log(data);
@@ -2165,7 +2165,7 @@ $(document).ready(function() {
 		var $cost = findCost($matName);
 		$curPrice = $price;
 		$curCost = $cost;
-		console.log('2: ' + $price + ' ' + $cost + ' ' + $curCost + ' ' + $curPrice);
+		//console.log('2: ' + $price + ' ' + $cost + ' ' + $curCost + ' ' + $curPrice);
 
 		if (typeof $price == 'undefined'){
 			$price = 0;
@@ -2191,13 +2191,13 @@ $(document).ready(function() {
 			marbcalc($matName, $price);
 			var costing = parseFloat($SqFt) * parseFloat($cost);
 			$($form).find('input[name=materials_cost]').val(costing);
-			console.log('Costing: ' + costing);
+			//console.log('Costing: ' + costing);
 		} else if ($material == 'quartz') {
 			quartzcalc($matName, $cost);
-			console.log('3: ' + $slabs + ' ' + $price + ' ' + $cost + ' ' + $curCost + ' ' + $curPrice);
+			//console.log('3: ' + $slabs + ' ' + $price + ' ' + $cost + ' ' + $curCost + ' ' + $curPrice);
 			var costing = parseFloat($slabs) * parseFloat($cost);
 			$($form).find('input[name=materials_cost]').val(costing);
-			console.log('Costing: ' + costing);
+			//console.log('Costing: ' + costing);
 		} else {
 			alert('You must specifiy Marble/Granite or Quartz');
 			return;
@@ -2356,7 +2356,7 @@ $(document).ready(function() {
 		var $sSelected = 'option:contains(' + $sModel + ')';
 		var $sWidth = $($sSelected).attr('width');
 		var $sDepth = $($sSelected).attr('depth');
-		console.log($sDepth);
+		//console.log($sDepth);
 		if ( $sWidth > 1 ) {
 			$('#cutout_width').val($sWidth);
 			$('#cutout_depth').val($sDepth);
@@ -2389,7 +2389,7 @@ $(document).ready(function() {
         	type        : 'POST',
         	success     : function(data){
 				if (isNaN(data)) {
-					console.log(data);
+					//console.log(data);
 				} else {
 					$('#addComment').modal('hide');
 					$('#commentForm')[0].reset();
