@@ -62,7 +62,7 @@
 										<fieldset class="form-group col-4 col-md-2 text-left servoption reoption">
 											<label for="responsible" class="text-left">Who is responsible</label>
 											<select class="mdb-select" name="responsible" id="responsible">
-												<option value="0" disabled>Select one</option>
+												<option value="0">Select one</option>
 												<option value="11">Customer</option>
 												<option value="2">Sales</option>
 												<option value="3">Entry</option>
