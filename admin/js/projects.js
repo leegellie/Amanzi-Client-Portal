@@ -34,6 +34,17 @@ $instForm = '';
 $defaultEdge = 0;
 $addChange = 0;
 
+function proj_type($type) {
+	if ($type === 'new') {
+		$('.servoption').hide();
+	} else if ($type === 'add') {
+		$('.servoption').hide();
+		$('.addoption').show();
+	} else {
+		$('.servoption').show();
+	}
+}
+
 function statusChange(user,pjt,status) {
 	var datastring = 'action=change_status&staffid=' + user + '&pid=' + pjt + '&status=' + status;
 	$.ajax({
