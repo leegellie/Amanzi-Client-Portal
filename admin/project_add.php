@@ -18,7 +18,8 @@
 										<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" href="#panel_addition" role="tab">Addition</a></li>
 									</ul>
 									<div class="tab-content px-0">
-										<div class="tab-pane fade in show active row" id="panel_new" role="tabpanel">
+										<div class="tab-pane fade in show active" id="panel_new" role="tabpanel">
+											<div class="row">
 											<fieldset class="form-group col-4 col-md-3 text-left">
 												<input class="filled-in mr-4" name="tax_free" id="tax_free" type="checkbox" value="1">
 												<label for="tax_free" class="text-left">In-House Template:</label>
@@ -35,6 +36,7 @@
 												<input class="filled-in mr-4" name="urgent" id="urgent" type="checkbox" value="1">
 												<label for="urgent" class="text-left">Customer Pick Up:</label>
 											</fieldset>
+											</div>
 										</div>
 										<div class="tab-pane fade" id="panel_repair" role="tabpanel">
 										</div>
