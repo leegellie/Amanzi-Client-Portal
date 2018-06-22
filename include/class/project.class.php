@@ -53,7 +53,7 @@ class project_action {
 				   FROM projects p
 				   JOIN users u
 					 ON u.id = p.uid
-				  WHERE p.order_num LIKE :job
+				  WHERE p.order_num LIKE ':job'
 			");
 			$card = '%' . $a['pid'] . '%';
 			$q->bindParam('job', $a['pid']);
