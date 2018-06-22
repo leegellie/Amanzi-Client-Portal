@@ -35,17 +35,17 @@ $defaultEdge = 0;
 $addChange = 0;
 
 function proj_type($type) {
-	if ($type == 'new') {
+	if ($type === 'new') {
 		$('.servoption').hide();
 		$('#no_charge').prop('checked', false);
-		$('#call_out').prop('checked', false);
-	} else if ($type == 'add') {
-		$('#call_out').prop('checked', true);
+		$('#call_out_fee').prop('checked', false);
+	} else if ($type === 'add') {
+		$('#call_out_fee').prop('checked', true);
 		$('.servoption').hide();
 		$('.addoption').show();
 	} else {
 		$('#no_charge').prop('checked', false);
-		$('#call_out').prop('checked', true);
+		$('#call_out_fee').prop('checked', true);
 		$('.servoption').show();
 	}
 }
