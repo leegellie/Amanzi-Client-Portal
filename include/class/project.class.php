@@ -42,22 +42,26 @@ class project_action {
 	// $name = NAME TO GIVE THE IMAGE
 
 	public function lookup_jobs($a) {
-		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$q = $conn->prepare("
-			 SELECT	p.*,
-					u.company AS uCompany,
-					u.fname AS uFname,
-					u.lname AS uLname
-			   FROM projects p
-			   JOIN users u
-				 ON u.id = p.uid
-			  WHERE p.order_num LIKE :job
-		");
-		$card = '%' . $a['pid'] . '%';
-		$q->bindParam('job', $a['pid']);
-		$q->execute();
-		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$q = $conn->prepare("
+				 SELECT	p.*,
+						u.company AS uCompany,
+						u.fname AS uFname,
+						u.lname AS uLname
+				   FROM projects p
+				   JOIN users u
+					 ON u.id = p.uid
+				  WHERE p.order_num LIKE :job
+			");
+			$card = '%' . $a['pid'] . '%';
+			$q->bindParam('job', $a['pid']);
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
 	}
 
 	public function loss_approval($a) {
