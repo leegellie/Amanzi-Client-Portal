@@ -47,7 +47,7 @@
 										<fieldset class="form-check col-md-2 servoption reoption addoption">
 											<label for="job_discount" class="w-100">Original Job #:</label>
 											<div class="row">
-												<div class="input-group mb-3 servoption">
+												<div class="input-group mb-3">
 													<input type="text" class="form-control" aria-label="Original Job Number" aria-describedby="search_jobs">
 													<div class="input-group-append">
 														<span class="input-group-text" id="search_jobs"><i class="icon-search"></i></span>

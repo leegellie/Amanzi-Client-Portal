@@ -37,10 +37,13 @@ $addChange = 0;
 function proj_type($type) {
 	if ($type === 'new') {
 		$('.servoption').hide();
+		$('#no_charge').prop('checked', false);
+		$('#call_out').prop('checked', false);
 	} else if ($type === 'add') {
 		$('.servoption').hide();
 		$('.addoption').show();
 	} else {
+		$('#call_out').prop('checked', true);
 		$('.servoption').show();
 	}
 }
