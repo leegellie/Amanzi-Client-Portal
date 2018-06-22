@@ -10,10 +10,10 @@
 					<form id="editPjtOne" class="row">
 						<input type="hidden" id="p-pid" name="id" value="">
 						<input type="hidden" id="p-uid" name="uid" value="">
-						<input type="hidden" id="p-job_lat" name="job_lat">
-						<input type="hidden" id="p-job_long" name="job_long">
+						<input type="hidden" id="p-job_lat" name="job_lat" value="">
+						<input type="hidden" id="p-job_long" name="job_long" value="">
 
-						<input type="hidden" id="p-job_sqft">
+						<input type="hidden" id="p-job_sqft" value="">
 
 
 						<div class="container pt-3 mb-3 border border-light border-right-0 border-left-0 blue lighten-5">
@@ -24,6 +24,10 @@
                   <input type="text" class="form-control" id="p-geo-lat" hidden>
                   <input type="text" class="form-control" id="p-geo-long" hidden>
                   <input type="text" class="form-control" id="p-job-sqft" hidden>
+                  
+<!--                   <input type="text" class="form-control" id="p-geo_lat" hidden>
+                  <input type="text" class="form-control" id="p-geo_long" hidden>
+                  <input type="text" class="form-control" id="p-job_sqft" hidden> -->
 								</fieldset>
 								<fieldset class="form-group col-md-3">
 									<label for="account-rep">Account Rep:</label>
@@ -80,7 +84,7 @@
 									<input id="p-job_discount" class="form-control text-center" name="job_discount" type="text" value="0">
 								</fieldset>
 								<fieldset class="form-group col-6 col-md-2">
-									<label for="po-cost">Deposit Paid:</label>
+									<label for="po-cost">P.O. Cost:</label>
 									<input class="form-control currency" id="p-po_cost" name="po_cost" type="text">
 								</fieldset>
 								<fieldset class="form-group col-6 col-md-2">
