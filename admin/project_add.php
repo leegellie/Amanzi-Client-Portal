@@ -45,7 +45,8 @@
 											<label for="pick_up" class="text-left">Customer Pick Up</label>
 										</fieldset>
 										<fieldset class="form-group col-4 col-md-3 text-left">
-											<select class="mdb-select" id="responsible">
+											<label for="responsible" class="text-left">Who is responsible</label>
+											<select class="mdb-select" name="responsible" id="responsible">
 												<option value="0">Select one</option>
 												<option value="11">Customer</option>
 												<option value="2">Sales</option>
