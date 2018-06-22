@@ -9,14 +9,25 @@
                 	    	<h2 class="">Add Project</h2>
                     	</div>
                         <div id="project-block" class="content">
-							<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">
-								<li class="nav-item"><a class="nav-link active text-white" data-toggle="tab" role="tab">New Project</a></li>
-								<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" role="tab">Repair</a></li>
-								<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" role="tab">Rework</a></li>
-								<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" role="tab">Addition</a></li>
-							</ul>
                             <form id="add_project" enctype="multipart/form-data">
 								<div class="container pb-3">
+									<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">
+										<li class="nav-item"><a class="nav-link active text-white" data-toggle="tab" href="#panel_new" role="tab">New Project</a></li>
+										<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" href="#panel_repair" role="tab">Repair</a></li>
+										<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" href="#panel_rework" role="tab">Rework</a></li>
+										<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" href="#panel_addition" role="tab">Addition</a></li>
+									</ul>
+									<div class="tab-content px-0">
+										<div class="tab-pane fade in show active" id="panel_new" role="tabpanel">
+										</div>
+										<div class="tab-pane fade" id="panel_repair" role="tabpanel">
+										</div>
+										<div class="tab-pane fade" id="panel_rework" role="tabpanel">
+										</div>
+										<div class="tab-pane fade" id="panel_addition" role="tabpanel">
+										</div>
+
+									</div>
 									<div class="row">
 										<div class="col-12 col-md-2 mt-2 form-label">
 											<h4>CLIENT: </h4>
@@ -25,6 +36,12 @@
 											<div id="user_infoDIV" class="input-control text input-box" data-role="input-control">
 												<input class="form-control" id="user_info" name="user_info" type="text" value="" disabled>
 												<input id="uid" name="uid" type="hidden" value="">
+												<input type="hidden" id="repair" name="repair" value="0">
+												<input type="hidden" id="rework" name="rework" value="0">
+												<input type="hidden" id="addition" name="addition" value="0">
+												<input type="hidden" id="in_house_template" name="in_house_template" value="0">
+												<input type="hidden" id="pick_up" name="pick_up" value="0">
+												<input type="hidden" id="no_charge" name="no_charge" value="0">
 												<input type="hidden" id="job_lat" name="job_lat">
 												<input type="hidden" id="job_long" name="job_long">
 											</div>
