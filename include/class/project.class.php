@@ -49,7 +49,7 @@ class project_action {
 			   FROM projects
 			  WHERE order_num LIKE 
 		");
-		$card = $a['job'] . '%';
+		$card = $a['pid'] . '%';
 		$q->bindParam('job', $card);
 		$q->execute();
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
