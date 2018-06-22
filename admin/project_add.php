@@ -44,6 +44,22 @@
 											<input class="filled-in mr-4" name="pick_up" id="pick_up" type="checkbox" value="1">
 											<label for="pick_up" class="text-left">Customer Pick Up</label>
 										</fieldset>
+										<fieldset class="form-group col-4 col-md-3 text-left">
+											<select class="mdb-select" id="responsible">
+												<option value="0">Select one</option>
+												<option value="11">Customer</option>
+												<option value="2">Sales</option>
+												<option value="3">Entry</option>
+												<option value="4">Templaters</option>
+												<option value="5">Programming</option>
+												<option value="6">Materials</option>
+												<option value="7">Saw</option>
+												<option value="8">Montissor/CNC</option>
+												<option value="9">Polishing</option>
+												<option value="10">Installers</option>
+												<option value="99">Unknown</option>
+											</select>
+										</fieldset>
 										<fieldset class="form-group col-4 col-md-3 text-left d-none">
 											<input class="filled-in mr-4" name="call_out_fee" id="call_out_fee" type="checkbox" value="1">
 											<label for="call_out_fee" class="text-left">Call Out Fee</label>
