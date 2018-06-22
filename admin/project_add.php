@@ -44,11 +44,11 @@
 											<input class="filled-in mr-4" name="pick_up" id="pick_up" type="checkbox" value="1">
 											<label for="pick_up" class="text-left">Customer Pick Up</label>
 										</fieldset>
-										<fieldset class="form-group col-4 col-md-3 text-left d-none">
+										<fieldset class="form-group col-4 col-md-3 text-left">
 											<input class="filled-in mr-4" name="call_out_fee" id="call_out_fee" type="checkbox" value="1">
 											<label for="call_out_fee" class="text-left">Call Out Fee</label>
 										</fieldset>
-										<fieldset class="form-group col-4 col-md-3 text-left d-none">
+										<fieldset class="form-group col-4 col-md-3 text-left">
 											<label for="responsible" class="text-left">Who is responsible</label>
 											<select class="mdb-select" name="responsible" id="responsible">
 												<option value="0" disabled>Select one</option>
@@ -65,12 +65,12 @@
 												<option value="99">Unknown</option>
 											</select>
 										</fieldset>
-										<fieldset class="form-group col-12 col-md-6 text-left d-none">
+										<fieldset class="form-group col-12 col-md-6 text-left">
 											<label for="reason" class="text-left w-100">Please detail the reason for Repair/Rework</label>
 											<textarea class="filled-in mr-4 w-100" name="reason" id="reason"></textarea>
 										</fieldset>
 										<fieldset class="form-check col-md-2">
-											<label for="job_discount" class="w-100">Job Discount:</label>
+											<label for="job_discount" class="w-100">Original Job #:</label>
 											<div class="row">
 												<div class="input-group mb-3">
 													<input type="text" class="form-control" aria-label="Original Job Number" aria-describedby="search_jobs">
