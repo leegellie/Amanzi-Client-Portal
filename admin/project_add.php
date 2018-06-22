@@ -20,25 +20,43 @@
 									<div class="tab-content px-0">
 										<div class="tab-pane fade in show active" id="panel_new" role="tabpanel">
 											<div class="row">
-											<fieldset class="form-group col-4 col-md-3 text-left">
-												<input class="filled-in mr-4" name="tax_free" id="tax_free" type="checkbox" value="1">
-												<label for="tax_free" class="text-left">In-House Template:</label>
-											</fieldset>
-											<fieldset class="form-group col-4 col-md-3 text-left">
-												<input class="filled-in mr-4" name="urgent" id="urgent" type="checkbox" value="1">
-												<label for="urgent" class="text-left">No Template:</label>
-											</fieldset>
-											<fieldset class="form-group col-4 col-md-3 text-left">
-												<input class="filled-in mr-4" name="urgent" id="urgent" type="checkbox" value="1">
-												<label for="urgent" class="text-left">No Charge:</label>
-											</fieldset>
-											<fieldset class="form-group col-4 col-md-3 text-left">
-												<input class="filled-in mr-4" name="urgent" id="urgent" type="checkbox" value="1">
-												<label for="urgent" class="text-left">Customer Pick Up:</label>
-											</fieldset>
+												<fieldset class="form-group col-4 col-md-3 text-left">
+													<input class="filled-in mr-4" name="in_house_template" id="in_house_template" type="checkbox" value="1">
+													<label for="in_house_template" class="text-left">In-House Template</label>
+												</fieldset>
+												<fieldset class="form-group col-4 col-md-3 text-left">
+													<input class="filled-in mr-4" name="no_template" id="no_template" type="checkbox" value="1">
+													<label for="no_template" class="text-left">No Template Needed</label>
+												</fieldset>
+												<fieldset class="form-group col-4 col-md-3 text-left">
+													<input class="filled-in mr-4" name="no_charge" id="no_charge" type="checkbox" value="1">
+													<label for="no_charge" class="text-left">No Charge</label>
+												</fieldset>
+												<fieldset class="form-group col-4 col-md-3 text-left">
+													<input class="filled-in mr-4" name="pick_up" id="pick_up" type="checkbox" value="1">
+													<label for="pick_up" class="text-left">Customer Pick Up</label>
+												</fieldset>
 											</div>
 										</div>
 										<div class="tab-pane fade" id="panel_repair" role="tabpanel">
+											<div class="row">
+												<fieldset class="form-group col-4 col-md-3 text-left">
+													<input class="filled-in mr-4" name="in_house_template" id="in_house_template" type="checkbox" value="1">
+													<label for="in_house_template" class="text-left">In-House Template</label>
+												</fieldset>
+												<fieldset class="form-group col-4 col-md-3 text-left">
+													<input class="filled-in mr-4" name="no_template" id="no_template" type="checkbox" value="1" checked>
+													<label for="no_template" class="text-left">No Template Needed</label>
+												</fieldset>
+												<fieldset class="form-group col-4 col-md-3 text-left">
+													<input class="filled-in mr-4" name="no_charge" id="no_charge" type="checkbox" value="1">
+													<label for="no_charge" class="text-left">No Charge</label>
+												</fieldset>
+												<fieldset class="form-group col-4 col-md-3 text-left">
+													<input class="filled-in mr-4" name="call_out_fee" id="call_out_fee" type="checkbox" value="1" checked>
+													<label for="call_out_fee" class="text-left">Call Out Fee</label>
+												</fieldset>
+											</div>
 										</div>
 										<div class="tab-pane fade" id="panel_rework" role="tabpanel">
 										</div>
@@ -57,9 +75,6 @@
 												<input type="hidden" id="repair" name="repair" value="0">
 												<input type="hidden" id="rework" name="rework" value="0">
 												<input type="hidden" id="addition" name="addition" value="0">
-												<input type="hidden" id="in_house_template" name="in_house_template" value="0">
-												<input type="hidden" id="pick_up" name="pick_up" value="0">
-												<input type="hidden" id="no_charge" name="no_charge" value="0">
 												<input type="hidden" id="job_lat" name="job_lat">
 												<input type="hidden" id="job_long" name="job_long">
 											</div>
