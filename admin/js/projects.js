@@ -44,7 +44,8 @@ function proj_type($type) {
 		$('.servoption').hide();
 		$('.addoption').show();
 	} else {
-		$('#call_out').prop('checked', false);
+		$('#no_charge').prop('checked', false);
+		$('#call_out').prop('checked', true);
 		$('.servoption').show();
 	}
 }
