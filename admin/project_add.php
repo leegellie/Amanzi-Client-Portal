@@ -72,9 +72,12 @@
 										<fieldset class="form-check col-md-2">
 											<label for="job_discount" class="w-100">Job Discount:</label>
 											<div class="row">
-												<label for="reason" class="text-left w-100">Job Number</label>
-												<input id="job_discount" class="form-control col-9" name="job_discount" type="text" value="0">
-												<div class="btn btn-primary col-3"><i class="icon-search"></i><div>
+												<div class="input-group mb-3">
+													<input type="text" class="form-control" aria-label="Original Job Number" aria-describedby="search_jobs">
+													<div class="input-group-append">
+														<span class="input-group-text" id="search_jobs"><i class="search-icon"></i></span>
+													</div>
+												</div>
 											</div>
 										</fieldset>
 									</div>
