@@ -2461,6 +2461,7 @@ $(document).ready(function() {
 			$('input[name=am]').prop('checked',false);
 		}
 	})
-  
-  
+
+
+	$('.servoption').hide();
 });
