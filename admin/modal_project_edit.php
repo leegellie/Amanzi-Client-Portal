@@ -80,7 +80,7 @@
 									<input id="p-job_discount" class="form-control text-center" name="job_discount" type="text" value="0">
 								</fieldset>
 								<fieldset class="form-group col-6 col-md-2">
-									<label for="po-cost">P.O. Cost:</label>
+									<label for="po-cost">Deposit Paid:</label>
 									<input class="form-control currency" id="p-po_cost" name="po_cost" type="text">
 								</fieldset>
 								<fieldset class="form-group col-6 col-md-2">
