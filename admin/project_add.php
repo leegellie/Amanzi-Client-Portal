@@ -44,7 +44,7 @@
 											<input class="filled-in mr-4" name="call_out_fee" id="call_out_fee" type="checkbox" value="1">
 											<label for="call_out_fee" class="text-left">Call Out Fee</label>
 										</fieldset>
-										<fieldset class="md-form input-group col-md-2 servoption reoption addoption">
+										<fieldset class="input-group col-md-2 servoption reoption addoption">
 											<label for="job_discount" class="w-100">Original Job #:</label>
 											<div class="row">
 												<div class="input-group mb-3">
