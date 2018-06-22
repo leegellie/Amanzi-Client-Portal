@@ -19,6 +19,22 @@
 									</ul>
 									<div class="tab-content px-0">
 										<div class="tab-pane fade in show active" id="panel_new" role="tabpanel">
+											<fieldset class="form-group col-4 col-md-3 text-center">
+												<input class="filled-in mr-4" name="tax_free" id="tax_free" type="checkbox" value="1">
+												<label class="w-100 text-center" for="tax_free">In-House Template:</label>
+											</fieldset>
+											<fieldset class="form-group col-4 col-md-3 text-center">
+												<input class="filled-in mr-4" name="urgent" id="urgent" type="checkbox" value="1">
+												<label for="urgent" class="w-100 text-center">No Template:</label>
+											</fieldset>
+											<fieldset class="form-group col-4 col-md-3 text-center">
+												<input class="filled-in mr-4" name="urgent" id="urgent" type="checkbox" value="1">
+												<label for="urgent" class="w-100 text-center">No Charge:</label>
+											</fieldset>
+											<fieldset class="form-group col-4 col-md-3 text-center">
+												<input class="filled-in mr-4" name="urgent" id="urgent" type="checkbox" value="1">
+												<label for="urgent" class="w-100 text-center">Customer Pick Up:</label>
+											</fieldset>
 										</div>
 										<div class="tab-pane fade" id="panel_repair" role="tabpanel">
 										</div>
