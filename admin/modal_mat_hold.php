@@ -9,7 +9,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="container">
-					<form id="mat_hold_form row">
+					<form id="mat_hold_form" class="row">
 						<input type="hidden" name="action" value="mat_hold">
 						<input type="hidden" id="mh-pid" name="pid" value="">
 						<input type="hidden" id="mh-iid" name="iid" value="">

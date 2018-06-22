@@ -170,6 +170,7 @@ USER'S EMAIL = <?= $user_email ?>
 	include ('modal_entry_reject.php');
 	include ('modal_hold_notice.php');
 	include ('modal_release_hold.php');
+	include ('modal_job_lookup.php');
 	?>
 
 	<script>
@@ -247,6 +248,7 @@ USER'S EMAIL = <?= $user_email ?>
 		var disable = false;
 		var cur_d = new Date();
 		var _cur_day = cur_d.getDate();
+    var _cur_mon = cur_d.getMonth();
 		function distance(lat1, lon1, lat2, lon2) {
 			var radlat1 = Math.PI * lat1/180
 			var radlat2 = Math.PI * lat2/180
@@ -280,6 +282,7 @@ USER'S EMAIL = <?= $user_email ?>
 				}
 				var job_day = formattedDate.getDay();
 				var curdate = y+'-'+m+'-'+d;
+        console.log("here --- ", curdate);
 				//console.log(curdate,"-----", jday);          
 				var flag = false;
 				if(jday == 0 || jday == 6) flag = true;
@@ -293,7 +296,7 @@ USER'S EMAIL = <?= $user_email ?>
 							var lon1 = -80.0626623;
 							var lat2 = $('#p-geo-lat').val();
 							var lon2 = $('#p-geo-long').val();
-							//console.log(lat2,"************************", lon2);
+							console.log(lat2,"************************", lon2);
 							var distan = distance(lat1,lon1,lat2,lon2);
 							if(distan > 25){
 								$.each(value['detail'], function(k,v){
@@ -375,11 +378,12 @@ USER'S EMAIL = <?= $user_email ?>
 				var job_day = formattedDate.getDay();
 
 				var curdate = y+'-'+m+'-'+d;
-				//console.log(curdate,"-----", jday);          
+				console.log("currenlty date = ",curdate);          
 				var flag = false;
 				if(jday == 0 || jday == 6) flag = true;
+        console.log("today: ", _cur_day, "currently month = ", _cur_mon);
 				//           if((access_level != 1 || access_level != 14 ) && st_d < _cur_day + 7 ) flag = true;
-				if(!(session_id == 1 || session_id == 14 || session_id == 985  ) && st_d < _cur_day + 7 ) flag = true;
+				if(!(session_id == 1 || session_id == 14 || session_id == 985  ) && (st_m == _cur_mon && st_d < _cur_day + 7 )) flag = true;
 				$.each(resforinstall, function(key, value){
 					if(value['install_date'] == curdate){
 						var sum_sqft = 0;
@@ -388,7 +392,8 @@ USER'S EMAIL = <?= $user_email ?>
 							sum_sqft += parseInt(v['job_sqft']);
 						})
 						var cur_sqft = $('#p-job-sqft').val();
-						sum_sqft += parseInt(cur_sqft*1);
+
+            sum_sqft += parseInt(cur_sqft*1);
 						console.log('sum_sqft=' + sum_sqft);
 						console.log('cur_sqft=' + cur_sqft);
 						console.log('currently_limit_sqft', currently_sqft);
