@@ -44,7 +44,11 @@
 											<input class="filled-in mr-4" name="pick_up" id="pick_up" type="checkbox" value="1">
 											<label for="pick_up" class="text-left">Customer Pick Up</label>
 										</fieldset>
-										<fieldset class="form-group col-4 col-md-3 text-left">
+										<fieldset class="form-group col-4 col-md-3 text-left d-none">
+											<input class="filled-in mr-4" name="call_out_fee" id="call_out_fee" type="checkbox" value="1">
+											<label for="call_out_fee" class="text-left">Call Out Fee</label>
+										</fieldset>
+										<fieldset class="form-group col-4 col-md-3 text-left d-none">
 											<label for="responsible" class="text-left">Who is responsible</label>
 											<select class="mdb-select" name="responsible" id="responsible">
 												<option value="0">Select one</option>
@@ -61,9 +65,9 @@
 												<option value="99">Unknown</option>
 											</select>
 										</fieldset>
-										<fieldset class="form-group col-4 col-md-3 text-left d-none">
-											<input class="filled-in mr-4" name="call_out_fee" id="call_out_fee" type="checkbox" value="1">
-											<label for="call_out_fee" class="text-left">Call Out Fee</label>
+										<fieldset class="form-group col-12 col-md-6 text-left d-none">
+											<label for="reason" class="text-left">Please detail the reason for Repair/Rework</label>
+											<textarea class="filled-in mr-4" name="reason" id="reason"></textarea>
 										</fieldset>
 									</div>
 
