@@ -167,20 +167,20 @@ class materials_action {
 					   status.name AS status
 				  FROM projects 
 				  JOIN status ON status.id = projects.job_status 
-				  JOIN (	SELECT pid, color, lot, MAX(mat_hold) AS hold, assigned_material, SUM(slabs) AS mat_slabs
+				  JOIN (	SELECT pid, color, lot, mat_hold, assigned_material, material_status,SUM(slabs) AS mat_slabs
 							  FROM installs 
-						  GROUP BY pid, lot, color, mat_hold, assigned_material) 
+						  GROUP BY pid, lot, color, mat_hold, assigned_material, material_status) 
 					AS materials
 					ON materials.pid = projects.id
 				 WHERE projects.job_status > 11 
 				   AND projects.job_status < 50 
 				   AND !(projects.install_date = '2200-01-01' AND projects.template_date = '2200-01-01')
 				   AND projects.isActive = 1 
-			  ORDER BY projects.install_date ASC,
-					   projects.first_stop DESC,
-					   projects.am DESC,
-					   projects.pm DESC
-			  ");
+			  ORDER BY projects.install_date ASC
+                       projects.first_stop DESC,
+                       projects.am DESC,
+                       projects.pm DESC
+				");
 			$q->execute();
 			return $row = $q->fetchAll();
 		} catch(PDOException $e) {

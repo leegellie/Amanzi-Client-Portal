@@ -827,7 +827,7 @@ if ($action=="get_materials_needed") {
 		$head_arr .= '
 		</div>
 		<div class="col-9 col-md-8 text-primary">
-			<h3>' . $result['order_num'] . ' - ' . $result['job_name'] . '</h3>
+			<h3>' . $result['order_num'] . ' - ' . $result['job_name'] .'</h3>
 		</div>
 		<div class="col-3 col-md-2 text-right">
 			<div class="btn btn-sm btn-primary" id="' . $result['pid'] . '" onclick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,'. $result['uid'] .');">
@@ -1023,22 +1023,25 @@ if ($action=="get_materials_needed") {
 	echo $first_tab . '</div>';
 	echo $second_tab . '</div>';
 	echo $third_tab . '</div>';
-
 	foreach($pullbymaterialsbyname as $results) {
+    $mathold_Max = max(array_column($results['detail'], 'mat_hold'));
+    $matstatus_Min = min(array_column($results['detail'], 'material_status'));
 		$index = 0;
-		foreach($results['detail'] as $result){
-			if ( !($result['install_date'] == '2200-01-01') ) {
-				$job_status = $result['job_status'];
-				$lastDigit = substr($job_status, -1);
-				if ( !($lastDigit == 9) ) {
-					if($index == 0) {
-						$fourth_tab .= '<hr>';
-						$fourth_tab .= show_pull_head($result);
-						$index++;
-					}
-					$fourth_tab .= show_pull($result,$status);
-				}
-			}
+    if($mathold_Max == 0 && $matstatus_Min > 2){
+		  foreach($results['detail'] as $result){
+        if ( !($result['install_date'] == '2200-01-01') ) {
+          $job_status = $result['job_status'];
+          $lastDigit = substr($job_status, -1);
+          if ( !($lastDigit == 9) ) {
+            if($index == 0) {
+              $fourth_tab .= '<hr>';
+              $fourth_tab .= show_pull_head($result);
+              $index++;
+            }
+            $fourth_tab .= show_pull($result,$status);
+          }
+        }
+      }
 		}
 	}
 	echo $fourth_tab . '</div>';
