@@ -45,8 +45,13 @@ class project_action {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$q = $conn->prepare("
-			 SELECT	*
-			   FROM projects
+			 SELECT	p.*,
+					u.company AS uCompany,
+					u.fname AS uFname,
+					u.lname AS uLname
+			   FROM projects p
+			   JOIN users u
+				 ON u.id = p.uid
 			  WHERE order_num LIKE :job
 		");
 		$card = $a['pid'] . '%';
