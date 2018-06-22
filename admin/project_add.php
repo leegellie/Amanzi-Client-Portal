@@ -19,51 +19,37 @@
 									</ul>
 									<div class="tab-content px-0">
 										<div class="tab-pane fade in show active" id="panel_new" role="tabpanel">
-											<div class="row">
-												<fieldset class="form-group col-4 col-md-3 text-left">
-													<input class="filled-in mr-4" name="in_house_template" id="in_house_template" type="checkbox" value="1">
-													<label for="in_house_template" class="text-left">In-House Template</label>
-												</fieldset>
-												<fieldset class="form-group col-4 col-md-3 text-left">
-													<input class="filled-in mr-4" name="no_template" id="no_template" type="checkbox" value="1">
-													<label for="no_template" class="text-left">No Template Needed</label>
-												</fieldset>
-												<fieldset class="form-group col-4 col-md-3 text-left">
-													<input class="filled-in mr-4" name="no_charge" id="no_charge" type="checkbox" value="1">
-													<label for="no_charge" class="text-left">No Charge</label>
-												</fieldset>
-												<fieldset class="form-group col-4 col-md-3 text-left">
-													<input class="filled-in mr-4" name="pick_up" id="pick_up" type="checkbox" value="1">
-													<label for="pick_up" class="text-left">Customer Pick Up</label>
-												</fieldset>
-											</div>
 										</div>
 										<div class="tab-pane fade" id="panel_repair" role="tabpanel">
-											<div class="row">
-												<fieldset class="form-group col-4 col-md-3 text-left">
-													<input class="filled-in mr-4" name="in_house_template" id="in_house_template" type="checkbox" value="1">
-													<label for="in_house_template" class="text-left">In-House Template</label>
-												</fieldset>
-												<fieldset class="form-group col-4 col-md-3 text-left">
-													<input class="filled-in mr-4" name="no_template" id="no_template" type="checkbox" value="1" checked>
-													<label for="no_template" class="text-left">No Template Needed</label>
-												</fieldset>
-												<fieldset class="form-group col-4 col-md-3 text-left">
-													<input class="filled-in mr-4" name="no_charge" id="no_charge" type="checkbox" value="1">
-													<label for="no_charge" class="text-left">No Charge</label>
-												</fieldset>
-												<fieldset class="form-group col-4 col-md-3 text-left">
-													<input class="filled-in mr-4" name="call_out_fee" id="call_out_fee" type="checkbox" value="1" checked>
-													<label for="call_out_fee" class="text-left">Call Out Fee</label>
-												</fieldset>
-											</div>
 										</div>
 										<div class="tab-pane fade" id="panel_rework" role="tabpanel">
 										</div>
 										<div class="tab-pane fade" id="panel_addition" role="tabpanel">
 										</div>
-
 									</div>
+									<div class="row">
+										<fieldset class="form-group col-4 col-md-3 text-left">
+											<input class="filled-in mr-4" name="in_house_template" id="in_house_template" type="checkbox" value="1">
+											<label for="in_house_template" class="text-left">In-House Template</label>
+										</fieldset>
+										<fieldset class="form-group col-4 col-md-3 text-left">
+											<input class="filled-in mr-4" name="no_template" id="no_template" type="checkbox" value="1">
+											<label for="no_template" class="text-left">No Template Needed</label>
+										</fieldset>
+										<fieldset class="form-group col-4 col-md-3 text-left">
+											<input class="filled-in mr-4" name="no_charge" id="no_charge" type="checkbox" value="1">
+											<label for="no_charge" class="text-left">No Charge</label>
+										</fieldset>
+										<fieldset class="form-group col-4 col-md-3 text-left">
+											<input class="filled-in mr-4" name="pick_up" id="pick_up" type="checkbox" value="1">
+											<label for="pick_up" class="text-left">Customer Pick Up</label>
+										</fieldset>
+										<fieldset class="form-group col-4 col-md-3 text-left">
+											<input class="filled-in mr-4" name="call_out_fee d-none" id="call_out_fee" type="checkbox" value="1">
+											<label for="call_out_fee" class="text-left">Call Out Fee</label>
+										</fieldset>
+									</div>
+
 									<div class="row">
 										<div class="col-12 col-md-2 mt-2 form-label">
 											<h4>CLIENT: </h4>
