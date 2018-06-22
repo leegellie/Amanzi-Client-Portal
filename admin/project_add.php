@@ -67,7 +67,7 @@
 										</fieldset>
 										<fieldset class="form-group col-12 col-md-6 text-left">
 											<label for="reason" class="text-left w-100">Please detail the reason for Repair/Rework</label>
-											<textarea class="filled-in mr-4 w-100" name="reason" id="reason"></textarea>
+											<textarea class="filled-in rounded-2 mr-4 w-100" name="reason" id="reason"></textarea>
 										</fieldset>
 										<fieldset class="form-check col-md-2">
 											<label for="job_discount" class="w-100">Original Job #:</label>
