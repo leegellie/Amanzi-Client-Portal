@@ -66,8 +66,16 @@
 											</select>
 										</fieldset>
 										<fieldset class="form-group col-12 col-md-6 text-left d-none">
-											<label for="reason" class="text-left">Please detail the reason for Repair/Rework</label>
-											<textarea class="filled-in mr-4" name="reason" id="reason"></textarea>
+											<label for="reason" class="text-left w-100">Please detail the reason for Repair/Rework</label>
+											<textarea class="filled-in mr-4 w-100" name="reason" id="reason"></textarea>
+										</fieldset>
+										<fieldset class="form-check col-md-2">
+											<label for="job_discount" class="w-100">Job Discount:</label>
+											<div class="row">
+												<label for="reason" class="text-left w-100">Job Number</label>
+												<input id="job_discount" class="form-control col-9" name="job_discount" type="text" value="0">
+												<div class="btn btn-primary col-3"><i class="icon-search"></i><div>
+											</div>
 										</fieldset>
 									</div>
 
