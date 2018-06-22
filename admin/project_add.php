@@ -13,19 +13,15 @@
 								<div class="container pb-3">
 									<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">
 										<li class="nav-item"><a class="nav-link active text-white" data-toggle="tab" href="#panel_new" role="tab">New Project</a></li>
-										<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" href="#panel_repair" role="tab">Repair</a></li>
-										<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" href="#panel_rework" role="tab">Rework</a></li>
 										<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" href="#panel_addition" role="tab">Addition</a></li>
+										<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" href="#panel_rework" role="tab">Rework</a></li>
+										<li class="nav-item"><a class="nav-link text-white" data-toggle="tab" href="#panel_repair" role="tab">Repair</a></li>
 									</ul>
 									<div class="tab-content px-0">
-										<div class="tab-pane fade in show active" id="panel_new" role="tabpanel">
-										</div>
-										<div class="tab-pane fade" id="panel_repair" role="tabpanel">
-										</div>
-										<div class="tab-pane fade" id="panel_rework" role="tabpanel">
-										</div>
-										<div class="tab-pane fade" id="panel_addition" role="tabpanel">
-										</div>
+										<div class="tab-pane fade in show active" id="panel_new" role="tabpanel"></div>
+										<div class="tab-pane fade" id="panel_addition" role="tabpanel"></div>
+										<div class="tab-pane fade" id="panel_rework" role="tabpanel"></div>
+										<div class="tab-pane fade" id="panel_repair" role="tabpanel"></div>
 									</div>
 									<div class="row">
 										<fieldset class="form-group col-4 col-md-3 text-left">
