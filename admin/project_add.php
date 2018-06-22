@@ -44,15 +44,11 @@
 											<input class="filled-in mr-4" name="call_out_fee" id="call_out_fee" type="checkbox" value="1">
 											<label for="call_out_fee" class="text-left">Call Out Fee</label>
 										</fieldset>
-										<fieldset class="form-check col-md-2 servoption reoption addoption">
+										<fieldset class="md-form input-group col-md-2 servoption reoption addoption">
 											<label for="job_discount" class="w-100">Original Job #:</label>
-											<div class="row">
-												<div class="input-group mb-3">
-													<input type="text" class="form-control" aria-label="Original Job Number" aria-describedby="search_jobs">
-													<div class="input-group-append">
-														<span class="input-group-text" id="search_jobs"><i class="icon-search"></i></span>
-													</div>
-												</div>
+											<input type="text" class="form-control" aria-label="Original Job Number" aria-describedby="search_jobs">
+											<div class="input-group-append">
+												<button class="btn btn-mdb-color waves-effect m-0" type="button">Button</button>
 											</div>
 										</fieldset>
 										<fieldset class="form-group col-4 col-md-2 text-left servoption reoption">
