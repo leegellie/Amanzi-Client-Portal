@@ -55,7 +55,7 @@ class project_action {
 			  WHERE order_num LIKE :job
 		");
 		$card = '%' . $a['pid'] . '%';
-		$q->bindParam('job', $card);
+		$q->bindParam('job', $a['pid']);
 		$q->execute();
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 	}
