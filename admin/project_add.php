@@ -48,6 +48,17 @@
 											<input class="filled-in mr-4" name="call_out_fee" id="call_out_fee" type="checkbox" value="1">
 											<label for="call_out_fee" class="text-left">Call Out Fee</label>
 										</fieldset>
+										<fieldset class="form-check col-md-2">
+											<label for="job_discount" class="w-100">Original Job #:</label>
+											<div class="row">
+												<div class="input-group mb-3">
+													<input type="text" class="form-control" aria-label="Original Job Number" aria-describedby="search_jobs">
+													<div class="input-group-append">
+														<span class="input-group-text" id="search_jobs"><i class="icon-search"></i></span>
+													</div>
+												</div>
+											</div>
+										</fieldset>
 										<fieldset class="form-group col-4 col-md-2 text-left">
 											<label for="responsible" class="text-left">Who is responsible</label>
 											<select class="mdb-select" name="responsible" id="responsible">
@@ -67,18 +78,7 @@
 										</fieldset>
 										<fieldset class="form-group col-12 col-md-6 text-left">
 											<label for="reason" class="text-left w-100">Please detail the reason for Repair/Rework</label>
-											<textarea class="filled-in rounded-2 mr-4 w-100" name="reason" id="reason"></textarea>
-										</fieldset>
-										<fieldset class="form-check col-md-2">
-											<label for="job_discount" class="w-100">Original Job #:</label>
-											<div class="row">
-												<div class="input-group mb-3">
-													<input type="text" class="form-control" aria-label="Original Job Number" aria-describedby="search_jobs">
-													<div class="input-group-append">
-														<span class="input-group-text" id="search_jobs"><i class="icon-search"></i></span>
-													</div>
-												</div>
-											</div>
+											<textarea class="filled-in rounded mr-4 w-100" name="reason" id="reason"></textarea>
 										</fieldset>
 									</div>
 
