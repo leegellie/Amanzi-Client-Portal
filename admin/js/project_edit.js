@@ -18,14 +18,12 @@
 //}
 
 function newInstall($install_room,$name) {
-	console.log($install_room,$name);
 	var datastring = 'action=newTemplateInstall&pid=' + $pid + '&install_name=' + $name + '&install_room=' + $install_room;
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log("success", data);
 			viewThisProject($pid,$uid);
 		},
 		error: function(data) {
@@ -33,7 +31,6 @@ function newInstall($install_room,$name) {
 			console.log(data);
 		},
 		complete: function() {
-			console.log("complete");
 			$('html, body').animate({
 				scrollTop: $("#pjtInstalls").offset().top
 			}, 1000);
@@ -280,7 +277,6 @@ function getSqFt() {
 //}
 
 function projectsForUser($a) {
-	console.log($a);
 	$uid = $a;
 	var datastring = "action=find_user_pjts&userID=" + $a;
 	$.ajax({
@@ -331,13 +327,13 @@ function addInstall() {
 		var $discountc = $discountb * 1;
 		cpSqFt = Math.ceil($price * $discountc);
 		$('input[name=cpSqFt]').val(cpSqFt);
-		console.log('Discount cP SqFt = ' + cpSqFt);
+		// console.log('Discount cP SqFt = ' + cpSqFt);
 	} else {
 		cpSqFt = Math.ceil($price);
 		$('input[name=cpSqFt]').val(cpSqFt);
 	}
 	var $calc_price = (cpSqFt * SqFt);
-	console.log($calc_price);
+	// console.log($calc_price);
 	$('input[name=price_calc]').val($calc_price);
 
 
@@ -347,7 +343,7 @@ function addInstall() {
         formdata = new FormData(form[0]);
     };
     var datastring = formdata ? formdata : form.serialize();
-	console.log(datastring);
+	// console.log(datastring);
     $.ajax({
         url: 'ajax.php',
         data: formdata,
@@ -357,7 +353,7 @@ function addInstall() {
         type: 'POST',
         success: function(data) {
             if (isNaN(data)) {
-                console.log(data);
+                // console.log(data);
 				$('#addInstNew').show();
             } else {
                 newInstallSuccess();
