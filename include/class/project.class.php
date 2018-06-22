@@ -41,6 +41,20 @@ class project_action {
 	// $dir = OPTIONAL SUBDIRECTORY NAME. 0 = NO SUBDIRECTORY
 	// $name = NAME TO GIVE THE IMAGE
 
+	public function lookup_jobs($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("
+			 SELECT	*
+			   FROM projects
+			  WHERE order_num LIKE 
+		");
+		$card = $a['job'] . '%';
+		$q->bindParam('job', $card);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
 	public function loss_approval($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

@@ -34,6 +34,22 @@ $instForm = '';
 $defaultEdge = 0;
 $addChange = 0;
 
+function job_lookup($job) {
+	var datastring = 'action=lookup_jobs&pid=' + $job;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			alert(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+
+}
+
 function proj_type($type) {
 	if ($type === 'new') {
 		$('.servoption').hide();
