@@ -26,7 +26,6 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $q = $conn->prepare("SELECT * FROM install_teams WHERE isActive = 1");
 $q->execute();
 $rows = $q->fetchAll(PDO::FETCH_ASSOC);
-
 if( isset($_POST['teamID']) && isset($_POST['jobID']) && isset($_POST['cur_date'])){
 	$teamID = $_POST['teamID'];
 	$jobID = $_POST['jobID'];
@@ -52,7 +51,6 @@ if( isset($_POST['teamID']) && isset($_POST['jobID']) && isset($_POST['cur_date'
 	$q->bindParam('install_date', $curDate);
 	$q->execute();
 	$jobs = $q->fetchAll(PDO::FETCH_ASSOC);
-
 	echo json_encode($jobs);
 	exit;
 }
@@ -79,7 +77,6 @@ if( isset($_POST['date']) ){
 	$q->bindParam('install_date',$curDate);
 	$q->execute();
 	$jobs = $q->fetchAll(PDO::FETCH_ASSOC);
-  
 	$projects = getinfoByJob($jobs);
 
 	$p = $conn->prepare("
@@ -165,7 +162,7 @@ function getLatLong($address){
         $geocodeFromAddr = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBqPzFs8u8_yAC5N-nWXFp0eNz02xaGik4&address='.$formattedAddr.'&sensor=false'); 
         $output = json_decode($geocodeFromAddr);
         //Get latitude and longitute from json data
-        var_dump($output);exit;
+        //var_dump($output);exit;
         $data['latitude']  = $output->results[0]->geometry->location->lat; 
         $data['longitude'] = $output->results[0]->geometry->location->lng;
         //Return latitude and longitude of the given address
@@ -223,7 +220,7 @@ function getLatLong($address){
     var markerHOME;
     var nodes_team = [];
     var job_coords = [];
-	var installers = [];
+	  var installers = [];
     var pointHOME_initial = new google.maps.LatLng(36.1181642, -80.0626623,59);
 
 <? foreach ($rows as $row){ ?>
@@ -377,7 +374,7 @@ function getLatLong($address){
 					var iconBase3 = '/images/icon-future.png';
 	
 					var joblist_str = [];
-					for(var i=0;i<=100;i++){
+					for(var i=0;i<=1000;i++){
 						nodes_team[i] = [];
 						joblist_str[i] = '';
 						nodes_team[i].push(pointHOME);
@@ -699,13 +696,7 @@ function getLatLong($address){
 									} 
 								});
 							}
-
-
-
-
-
-
-						}, time);
+            }, time);
 						time += 200;
 					});
 
@@ -770,11 +761,12 @@ function getLatLong($address){
 						var modalFunct = "$('#" + modalName + "').modal('show')";
 
 						var teamID = value['install_team'];
+            //console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",value, teamID);
 						//joblist_str[teamID] += '<li>'+value['job_name']+'</li>'
 						joblist_str[teamID] += '<li class="list-group-item py-1"><div class="btn btn-primary btn-sm mr-1" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div><a class="text-primary text-left btn btn-sm p-0" target="_blank" onClick="' + modalFunct + '">' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></li>';
 
 						var modalPull = '';
-
+            //console.log(joblist_str[teamID]);
 
 modalPull += '<div class="modal fade" aria-hidden="true" aria-labelledby="' + modalName + 'Label" id="' + modalName + '" role="dialog" tabindex="-1">';
 modalPull += '	<div class="modal-dialog modal-dialog-centered" role="document" >';
@@ -928,10 +920,11 @@ modalPull += '</div>';
 						
 						})(marker, value);
 					
-					});
+					  });
 					map.fitBounds(bounds);
 					//map.panToBounds(bounds);
-          var team_num = <?php echo count($rows); ?>;
+
+          var team_num = <?php echo $rows[count($rows)-1]['inst_team_id']; ?>;
 					for(var i=0;i<=team_num;i++){
 						var team_id = '.row.team'+i+' .jobs_list';
 						$(team_id).empty().html(joblist_str[i]); 

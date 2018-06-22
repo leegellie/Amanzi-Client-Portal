@@ -3323,6 +3323,7 @@ if ($action=="add_user_data") {
 	unset($_POST['action']);
 	//print_r($_POST);
 	$add_user = new user_action;
+
 	echo $add_user -> add_internal_user($_POST);
 }
 
@@ -4004,6 +4005,7 @@ if ($action == "update_project_data") {
 
 	$_POST['cmt_ref_id'] = $pid;
 	$_POST['cmt_type'] = 'pjt';
+
 	$_POST['cmt_user'] = $_SESSION['id'];
 	$_POST['cmt_comment'] = 'Project Edited.';
 	$_POST['cmt_priority'] = 'log';
