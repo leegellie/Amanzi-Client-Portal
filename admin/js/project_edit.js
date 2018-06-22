@@ -9,7 +9,7 @@
 //			$("#acct_rep").append(data);
 //		},
 //		error: function(data) {
-//			alert(data);
+//			console.log(data);
 //			
 //			
 //			
@@ -30,7 +30,7 @@ function newInstall($install_room,$name) {
 		},
 		error: function(data) {
 			console.log("fail");
-			alert(data);
+			console.log(data);
 		},
 		complete: function() {
 			console.log("complete");
@@ -84,7 +84,7 @@ function viewThisInstall($a,$b,$c) {
 			new Clipboard('.btnCopy');
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 	//setTimeout(function(){ getInstParticulars(); }, 500);
@@ -106,7 +106,7 @@ function viewThisProject($a,$b) {
 			$pName = $('#projectName').text();
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 			
 			
 			
@@ -143,10 +143,7 @@ function getStatuses() {
 			$('.mdb-select').material_select();
         },
         error: function(data) {
-            alert(data);
-            successNote = "Error submitting form: " + xhr.responseText;
-            $('#editSuccess').html(succesStarter + successNote + successEnder);
-            
+            console.log(data);
         }
     });
 }
@@ -178,7 +175,7 @@ function statusSet(){
 			$(selOption).attr('selected', 'selected');
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 			
 			
 			
@@ -206,7 +203,7 @@ function getComments(ref) {
 			$('#commentList').append(data);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 			
 			
 			
@@ -225,7 +222,7 @@ function getSqFt() {
 			$('#clientName').append($SqFtText);
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 			
 			
 			
@@ -246,7 +243,7 @@ function getSqFt() {
 //			$("#edgeGet").text(data);
 //		},
 //		error: function(data) {
-//			alert(data);
+//			console.log(data);
 //			
 //			
 //			
@@ -260,7 +257,7 @@ function getSqFt() {
 //			$("#holesGet").text(data);
 //		},
 //		error: function(data) {
-//			alert(data);
+//			console.log(data);
 //			
 //			
 //			
@@ -274,7 +271,7 @@ function getSqFt() {
 //			$("#rangeGet").text(data);
 //		},
 //		error: function(data) {
-//			alert(data);
+//			console.log(data);
 //			
 //			
 //			
@@ -294,7 +291,7 @@ function projectsForUser($a) {
 			$("#pjtResults").replaceWith('<div class="col-12" id="pjtResults">' + data + '</div>');
 		},
 		error: function(data) {
-			alert(data);
+			console.log(data);
 		}
 	});
 	$('#user-block').hide();
@@ -360,7 +357,7 @@ function addInstall() {
         type: 'POST',
         success: function(data) {
             if (isNaN(data)) {
-                alert(data);
+                console.log(data);
 				$('#addInstNew').show();
             } else {
                 newInstallSuccess();
@@ -450,7 +447,7 @@ $(document).ready(function() {
 				$("#tableResults").replaceWith('<div width="100%" id="tableResults" style="background:none">' + data + '</div>');
 			},
 			error: function(data) {
-				alert(data);
+				console.log(data);
 				
 				
 				
@@ -542,7 +539,7 @@ $(document).ready(function() {
         	success     : function(data){
 				console.log('Success Lee')
 				if (isNaN(data)) {
-					alert(data);
+					console.log(data);
 					$("#pjtUpdate").fadeIn(300);
 				} else {
 					$('#editPjt').modal('hide');
