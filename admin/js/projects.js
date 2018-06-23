@@ -78,6 +78,8 @@ function copyJob(pid) {
 			var  uLname = res[3];
 			var  job_name = res[4];
 				 order_num = res[5];
+			console.log(order_num);
+			console.log(res[5]);
 			var  acct_rep = res[6];
 			var  builder = res[7];
 			var  address_1 = res[8];
