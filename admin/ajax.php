@@ -113,11 +113,12 @@ if ($action=="lookup_jobs") {
 	$lookup_jobs = new project_action;
 	$result = '';
 	foreach($lookup_jobs -> lookup_jobs($_POST) as $results) {
+		$order_lookup = "'" . $results['order_num'] . "'";
 		$result .= '
 			<div class="col-2">' . $results['order_num'] . '</div>
 			<div class="col-4">' . $results['job_name'] . '</div>
 			<div class="col-5">' . $results['uCompany'] . ' - ' . $results['uFname'] . '' . $results['uLname'] . '</div>
-			<div class="col-1"><div class="btn btn-sm btn-primary" onClick="copyJob(' . $results['order_num'] . ')"><i class="fas fa-check"></i></div></div>
+			<div class="col-1"><div class="btn btn-sm btn-primary" onClick="copyJob(' . $order_lookup . ')"><i class="fas fa-check"></i></div></div>
 			<hr>
 		';
 	}
