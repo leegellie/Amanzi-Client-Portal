@@ -36,6 +36,7 @@ $addChange = 0;
 $order_num = '';
 $job_name = '';
 function copyJob(pid) {
+	$('#job_lookup').val('');
 	$('#uid').val('');
 	$('#uCompany').val('');
 	$('#uFname').val('');
