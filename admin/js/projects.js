@@ -41,8 +41,8 @@ function job_lookup($job) {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			alert(data);
-		},
+			$('#job_lookup_results').html(data);
+			$('#job_lookup_modal').modal('show');
 		error: function(data) {
 			console.log(data);
 		}
