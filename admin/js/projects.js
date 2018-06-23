@@ -35,7 +35,6 @@ $defaultEdge = 0;
 $addChange = 0;
 
 function copyJob(pid) {
-	$('.mdb-select').material_select('destroy');
 	$('#uid').val('');
 	$('#uCompany').val('');
 	$('#uFname').val('');
@@ -70,6 +69,7 @@ function copyJob(pid) {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
+			$('.mdb-select').material_select('destroy');
 			var res = data.split("::");
 			var  uid = res[0];
 			var  uCompany = res[1];
@@ -108,14 +108,15 @@ function copyJob(pid) {
 			$('#alternate_name').val(alternate_name);
 			$('#alternate_number').val(alternate_number);
 			$('#alternate_email').val(alternate_email);
+
 			$('#job_lookup_modal').modal('hide');
+			$('.mdb-select').material_select();
 
 		},
 		error: function(data) {
 			console.log(data);
 		}
 	});
-	$('.mdb-select').material_select();
 
 //	var datastring2 = 'action=number_job&pid=' + pid + '&type=' + $type;
 //	$.ajax({
