@@ -118,7 +118,7 @@ if ($action=="lookup_jobs") {
 		$result .= '
 			<div class="col-3">' . $results['order_num'] . '</div>
 			<div class="col-6">' . $results['job_name'] . '</div>
-			<div class="col-3 btn btn-primary">' . $results['order_num'] . '</div>
+			<div class="col-3"><div class="btn btn-sm btn-primary">' . $results['order_num'] . '</div></div>
 		';
 	}
 	echo $result;
