@@ -109,7 +109,7 @@ function get_holidays() {
 }
 if ($action=="number_job") {
 	unset($_POST['action']);
-	$number_job = new user_action;
+	$number_job = new project_action;
 	echo $number_job -> number_job($_POST);
 }
 
