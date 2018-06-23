@@ -54,9 +54,9 @@ class project_action {
 				   FROM projects p
 				   JOIN users u
 					 ON u.id = p.uid
-				  WHERE p.id = :id
+				  WHERE p.id = :pid
 			");
-			$q->bindParam('id',$a['pid']);
+			$q->bindParam('pid',$a['pid']);
 			$q->execute();
 			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 		} catch(PDOException $e) {

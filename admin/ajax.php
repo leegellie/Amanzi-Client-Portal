@@ -126,6 +126,7 @@ if ($action=="lookup_jobs") {
 
 if ($action=="job_duplicate") {
 	unset($_POST['action']);
+	unset($_POST['type']);
 	$lookup_jobs = new project_action;
 	$job = '';
 	foreach($lookup_jobs -> get_copy_job($_POST) as $results) {
