@@ -96,7 +96,7 @@ function copyJob(pid) {
 			$('#uid').val(uid);
 			$('#user_info').val(uCompany + ' - ' + uFname + ' '+ uLname);
 			$('#job_name').val(job_name);
-			
+			$('#order_num').val(order_num);
 			$('#acct_rep').val(acct_rep);
 			$('#builder').val(builder);
 			$('#address_1').val(address_1);
@@ -120,8 +120,8 @@ function copyJob(pid) {
 		}
 	});
 	console.log(order_num);
-	new_order_num = order_num.substring(0, 3);
-	var datastring2 = 'action=number_job&order_num=' + order_num + '&type=' + $type;
+	new_order_num = $('#order_num').val().substring(0, 3);
+	var datastring2 = 'action=number_job&order_num=' + new_order_num + '&type=' + $type;
 	console.log(datastring2);
 	$.ajax({
 		type: "POST",
