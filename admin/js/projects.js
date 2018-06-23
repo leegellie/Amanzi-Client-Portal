@@ -34,7 +34,7 @@ $instForm = '';
 $defaultEdge = 0;
 $addChange = 0;
 
-function copyJob($order_num) {
+function copyJob(order_num) {
 	var $type = 'n';
 	if ($('#repair').val() == 1) {
 		$type = 'o';
@@ -43,7 +43,7 @@ function copyJob($order_num) {
 	} else if ($('#addition').val() == 1) {
 		$type = 'a';
 	}
-	var datastring = 'action=job_duplicate&order_num=' + $order_num + '&type=' + $type;
+	var datastring = 'action=job_duplicate&order_num=' + order_num + '&type=' + $type;
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",
@@ -57,8 +57,8 @@ function copyJob($order_num) {
 	});
 }
 
-function job_lookup($job) {
-	var datastring = 'action=lookup_jobs&pid=' + $job;
+function job_lookup(order_num) {
+	var datastring = 'action=lookup_jobs&order_num=' + order_num;
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",

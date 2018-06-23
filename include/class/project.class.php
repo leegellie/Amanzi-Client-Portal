@@ -75,7 +75,7 @@ class project_action {
 				   FROM projects p
 				   JOIN users u
 					 ON u.id = p.uid
-				  WHERE p.order_num LIKE '%" . $a['pid'] . "%'
+				  WHERE p.order_num LIKE '%" . $a['order_num'] . "%'
 			");
 			$q->execute();
 			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
