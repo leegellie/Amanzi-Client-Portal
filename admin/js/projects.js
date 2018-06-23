@@ -120,6 +120,7 @@ function copyJob(pid) {
 	});
 	var order_num = order_num.substring(0, 3);
 	var datastring2 = 'action=number_job&order_num=' + order_num + '&type=' + $type;
+	console.log(datastring2);
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",
