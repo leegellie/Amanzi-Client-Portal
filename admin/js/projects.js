@@ -33,7 +33,8 @@ $curCost = 0;
 $instForm = '';
 $defaultEdge = 0;
 $addChange = 0;
-$new_order_num = '';
+$order_num = '';
+$job_name = '';
 function copyJob(pid) {
 	$('#uid').val('');
 	$('#uCompany').val('');
@@ -54,8 +55,6 @@ function copyJob(pid) {
 	$('#alternate_name').val('');
 	$('#alternate_number').val('');
 	$('#alternate_email').val('');
-	var order_num = '';
-	var job_name = '';
 	var $type = '';
 	if ($('#repair').val() == 1) {
 		$type = 'O';
@@ -78,8 +77,8 @@ function copyJob(pid) {
 			var  uCompany = res[1];
 			var  uFname = res[2];
 			var  uLname = res[3];
-				 job_name = res[4];
-				 order_num = res[5];
+				 $job_name = res[4];
+				 $order_num = res[5];
 			var  acct_rep = res[6];
 			var  builder = res[7];
 			var  address_1 = res[8];
@@ -118,8 +117,10 @@ function copyJob(pid) {
 			console.log(data);
 		}
 	});
-	new_order_num = order_num.substring(0, 5);
+	new_order_num = $order_num.substring(0, 5);
+	console.log($order_num);
 	console.log(new_order_num);
+	console.log($job_name);
 	var datastring2 = 'action=number_job&order_num=' + new_order_num + '&type=' + $type;
 	console.log(datastring2);
 	$.ajax({
@@ -129,8 +130,8 @@ function copyJob(pid) {
 		success: function(data) {
 			console.log(data);
 			var newDigit = parseInt(data) + parseInt(1);
-			var job_num = order_num + '-' + $type + newDigit;
-			var $type_text = job_name;
+			var job_num = new_order_num + '-' + $type + newDigit;
+			var $type_text = $job_name;
 			if ($type == 'R') {
 				$type_text += ' - Rework ' + newDigit;
 			} else if ($type == 'O') {
