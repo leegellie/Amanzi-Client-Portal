@@ -96,7 +96,7 @@ function copyJob(pid) {
 			$('#uid').val(uid);
 			$('#user_info').val(uCompany + ' - ' + uFname + ' '+ uLname);
 			$('#job_name').val(job_name);
-			$('#order_num').val(order_num + $type);
+			
 			$('#acct_rep').val(acct_rep);
 			$('#builder').val(builder);
 			$('#address_1').val(address_1);
@@ -128,7 +128,8 @@ function copyJob(pid) {
 		url: "ajax.php",
 		data: datastring2,
 		success: function(data) {
-			alert(data);
+			var job_num = order_num + '-' + $type + (data+1);
+			$('#order_num').val(job_num);
 		},
 		error: function(data) {
 			console.log(data);
