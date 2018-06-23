@@ -55,6 +55,7 @@ function copyJob(pid) {
 	$('#alternate_number').val('');
 	$('#alternate_email').val('');
 	var order_num = '';
+	var job_name = '';
 	var $type = '';
 	if ($('#repair').val() == 1) {
 		$type = 'O';
@@ -77,9 +78,8 @@ function copyJob(pid) {
 			var  uCompany = res[1];
 			var  uFname = res[2];
 			var  uLname = res[3];
-			var  job_name = res[4];
+				 job_name = res[4];
 				 order_num = res[5];
-			$new_order_num = res[5];
 			var  acct_rep = res[6];
 			var  builder = res[7];
 			var  address_1 = res[8];
@@ -118,8 +118,7 @@ function copyJob(pid) {
 			console.log(data);
 		}
 	});
-	console.log(order_num);
-	new_order_num = $new_order_num.substring(0, 5);
+	new_order_num = order_num.substring(0, 5);
 	console.log(new_order_num);
 	var datastring2 = 'action=number_job&order_num=' + new_order_num + '&type=' + $type;
 	console.log(datastring2);
@@ -140,7 +139,7 @@ function copyJob(pid) {
 				$type_text += ' - Add-On ' + newDigit;
 			}
 			$('#order_num').val(job_num);
-			$('#job_name').val();
+			$('#job_name').val($type_text);
 		},
 		error: function(data) {
 			console.log(data);
