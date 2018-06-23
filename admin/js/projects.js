@@ -33,7 +33,7 @@ $curCost = 0;
 $instForm = '';
 $defaultEdge = 0;
 $addChange = 0;
-
+$new_order_num = '';
 function copyJob(pid) {
 	$('#uid').val('');
 	$('#uCompany').val('');
@@ -79,6 +79,7 @@ function copyJob(pid) {
 			var  uLname = res[3];
 			var  job_name = res[4];
 				 order_num = res[5];
+			$new_order_num = res[5];
 			var  acct_rep = res[6];
 			var  builder = res[7];
 			var  address_1 = res[8];
@@ -120,7 +121,8 @@ function copyJob(pid) {
 		}
 	});
 	console.log(order_num);
-	new_order_num = $('#order_num').val().substring(0, 3);
+	new_order_num = $new_order_num.substring(0, 3);
+	console.log(new_order_num);
 	var datastring2 = 'action=number_job&order_num=' + new_order_num + '&type=' + $type;
 	console.log(datastring2);
 	$.ajax({
