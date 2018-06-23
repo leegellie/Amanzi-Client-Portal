@@ -95,12 +95,12 @@ function copyJob(pid) {
 			$('#user_info').val(uCompany + ' - ' + uFname + ' '+ uLname);
 			$('#job_name').val(job_name);
 			$('#order_num').val(order_num);
-			$('#acct_rep').val(acct_rep);
+			$('#acct_rep select').val(acct_rep);
 			$('#builder').val(builder);
 			$('#address_1').val(address_1);
 			$('#address_2').val(address_2);
 			$('#city').val(city);
-			$('#state').val(state);
+			$('#state select').val(state);
 			$('#zip').val(zip);
 			$('#contact_name').val(contact_name);
 			$('#contact_number').val(contact_number);
