@@ -43,18 +43,31 @@ function copyJob(pid) {
 	} else if ($('#addition').val() == 1) {
 		$type = 'a';
 	}
-	var datastring = 'action=job_duplicate&pid=' + pid + '&type=' + $type;
+	var datastring = 'action=job_duplicate&pid=' + pid;
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			alert(data);
+			var res = split(data,'::');
+			alert(res);
 		},
 		error: function(data) {
 			console.log(data);
 		}
 	});
+//	var datastring2 = 'action=number_job&pid=' + pid + '&type=' + $type;
+//	$.ajax({
+//		type: "POST",
+//		url: "ajax.php",
+//		data: datastring,
+//		success: function(data) {
+//			alert(data);
+//		},
+//		error: function(data) {
+//			console.log(data);
+//		}
+//	});
 }
 
 function job_lookup(order_num) {
