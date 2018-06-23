@@ -273,9 +273,16 @@ $(document).ready(function() {
     $('#btnDel').hide();
 
 	$("#add_pjt_btn").click(function(e) {
-		e.preventDefault();
 		$('input').removeClass('is-invalid');
 		$('#loadOver').fadeIn(500);
+
+		e.preventDefault();
+		if ( ($('#repair').val() == 1 || $('#rework').val() == 1) && ($('#responsible option:selected').val() == 0 || $('#reason').val().length < 15) ) {
+			alert("You must explain the reason for repairs with as mutch detail as possible and the area responsible.");
+			$('#loadOver').fadeOut(500);
+			$('#reason').focus();
+			return;
+		}
 
 		if ($('input[name=uid]').val() < 1) {
 			alert("No project owner selected.");
