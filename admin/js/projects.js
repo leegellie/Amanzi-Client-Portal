@@ -35,6 +35,7 @@ $defaultEdge = 0;
 $addChange = 0;
 
 function copyJob(pid) {
+	$('.mdb-select').material_select('destroy');
 	$('#uid').val('');
 	$('#uCompany').val('');
 	$('#uFname').val('');
@@ -55,13 +56,13 @@ function copyJob(pid) {
 	$('#alternate_number').val('');
 	$('#alternate_email').val('');
 
-	var $type = 'n';
+	var $type = 'N';
 	if ($('#repair').val() == 1) {
-		$type = 'o';
+		$type = 'O';
 	} else if ($('#rework').val() == 1) {
-		$type = 'r';
+		$type = 'R';
 	} else if ($('#addition').val() == 1) {
-		$type = 'a';
+		$type = 'A';
 	}
 	var datastring = 'action=job_duplicate&pid=' + pid;
 	$.ajax({
@@ -107,12 +108,15 @@ function copyJob(pid) {
 			$('#alternate_name').val(alternate_name);
 			$('#alternate_number').val(alternate_number);
 			$('#alternate_email').val(alternate_email);
+			$('#job_lookup_modal').modal('hide');
 
 		},
 		error: function(data) {
 			console.log(data);
 		}
 	});
+	$('.mdb-select').material_select();
+
 //	var datastring2 = 'action=number_job&pid=' + pid + '&type=' + $type;
 //	$.ajax({
 //		type: "POST",
