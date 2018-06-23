@@ -54,7 +54,7 @@ function copyJob(pid) {
 	$('#alternate_name').val('');
 	$('#alternate_number').val('');
 	$('#alternate_email').val('');
-
+	var order_num = '';
 	var $type = 'N';
 	if ($('#repair').val() == 1) {
 		$type = 'O';
@@ -63,7 +63,6 @@ function copyJob(pid) {
 	} else if ($('#addition').val() == 1) {
 		$type = 'A';
 	}
-	var order_num = '';
 	var datastring = 'action=job_duplicate&pid=' + pid;
 	$.ajax({
 		type: "POST",
