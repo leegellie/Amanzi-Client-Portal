@@ -123,7 +123,7 @@ if ($action=="lookup_jobs") {
 		</div>
 		';
 	}
-	echo $jobs;
+	echo $result;
 }
 
 
