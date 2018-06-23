@@ -121,7 +121,7 @@ function copyJob(pid) {
 		}
 	});
 	console.log(order_num);
-	new_order_num = $new_order_num.substring(0, 3);
+	new_order_num = $new_order_num.substring(0, 5);
 	console.log(new_order_num);
 	var datastring2 = 'action=number_job&order_num=' + new_order_num + '&type=' + $type;
 	console.log(datastring2);
