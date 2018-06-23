@@ -35,6 +35,26 @@ $defaultEdge = 0;
 $addChange = 0;
 
 function copyJob(pid) {
+	$('#uid').val('');
+	$('#uCompany').val('');
+	$('#uFname').val('');
+	$('#uLname').val('');
+	$('#job_name').val('');
+	$('#order_num').val('');
+	$('#acct_rep').val('');
+	$('#builder').val('');
+	$('#address_1').val('');
+	$('#address_2').val('');
+	$('#city').val('');
+	$('#state').val('');
+	$('#zip').val('');
+	$('#contact_name').val('');
+	$('#contact_number').val('');
+	$('#contact_email').val('');
+	$('#alternate_name').val('');
+	$('#alternate_number').val('');
+	$('#alternate_email').val('');
+
 	var $type = 'n';
 	if ($('#repair').val() == 1) {
 		$type = 'o';
@@ -50,7 +70,44 @@ function copyJob(pid) {
 		data: datastring,
 		success: function(data) {
 			var res = data.split("::");
-			alert(res);
+			var  uid = res[0];
+			var  uCompany = res[1];
+			var  uFname = res[2];
+			var  uLname = res[3];
+			var  job_name = res[4];
+			var  order_num = res[5];
+			var  acct_rep = res[6];
+			var  builder = res[7];
+			var  address_1 = res[8];
+			var  address_2 = res[9];
+			var  city = res[10];
+			var  state = res[11];
+			var  zip = res[12];
+			var  contact_name = res[13];
+			var  contact_number = res[14];
+			var  contact_email = res[15];
+			var  alternate_name = res[16];
+			var  alternate_number = res[17];
+			var  alternate_email = res[18];
+
+			$('#uid').val(uid);
+			$('#user_info').val(uCompany + ' - ' + uFname + ' '+ uLname);
+			$('#job_name').val(job_name);
+			$('#order_num').val(order_num);
+			$('#acct_rep').val(acct_rep);
+			$('#builder').val(builder);
+			$('#address_1').val(address_1);
+			$('#address_2').val(address_2);
+			$('#city').val(city);
+			$('#state').val(state);
+			$('#zip').val(zip);
+			$('#contact_name').val(contact_name);
+			$('#contact_number').val(contact_number);
+			$('#contact_email').val(contact_email);
+			$('#alternate_name').val(alternate_name);
+			$('#alternate_number').val(alternate_number);
+			$('#alternate_email').val(alternate_email);
+
 		},
 		error: function(data) {
 			console.log(data);
