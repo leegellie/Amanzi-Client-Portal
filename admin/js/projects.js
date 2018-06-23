@@ -120,7 +120,7 @@ function copyJob(pid) {
 		}
 	});
 	console.log(order_num);
-	var order_num = order_num.substring(0, 3);
+	order_num = order_num.substring(0, 3);
 	var datastring2 = 'action=number_job&order_num=' + order_num + '&type=' + $type;
 	console.log(datastring2);
 	$.ajax({
