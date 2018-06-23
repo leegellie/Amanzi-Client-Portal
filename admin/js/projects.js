@@ -129,7 +129,7 @@ function copyJob(pid) {
 		data: datastring2,
 		success: function(data) {
 			var newDigit = data*1;
-			var job_num = order_num + '-' + $type + newDigit;
+			var job_num = order_num + '-' + $type + (newDigit+1);
 			$('#order_num').val(job_num);
 		},
 		error: function(data) {
