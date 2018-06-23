@@ -115,35 +115,38 @@ function copyJob(pid) {
 		},
 		error: function(data) {
 			console.log(data);
-		}
-	});
-	new_order_num = $order_num.substring(0, 5);
-	console.log($order_num);
-	console.log(new_order_num);
-	console.log($job_name);
-	var datastring2 = 'action=number_job&order_num=' + new_order_num + '&type=' + $type;
-	console.log(datastring2);
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring2,
-		success: function(data) {
-			console.log(data);
-			var newDigit = parseInt(data) + parseInt(1);
-			var job_num = new_order_num + '-' + $type + newDigit;
-			var $type_text = $job_name;
-			if ($type == 'R') {
-				$type_text += ' - Rework ' + newDigit;
-			} else if ($type == 'O') {
-				$type_text += ' - Repair ' + newDigit;
-			} else if ($type == 'A') {
-				$type_text += ' - Add-On ' + newDigit;
-			}
-			$('#order_num').val(job_num);
-			$('#job_name').val($type_text);
 		},
-		error: function(data) {
-			console.log(data);
+		complete: function() {
+			new_order_num = $order_num.substring(0, 5);
+			console.log($order_num);
+			console.log(new_order_num);
+			console.log($job_name);
+			var datastring2 = 'action=number_job&order_num=' + new_order_num + '&type=' + $type;
+			console.log(datastring2);
+			$.ajax({
+				type: "POST",
+				url: "ajax.php",
+				data: datastring2,
+				success: function(data) {
+					console.log(data);
+					var newDigit = parseInt(data) + parseInt(1);
+					var job_num = new_order_num + '-' + $type + newDigit;
+					var $type_text = $job_name;
+					if ($type == 'R') {
+						$type_text += ' - Rework ' + newDigit;
+					} else if ($type == 'O') {
+						$type_text += ' - Repair ' + newDigit;
+					} else if ($type == 'A') {
+						$type_text += ' - Add-On ' + newDigit;
+					}
+					$('#order_num').val(job_num);
+					$('#job_name').val($type_text);
+				},
+				error: function(data) {
+					console.log(data);
+				}
+			});
+		
 		}
 	});
 }
