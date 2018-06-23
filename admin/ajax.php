@@ -108,6 +108,17 @@ function get_holidays() {
     return $days_array;
 }
 
+if ($action=="job_duplicate") {
+	unset($_POST['action']);
+	unset($_POST['type']);
+	$get_copy_job = new project_action;
+	$job = '';
+	foreach($get_copy_job -> get_copy_job($_POST) as $results) {
+		$job .= $results['uid'] . '::' . $results['uCompany'] . '::' . $results['uFname'] . '::' . $results['uLname'] . '::' . $results['job_name'] . '::' . $results['order_num'] . '::' . $results['acct_rep'] . '::' . $results['builder'] . '::' . $results['address_1'] . '::' . $results['address_2'] . '::' . $results['city'] . '::' . $results['state'] . '::' . $results['zip'] . '::' . $results['contact_name'] . '::' . $results['contact_number'] . '::' . $results['contact_email'] . '::' . $results['alternate_name'] . '::' . $results['alternate_number'] . '::' . $results['alternate_email'];
+	}
+	echo $job;
+}
+
 if ($action=="lookup_jobs") {
 	unset($_POST['action']);
 	$lookup_jobs = new project_action;
@@ -122,17 +133,6 @@ if ($action=="lookup_jobs") {
 		';
 	}
 	echo $result;
-}
-
-if ($action=="job_duplicate") {
-	unset($_POST['action']);
-	unset($_POST['type']);
-	$lookup_jobs = new project_action;
-	$job = '';
-	foreach($lookup_jobs -> get_copy_job($_POST) as $results) {
-		$job .= $results['id'] . '::' . $results['uid'] . '::' . $results['uCompany'] . '::' . $results['uFname'] . '::' . $results['uLname'] . '::' . $results['job_name'] . '::' . $results['order_num'] . '::' . $results['acct_rep'] . '::' . $results['builder'] . '::' . $results['address_1'] . '::' . $results['address_2'] . '::' . $results['city'] . '::' . $results['state'] . '::' . $results['zip'] . '::' . $results['contact_name'] . '::' . $results['contact_number'] . '::' . $results['contact_email'] . '::' . $results['alternate_name'] . '::' . $results['alternate_number'] . '::' . $results['alternate_email'];
-	}
-	echo $job;
 }
 
 if ($action=="newTemplateInstall") {
