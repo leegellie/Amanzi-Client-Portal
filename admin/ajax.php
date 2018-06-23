@@ -116,9 +116,10 @@ if ($action=="lookup_jobs") {
 		$job = '';
 		$job .= $results['id'] . '::' . $results['uid'] . '::' . $results['uCompany'] . '::' . $results['uFname'] . '::' . $results['uLname'] . '::' . $results['job_name'] . '::' . $results['order_num'] . '::' . $results['acct_rep'] . '::' . $results['builder'] . '::' . $results['address_1'] . '::' . $results['address_2'] . '::' . $results['city'] . '::' . $results['state'] . '::' . $results['zip'] . '::' . $results['contact_name'] . '::' . $results['contact_number'] . '::' . $results['contact_email'] . '::' . $results['alternate_name'] . '::' . $results['alternate_number'] . '::' . $results['alternate_email'];
 		$result .= '
-			<div class="col-3">' . $results['order_num'] . '</div>
-			<div class="col-6">' . $results['job_name'] . '</div>
-			<div class="col-3"><div class="btn btn-sm btn-primary">' . $results['order_num'] . '</div></div>
+			<div class="col-2">' . $results['order_num'] . '</div>
+			<div class="col-4">' . $results['job_name'] . '</div>
+			<div class="col-5">' . $results['uCompany'] . ' - ' . $results['uFname'] . '' . $results['uLname'] . '</div>
+			<div class="col-1"><div class="btn btn-sm btn-primary" onClick="copyJob(' . $results['order_num'] . ')"><i class="fas fa-check"></i></div></div>
 			<hr>
 		';
 	}
