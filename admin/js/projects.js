@@ -35,6 +35,7 @@ $defaultEdge = 0;
 $addChange = 0;
 $order_num = '';
 $job_name = '';
+
 function copyJob(pid) {
 	$('#job_lookup').val('');
 	$('#uid').val('');
@@ -2622,6 +2623,14 @@ $(document).ready(function() {
 		}
 	})
 
-
 	$('.servoption').hide();
+
+	$('#job_lookup').keypress(function (e) {
+		if (e.which == 13) {
+			var lookup = $('#job_lookup').val();
+			job_lookup(lookup);
+			return false;    //<---- Add this line
+		}
+	});
+
 });
