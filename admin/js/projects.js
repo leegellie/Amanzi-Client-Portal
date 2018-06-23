@@ -43,6 +43,7 @@ function job_lookup($job) {
 		success: function(data) {
 			$('#job_lookup_results').html(data);
 			$('#job_lookup_modal').modal('show');
+		}
 		error: function(data) {
 			console.log(data);
 		}
