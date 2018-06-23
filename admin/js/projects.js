@@ -63,6 +63,7 @@ function copyJob(pid) {
 	} else if ($('#addition').val() == 1) {
 		$type = 'A';
 	}
+	var order_num = '';
 	var datastring = 'action=job_duplicate&pid=' + pid;
 	$.ajax({
 		type: "POST",
@@ -76,7 +77,7 @@ function copyJob(pid) {
 			var  uFname = res[2];
 			var  uLname = res[3];
 			var  job_name = res[4];
-			var  order_num = res[5];
+				 order_num = res[5];
 			var  acct_rep = res[6];
 			var  builder = res[7];
 			var  address_1 = res[8];
@@ -94,7 +95,7 @@ function copyJob(pid) {
 			$('#uid').val(uid);
 			$('#user_info').val(uCompany + ' - ' + uFname + ' '+ uLname);
 			$('#job_name').val(job_name);
-			$('#order_num').val(order_num);
+			$('#order_num').val(order_num + $type);
 			$('#acct_rep').val(acct_rep);
 			$('#builder').val(builder);
 			$('#address_1').val(address_1);
@@ -117,19 +118,19 @@ function copyJob(pid) {
 			console.log(data);
 		}
 	});
-
-//	var datastring2 = 'action=number_job&pid=' + pid + '&type=' + $type;
-//	$.ajax({
-//		type: "POST",
-//		url: "ajax.php",
-//		data: datastring,
-//		success: function(data) {
-//			alert(data);
-//		},
-//		error: function(data) {
-//			console.log(data);
-//		}
-//	});
+	var order_num = order_num.substring(0, 3);
+	var datastring2 = 'action=number_job&order_num=' + order_num + '&type=' + $type;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring2,
+		success: function(data) {
+			alert(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
 }
 
 function job_lookup(order_num) {

@@ -41,6 +41,26 @@ class project_action {
 	// $dir = OPTIONAL SUBDIRECTORY NAME. 0 = NO SUBDIRECTORY
 	// $name = NAME TO GIVE THE IMAGE
 
+	public function number_job($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$q = $conn->prepare("
+				 SELECT	COUNT(*) AS order_count
+				   FROM projects
+				  WHERE order_num LIKE '" . $a['order_num'] . "%'
+					AND order_num LIKE '%" . $a['type'] . "%'
+					
+			");
+			$q->execute();
+			$row = $q->fetch(PDO::FETCH_ASSOC);
+			$count = $row['order_count'];
+			return $count;
+
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
 
 	public function get_copy_job($a) {
 		try {
