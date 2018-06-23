@@ -55,13 +55,15 @@ function copyJob(pid) {
 	$('#alternate_number').val('');
 	$('#alternate_email').val('');
 	var order_num = '';
-	var $type = 'N';
-	if ($('#repair').val() === 1) {
+	var $type = '';
+	if ($('#repair').val() == 1) {
 		$type = 'O';
-	} else if ($('#rework').val() === 1) {
+	} else if ($('#rework').val() == 1) {
 		$type = 'R';
-	} else if ($('#addition').val() === 1) {
+	} else if ($('#addition').val() == 1) {
 		$type = 'A';
+	} else {
+		var $type = 'N';
 	}
 	var datastring = 'action=job_duplicate&pid=' + pid;
 	$.ajax({
