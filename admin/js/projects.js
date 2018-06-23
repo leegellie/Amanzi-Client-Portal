@@ -96,7 +96,6 @@ function copyJob(pid) {
 
 			$('#uid').val(uid);
 			$('#user_info').val(uCompany + ' - ' + uFname + ' '+ uLname);
-			$('#job_name').val(job_name);
 			$('#acct_rep').val(acct_rep);
 			$('#builder').val(builder);
 			$('#address_1').val(address_1);
@@ -132,7 +131,16 @@ function copyJob(pid) {
 			console.log(data);
 			var newDigit = parseInt(data) + parseInt(1);
 			var job_num = order_num + '-' + $type + newDigit;
+			var $type_text = job_name;
+			if ($type == 'R') {
+				$type_text += ' - Rework ' + newDigit;
+			} else if ($type == 'O') {
+				$type_text += ' - Repair ' + newDigit;
+			} else if ($type == 'A') {
+				$type_text += ' - Add-On ' + newDigit;
+			}
 			$('#order_num').val(job_num);
+			$('#job_name').val();
 		},
 		error: function(data) {
 			console.log(data);
