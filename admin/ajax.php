@@ -116,11 +116,9 @@ if ($action=="lookup_jobs") {
 		$job = '';
 		$job .= $results['id'] . '::' . $results['uid'] . '::' . $results['uCompany'] . '::' . $results['uFname'] . '::' . $results['uLname'] . '::' . $results['job_name'] . '::' . $results['order_num'] . '::' . $results['acct_rep'] . '::' . $results['builder'] . '::' . $results['address_1'] . '::' . $results['address_2'] . '::' . $results['city'] . '::' . $results['state'] . '::' . $results['zip'] . '::' . $results['contact_name'] . '::' . $results['contact_number'] . '::' . $results['contact_email'] . '::' . $results['alternate_name'] . '::' . $results['alternate_number'] . '::' . $results['alternate_email'];
 		$result .= '
-		<div class="row">
 			<div class="col-3">' . $results['order_num'] . '</div>
 			<div class="col-6">' . $results['job_name'] . '</div>
 			<div class="col-3 btn btn-primary">' . $results['order_num'] . '</div>
-		</div>
 		';
 	}
 	echo $result;
