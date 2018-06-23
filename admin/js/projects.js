@@ -130,6 +130,7 @@ function copyJob(pid) {
 		url: "ajax.php",
 		data: datastring2,
 		success: function(data) {
+			console.log(data);
 			var newDigit = parseInt(data) + parseInt(1);
 			var job_num = order_num + '-' + $type + newDigit;
 			$('#order_num').val(job_num);
