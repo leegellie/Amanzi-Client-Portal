@@ -49,7 +49,7 @@ function copyJob(pid) {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			var res = split(data,'::');
+			var res = data.split("::");
 			alert(res);
 		},
 		error: function(data) {
