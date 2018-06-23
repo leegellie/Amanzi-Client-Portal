@@ -54,8 +54,9 @@ class project_action {
 				   FROM projects p
 				   JOIN users u
 					 ON u.id = p.uid
-				  WHERE p.order_num LIKE " . $a['order_num'] . "
+				  WHERE p.id = :id
 			");
+			$q->bindParam('id',$a['pid']);
 			$q->execute();
 			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 		} catch(PDOException $e) {
