@@ -79,8 +79,6 @@ function copyJob(pid) {
 			var  uLname = res[3];
 			var  job_name = res[4];
 				 order_num = res[5];
-			console.log(order_num);
-			console.log(res[5]);
 			var  acct_rep = res[6];
 			var  builder = res[7];
 			var  address_1 = res[8];
@@ -122,7 +120,7 @@ function copyJob(pid) {
 		}
 	});
 	console.log(order_num);
-	order_num = order_num.substring(0, 3);
+	new_order_num = order_num.substring(0, 3);
 	var datastring2 = 'action=number_job&order_num=' + order_num + '&type=' + $type;
 	console.log(datastring2);
 	$.ajax({
