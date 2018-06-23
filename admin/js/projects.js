@@ -34,6 +34,29 @@ $instForm = '';
 $defaultEdge = 0;
 $addChange = 0;
 
+function copyJob($order_num) {
+	var $type = 'n';
+	if ($('#repair').val() == 1) {
+		$type = 'o';
+	} else if ($('#rework').val() == 1) {
+		$type = 'r';
+	} else if ($('#addition').val() == 1) {
+		$type = 'a';
+	}
+	var datastring = 'action=job_duplicate&order_num=' + $order_num + '&type=' + $type;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			alert(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
 function job_lookup($job) {
 	var datastring = 'action=lookup_jobs&pid=' + $job;
 	$.ajax({
@@ -52,15 +75,24 @@ function job_lookup($job) {
 }
 
 function proj_type($type) {
+	$('#repair').val(0);
+	$('#rework').val(0);
+	$('#addition').val(0);
 	if ($type === 'new') {
 		$('.servoption').hide();
 		$('#no_charge').prop('checked', false);
 		$('#call_out_fee').prop('checked', false);
 	} else if ($type === 'add') {
+		$('#addition').val(1);
 		$('#call_out_fee').prop('checked', true);
 		$('.servoption').hide();
 		$('.addoption').show();
 	} else {
+		if ($type === 'rew') {
+			$('#rework').val(1);
+		} else {
+			$('#repair').val(1);
+		}
 		$('#no_charge').prop('checked', false);
 		$('#call_out_fee').prop('checked', true);
 		$('.servoption').show();

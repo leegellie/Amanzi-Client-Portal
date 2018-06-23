@@ -41,6 +41,28 @@ class project_action {
 	// $dir = OPTIONAL SUBDIRECTORY NAME. 0 = NO SUBDIRECTORY
 	// $name = NAME TO GIVE THE IMAGE
 
+
+	public function get_copy_job($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$q = $conn->prepare("
+				 SELECT	p.*,
+						u.company AS uCompany,
+						u.fname AS uFname,
+						u.lname AS uLname
+				   FROM projects p
+				   JOIN users u
+					 ON u.id = p.uid
+				  WHERE p.order_num LIKE " . $a['order_num'] . "
+			");
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+
 	public function lookup_jobs($a) {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
