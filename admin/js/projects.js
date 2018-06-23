@@ -56,11 +56,11 @@ function copyJob(pid) {
 	$('#alternate_email').val('');
 	var order_num = '';
 	var $type = 'N';
-	if ($('#repair').val() == 1) {
+	if ($('#repair').val() === 1) {
 		$type = 'O';
-	} else if ($('#rework').val() == 1) {
+	} else if ($('#rework').val() === 1) {
 		$type = 'R';
-	} else if ($('#addition').val() == 1) {
+	} else if ($('#addition').val() === 1) {
 		$type = 'A';
 	}
 	var datastring = 'action=job_duplicate&pid=' + pid;
