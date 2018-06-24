@@ -9,47 +9,51 @@
 
 					<form id="editPjtOne" class="row">
 						<div class="row">
-							<fieldset class="form-group col-4 col-md-3 text-left">
-								<input class="filled-in mr-4" name="in_house_template" id="p-in_house_template" type="checkbox" value="1">
-								<label for="in_house_template" class="text-left">In-House Template</label>
-							</fieldset>
-							<fieldset class="form-group col-4 col-md-3 text-left">
-								<input class="filled-in mr-4" name="no_template" id="p-no_template" type="checkbox" value="1">
-								<label for="no_template" class="text-left">No Template Needed</label>
-							</fieldset>
-							<fieldset class="form-group col-4 col-md-3 text-left">
-								<input class="filled-in mr-4" name="no_charge" id="p-no_charge" type="checkbox" value="1">
-								<label for="no_charge" class="text-left">No Charge</label>
-							</fieldset>
-							<fieldset class="form-group col-4 col-md-3 text-left">
-								<input class="filled-in mr-4" name="pick_up" id="p-pick_up" type="checkbox" value="1">
-								<label for="pick_up" class="text-left">Customer Pick Up</label>
-							</fieldset>
-							<fieldset class="form-group col-4 col-md-2 text-left">
-								<input class="filled-in mr-4" name="call_out_fee" id="p-call_out_fee" type="checkbox" value="1">
-								<label for="call_out_fee" class="text-left">Call Out Fee</label>
-							</fieldset>
-							<fieldset class="form-group col-4 col-md-2 text-left reprew">
-								<label for="responsible" class="text-left">Who is responsible</label>
-								<select class="mdb-select" name="responsible" id="p-responsible">
-									<option value="0">Select one</option>
-									<option value="11">Customer</option>
-									<option value="2">Sales</option>
-									<option value="3">Entry</option>
-									<option value="4">Templaters</option>
-									<option value="5">Programming</option>
-									<option value="6">Materials</option>
-									<option value="7">Saw</option>
-									<option value="8">Montissor/CNC</option>
-									<option value="9">Polishing</option>
-									<option value="10">Installers</option>
-									<option value="99">Unknown</option>
-								</select>
-							</fieldset>
-							<fieldset class="form-group col-12 col-md-6 text-left reprew">
-								<label for="reason" class="text-left w-100">Please detail the reason for Repair/Rework/No-Charge</label>
-								<textarea class="filled-in rounded mr-4 w-100" name="reason" id="p-reason"></textarea>
-							</fieldset>
+							<div class="container">
+								<div class="row">
+									<fieldset class="form-group col-4 col-md-3 text-left">
+										<input class="filled-in mr-4" name="in_house_template" id="p-in_house_template" type="checkbox" value="1">
+										<label for="in_house_template" class="text-left">In-House Template</label>
+									</fieldset>
+									<fieldset class="form-group col-4 col-md-3 text-left">
+										<input class="filled-in mr-4" name="no_template" id="p-no_template" type="checkbox" value="1">
+										<label for="no_template" class="text-left">No Template Needed</label>
+									</fieldset>
+									<fieldset class="form-group col-4 col-md-3 text-left">
+										<input class="filled-in mr-4" name="no_charge" id="p-no_charge" type="checkbox" value="1">
+										<label for="no_charge" class="text-left">No Charge</label>
+									</fieldset>
+									<fieldset class="form-group col-4 col-md-3 text-left">
+										<input class="filled-in mr-4" name="pick_up" id="p-pick_up" type="checkbox" value="1">
+										<label for="pick_up" class="text-left">Customer Pick Up</label>
+									</fieldset>
+									<fieldset class="form-group col-4 col-md-2 text-left">
+										<input class="filled-in mr-4" name="call_out_fee" id="p-call_out_fee" type="checkbox" value="1">
+										<label for="call_out_fee" class="text-left">Call Out Fee</label>
+									</fieldset>
+									<fieldset class="form-group col-4 col-md-2 text-left reprew">
+										<label for="responsible" class="text-left">Who is responsible</label>
+										<select class="mdb-select" name="responsible" id="p-responsible">
+											<option value="0">Select one</option>
+											<option value="11">Customer</option>
+											<option value="2">Sales</option>
+											<option value="3">Entry</option>
+											<option value="4">Templaters</option>
+											<option value="5">Programming</option>
+											<option value="6">Materials</option>
+											<option value="7">Saw</option>
+											<option value="8">Montissor/CNC</option>
+											<option value="9">Polishing</option>
+											<option value="10">Installers</option>
+											<option value="99">Unknown</option>
+										</select>
+									</fieldset>
+									<fieldset class="form-group col-12 col-md-6 text-left reprew">
+										<label for="reason" class="text-left w-100">Please detail the reason for Repair/Rework/No-Charge</label>
+										<textarea class="filled-in rounded mr-4 w-100" name="reason" id="p-reason"></textarea>
+									</fieldset>
+								</div>
+							</div>
 						</div>
 
 						<hr>
