@@ -4215,19 +4215,19 @@ if ($action == "add_project_step1") {
 		$_POST['no_template'] = 1;
 	}
 
-	if (!isset($_POST['urgent'])) {
+	if (!isset($_POST['no_charge'])) {
 		$_POST['no_charge'] = "0";
 	} else {
 		$_POST['no_charge'] = 1;
 	}
 
-	if (!isset($_POST['urgent'])) {
+	if (!isset($_POST['pick_up'])) {
 		$_POST['pick_up'] = "0";
 	} else {
 		$_POST['pick_up'] = 1;
 	}
 
-	if (!isset($_POST['urgent'])) {
+	if (!isset($_POST['call_out_fee'])) {
 		$_POST['call_out_fee'] = "0";
 	} else {
 		$_POST['call_out_fee'] = 1;
