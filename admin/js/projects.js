@@ -1974,17 +1974,30 @@ function compilePjtEdit(data) {
 	}
 	if (obj.no_charge == 1) {
 		$('#p-no_charge').prop("checked", true);
-		$('.reason').show();
+		$('reprew').show();
 	} else {
 		$('#p-no_charge').prop("checked", false);
 	}
+	if (obj.pick_up == 1) {
+		$('#p-pick_up').prop("checked", true);
+	} else {
+		$('#p-pick_up').prop("checked", false);
+	}
+	if (obj.call_out_fee == 1) {
+		$('#p-call_out_fee').prop("checked", true);
+	} else {
+		$('#p-call_out_fee').prop("checked", false);
+	}
 
-	$('#repair').text(obj.job_name);
-	$('#rework').text(obj.job_name);
-	$('#addition').text(obj.job_name);
-	$('#reason').text(obj.job_name);
-	$('#pjt_name').text(obj.job_name);
-	$('#pjt_name').text(obj.job_name);
+	$('#p-repair').val(obj.repair);
+	$('#p-rework').val(obj.rework);
+	$('#p-addition').val(obj.addition);
+
+	if (obj.repair == 1 || obj.rework == 1 || obj.addition == 1 || obj.no_charge == 1) {
+		$('.reprew').show();
+	}
+	$('#p-reason').val(obj.reason);
+	$('#p-responsible').val(obj.responsible);
 
 	$('#pjt_name').text(obj.job_name);
 	$('#p-acct_rep').val(obj.acct_rep);
