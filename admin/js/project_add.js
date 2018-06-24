@@ -281,8 +281,8 @@ $(document).ready(function() {
 		var $type = 0;
 		if ($('#addition').val() == 1) {
 			$type = 1;
-			$('#responsible option:selected').val(0);
 			if ($('#no_charge').prop('checked') == false) {
+				$('#responsible option:selected').val(0);
 				$('#reason').val('');
 			}
 		} else if ($('#repair').val() == 1) {
@@ -292,6 +292,7 @@ $(document).ready(function() {
 		} else {
 			$('#responsible option:selected').val(0);
 			if ($('#no_charge').prop('checked') == false) {
+				$('#responsible option:selected').val(0);
 				$('#reason').val('');
 			}
 		}
