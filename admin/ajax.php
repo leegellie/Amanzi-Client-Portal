@@ -4759,10 +4759,9 @@ if ($action=="view_selected_pjt") {
 		//	$eSqFt = $getSqFt -> sum_sqft($pid);
 
 	foreach($search->project_data_fetch($_POST) as $results) {
+		$noCharge = ' ';
 		if ($results['no_charge']) {
 			$noCharge = ' d-none d-print-none ';
-		} else {
-			$noCharge = ' ';
 		}
 		$job_status = $results['job_status'];
 		$pid = $results['id'];
