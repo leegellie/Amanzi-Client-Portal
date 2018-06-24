@@ -4762,7 +4762,7 @@ if ($action=="view_selected_pjt") {
 		if ($results['no_charge']) {
 			$noCharge = ' d-none d-print-none ';
 		} else {
-			$noCharge = '  ';
+			$noCharge = ' ';
 		}
 		$job_status = $results['job_status'];
 		$pid = $results['id'];
