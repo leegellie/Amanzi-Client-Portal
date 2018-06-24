@@ -12,7 +12,7 @@
 				<div class="container">
 					<form name="findToAdd" id="findToAdd" action="#" class="AdvancedForm row">
 						<fieldset class="col-6 col-md-3">
-							<div id="user_infoDIV" class="input-control text input-box" data-role="input-control">
+							<div id="user_infoDIV" class="input-control text input-box mt-2" data-role="input-control">
 								<input class="form-control" name="search" id="search" type="text" placeholder="Search Term" value="" />
 							</div>
 						</fieldset>
@@ -28,14 +28,13 @@
 							</div>
 						</fieldset>
 						<fieldset class="col-3 col-md-2">
-							<div id="user_infoDIV" class="form-check" data-role="input-control">
-								
+							<div id="user_infoDIV" class="form-check mt-3" data-role="input-control">
 								<input class="filled-in" type="checkbox" name="isActive" id="s-isActive" value="1" checked >
 								<label style="padding-bottom:9px;" for="s-isActive">Active?</label>
 							</div>
 						</fieldset>
 						<fieldset class="col-3 col-md-2">
-							<div id="user_infoDIV" class="form-check" data-role="input-control">
+							<div id="user_infoDIV" class="form-check mt-3" data-role="input-control">
 								<input class="filled-in" type="checkbox" name="mine" id="mine" value="1" <? if (!in_array($_SESSION['id'],array('1','13','14','985'),true)) {echo 'checked';}; ?> >
 								<label style="padding-bottom:9px;" for="mine">My Clients</label>
 							</div>
@@ -43,7 +42,7 @@
 						<fieldset class="col-6 col-md-3">
 							<input name="action" id="action" type="hidden" value="user_project_user_search" />
 							<input name="searchChild" id="searchChild" type="hidden" value="0" />
-							<div id="submitForm" class="btn btn-primary" style="height: 36px; width: 100%; padding-top: 14px;">
+							<div id="submitForm" class="btn btn-primary mt-2" style="height: 36px; width: 100%; padding-top: 14px;">
 								<h3 style="line-height: .1;font-weight:400">Search</h3>
 							</div>
 						</fieldset>

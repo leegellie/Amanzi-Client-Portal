@@ -4804,7 +4804,18 @@ if ($action=="view_selected_pjt") {
 		}
 		$html .= '</div></div>';
 		$html .= '<h2 class="d-print-none">Client:</h2>';
-		$html .= '<h2 id="clientName" class="d-inline d-print-none text-primary text-uppercase">' . $results['clientCompany'] . ' ' . $results['clientFname'] . ' ' . $results['clientLname'] . ' <em><sup class=" ' . $noProg. $noMoney . '">(' . $eSqFt[0] . ' SqFt - $' . $tax_print .')</sup></em></h2>';
+		$html .= '<h2 id="clientName" class="d-inline d-print-none text-primary text-uppercase">' . $results['clientCompany'] . ' ' . $results['clientFname'] . ' ' . $results['clientLname'] . ' <em><sup class=" ' . $noProg . ' ' . $noMoney . '">(';
+		if ($results['repair'] == 1) {
+			$html .= '<span class="text-danger">Repair - </span>';
+		} else {
+			$html .= $eSqFt[0] . ' SqFt - ';
+		}
+		if ($results['no_charge'] == 1) {
+			$html .= '<span class="text-danger">No Charge</span>';
+		} else {
+			$html .= '$' . $tax_print;
+		}
+		$html .= ')</sup></em></h2>';
 		$html .= '<hr class="d-print-none">';
 		  // **** Display the Multi upload button  **** //
 		$html .= '<div class="row d-print-none">';

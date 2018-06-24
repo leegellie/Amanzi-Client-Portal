@@ -282,17 +282,25 @@ $(document).ready(function() {
 		if ($('#addition').val() == 1) {
 			$type = 1;
 			$('#responsible option:selected').val(0);
-			$('#reason').val('');
+			if ($('#no_charge').prop('checked') == false) {
+				$('#reason').val('');
+			}
 		} else if ($('#repair').val() == 1) {
 			$type = 2;
 		} else if ($('#rework').val() == 1) {
 			$type = 3;
 		} else {
 			$('#responsible option:selected').val(0);
-			$('#reason').val('');
+			if ($('#no_charge').prop('checked') == false) {
+				$('#reason').val('');
+			}
 		}
 		if ($('#no_charge').prop('checked') == true && $('#reason').val().length < 15) {
 			alert("You must provide a detailed reason as to why there is no charge.");
+			$('#loadOver').fadeOut(500);
+			$('#reason').addClass('is-invalid');
+			$('#reason').focus();
+			return;
 		}
 		if ($type > 1 && ($('#responsible option:selected').val() == 0 || $('#reason').val().length < 15) ) {
 			alert("You must explain the reason for repairs with as mutch detail as possible and the area responsible.");
