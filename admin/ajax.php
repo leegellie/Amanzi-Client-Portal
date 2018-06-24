@@ -3933,6 +3933,36 @@ if ($action == "update_project_data") {
 	} else {
 		$_POST['urgent'] = 1;
 	}
+	if (!isset($_POST['in_house_template'])) {
+		$_POST['in_house_template'] = "0";
+	} else {
+		$_POST['in_house_template'] = 1;
+	}
+
+	if (!isset($_POST['no_template'])) {
+		$_POST['no_template'] = "0";
+	} else {
+		$_POST['no_template'] = 1;
+	}
+
+	if (!isset($_POST['no_charge'])) {
+		$_POST['no_charge'] = "0";
+	} else {
+		$_POST['no_charge'] = 1;
+	}
+
+	if (!isset($_POST['pick_up'])) {
+		$_POST['pick_up'] = "0";
+	} else {
+		$_POST['pick_up'] = 1;
+	}
+
+	if (!isset($_POST['call_out_fee'])) {
+		$_POST['call_out_fee'] = "0";
+	} else {
+		$_POST['call_out_fee'] = 1;
+	}
+
 	if (!isset($_POST['am'])) {
 		$_POST['am'] = 0;
 	} else {

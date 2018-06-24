@@ -304,7 +304,7 @@ $(document).ready(function() {
 			return;
 		}
 		if ($type > 1 && ($('#responsible option:selected').val() == 0 || $('#reason').val().length < 15) ) {
-			alert("You must explain the reason for repairs with as mutch detail as possible and the area responsible.");
+			alert("You must explain the reason for repairs with as much detail as possible and the area responsible.");
 			$('#loadOver').fadeOut(500);
 			$('#reason').addClass('is-invalid');
 			$('#reason').focus();
