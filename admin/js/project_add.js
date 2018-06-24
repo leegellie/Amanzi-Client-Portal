@@ -276,16 +276,30 @@ $(document).ready(function() {
 		$('input').removeClass('is-invalid');
 		$('textarea').removeClass('is-invalid');
 		$('#loadOver').fadeIn(500);
-
 		e.preventDefault();
-		if ( ($('#repair').val() == 1 || $('#rework').val() == 1) && ($('#responsible option:selected').val() == 0 || $('#reason').val().length < 15) ) {
+		var $type = 0;
+		if ($('#addition').val() == 1) {
+			$type = 1;
+			$('#responsible option:selected').val(0);
+			$('#reason').val('');
+		} else if ($('#repair').val() == 1) {
+			$type = 2;
+		} else if ($('#rework').val() == 1) {
+			$type = 3;
+		} else {
+			$('#responsible option:selected').val(0);
+			$('#reason').val('');
+		}
+		if ($('#no_charge').prop('checked') == true && $('#reason').val().length < 15) {
+			alert("You must provide a detailed reason as to why there is no charge.");
+		}
+		if ($type > 1 && ($('#responsible option:selected').val() == 0 || $('#reason').val().length < 15) ) {
 			alert("You must explain the reason for repairs with as mutch detail as possible and the area responsible.");
 			$('#loadOver').fadeOut(500);
 			$('#reason').addClass('is-invalid');
 			$('#reason').focus();
 			return;
 		}
-
 		if ($('input[name=uid]').val() < 1) {
 			alert("No project owner selected.");
 			$('#loadOver').fadeOut(500);
@@ -339,76 +353,72 @@ $(document).ready(function() {
 			var dateString = tYear + '-' + tMonth + '-' + date;
 			$('input[name=template_date]').val(dateString);
 		}
-		if ($('input[name=po_cost]').val() != '') {
-			var cost = $('input[name=po_cost]').val();
-			var newCost = Number(cost.replace(/[^0-9\.-]+/g,""));
-			newCost = Math.round(newCost*100)/100;
+		if ($('input[name=po_cost]').val() != '') { 
+			var cost = $('input[name=po_cost]').val(); 
+			var newCost = Number(cost.replace(/[^0-9\.-]+/g,"")); 
+			newCost = Math.round(newCost*100)/100; 
 			newCost = parseFloat(newCost).toFixed(2); 
-			$('input[name=po_cost]').val(newCost);
+			$('input[name=po_cost]').val(newCost); 
 		}
-		
-		var form = $("form#add_project");
-    	var formdata = false;
-    	if (window.FormData){
-   			formdata = new FormData(form[0]);
+		var form = $("form#add_project"); 
+    	var formdata = false; 
+    	if (window.FormData) { 
+   			formdata = new FormData(form[0]); 
     	}
-		var datastring = formdata ? formdata : form.serialize();
+		var datastring = formdata ? formdata : form.serialize(); 
+    	var formAction = form.attr('action'); 
+   		$.ajax({ 
+        	url         : 'ajax.php', 
+        	data        : datastring, 
+        	//data        : formdata ? formdata : form.serialize(), 
+        	cache       : false, 
+       	 	contentType : false, 
+        	processData : false, 
+        	type        : 'POST', 
+        	success     : function(data) { 
+				if (isNaN(data)) { 
+					alert(data); 
+				} else { 
+					//alert(form.serialize() + " ----- Project ID -----> " + data); 
+					// alert(data); 
+					$pid = data; 
+					$uid = $("#uid").val(); 
+					var $link = '/admin/projects.php?edit&pid=' + $pid + '&uid=' + $uid; 
+					window.location.replace($link); 
 
-    	var formAction = form.attr('action');
-   		$.ajax({
-        	url         : 'ajax.php',
-        	data        : datastring,
-        	//data        : formdata ? formdata : form.serialize(),
-        	cache       : false,
-       	 	contentType : false,
-        	processData : false,
-        	type        : 'POST',
-        	success     : function(data){
-				if (isNaN(data)) {
-					alert(data);
-				} else {
-					//alert(form.serialize() + " ----- Project ID -----> " + data);
-					// alert(data);
-					$pid = data;
-					$uid = $("#uid").val();
-					var $link = '/admin/projects.php?edit&pid=' + $pid + '&uid=' + $uid;
-					window.location.replace($link);
+//					$pName = $('input#job_name').val(); 
+//					$qNum = $('input#quote_num').val(); 
+//					$oNum = $('input#order_num').val(); 
+//					$('input[name=hiddenPID]').val(data); 
+//					$("#projectName").append($pName); 
+//					$("#pid").val(data); 
+//					$("#instUID").val($uid); 
+//					$("#step1container").fadeOut(300); 
+//					$("body").scrollTop(300); 
+//					$("#step2container").fadeIn(300); 
+					//$('#addProjectStepper').stepper('next'); 
+				} 
+				return false; 
+        	} 
+    	}); 
+		$("body").scrollTop(0); 
+		$('#loadOver').fadeOut(500); 
+		//addInstall(); 
+		addInstUpload(); 
+		$('#anyaBtn').show(); 
+	}); 
+	$("#backTo1").click(function() { 
+		$("#step2container").fadeOut(300); 
+		$("body").scrollTop(300); 
+		$("#step1container").fadeIn(300); 
+		//$('#addProjectStepper').stepper('prior'); 
+		return false; 
+	}); 
 
-
-//					$pName = $('input#job_name').val();
-//					$qNum = $('input#quote_num').val();
-//					$oNum = $('input#order_num').val();
-//
-//					$('input[name=hiddenPID]').val(data);
-//					$("#projectName").append($pName);
-//					$("#pid").val(data);
-//					$("#instUID").val($uid);
-//					$("#step1container").fadeOut(300);
-//					$("body").scrollTop(300);
-//					$("#step2container").fadeIn(300);
-					//$('#addProjectStepper').stepper('next');
-				}
-				return false;
-        	}
-    	});
-		$("body").scrollTop(0);
-		$('#loadOver').fadeOut(500);
-		//addInstall();
-		addInstUpload();
-		$('#anyaBtn').show();
-	});
-	$("#backTo1").click(function() {
-		$("#step2container").fadeOut(300);
-		$("body").scrollTop(300);
-		$("#step1container").fadeIn(300);
-		//$('#addProjectStepper').stepper('prior');
-		return false;
-	});
-	
-	$("#submitForm").click(function(e) {
-		e.preventDefault();
-		if ($('#mine').prop('checked') == true) {
-			$('#mine').val('1');
+	$("#submitForm").click(function(e) { 
+		e.preventDefault(); 
+		if ($('#mine').prop('checked') == true) { 
+			$('#mine').val('1'); 
 		} else {
 			$('#mine').val(0);
 		}

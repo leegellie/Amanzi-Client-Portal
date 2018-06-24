@@ -65,7 +65,7 @@ function copyJob(pid) {
 	} else if ($('#addition').val() == 1) {
 		$type = 'A';
 	} else {
-		var $type = 'N';
+		$type = 'N';
 	}
 	var datastring = 'action=job_duplicate&pid=' + pid;
 	$.ajax({
