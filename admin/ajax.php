@@ -5480,9 +5480,9 @@ if ($action=="view_selected_pjt") {
         		<div class="col-3 col-md-2 text-right text-dark"><h5><?= $results['SqFt']; ?> SqFt</h5></div>
 	        	<div class="col-2 col-md-3 text-right text-success float-right d-none <?
 					if ($results['no_charge'] == 1) {
-						echo ' d-print-none';
+						?> d-print-none <?
 					} else {
-						echo ' d-print-block';
+						?> d-print-block <?
 					}
 					?>"><h4>$<?= number_format($results['install_price'], 2, '.', ','); ?></h4></div>
 				<div class="col-3 col-md-2 text-right text-dark d-print-none"><h4 class="<?= $noProg ?> <?= $noCharge ?>">$<?= number_format($results['install_price'], 2, '.', ','); ?></h4></div>	
