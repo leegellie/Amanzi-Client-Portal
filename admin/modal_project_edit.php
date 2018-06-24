@@ -31,7 +31,7 @@
 										<input class="filled-in mr-4" name="call_out_fee" id="p-call_out_fee" type="checkbox" value="1">
 										<label for="call_out_fee" class="text-left">Call Out Fee</label>
 									</fieldset>
-									<fieldset class="form-group col-4 col-md-4 text-left reprew">
+									<fieldset class="form-group col-4 col-md-4 text-left reprew d-none">
 										<label for="responsible" class="text-left">Who is responsible</label>
 										<select class="mdb-select" name="responsible" id="p-responsible">
 											<option value="0">Select one</option>
