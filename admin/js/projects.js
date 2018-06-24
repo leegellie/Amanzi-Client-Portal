@@ -60,6 +60,8 @@ function copyJob(pid) {
 	var $type = '';
 	if ($('#repair').val() == 1) {
 		$type = 'O';
+		$("#install_date").prop('readonly', false);
+		$("#template_date").prop('readonly', true);
 	} else if ($('#rework').val() == 1) {
 		$type = 'R';
 	} else if ($('#addition').val() == 1) {
@@ -160,6 +162,7 @@ function job_lookup(order_num) {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
+			console.log('job lookup success' + data);
 			$('#job_lookup_results').html(data);
 			$('#job_lookup_modal').modal('show');
 		},
@@ -167,7 +170,6 @@ function job_lookup(order_num) {
 			console.log(data);
 		}
 	});
-
 }
 
 function proj_type($type) {
