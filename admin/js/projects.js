@@ -1960,7 +1960,7 @@ function compilePjtEdit(data) {
 		var split = res[i].split('::');
 		obj[split[0]] = split[1];
 	}
-//console.log("obj_data = ", obj);
+	//console.log("obj_data = ", obj);
 	if (obj.in_house_template == 1) {
 		$('#p-in_house_template').prop("checked", true);
 	} else {
@@ -1995,7 +1995,6 @@ function compilePjtEdit(data) {
 	}
 	$('#p-reason').val(obj.reason);
 	$('#p-responsible').val(obj.responsible);
-
 	$('#pjt_name').text(obj.job_name);
 	$('#p-acct_rep').val(obj.acct_rep);
 	$('#p-pid').val(obj.id);
@@ -2661,26 +2660,25 @@ $(document).ready(function() {
 
 	$('.servoption').hide();
 
-	$('#job_lookup').keypress(function (e) {
+	$('#job_lookup').keypress(function(e) {
 		if (e.which == 13) {
 			var lookup = $('#job_lookup').val();
 			job_lookup(lookup);
-			return false;    //<---- Add this line
+			return false; //<---- Add this line
 		}
 	});
-	$('#no_charge').change(function(){
+	$('#no_charge').change(function() {
 		if ($('#no_charge').prop('checked') == true) {
 			$('.reason').show();
 		} else if ($('#repair').val() == 0 && $('#rework').val() == 0) {
 			$('.reason').hide();
 		}
 	});
-	$('#p-no_charge').change(function(){
+	$('#p-no_charge').change(function() {
 		if ($('#p-no_charge').prop('checked') == true) {
 			$('.reason').show();
 		} else if ($('#p-repair').val() == 0 && $('#p-rework').val() == 0) {
 			$('.reason').hide();
 		}
 	});
-
 });
