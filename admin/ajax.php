@@ -4808,7 +4808,11 @@ if ($action=="view_selected_pjt") {
 		if ($results['repair'] == 1) {
 			$html .= '<span class="text-danger">Repair - </span>';
 		} else {
-			$html .= $eSqFt[0] . ' SqFt - ';
+			if ($eSqFt[0] > 0) {
+				$html .= $eSqFt[0] . ' SqFt - ';
+			} else {
+				$html .= '0 SqFt - ';
+			}
 		}
 		if ($results['no_charge'] == 1) {
 			$html .= '<span class="text-danger">No Charge</span>';
