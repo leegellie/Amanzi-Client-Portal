@@ -5478,13 +5478,7 @@ if ($action=="view_selected_pjt") {
 	        	<div class="col-4 col-md-4 text-primary"><div class="d-inline d-print-none" onClick="delete_install(<?= $results['id']; ?>,<?= $results['pid']; ?>,'<?= $results['install_name']; ?>')" style="cursor:pointer"> <i class="fas fa-trash text-danger"></i></div><h4 class="d-inline text-uppercase"> <?= $results['type_name']; ?> - <?= $results['install_name']; ?> </h4></div>
     	    	<div class="col-3 col-md-3 text-dark"><h5><?= $results['color']; ?></h5></div>
         		<div class="col-3 col-md-2 text-right text-dark"><h5><?= $results['SqFt']; ?> SqFt</h5></div>
-	        	<div class="col-2 col-md-3 text-right text-success float-right d-none <?
-					if ($results['no_charge'] == 1) {
-						?> d-print-none <?
-					} else {
-						?> d-print-block <?
-					}
-					?>"><h4>$<?= number_format($results['install_price'], 2, '.', ','); ?></h4></div>
+	        	<div class="col-2 col-md-3 text-right text-success float-right d-none d-print-block">"><h4 class="<?= $noCharge ?>">$<?= number_format($results['install_price'], 2, '.', ','); ?></h4></div>
 				<div class="col-3 col-md-2 text-right text-dark d-print-none"><h4 class="<?= $noProg ?> <?= $noCharge ?>">$<?= number_format($results['install_price'], 2, '.', ','); ?></h4></div>	
 		        <div class="col-2 col-md-1 text-right d-print-none">
 					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="viewThisInstall(this.id,$uid,$pid);" style="cursor:pointer">View <i class="icon-eye"></i></div>
