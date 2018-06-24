@@ -5274,10 +5274,10 @@ if ($action=="view_selected_pjt") {
 		$html .= '<div class="row">'; 
 		$html .= '<div class="col-12 d-print-none">'; 
 		$html .= '	<div class="row">'; 
-		$html .= '		<div class="col-6 col-md-2 ' . $noProg . '">Job Price: <br><b>$' . $print_pre . '</b></div>'; 
-		$html .= '		<div class="col-6 col-md-2 ' . $noProg . '">Extra Discount: <br><b>$' . $print_disc . '</b></div>'; 
-		$html .= '		<div class="col-6 col-md-2 ' . $noProg . '">Tax: <br><b>$' . $tax . ' @ ' . $tax_rate . '%</b></div>'; 
-		$html .= '		<div class="col-6 col-md-2 ' . $noProg . '">Total: <br><b>$' . $tax_print . '</b></div>'; 
+		$html .= '		<div class="col-6 col-md-2 ' . $noCharge . ' ' . $noProg . '">Job Price: <br><b>$' . $print_pre . '</b></div>'; 
+		$html .= '		<div class="col-6 col-md-2 ' . $noCharge . ' ' . $noProg . '">Extra Discount: <br><b>$' . $print_disc . '</b></div>'; 
+		$html .= '		<div class="col-6 col-md-2 ' . $noCharge . ' ' . $noProg . '">Tax: <br><b>$' . $tax . ' @ ' . $tax_rate . '%</b></div>'; 
+		$html .= '		<div class="col-6 col-md-2 ' . $noCharge . ' ' . $noProg . '">Total: <br><b>$' . $tax_print . '</b></div>'; 
 		$html .= '		<div class="col-6 col-md-2">PO #: <br><b>' . $results['po_num'] . '</b></div>'; 
 		$html .= '		<div class="col-6 col-md-2">Account Rep: <br><b>'. $results['repFname'] . ' ' . $results['repLname'] .'</b></div>'; 
 		$html .= '		<div id="repID" class="d-none">'. $results['acct_rep'] . '</div>'; 
@@ -5290,8 +5290,8 @@ if ($action=="view_selected_pjt") {
 		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Extra Discount: <b>$' . $print_disc . '</b></div>'; 
 		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Tax: <b>$' . $tax . ' @ ' . $tax_rate . '%</b></div>'; 
 		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Total: <b>$' . $tax_print . '</b></div>'; 
-		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">PO #: <b>' . $results['po_num'] . '</b></div>'; 
-		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Account Rep: <b>'. $results['repFname'] . ' ' . $results['repLname'] .'</b></div>'; 
+		$html .= '		<div class="col-3 col-md-2">PO #: <b>' . $results['po_num'] . '</b></div>'; 
+		$html .= '		<div class="col-3 col-md-2">Account Rep: <b>'. $results['repFname'] . ' ' . $results['repLname'] .'</b></div>'; 
 		$html .= '	</div>'; 
 		$html .= '</div>'; 
 
