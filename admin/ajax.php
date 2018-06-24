@@ -4661,7 +4661,7 @@ if ($action=="get_inst_for_update") {
 	echo rtrim($return_string, "||");
 }
 
-$noCharge = '';
+$noCharge;
 
 // DISPLAY PROJECT AND INSTALLS FOR PJT. RETURN ARRAY
 if ($action=="view_selected_pjt") {
