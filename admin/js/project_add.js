@@ -258,11 +258,10 @@ $(document).ready(function() {
     $('#btnDel').click(function() {
         var num = $('.clonedSection').length; // how many "duplicatable" input fields we currently have
 		var toDel = num - 1;
-		if (num > 2){
+		if (num > 2) {
 			$('#installBlocks').children(':last').remove();     // remove the last element
 			if (num<4){$('#btnDel').hide();}
 		}
-        
         // enable the "add" button
         $('#btnAdd').show();
         
@@ -380,7 +379,6 @@ $(document).ready(function() {
 		$.ajax({
 			url: 'ajax.php',
 			data: datastring,
-			//data        : formdata ? formdata : form.serialize(), 
 			cache: false,
 			contentType: false,
 			processData: false,
@@ -390,30 +388,16 @@ $(document).ready(function() {
 					alert(data);
 
 				} else {
-					//alert(form.serialize() + " ----- Project ID -----> " + data); 
-					// alert(data); 
 					$pid = data;
 					$uid = $("#uid").val();
 					var $link = '/admin/projects.php?edit&pid=' + $pid + '&uid=' + $uid;
 					window.location.replace($link);
-					//					$pName = $('input#job_name').val(); 
-					//					$qNum = $('input#quote_num').val(); 
-					//					$oNum = $('input#order_num').val(); 
-					//					$('input[name=hiddenPID]').val(data); 
-					//					$("#projectName").append($pName); 
-					//					$("#pid").val(data); 
-					//					$("#instUID").val($uid); 
-					//					$("#step1container").fadeOut(300); 
-					//					$("body").scrollTop(300); 
-					//					$("#step2container").fadeIn(300); 
-					//$('#addProjectStepper').stepper('next'); 
 				}
 				return false;
 			}
 		});
 		$("body").scrollTop(0);
 		$('#loadOver').fadeOut(500);
-		//addInstall(); 
 		addInstUpload();
 		$('#anyaBtn').show();
 	});
