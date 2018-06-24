@@ -4878,7 +4878,9 @@ if ($action=="view_selected_pjt") {
 		}
 		$html .= '</div>';
 		$html .= '<hr class="d-print-none">';
-		
+
+		$html .= '<div class="row d-print-none">';
+
 		$html .= '<h2 class="col-12 col-md-4 col-lg-2 float-left pl-0 d-print-none">Status:</h2>';
 
 		$statusText = '';
@@ -5117,7 +5119,7 @@ if ($action=="view_selected_pjt") {
 
 		$html .= '" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" style="width:' . $results['job_status']. '%">';
 		$html .= $statusText;
-		$html .= '</div></div>';
+		$html .= '</div></div></div>';
 
 
 		$html .= '<hr>';
