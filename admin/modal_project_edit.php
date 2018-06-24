@@ -8,6 +8,78 @@
 			<div class="modal-body">
 
 					<form id="editPjtOne" class="row">
+						<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">
+							<li class="nav-item"><a onClick="proj_type('new');" class="nav-link active text-white" data-toggle="tab" href="#panel_new" role="tab">New Project</a></li>
+							<li class="nav-item"><a onClick="proj_type('add');" class="nav-link text-white" data-toggle="tab" href="#panel_addition" role="tab">Addition</a></li>
+							<li class="nav-item"><a onClick="proj_type('rew');" class="nav-link text-white" data-toggle="tab" href="#panel_rework" role="tab">Rework</a></li>
+							<li class="nav-item"><a onClick="proj_type('rep');" class="nav-link text-white" data-toggle="tab" href="#panel_repair" role="tab">Repair</a></li>
+						</ul>
+						<div class="tab-content px-0">
+							<div class="tab-pane fade in show active" id="p-panel_new" role="tabpanel"></div>
+							<div class="tab-pane fade" id="p-panel_addition" role="tabpanel"></div>
+							<div class="tab-pane fade" id="p-panel_rework" role="tabpanel"></div>
+							<div class="tab-pane fade" id="p-panel_repair" role="tabpanel"></div>
+						</div>
+						<div class="row">
+							<fieldset class="form-group col-4 col-md-3 text-left">
+								<input class="filled-in mr-4" name="in_house_template" id="p-in_house_template" type="checkbox" value="1">
+								<label for="in_house_template" class="text-left">In-House Template</label>
+							</fieldset>
+							<fieldset class="form-group col-4 col-md-3 text-left">
+								<input class="filled-in mr-4" name="no_template" id="p-no_template" type="checkbox" value="1">
+								<label for="no_template" class="text-left">No Template Needed</label>
+							</fieldset>
+							<fieldset class="form-group col-4 col-md-3 text-left">
+								<input class="filled-in mr-4" name="no_charge" id="p-no_charge" type="checkbox" value="1">
+								<label for="no_charge" class="text-left">No Charge</label>
+							</fieldset>
+							<fieldset class="form-group col-4 col-md-3 text-left">
+								<input class="filled-in mr-4" name="pick_up" id="p-pick_up" type="checkbox" value="1">
+								<label for="pick_up" class="text-left">Customer Pick Up</label>
+							</fieldset>
+							<fieldset class="form-group col-4 col-md-2 text-left servoption reoption">
+								<input class="filled-in mr-4" name="call_out_fee" id="p-call_out_fee" type="checkbox" value="1">
+								<label for="call_out_fee" class="text-left">Call Out Fee</label>
+							</fieldset>
+							<fieldset class="input-group col-md-2 servoption reoption addoption">
+								<label for="job_discount" class="w-100">Original Job #:</label>
+								<div class="row">
+									<div class="input-group mb-3">
+										<input type="text" id="p-job_lookup" class="form-control" aria-label="Original Job Number" aria-describedby="search_jobs">
+										<div class="input-group-append">
+											<span class="input-group-text bg-primary text-white" onClick="job_lookup($('#job_lookup').val())" id="p-search_jobs" style="cursor:pointer;z-index: 4;"><i class="icon-search"></i></span>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+							<fieldset class="form-group col-4 col-md-2 text-left servoption reoption">
+								<label for="responsible" class="text-left">Who is responsible</label>
+								<select class="mdb-select" name="responsible" id="p-responsible">
+									<option value="0">Select one</option>
+									<option value="11">Customer</option>
+									<option value="2">Sales</option>
+									<option value="3">Entry</option>
+									<option value="4">Templaters</option>
+									<option value="5">Programming</option>
+									<option value="6">Materials</option>
+									<option value="7">Saw</option>
+									<option value="8">Montissor/CNC</option>
+									<option value="9">Polishing</option>
+									<option value="10">Installers</option>
+									<option value="99">Unknown</option>
+								</select>
+							</fieldset>
+							<fieldset class="form-group col-12 col-md-6 text-left servoption reoption reason">
+								<label for="reason" class="text-left w-100">Please detail the reason for Repair/Rework/No-Charge</label>
+								<textarea class="filled-in rounded mr-4 w-100" name="reason" id="p-reason"></textarea>
+							</fieldset>
+						</div>
+
+						<hr>
+						<input type="hidden" id="p-repair" name="repair" value="0">
+						<input type="hidden" id="p-rework" name="rework" value="0">
+						<input type="hidden" id="p-addition" name="addition" value="0">
+
 						<input type="hidden" id="p-pid" name="id" value="">
 						<input type="hidden" id="p-uid" name="uid" value="">
 						<input type="hidden" id="p-job_lat" name="job_lat" value="">
