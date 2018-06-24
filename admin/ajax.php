@@ -4661,8 +4661,6 @@ if ($action=="get_inst_for_update") {
 	echo rtrim($return_string, "||");
 }
 
-$noCharge;
-
 // DISPLAY PROJECT AND INSTALLS FOR PJT. RETURN ARRAY
 if ($action=="view_selected_pjt") {
 
@@ -5684,14 +5682,14 @@ if ($action=="view_selected_inst") {
 			$noProg = 'd-none';
 		}
 			
-		$html .= '	<div class="col-12 col-md-2"><span class="' . $noProg . ' ' . $noCharge . '">Price p/SqFt: <b>$' . $results['cpSqFt'] . '</b>';
+		$html .= '	<div class="col-12 col-md-2"><span class="' . $noProg . '">Price p/SqFt: <b>$' . $results['cpSqFt'] . '</b>';
 		if ($results['cpSqFt_override'] > 0) {
 			$html .= '<sup class="d-print-none">~</sup>';
 		}
 		$html .= '  </span></div>';
 		$html .= '	<hr>';
 		$html .= '	<div class="col-12 col-md-3">Default Edge: <b>' . $results['edge_name'] . '</b><div id="dEdge" class="d-none">' . $results['edge'] . '</div></div>';
-		$html .= '	<div class="col-12 col-md-3"><span class="' . $noProg . ' ' . $noCharge . '">Sinks &amp; Faucets: <b>$' . $results['accs_prices'] . '</b></span></div>';
+		$html .= '	<div class="col-12 col-md-3"><span class="' . $noProg . '">Sinks &amp; Faucets: <b>$' . $results['accs_prices'] . '</b></span></div>';
 		$html .= '	<div class="col-12 col-md-2">Range Type: <b>' . $results['rangeT'] . '</b></div>';
 		$html .= '	<div class="col-12 col-md-2">Range Model: <b>' . $results['range_model'] . '</b></div>';
 		$html .= '	<div class="col-12 col-md-2">Cooktop Cutout: <b>' . $results['cutout'] . '</b></div>';
