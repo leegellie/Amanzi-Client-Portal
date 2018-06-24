@@ -4769,12 +4769,16 @@ if ($action=="view_selected_pjt") {
 
 		$html .= '<div class="col-4 text-center pr-0"><img src="../images/logo-bw.png" class="w-100">';
 
-		if ($job_status < 22) {
-			$html .= '<h2 class="w-100 text-primary text-center mt-4">Est. Cost: $' . $tax_print . '</h2>';
-		} elseif ($job_status < 85 && $job_status != 89) {
-			$html .= '<h2 class="w-100 text-primary text-center mt-4">Price: $' . $tax_print . '</h2>';
-		} elseif ($job_status == 85) {
-			$html .= '<h2 class="w-100 text-primary text-center mt-4">Final Price: $' . $tax_print . '</h2>';
+		if ($results['no_charge']) {
+			$html .= '<h2 class="w-100 text-primary text-center mt-4">No Charge</h2>';
+		} else {
+			if ($job_status < 22) {
+				$html .= '<h2 class="w-100 text-primary text-center mt-4">Est. Cost: $' . $tax_print . '</h2>';
+			} elseif ($job_status < 85 && $job_status != 89) {
+				$html .= '<h2 class="w-100 text-primary text-center mt-4">Price: $' . $tax_print . '</h2>';
+			} elseif ($job_status == 85) {
+				$html .= '<h2 class="w-100 text-primary text-center mt-4">Final Price: $' . $tax_print . '</h2>';
+			}
 		}
 
 		$html .= '</div>';
