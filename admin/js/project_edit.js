@@ -472,7 +472,38 @@ $(document).ready(function() {
 			$("#pjtUpdate").fadeIn(300);
 			return;
 		}
-
+		var $type = 0;
+		if ($('#p-addition').val() == 1) {
+			$type = 1;
+			if ($('#p-no_charge').prop('checked') == false) {
+				$('#p-responsible option:selected').val(0);
+				$('#p-reason').val('');
+			}
+		} else if ($('#p-repair').val() == 1) {
+			$type = 2;
+		} else if ($('#p-rework').val() == 1) {
+			$type = 3;
+		} else {
+			$('#p-responsible option:selected').val(0);
+			if ($('#p-no_charge').prop('checked') == false) {
+				$('#p-responsible option:selected').val(0);
+				$('#p-reason').val('');
+			}
+		}
+		if ($('#p-no_charge').prop('checked') == true && $('#p-reason').val().length < 15) {
+			alert("You must provide a detailed reason as to why there is no charge.");
+			$('#p-reason').addClass('is-invalid');
+			$('#p-reason').focus();
+			$("#pjtUpdate").fadeIn(300);
+			return;
+		}
+		if ($type > 1 && ($('#p-responsible option:selected').val() == 0 || $('#p-reason').val().length < 15)) {
+			alert("You must explain the reason for repairs with as much detail as possible and the area responsible.");
+			$('#p-reason').addClass('is-invalid');
+			$('#p-reason').focus();
+			$("#pjtUpdate").fadeIn(300);
+			return;
+		}
 		if ($('input[name=contact_name]').val() == '') {
 			$('input[name=contact_name]').addClass('is-invalid');
 			$('input[name=contact_name]').focus();

@@ -1960,8 +1960,7 @@ function compilePjtEdit(data) {
 		var split = res[i].split('::');
 		obj[split[0]] = split[1];
 	}
-  //console.log("obj_data = ", obj);
-
+//console.log("obj_data = ", obj);
 	if (obj.in_house_template == 1) {
 		$('#p-in_house_template').prop("checked", true);
 	} else {
@@ -1988,11 +1987,9 @@ function compilePjtEdit(data) {
 	} else {
 		$('#p-call_out_fee').prop("checked", false);
 	}
-
 	$('#p-repair').val(obj.repair);
 	$('#p-rework').val(obj.rework);
 	$('#p-addition').val(obj.addition);
-
 	if (obj.repair == 1 || obj.rework == 1 || obj.addition == 1 || obj.no_charge == 1) {
 		$('.reprew').show();
 	}
