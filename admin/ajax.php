@@ -5481,7 +5481,7 @@ if ($action=="view_selected_pjt") {
     	    	<div class="col-3 col-md-3 text-dark"><h5><?= $results['color']; ?></h5></div>
         		<div class="col-3 col-md-2 text-right text-dark"><h5><?= $results['SqFt']; ?> SqFt</h5></div>
 	        	<div class="col-2 col-md-3 text-right text-success float-right d-none d-print-block"><h4>$<?= number_format($results['install_price'], 2, '.', ','); ?></h4></div>
-				<div class="col-3 col-md-2 text-right text-dark d-print-none"><h4 class="<?= $noProg ?>  <?= $noCharge ?>">$<?= number_format($results['install_price'], 2, '.', ','); ?></h4></div>	
+				<div class="col-3 col-md-2 text-right text-dark d-print-none"><h4 class="<?= $noProg ?> <?= $noCharge ?>">$<?= number_format($results['install_price'], 2, '.', ','); ?></h4></div>	
 		        <div class="col-2 col-md-1 text-right d-print-none">
 					<div id="<?= $results['id']; ?>" class="btn btn-sm btn-primary" onClick="viewThisInstall(this.id,$uid,$pid);" style="cursor:pointer">View <i class="icon-eye"></i></div>
 				</div>
@@ -5684,14 +5684,14 @@ if ($action=="view_selected_inst") {
 			$noProg = 'd-none';
 		}
 			
-		$html .= '	<div class="col-12 col-md-2"><span class="' . $noProg . '">Price p/SqFt: <b>$' . $results['cpSqFt'] . '</b>';
+		$html .= '	<div class="col-12 col-md-2"><span class="' . $noProg . ' ' . $noCharge . '">Price p/SqFt: <b>$' . $results['cpSqFt'] . '</b>';
 		if ($results['cpSqFt_override'] > 0) {
 			$html .= '<sup class="d-print-none">~</sup>';
 		}
 		$html .= '  </span></div>';
 		$html .= '	<hr>';
 		$html .= '	<div class="col-12 col-md-3">Default Edge: <b>' . $results['edge_name'] . '</b><div id="dEdge" class="d-none">' . $results['edge'] . '</div></div>';
-		$html .= '	<div class="col-12 col-md-3"><span class="' . $noProg . '"">Sinks &amp; Faucets: <b>$' . $results['accs_prices'] . '</b></span></div>';
+		$html .= '	<div class="col-12 col-md-3"><span class="' . $noProg . ' ' . $noCharge . '">Sinks &amp; Faucets: <b>$' . $results['accs_prices'] . '</b></span></div>';
 		$html .= '	<div class="col-12 col-md-2">Range Type: <b>' . $results['rangeT'] . '</b></div>';
 		$html .= '	<div class="col-12 col-md-2">Range Model: <b>' . $results['range_model'] . '</b></div>';
 		$html .= '	<div class="col-12 col-md-2">Cooktop Cutout: <b>' . $results['cutout'] . '</b></div>';
