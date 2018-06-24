@@ -5163,7 +5163,13 @@ if ($action=="view_selected_pjt") {
 		$html .= '</div>'; 
 
 		if ($results['clientDiscount'] > 0) { 
-			$html .= '<h4 id="discountPercent" class="text-dark text-right col-12 d-none d-print-block ' . $noCharge . '">Discounts: Marble/Granite: <span id="pct">' . $results['clientDiscount'] . '</span>% - Quartz: <span id="qpct">' . $results['discount_quartz'] . '</span>%</h4><div class="text-dark text-right d-none d-print-block h6 pr-3"><small>Applied before totals.</small></div>'; 
+			$html .= '<h4 id="discountPercent" class="text-dark text-right col-12 d-none ';
+			if ($results['no_charge']) {
+				$html .= 'd-print-none ';
+			} else {
+				$html .= 'd-print-block ';
+			}
+			$html .= '">Discounts: Marble/Granite: <span id="pct">' . $results['clientDiscount'] . '</span>% - Quartz: <span id="qpct">' . $results['discount_quartz'] . '</span>%</h4><div class="text-dark text-right d-none d-print-block h6 pr-3"><small>Applied before totals.</small></div>'; 
 		} 
 	
 		$html .= '<hr>'; 
