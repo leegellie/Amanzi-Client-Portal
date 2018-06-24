@@ -5286,12 +5286,12 @@ if ($action=="view_selected_pjt") {
 
 		$html .= '<div class="col-12 d-none d-print-block">'; 
 		$html .= '	<div class="row">'; 
-		$html .= '		<div class="col-3">Job Price: <b>$' . $print_pre . '</b></div>'; 
-		$html .= '		<div class="col-3 col-md-2">Extra Discount: <b>$' . $print_disc . '</b></div>'; 
-		$html .= '		<div class="col-3 col-md-2">Tax: <b>$' . $tax . ' @ ' . $tax_rate . '%</b></div>'; 
-		$html .= '		<div class="col-3 col-md-2">Total: <b>$' . $tax_print . '</b></div>'; 
-		$html .= '		<div class="col-3 col-md-2">PO #: <b>' . $results['po_num'] . '</b></div>'; 
-		$html .= '		<div class="col-3 col-md-2">Account Rep: <b>'. $results['repFname'] . ' ' . $results['repLname'] .'</b></div>'; 
+		$html .= '		<div class="col-3 ' . $noCharge . '">Job Price: <b>$' . $print_pre . '</b></div>'; 
+		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Extra Discount: <b>$' . $print_disc . '</b></div>'; 
+		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Tax: <b>$' . $tax . ' @ ' . $tax_rate . '%</b></div>'; 
+		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Total: <b>$' . $tax_print . '</b></div>'; 
+		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">PO #: <b>' . $results['po_num'] . '</b></div>'; 
+		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Account Rep: <b>'. $results['repFname'] . ' ' . $results['repLname'] .'</b></div>'; 
 		$html .= '	</div>'; 
 		$html .= '</div>'; 
 
