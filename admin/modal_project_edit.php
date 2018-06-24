@@ -10,7 +10,7 @@
 					<form id="editPjtOne" class="row">
 						<div class="row">
 							<div class="container">
-								<div class="row">
+								<div class="row mx-0">
 									<fieldset class="form-group col-4 col-md-3 text-left">
 										<input class="filled-in mr-4" name="in_house_template" id="p-in_house_template" type="checkbox" value="1">
 										<label for="in_house_template" class="text-left">In-House Template</label>
@@ -31,7 +31,7 @@
 										<input class="filled-in mr-4" name="call_out_fee" id="p-call_out_fee" type="checkbox" value="1">
 										<label for="call_out_fee" class="text-left">Call Out Fee</label>
 									</fieldset>
-									<fieldset class="form-group col-4 col-md-2 text-left reprew">
+									<fieldset class="form-group col-4 col-md-4 text-left reprew">
 										<label for="responsible" class="text-left">Who is responsible</label>
 										<select class="mdb-select" name="responsible" id="p-responsible">
 											<option value="0">Select one</option>
