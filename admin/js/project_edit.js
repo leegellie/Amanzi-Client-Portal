@@ -1,4 +1,3 @@
-u
 //function getSalesReps($rep) {
 //	var datastring = "action=find_sales_reps&isSales=1&selectedRep=" + $rep;
 //	$.ajax({
