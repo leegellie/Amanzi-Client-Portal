@@ -303,7 +303,7 @@ $(document).ready(function() {
 			$('#reason').focus();
 			return;
 		}
-		if ($type > 1 && ($('#responsible option:selected').val() == 0 || $('#reason').val().length < 15) ) {
+		if ($type > 1 && ($('#responsible option:selected').val() == 0 || $('#reason').val().length < 15)) {
 			alert("You must explain the reason for repairs with as much detail as possible and the area responsible.");
 			$('#loadOver').fadeOut(500);
 			$('#reason').addClass('is-invalid');
@@ -347,9 +347,9 @@ $(document).ready(function() {
 			$('input[name=install_date]').val('2200-01-01');
 		} else {
 			var iDate = new Date($('input[name=install_date]').val());
-			var iYear  = iDate.getFullYear();
-			var iMonth = ("0" + (iDate.getMonth()+1)).slice(-2);
-			var date  = ("0" + iDate.getDate()).slice(-2);
+			var iYear = iDate.getFullYear();
+			var iMonth = ("0" + (iDate.getMonth() + 1)).slice(-2);
+			var date = ("0" + iDate.getDate()).slice(-2);
 			var dateString = iYear + '-' + iMonth + '-' + date;
 			$('input[name=install_date]').val(dateString);
 		}
@@ -357,66 +357,67 @@ $(document).ready(function() {
 			$('input[name=template_date]').val('2200-01-01');
 		} else {
 			var tDate = new Date($('input[name=template_date]').val());
-			var tYear  = tDate.getFullYear();
-			var tMonth = ("0" + (tDate.getMonth()+1)).slice(-2);
-			var date  = ("0" + tDate.getDate()).slice(-2);
+			var tYear = tDate.getFullYear();
+			var tMonth = ("0" + (tDate.getMonth() + 1)).slice(-2);
+			var date = ("0" + tDate.getDate()).slice(-2);
 			var dateString = tYear + '-' + tMonth + '-' + date;
 			$('input[name=template_date]').val(dateString);
 		}
-		if ($('input[name=po_cost]').val() != '') { 
-			var cost = $('input[name=po_cost]').val(); 
-			var newCost = Number(cost.replace(/[^0-9\.-]+/g,"")); 
-			newCost = Math.round(newCost*100)/100; 
-			newCost = parseFloat(newCost).toFixed(2); 
-			$('input[name=po_cost]').val(newCost); 
+		if ($('input[name=po_cost]').val() != '') {
+			var cost = $('input[name=po_cost]').val();
+			var newCost = Number(cost.replace(/[^0-9\.-]+/g, ""));
+			newCost = Math.round(newCost * 100) / 100;
+			newCost = parseFloat(newCost).toFixed(2);
+			$('input[name=po_cost]').val(newCost);
 		}
-		var form = $("form#add_project"); 
-    	var formdata = false; 
-    	if (window.FormData) { 
-   			formdata = new FormData(form[0]); 
-    	}
-		var datastring = formdata ? formdata : form.serialize(); 
-    	var formAction = form.attr('action'); 
-   		$.ajax({ 
-        	url         : 'ajax.php', 
-        	data        : datastring, 
-        	//data        : formdata ? formdata : form.serialize(), 
-        	cache       : false, 
-       	 	contentType : false, 
-        	processData : false, 
-        	type        : 'POST', 
-        	success     : function(data) { 
-				if (isNaN(data)) { 
-					alert(data); 
-				} else { 
+		var form = $("form#add_project");
+		var formdata = false;
+		if (window.FormData) {
+			formdata = new FormData(form[0]);
+		}
+		var datastring = formdata ? formdata : form.serialize();
+		var formAction = form.attr('action');
+		$.ajax({
+			url: 'ajax.php',
+			data: datastring,
+			//data        : formdata ? formdata : form.serialize(), 
+			cache: false,
+			contentType: false,
+			processData: false,
+			type: 'POST',
+			success: function(data) {
+				if (isNaN(data)) {
+					alert(data);
+
+				} else {
 					//alert(form.serialize() + " ----- Project ID -----> " + data); 
 					// alert(data); 
-					$pid = data; 
-					$uid = $("#uid").val(); 
-					var $link = '/admin/projects.php?edit&pid=' + $pid + '&uid=' + $uid; 
-					window.location.replace($link); 
-
-//					$pName = $('input#job_name').val(); 
-//					$qNum = $('input#quote_num').val(); 
-//					$oNum = $('input#order_num').val(); 
-//					$('input[name=hiddenPID]').val(data); 
-//					$("#projectName").append($pName); 
-//					$("#pid").val(data); 
-//					$("#instUID").val($uid); 
-//					$("#step1container").fadeOut(300); 
-//					$("body").scrollTop(300); 
-//					$("#step2container").fadeIn(300); 
+					$pid = data;
+					$uid = $("#uid").val();
+					var $link = '/admin/projects.php?edit&pid=' + $pid + '&uid=' + $uid;
+					window.location.replace($link);
+					//					$pName = $('input#job_name').val(); 
+					//					$qNum = $('input#quote_num').val(); 
+					//					$oNum = $('input#order_num').val(); 
+					//					$('input[name=hiddenPID]').val(data); 
+					//					$("#projectName").append($pName); 
+					//					$("#pid").val(data); 
+					//					$("#instUID").val($uid); 
+					//					$("#step1container").fadeOut(300); 
+					//					$("body").scrollTop(300); 
+					//					$("#step2container").fadeIn(300); 
 					//$('#addProjectStepper').stepper('next'); 
-				} 
-				return false; 
-        	} 
-    	}); 
-		$("body").scrollTop(0); 
-		$('#loadOver').fadeOut(500); 
+				}
+				return false;
+			}
+		});
+		$("body").scrollTop(0);
+		$('#loadOver').fadeOut(500);
 		//addInstall(); 
-		addInstUpload(); 
-		$('#anyaBtn').show(); 
-	}); 
+		addInstUpload();
+		$('#anyaBtn').show();
+	});
+
 	$("#backTo1").click(function() { 
 		$("#step2container").fadeOut(300); 
 		$("body").scrollTop(300); 
