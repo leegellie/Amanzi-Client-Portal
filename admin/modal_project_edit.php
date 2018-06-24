@@ -25,22 +25,11 @@
 								<input class="filled-in mr-4" name="pick_up" id="p-pick_up" type="checkbox" value="1">
 								<label for="pick_up" class="text-left">Customer Pick Up</label>
 							</fieldset>
-							<fieldset class="form-group col-4 col-md-2 text-left servoption reoption">
+							<fieldset class="form-group col-4 col-md-2 text-left">
 								<input class="filled-in mr-4" name="call_out_fee" id="p-call_out_fee" type="checkbox" value="1">
 								<label for="call_out_fee" class="text-left">Call Out Fee</label>
 							</fieldset>
-							<fieldset class="input-group col-md-2 servoption reoption addoption">
-								<label for="job_discount" class="w-100">Original Job #:</label>
-								<div class="row">
-									<div class="input-group mb-3">
-										<input type="text" id="p-job_lookup" class="form-control" aria-label="Original Job Number" aria-describedby="search_jobs">
-										<div class="input-group-append">
-											<span class="input-group-text bg-primary text-white" onClick="job_lookup($('#job_lookup').val())" id="p-search_jobs" style="cursor:pointer;z-index: 4;"><i class="icon-search"></i></span>
-										</div>
-									</div>
-								</div>
-							</fieldset>
-							<fieldset class="form-group col-4 col-md-2 text-left servoption reoption">
+							<fieldset class="form-group col-4 col-md-2 text-left reprew">
 								<label for="responsible" class="text-left">Who is responsible</label>
 								<select class="mdb-select" name="responsible" id="p-responsible">
 									<option value="0">Select one</option>
@@ -57,7 +46,7 @@
 									<option value="99">Unknown</option>
 								</select>
 							</fieldset>
-							<fieldset class="form-group col-12 col-md-6 text-left servoption reoption reason">
+							<fieldset class="form-group col-12 col-md-6 text-left reprew">
 								<label for="reason" class="text-left w-100">Please detail the reason for Repair/Rework/No-Charge</label>
 								<textarea class="filled-in rounded mr-4 w-100" name="reason" id="p-reason"></textarea>
 							</fieldset>
