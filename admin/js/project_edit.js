@@ -520,52 +520,47 @@ $(document).ready(function() {
 		}
 		if ($('input[name=install_date]').val() == '') {
 			$('input[name=install_date]').val('2200-01-01');
-		} else if ($('input[name=install_date]').val().match("^2018")) {
-			
-		} else {
+		} else if ($('input[name=install_date]').val().match("^2018")) {} else {
 			var iDate = new Date($('input[name=install_date]').val());
 			var year = iDate.getFullYear();
-			var month= ("0" + (iDate.getMonth()+1)).slice(-2);
+			var month = ("0" + (iDate.getMonth() + 1)).slice(-2);
 			var date = ("0" + iDate.getDate()).slice(-2);
 			var dateString = year + '-' + month + '-' + date;
 			$('input[name=install_date]').val(dateString);
 		}
 		if ($('input[name=template_date]').val() == '') {
 			$('input[name=template_date]').val('2200-01-01');
-		} else if ($('input[name=template_date]').val().match("^2018")) {
-			
-		} else {
+		} else if ($('input[name=template_date]').val().match("^2018")) {} else {
 			var tDate = new Date($('input[name=template_date]').val());
 			var year = tDate.getFullYear();
-			var month= ("0" + (tDate.getMonth()+1)).slice(-2);
+			var month = ("0" + (tDate.getMonth() + 1)).slice(-2);
 			var date = ("0" + tDate.getDate()).slice(-2);
 			var dateString = year + '-' + month + '-' + date;
 			$('input[name=template_date]').val(dateString);
 		}
 		if ($('input[name=po_cost]').val() != '') {
 			var cost = $('input[name=po_cost]').val();
-			var newCost = Number(cost.replace(/[^0-9\.-]+/g,""));
-			newCost = Math.round(newCost*100)/100;
-			newCost = parseFloat(newCost).toFixed(2); 
+			var newCost = Number(cost.replace(/[^0-9\.-]+/g, ""));
+			newCost = Math.round(newCost * 100) / 100;
+			newCost = parseFloat(newCost).toFixed(2);
 			$('input[name=po_cost]').val(newCost);
 		}
 		var form = $("form#editPjtOne");
-    	var formdata = false;
-    	if (window.FormData){
-   			formdata = new FormData(form[0]);
-    	}
+		var formdata = false;
+		if (window.FormData) {
+			formdata = new FormData(form[0]);
+		}
 		var datastring = formdata ? formdata : form.serialize();
-
-    	var formAction = form.attr('action');
-   		$.ajax({
-        	url         : 'ajax.php',
-        	data        : datastring,
-        	//data        : formdata ? formdata : form.serialize(),
-        	cache       : false,
-       	 	contentType : false,
-        	processData : false,
-        	type        : 'POST',
-        	success     : function(data){
+		var formAction = form.attr('action');
+		$.ajax({
+			url: 'ajax.php',
+			data: datastring,
+			//data        : formdata ? formdata : form.serialize(),
+			cache: false,
+			contentType: false,
+			processData: false,
+			type: 'POST',
+			success: function(data) {
 				console.log('Success Lee')
 				if (isNaN(data)) {
 					console.log(data);
@@ -575,33 +570,33 @@ $(document).ready(function() {
 					//alert(form.serialize() + " ----- Project ID -----> " + data);
 					Command: toastr["success"]("Install data saved!", "Projects")
 					toastr.options = {
-					  "closeButton": true,
-					  "debug": false,
-					  "newestOnTop": false,
-					  "progressBar": false,
-					  "positionClass": "toast-bottom-right",
-					  "preventDuplicates": false,
-					  "onclick": null,
-					  "showDuration": 300,
-					  "hideDuration": 1000,
-					  "timeOut": 5000,
-					  "extendedTimeOut": 1000,
-					  "showEasing": "swing",
-					  "hideEasing": "linear",
-					  "showMethod": "fadeIn",
-					  "hideMethod": "fadeOut"
+						"closeButton": true,
+						"debug": false,
+						"newestOnTop": false,
+						"progressBar": false,
+						"positionClass": "toast-bottom-right",
+						"preventDuplicates": false,
+						"onclick": null,
+						"showDuration": 300,
+						"hideDuration": 1000,
+						"timeOut": 5000,
+						"extendedTimeOut": 1000,
+						"showEasing": "swing",
+						"hideEasing": "linear",
+						"showMethod": "fadeIn",
+						"hideMethod": "fadeOut"
 					}
-//					$('input[type=file]').remove();
-//					$('#p-uploadContain').append('<input class="col-lg-3 cloneUpload" onChange="addUpload();" name="imgUploads[]" type="file">');
+					//					$('input[type=file]').remove();
+					//					$('#p-uploadContain').append('<input class="col-lg-3 cloneUpload" onChange="addUpload();" name="imgUploads[]" type="file">');
 					$("form#editPjtOne").get(0).reset();
-					viewThisProject($pid,$uid);
+					viewThisProject($pid, $uid);
 					$("#pjtUpdate").fadeIn(300);
 					//$('#addProjectStepper').stepper('next');
 				}
 				return false;
-        	}
-    	});
-		$("body").scrollTop(0,0);
+			}
+		});
+		$("body").scrollTop(0, 0);
 	});
 
 
