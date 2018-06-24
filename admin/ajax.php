@@ -4808,7 +4808,7 @@ if ($action=="view_selected_pjt") {
 		if ($results['repair'] == 1) {
 			$html .= '<span class="text-danger">Repair - </span>';
 		} else {
-			if ($eSqFt[0] > 0) {
+			if ($eSqFt[0] > 1) {
 				$html .= $eSqFt[0] . ' SqFt - ';
 			} else {
 				$html .= '0 SqFt - ';
