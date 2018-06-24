@@ -2632,5 +2632,12 @@ $(document).ready(function() {
 			return false;    //<---- Add this line
 		}
 	});
+	$('#no_charge').change(function(){
+		if ($('#no_charge').prop('checked') == true) {
+			$('.reason').show();
+		} else if ($('#repair').val() == 0 && $('#rework').val() == 0) {
+			$('.reason').hide();
+		}
+	});
 
 });

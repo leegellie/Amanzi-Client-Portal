@@ -72,7 +72,7 @@
 												<option value="99">Unknown</option>
 											</select>
 										</fieldset>
-										<fieldset class="form-group col-12 col-md-6 text-left servoption reoption addoption">
+										<fieldset class="form-group col-12 col-md-6 text-left servoption reoption reason">
 											<label for="reason" class="text-left w-100">Please detail the reason for Repair/Rework/No-Charge</label>
 											<textarea class="filled-in rounded mr-4 w-100" name="reason" id="reason"></textarea>
 										</fieldset>
