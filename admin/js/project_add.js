@@ -267,8 +267,9 @@ $(document).ready(function() {
         $('#btnAdd').show();
         
         // if only one element remains, disable the "remove" button
-        if (num-1 == 1)
+        if (num-1 == 1) {
             $('#btnDel').hide();
+		}
     });
     $('#btnDel').hide();
 
