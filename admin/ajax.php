@@ -4729,8 +4729,8 @@ if ($action=="view_selected_pjt") {
 		//	$eSqFt = $getSqFt -> sum_sqft($pid);
 
 	foreach($search->project_data_fetch($_POST) as $results) {
-		if ($results['call_out_fee'] == 1) {
-			$ePjtCost = $ePjtCost + 75;
+		if ($results['call_out_fee']) {
+			$ePjtCost[0] = $ePjtCost[0] + 75;
 		}
 		if ($results['no_charge']) {
 			$noCharge = ' d-none d-print-none ';
