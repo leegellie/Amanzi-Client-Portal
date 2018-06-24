@@ -4760,7 +4760,7 @@ if ($action=="view_selected_pjt") {
 
 	foreach($search->project_data_fetch($_POST) as $results) {
 		if ($results['no_charge'] == 1) {
-			$noCharge = 'd-none d-print-none';
+			$noCharge = ' d-none d-print-none ';
 		}
 		$job_status = $results['job_status'];
 		$pid = $results['id'];
