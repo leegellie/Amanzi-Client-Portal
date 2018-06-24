@@ -274,12 +274,14 @@ $(document).ready(function() {
 
 	$("#add_pjt_btn").click(function(e) {
 		$('input').removeClass('is-invalid');
+		$('textarea').removeClass('is-invalid');
 		$('#loadOver').fadeIn(500);
 
 		e.preventDefault();
 		if ( ($('#repair').val() == 1 || $('#rework').val() == 1) && ($('#responsible option:selected').val() == 0 || $('#reason').val().length < 15) ) {
 			alert("You must explain the reason for repairs with as mutch detail as possible and the area responsible.");
 			$('#loadOver').fadeOut(500);
+			$('#reason').addClass('is-invalid');
 			$('#reason').focus();
 			return;
 		}
@@ -321,20 +323,20 @@ $(document).ready(function() {
 			$('input[name=install_date]').val('2200-01-01');
 		} else {
 			var iDate = new Date($('input[name=install_date]').val());
-			var year  = iDate.getFullYear();
-			var month = ("0" + (iDate.getMonth()+1)).slice(-2);
+			var iYear  = iDate.getFullYear();
+			var iMonth = ("0" + (iDate.getMonth()+1)).slice(-2);
 			var date  = ("0" + iDate.getDate()).slice(-2);
-			var dateString = year + '-' + month + '-' + date;
+			var dateString = iYear + '-' + iMonth + '-' + date;
 			$('input[name=install_date]').val(dateString);
 		}
 		if ($('input[name=template_date]').val() == '') {
 			$('input[name=template_date]').val('2200-01-01');
 		} else {
 			var tDate = new Date($('input[name=template_date]').val());
-			var year  = tDate.getFullYear();
-			var month = ("0" + (tDate.getMonth()+1)).slice(-2);
+			var tYear  = tDate.getFullYear();
+			var tMonth = ("0" + (tDate.getMonth()+1)).slice(-2);
 			var date  = ("0" + tDate.getDate()).slice(-2);
-			var dateString = year + '-' + month + '-' + date;
+			var dateString = tYear + '-' + tMonth + '-' + date;
 			$('input[name=template_date]').val(dateString);
 		}
 		if ($('input[name=po_cost]').val() != '') {
