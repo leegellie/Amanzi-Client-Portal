@@ -4718,7 +4718,6 @@ if ($action=="view_selected_pjt") {
 		//	$eSqFt = $getSqFt -> sum_sqft($pid);
 
 	$noCharge = '';
-
 	foreach($search->project_data_fetch($_POST) as $results) {
 		if ($results['no_charge']) {
 			$noCharge = 'd-none d-print-none';
