@@ -4569,6 +4569,17 @@ if ($action=="get_pjt_for_update") {
 
 	$array = $pjt_data->project_edit_data($_POST['id']);
 	foreach($array as $result) {
+		$return_string .= 'repair::' . $result['repair'] . '||';
+		$return_string .= 'rework::' . $result['rework'] . '||';
+		$return_string .= 'no_charge::' . $result['no_charge'] . '||';
+		$return_string .= 'addition::' . $result['addition'] . '||';
+		$return_string .= 'no_template::' . $result['no_template'] . '||';
+		$return_string .= 'in_house_template::' . $result['in_house_template'] . '||';
+		$return_string .= 'pick_up::' . $result['pick_up'] . '||';
+		$return_string .= 'call_out_fee::' . $result['call_out_fee'] . '||';
+		$return_string .= 'reason::' . $result['reason'] . '||';
+		$return_string .= 'responsible::' . $result['responsible'] . '||';
+
 		$return_string .= 'id::' . $result['id'] . '||';
 		$return_string .= 'uid::' . $result['uid'] . '||';
 		$return_string .= 'job_name::' . $result['job_name'] . '||';
@@ -4603,9 +4614,9 @@ if ($action=="get_pjt_for_update") {
 		$return_string .= 'temp_am::' . $result['temp_am'] . '||';
 		$return_string .= 'temp_first_stop::' . $result['temp_first_stop'] . '||';
 		$return_string .= 'temp_pm::' . $result['temp_pm'] . '||';
-    $return_string .= 'job_lat::' . $result['job_lat'] . '||';
-    $return_string .= 'job_long::' . $result['job_long'] . '||';
-    $return_string .= 'job_sqft::' . $result['job_sqft'] . '||';
+		$return_string .= 'job_lat::' . $result['job_lat'] . '||';
+		$return_string .= 'job_long::' . $result['job_long'] . '||';
+		$return_string .= 'job_sqft::' . $result['job_sqft'] . '||';
 		$return_string .= 'isActive::' . $result['isActive'];
     
 	}
@@ -5497,7 +5508,7 @@ if ($action=="view_selected_pjt") {
 			if ($results['tear_out'] == "Yes") {
 				?>
 				<div class="row w-100 d-flex d-print-flex">
-					<div class="col-12 text-dark"><h5><small>Tear Out: <small><?= $results['tearout_sqft'] ?> SqFt</small><span class="float-right pr-5 mr-5 <?= $noProg ?>">$<?= $results['tearout_cost'] ?></span></small></h5></div>
+					<div class="col-12 text-dark"><h5><small>Tear Out: <small><?= $results['tearout_sqft'] ?> SqFt</small><span class="float-right pr-5 mr-5 <?= $noProg ?> <?= $noCharge ?>">$<?= $results['tearout_cost'] ?></span></small></h5></div>
 				</div>
 				<?
 			} 
