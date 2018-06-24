@@ -4203,6 +4203,36 @@ if ($action == "add_project_step1") {
 		$_POST['urgent'] = 1;
 	}
 
+	if (!isset($_POST['in_house_template'])) {
+		$_POST['in_house_template'] = "0";
+	} else {
+		$_POST['in_house_template'] = 1;
+	}
+
+	if (!isset($_POST['no_template'])) {
+		$_POST['no_template'] = "0";
+	} else {
+		$_POST['no_template'] = 1;
+	}
+
+	if (!isset($_POST['urgent'])) {
+		$_POST['no_charge'] = "0";
+	} else {
+		$_POST['no_charge'] = 1;
+	}
+
+	if (!isset($_POST['urgent'])) {
+		$_POST['pick_up'] = "0";
+	} else {
+		$_POST['pick_up'] = 1;
+	}
+
+	if (!isset($_POST['urgent'])) {
+		$_POST['call_out_fee'] = "0";
+	} else {
+		$_POST['call_out_fee'] = 1;
+	}
+
 	if (!isset($_POST['am'])) {
 		$_POST['am'] = 0;
 	} else {
