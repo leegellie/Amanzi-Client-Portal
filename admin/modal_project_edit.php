@@ -31,7 +31,7 @@
 										<input class="filled-in mr-4" name="call_out_fee" id="p-call_out_fee" type="checkbox" value="1">
 										<label for="call_out_fee" class="text-left">Call Out Fee</label>
 									</fieldset>
-									<fieldset class="form-group col-4 col-md-4 text-left reprew d-none">
+									<fieldset class="form-group col-4 col-md-4 text-left reprew" style="display: none">
 										<label for="responsible" class="text-left">Who is responsible</label>
 										<select class="mdb-select" name="responsible" id="p-responsible">
 											<option value="0">Select one</option>
@@ -48,7 +48,7 @@
 											<option value="99">Unknown</option>
 										</select>
 									</fieldset>
-									<fieldset class="form-group col-12 col-md-6 text-left reprew">
+									<fieldset class="form-group col-12 col-md-6 text-left reprew" style="display: none">
 										<label for="reason" class="text-left w-100">Please detail the reason for Repair/Rework/No-Charge</label>
 										<textarea class="filled-in rounded mr-4 w-100" name="reason" id="p-reason"></textarea>
 									</fieldset>
