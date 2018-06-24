@@ -4661,6 +4661,8 @@ if ($action=="get_inst_for_update") {
 	echo rtrim($return_string, "||");
 }
 
+$noCharge = '';
+
 // DISPLAY PROJECT AND INSTALLS FOR PJT. RETURN ARRAY
 if ($action=="view_selected_pjt") {
 
@@ -4717,7 +4719,6 @@ if ($action=="view_selected_pjt") {
 		//	$get_pjt_sqft = new project_action;
 		//	$eSqFt = $getSqFt -> sum_sqft($pid);
 
-	$noCharge = '';
 	foreach($search->project_data_fetch($_POST) as $results) {
 		if ($results['no_charge']) {
 			$noCharge = 'd-none d-print-none';
