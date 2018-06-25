@@ -1745,7 +1745,7 @@ if ($action=="saw_list") {
 			$date = $date->format('m/d');
 			?>" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
 				<div class="row">
-					<div class="col-md-1 h5">
+					<div class="col-md-2 h5">
 						<?
 			if((time()+(60*60*24*4)) > strtotime($results['install_date']) && ($results['job_status'] < 53 || $results['job_status'] != 59)) {
 				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
