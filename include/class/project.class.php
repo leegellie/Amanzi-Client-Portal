@@ -1523,7 +1523,7 @@ class project_action {
 			  JOIN status 
 				ON status.id = projects.job_status 
 			 WHERE install_date < '2200-01-01' 
-			   AND job_status > 43
+			   AND job_status > 31
 			   AND job_status < 60
 			   AND NOT job_status = 49
 			   AND projects.isActive = 1

@@ -445,7 +445,7 @@ USER'S EMAIL = <?= $user_email ?>
 				var n = d.getMonth();
 				// console.log(cur_day);
 				// if(n == curmm) {
-				for (var i=0;i<cur_day_ins.length;i++) {
+				for (var i=0; i<cur_day_ins.length; i++) {
 					if(curmm == cur_mo_ins[i]){
 						var class_btn = ".pika-button[data-pika-day='"+cur_day_ins[i]+"']";
 						$(class_btn).css({

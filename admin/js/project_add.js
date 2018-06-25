@@ -273,6 +273,7 @@ $(document).ready(function() {
     $('#btnDel').hide();
 
 	$("#add_pjt_btn").click(function(e) {
+		console.log('started');
 		$('input').removeClass('is-invalid');
 		$('textarea').removeClass('is-invalid');
 		$('#loadOver').fadeIn(500);
