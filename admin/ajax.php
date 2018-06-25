@@ -3933,31 +3933,26 @@ if ($action == "update_project_data") {
 	} else {
 		$_POST['urgent'] = 1;
 	}
-
 	if (!isset($_POST['in_house_template'])) {
 		$_POST['in_house_template'] = "0";
 	} else {
 		$_POST['in_house_template'] = 1;
 	}
-
 	if (!isset($_POST['no_template'])) {
 		$_POST['no_template'] = "0";
 	} else {
 		$_POST['no_template'] = 1;
 	}
-
 	if (!isset($_POST['no_charge'])) {
 		$_POST['no_charge'] = "0";
 	} else {
 		$_POST['no_charge'] = 1;
 	}
-
 	if (!isset($_POST['pick_up'])) {
 		$_POST['pick_up'] = "0";
 	} else {
 		$_POST['pick_up'] = 1;
 	}
-
 	if (!isset($_POST['call_out_fee'])) {
 		$_POST['call_out_fee'] = "0";
 	} else {
@@ -4963,11 +4958,21 @@ if ($action=="view_selected_pjt") {
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2) {
 			if ($results['job_status'] == 11) {
 				$html .= $rejectSale;
-				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',12)" style="cursor:pointer"><i class="fas fa-check"></i> Estimate Approved</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',';
+				if ($results['no_template']) {
+					$html .= 21;
+				} else {
+					$html .= 12;
+				}
+				$html .= ')" style="cursor:pointer"><i class="fas fa-check"></i> Estimate Approved</div>';
 			}
 			if ($results['job_status'] == 10) {
 				$html .= $rejectSale;
-				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',11)" style="cursor:pointer"><i class="fas fa-check"></i> Estimated</div>';
+				if ($profit < 100 && ($results['mngr_approved'] == 0 || ($results['mngr_approved'] == 1 && round($results['mngr_approved_price'],2) != round($price_tax,2)))) {
+					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="requestApproval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
+				} else {
+					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',11)" style="cursor:pointer"><i class="fas fa-check"></i> Estimated</div>';
+				}
 			}
 			if ($results['job_status'] == 17) {
 				$html .= $rejectSale;
@@ -5152,7 +5157,7 @@ if ($action=="view_selected_pjt") {
 			}
 		}
 
-		if ($_SESSION['access_level'] == 1) {
+		if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448) {
 			$html .= '<select id="changeStatus" onChange="statusChange('. $_SESSION['id'] . ',' . $results['id'] .',this.value)" class="mdb-select float-right d-print-none col-12 col-md-4 col-lg-2 d-print-none ' . $noProg . $noMoney . '">';
 			$html .= $statList;
 			$html .= '</select>';
@@ -5337,6 +5342,9 @@ if ($action=="view_selected_pjt") {
 		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Extra Discount: <b>$' . $print_disc . '</b></div>'; 
 		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Tax: <b>$' . $tax . ' @ ' . $tax_rate . '%</b></div>'; 
 		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Total: <b>$' . $tax_print . '</b></div>'; 
+		if ($results['call_out_fee'] == 1) {
+			$html .= '		<div class="col-6 col-md-4">Call-out/Trip Charge: <b>$ 75.00</b></div>'; 
+		}
 		$html .= '		<div class="col-3 col-md-2">PO #: <b>' . $results['po_num'] . '</b></div>'; 
 		$html .= '		<div class="col-3 col-md-2">Account Rep: <b>'. $results['repFname'] . ' ' . $results['repLname'] .'</b></div>'; 
 		$html .= '	</div>'; 
