@@ -108,11 +108,19 @@ class project_action {
 	public function loss_approval($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$q = $conn->prepare("UPDATE projects SET mngr_approved = :mngr_approved, mngr_approved_price = :mngr_approved_price, mngr_approved_id = :mngr_approved_id WHERE id = :id");
+		$q = $conn->prepare("UPDATE projects SET mngr_approved = :mngr_approved, mngr_approved_price = :mngr_approved_price, mngr_approved_id = :mngr_approved_id, request_approval = 0 WHERE id = :id");
 		$q->bindParam('id',$a['id']);
 		$q->bindParam('mngr_approved_id',$a['mngr_approved_id']);
 		$q->bindParam('mngr_approved',$a['mngr_approved']);
 		$q->bindParam('mngr_approved_price',$a['mngr_approved_price']);
+		$q->execute();
+	}
+
+	public function request_approval($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("UPDATE projects SET request_approval = 1 WHERE id = :id");
+		$q->bindParam('id',$a['id']);
 		$q->execute();
 	}
 

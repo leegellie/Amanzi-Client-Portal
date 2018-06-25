@@ -1112,11 +1112,18 @@ if ($action=="get_materials_needed") {
 
 
 
-// ADD COMMENT.
+// LOSS APPROVAL.
 if ($action=="loss_approval") {
 	unset($_POST['action']);
 	$loss_approval = new project_action;
 	echo $loss_approval -> loss_approval($_POST);
+}
+
+// REQUEST APPROVAL.
+if ($action=="request_approval") {
+	unset($_POST['action']);
+	$request_approval = new project_action;
+	echo $request_approval -> request_approval($_POST);
 }
 
 

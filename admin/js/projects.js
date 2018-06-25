@@ -2289,6 +2289,38 @@ function approveLoss(mngr_approved,mngr_approved_price,mngr_approved_id) {
 
 }
 
+function request_approval(id,pid,uid) {
+	var cmt_user = id;
+
+	var datastring = 'action=request_approval&id=' + pid;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			//console.log($pid);
+			viewThisProject($pid,$uid);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+
+	var cmt_comment = 'Approval requested.'
+	var datastring = 'action=submit_comment&cmt_ref_id=' + pid + '&cmt_comment=' + cmt_comment + '&cmt_user=' + cmt_user + '&cmt_type=pjt&cmt_priority=log';
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			//console.log(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
 
 
 $(document).ready(function() {
