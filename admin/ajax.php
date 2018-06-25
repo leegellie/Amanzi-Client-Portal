@@ -4956,6 +4956,14 @@ if ($action=="view_selected_pjt") {
 
 		// SALES
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2) {
+			if ($results['job_status'] == 10) {
+				$html .= $rejectSale;
+				if ($approval == 1) {
+					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="requestApproval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
+				} else {
+					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',11)" style="cursor:pointer"><i class="fas fa-check"></i> Estimated</div>';
+				}
+			}
 			if ($results['job_status'] == 11) {
 				$html .= $rejectSale;
 				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',';
@@ -4965,14 +4973,6 @@ if ($action=="view_selected_pjt") {
 					$html .= 12;
 				}
 				$html .= ')" style="cursor:pointer"><i class="fas fa-check"></i> Estimate Approved</div>';
-			}
-			if ($results['job_status'] == 10) {
-				$html .= $rejectSale;
-				if ($approval == 1) {
-					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="requestApproval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
-				} else {
-					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',11)" style="cursor:pointer"><i class="fas fa-check"></i> Estimated '.$approval.'</div>';
-				}
 			}
 			if ($results['job_status'] == 17) {
 				$html .= $rejectSale;
@@ -4984,28 +4984,37 @@ if ($action=="view_selected_pjt") {
 			}
 			if ($results['job_status'] == 22) {
 				$html .= $rejectSale;
-				if ($approval == 0){
-					$alertText;
+				if ($approval == 0) {
 					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',23)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
 				} else {
-					$alertText;
-					$html .= '<div class="btn btn-sm btn-muted float-right d-print-none" onClick="alert(\'Approval is needed before this job can progress.\')" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
+					if ($results['request_approval'] == 0) {
+						$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="requestApproval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
+					} else {
+						$html .= '<div class="btn btn-sm btn-muted float-right d-print-none" onClick="alert(\'Approval has already been requested.\')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
+					}
 				}
 			}
 			if ($results['job_status'] == 23) {
 				$html .= $rejectSale;
-				if ($approval == 0){
+				if ($approval == 0) {
 					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',25)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Approved</div>';
 					$html .= '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',24)" style="cursor:pointer"><i class="fas fa-check"></i> Quote to Alter</div>';
 				} else {
-					$alertText;
-					$html .= '<div class="btn btn-sm btn-muted float-right d-print-none" onClick="alert(\'Approval is needed before this job can progress.\')" style="cursor:pointer"><i class="fas fa-check"></i> Quote Approved</div>';
+					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="requestApproval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
 					$html .= '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',24)" style="cursor:pointer"><i class="fas fa-check"></i> Quote to Alter</div>';
 				}
 			}
 			if ($results['job_status'] == 24) {
 				$html .= $rejectSale;
-				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',23)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
+				if ($approval == 0) {
+					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',23)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
+				} else {
+					if ($results['request_approval'] == 0) {
+						$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="requestApproval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
+					} else {
+						$html .= '<div class="btn btn-sm btn-muted float-right d-print-none" onClick="alert(\'Approval has already been requested.\')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
+					}
+				}
 			}
 			if ($results['job_status'] == 49) {
 				$html .= '<div class="btn btn-sm btn-secondary float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',40)" style="cursor:pointer"><i class="fas fa-check"></i> Remove Job Hold</div>';
