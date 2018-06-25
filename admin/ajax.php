@@ -835,11 +835,11 @@ if ($action=="get_materials_needed") {
 	$pull_array = array();
 	$pull_list = $search->get_pull_list();
 	foreach($pull_list as $pjt) {
-		//$pull_array[$pjt['job_name']][] = $pjt;
-		$pull_array[] = array(
-			'job_name' => $type,
-			'detail' => $labels
-		);
+		$pull_array[$pjt['job_name']][] = $pjt;
+// 		$pull_array[] = array(
+// 			'job_name' => $type,
+// 			'detail' => $labels
+// 		);
 	}
 	$pullbymaterialsbyname = array();
 	foreach($pull_array as $type => $labels) {
@@ -1058,6 +1058,9 @@ if ($action=="get_materials_needed") {
 	echo $first_tab . '</div>';
 	echo $second_tab . '</div>';
 	echo $third_tab . '</div>';
+  
+  
+  
 	foreach($pullbymaterialsbyname as $results) {
     $mathold_Max = max(array_column($results['detail'], 'mat_hold'));
     $matstatus_Min = min(array_column($results['detail'], 'material_status'));
@@ -1657,7 +1660,7 @@ if ($action=="programming_list") {
 			<hr>
 			<div class="w-100 btn <?
 			if ($results['job_status'] == 25 || $results['job_status'] == 30) {
-				?>btn-muted mdb-color lighten-2 text-dark<?
+				?>btn-muted mdb-color lighten-5 text-dark<?
 			} elseif ($results['job_status'] == 31) {
 				?>btn-success<?
 			} elseif ($results['job_status'] == 32) {
@@ -1735,6 +1738,8 @@ if ($action=="saw_list") {
 				?>btn-success<?
 			} elseif ($results['job_status'] == 59) {
 				?>btn-danger<?
+			} else {
+				?>btn-muted mdb-color lighten-5 text-dark<?
 			}
 			$date = new DateTime($results['install_date']);
 			$date = $date->format('m/d');
