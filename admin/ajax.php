@@ -1751,11 +1751,9 @@ if ($action=="saw_list") {
 				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 			}
 						?>
-					</div>
-					<div class="col-md-2 h5"><?= $date ?></div>
-					<div class="col-md-5 h5 text-left"><?= $results['job_name']; ?></div>
-					<div class="col-md-2 h5"><?= $results['quote_num']; ?></div>
-					<div class="col-md-2 h5"><?= $results['order_num']; ?></div>
+					<?= $date ?></div>
+					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
+					<div class="col-md-4 h5"><?= $results['order_num']; ?></div>
 				</div>
 			</div>
 		<?
