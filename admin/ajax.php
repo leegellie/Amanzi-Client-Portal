@@ -4967,7 +4967,7 @@ if ($action=="view_selected_pjt") {
 				$html .= $rejectSale;
 				if ($approval == 1) {
 					if ($results['request_approval'] == 0) {
-						$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="requestApproval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
+						$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="request_approval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
 					} else {
 						$html .= '<div class="btn btn-sm btn-muted float-right d-print-none" onClick="alert(\'Approval has already been requested.\')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
 					}
@@ -4999,7 +4999,7 @@ if ($action=="view_selected_pjt") {
 					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',23)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
 				} else {
 					if ($results['request_approval'] == 0) {
-						$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="requestApproval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
+						$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="request_approval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
 					} else {
 						$html .= '<div class="btn btn-sm btn-muted float-right d-print-none" onClick="alert(\'Approval has already been requested.\')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
 					}
@@ -5011,7 +5011,7 @@ if ($action=="view_selected_pjt") {
 					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',25)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Approved</div>';
 					$html .= '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',24)" style="cursor:pointer"><i class="fas fa-check"></i> Quote to Alter</div>';
 				} else {
-					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="requestApproval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
+					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="request_approval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
 					$html .= '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',24)" style="cursor:pointer"><i class="fas fa-check"></i> Quote to Alter</div>';
 				}
 			}
@@ -5021,7 +5021,7 @@ if ($action=="view_selected_pjt") {
 					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',23)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
 				} else {
 					if ($results['request_approval'] == 0) {
-						$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="requestApproval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
+						$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="request_approval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
 					} else {
 						$html .= '<div class="btn btn-sm btn-muted float-right d-print-none" onClick="alert(\'Approval has already been requested.\')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
 					}
