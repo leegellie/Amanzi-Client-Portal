@@ -5010,9 +5010,9 @@ if ($action=="view_selected_pjt") {
 				if ($approval == 0) {
 					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',';
 					if ($results['repair'] == 1) {
-						$html .= 80;
-					} else {
 						$html .= 25;
+					} else {
+						$html .= 80;
 					}
 					$html .= ')" style="cursor:pointer"><i class="fas fa-check"></i> Quote Approved</div>';
 					$html .= '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',24)" style="cursor:pointer"><i class="fas fa-check"></i> Quote to Alter</div>';
