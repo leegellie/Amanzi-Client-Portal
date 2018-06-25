@@ -4971,7 +4971,7 @@ if ($action=="view_selected_pjt") {
 				if ($approval == 0) {
 					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="requestApproval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
 				} else {
-					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',11)" style="cursor:pointer"><i class="fas fa-check"></i> Estimated</div>';
+					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',11)" style="cursor:pointer"><i class="fas fa-check"></i> Estimated '.$approval.'</div>';
 				}
 			}
 			if ($results['job_status'] == 17) {
@@ -5158,7 +5158,7 @@ if ($action=="view_selected_pjt") {
 		}
 
 		if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448) {
-			$html .= '<select id="changeStatus" onChange="statusChange('. $_SESSION['id'] . ',' . $results['id'] .',this.value)" class="mdb-select float-right d-print-none col-12 col-md-4 col-lg-2 d-print-none ' . $noProg . $noMoney . '">';
+			$html .= '<select id="changeStatus" onChange="statusChange('. $_SESSION['id'] . ',' . $results['id'] .',this.value)" class="mdb-select float-right d-print-none col-12 col-md-4 col-lg-2 d-print-none">';
 			$html .= $statList;
 			$html .= '</select>';
 //			$html .= '<div id="progressStatus" class="w-100 d-print-none">';
