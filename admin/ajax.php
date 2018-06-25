@@ -5008,7 +5008,13 @@ if ($action=="view_selected_pjt") {
 			if ($results['job_status'] == 23) {
 				$html .= $rejectSale;
 				if ($approval == 0) {
-					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',25)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Approved</div>';
+					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',';
+					if ($results['repair'] == 1) {
+						$html .= 80;
+					} else {
+						$html .= 25;
+					}
+					$html .= ')" style="cursor:pointer"><i class="fas fa-check"></i> Quote Approved</div>';
 					$html .= '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',24)" style="cursor:pointer"><i class="fas fa-check"></i> Quote to Alter</div>';
 				} else {
 					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="request_approval('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['uid'] . ')" style="cursor:pointer"><i class="far fa-question-square"></i> Request Approval</div>';
