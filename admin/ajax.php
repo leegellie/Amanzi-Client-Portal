@@ -1753,7 +1753,7 @@ if ($action=="saw_list") {
 						?>
 					<?= $date ?></div>
 					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
-					<div class="col-md-4 h5"><?= $results['order_num']; ?></div>
+					<div class="col-md-5 h5"><div class="btn btn-primary">A</div><div class="btn btn-primary">A</div><div class="btn btn-primary">A</div><div class="btn btn-primary">A</div></div>
 				</div>
 			</div>
 		<?
