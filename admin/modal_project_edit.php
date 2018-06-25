@@ -30,6 +30,8 @@
 									<fieldset class="form-group col-4 col-md-2 text-left">
 										<input class="filled-in mr-4" name="call_out_fee" id="p-call_out_fee" type="checkbox" value="1">
 										<label for="p-call_out_fee" class="text-left">Call Out Fee</label>
+										<input id="p-isActive" class="form-check-input filled-in" name="isActive" type="checkbox" value="1">
+										<label for="p-isActive" class="w-100">Active?</label>
 									</fieldset>
 									<fieldset class="form-group col-4 col-md-4 text-left reprew" style="display: none">
 										<label for="p-responsible" class="text-left">Who is responsible</label>
@@ -82,7 +84,7 @@
                   <input type="text" class="form-control" id="p-geo_long" hidden>
                   <input type="text" class="form-control" id="p-job_sqft" hidden> -->
 								</fieldset>
-								<fieldset class="form-group col-md-3">
+								<fieldset class="form-group col-md-4">
 									<label for="account-rep">Account Rep:</label>
 									<select class="mdb-select" id="p-acct_rep" name="acct_rep">
 										<option value="0">Unspecified</option>
@@ -104,10 +106,6 @@
 								<fieldset class="form-group col-6 col-md-2">
 									<label for="order-num">Order #:</label>
 									<input class="form-control text-center" id="p-order_num" name="order_num" type="text">
-								</fieldset>
-								<fieldset class="form-check col-4 col-md-1">
-									<input id="p-isActive" class="form-check-input filled-in" name="isActive" type="checkbox" value="1">
-									<label for="p-isActive" class="w-100">Active?</label>
 								</fieldset>
 
 
