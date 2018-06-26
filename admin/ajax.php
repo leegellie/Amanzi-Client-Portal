@@ -5510,7 +5510,7 @@ if ($action=="view_selected_pjt") {
 				if (round($results['mngr_approved_price'],2) != round($price_tax,2)) {
 					$html .= '	<div class="col-10 text-center"><h2 class="text-center text-danger col-12">This job has changed since it was approved and will need new approval.</h2></div>'; 
 					
-					if ($_SESSION['access_level'] == 1) { 
+					if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1447 || $_SESSION['id'] == 1456) { 
 						$html .= '	<button class="col-2 btn btn-success d-print-none float-right mx-0" type="button" onClick="approveLoss(1,' . round($price_tax,2) . ',' . $_SESSION['id'] . ')" style="cursor:pointer">Approve <i class="far fa-check"></i></button>'; 
 					}
 				}
