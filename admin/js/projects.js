@@ -1548,14 +1548,30 @@ function loadEntries(){
 			$('#tableResults').append(data);
 		},
 		error: function(data) {
-			console.log(data);
-			
-			
-			
+			console.log(data);	
 		}
 	});
 	setTimeout(loadEntries, 5000);
 }
+
+function loadApproval() {
+	var datastring = "action=approval_list"
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			$('#tableResults').html('');
+			$('#tableResults').append(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+	setTimeout(loadApproval, 2000);
+}
+
+
 
 function loadTemplates() {
 	var datastring = "action=templates_list"

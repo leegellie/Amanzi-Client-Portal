@@ -1650,6 +1650,44 @@ if ($action=="templates_list") {
 	}
 }
 
+if ($action=="approval_list") {
+	$results = "";
+	unset($_POST['action']);
+	$get_approval = new project_action;
+	foreach($get_approval->get_approval() as $results) {
+		if ($results['request_approval'] == 1) {
+			$date = new DateTime($results['install_date']);
+			$date = $date->format('m/d');
+			?>
+			<hr>
+			<div class="w-100 btn purple-gradient">
+				<div class="row">
+					<div class="col-md-2 h5"><?= $date ?></div>
+					<div class="col-md-5 h5 text-left">
+						<?
+						if ($results['order_num'] == '') {
+							?>
+						Q-<?= $results['quote_num']; ?> - <?= $results['job_name']; ?>	
+							<?
+						} else {
+							?>
+						<?= $results['order_num']; ?> - <?= $results['job_name']; ?>
+							<?
+						}
+						?>
+					</div>
+					<div class="col-md-2 h5"><?= $results['profit']; ?></div>
+					<div class="col-md-2 h5">
+						<div class="btn btn-sm btn-primary" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="far fa-eye"></i> View</div>
+						<div class="btn btn-sm btn-primary" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-check"></i> Approve</div>
+					</div>
+				</div>
+			</div>
+			<?
+		}
+	}
+}
+
 if ($action=="programming_list") {
 	$results = "";
 	unset($_POST['action']);
@@ -2088,76 +2126,75 @@ if ($action=="installs_list") {
 	function install_item($results) {
 		$install_item = '
 				<div class="row">
-					<div class="col-md-1">';
-						if ($results['job_status'] < 81 ) { 
-							if ( $results['ual'] == 11 ) { 
-								$install_item .= '<i class="fas fa-home text-primary"></i>'; 
-							} else { 
-								$install_item .= '<i class="fas fa-building text-secondary"></i>'; 
-							}; 
-						} else if ($results['job_status'] == 81) {
-							$install_item .= '<i class="fas fa-truck-loading text-success"></i>'; 
-						} else if ($results['job_status'] == 82) {
-							$install_item .= '<i class="fas fa-truck faa-passing animated text-success"></i>'; 
-						} else if ($results['job_status'] == 83) {
-							$install_item .= '<i class="fas fa-gavel faa-shake animated text-success"></i>'; 
-						} else if ($results['job_status'] == 84) {
-							$install_item .= '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i>'; 
-						} else if ($results['job_status'] == 85) {
-							$install_item .= '<i class="fas fa-check text-success"></i>'; 
-						} else if ($results['job_status'] == 86) {
-							$install_item .= '<i class="fas far-thumbs-up faa-tada animated text-danger"></i>'; 
-						} else if ($results['job_status'] == 89) {
-							$install_item .= '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
-						}
-						$install_item .= '</div>';
-						$install_item .= '<div class="col-6 col-md-1 ';
-						if ( $results['ual'] == 0 ) {
-							$install_item .= 'text-muted'; 
-						} else { 
-							$install_item .= 'text-primary'; 
-						}; 
-						$install_item .= '">' . $results['team'] . '</div>';
-						$install_item .= '<div class="col-6 col-md-1 text-danger">';
-						if ($results['first_stop'] == 1 && $results['am'] == 1) { 
-							$install_item .= '1st Stop AM'; 
-						} elseif ($results['first_stop'] == 1 && $results['pm'] != 1) { 
-							$install_item .= '1st Stop'; 
-						} elseif ($results['am'] == 1) { 
-							$install_item .= 'AM'; 
-						} elseif ($results['first_stop'] != 1 && $results['am'] != 1 && $results['pm'] != 1) { 
-							$install_item .= ''; 
-						} elseif ($results['first_stop'] == 1 && $results['pm'] == 1) { 
-							$install_item .= '1st Stop PM'; 
-						} elseif ($results['pm'] == 1) { 
-							$install_item .= 'PM'; 
-						} 
-						$install_item .= '</div>';
-						$install_item .= '<div class="col-md-3 text-primary">' . $results['job_name'] . '</div>';
-						$install_item .= '<div class="col-6 col-md-1 text-primary">' . $results['quote_num'] . '</div>';
-						$install_item .= '<div class="col-6 col-md-1 text-primary">' . $results['order_num'] . '</div>';
-						$install_item .= '<div class="col-md-3 text-primary">';
-						$address = '';
-						$address .= $results['address_1'];
-						if ($results['address_2'] > '') {
-							$address .= ', ' . $results['address_2'];
-						}
-						$address .= ', ' . $results['city'];
-						$address .= ', ' . $results['state'];
-						$address .= ', ' . $results['zip'];
-						$install_item .= '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
-						$install_item .= '</div>';
-						$install_item .= '<div  class="col-1">';
-						$install_item .= '<div id="' . $results['id'] . '" class="btn ';
-						if ($results['job_status'] > 79 || $results['job_status'] == 73 || $results['job_status'] == 72) { 
-							$install_item .= 'btn-primary '; 
-						} else { 
-							$install_item .= 'btn-danger '; 
-						} 
-						$install_item .= ' w-100" style="cursor:pointer" onClick="viewThisProject(' .  $results['id'] . ',' . $results['uid'] . ');"><i class="fas fa-eye"></i></div>';
-						$install_item .= '</div>';
-						$install_item .= '</div>';
-						$install_item .= '<hr>';
+					<div class="col-md-2">';
+		if ($results['job_status'] < 81 ) { 
+			if ( $results['ual'] == 11 ) { 
+				$install_item .= '<i class="fas fa-home text-primary"></i> '; 
+			} else { 
+				$install_item .= '<i class="fas fa-building text-secondary"></i> '; 
+			}; 
+		} else if ($results['job_status'] == 81) {
+			$install_item .= '<i class="fas fa-truck-loading text-success"></i> '; 
+		} else if ($results['job_status'] == 82) {
+			$install_item .= '<i class="fas fa-truck faa-passing animated text-success"></i> '; 
+		} else if ($results['job_status'] == 83) {
+			$install_item .= '<i class="fas fa-gavel faa-shake animated text-success"></i> '; 
+		} else if ($results['job_status'] == 84) {
+			$install_item .= '<i class="fas fa-exclamation-triangle faa-flash animated text-warning"></i> '; 
+		} else if ($results['job_status'] == 85) {
+			$install_item .= '<i class="fas fa-check text-success"></i> '; 
+		} else if ($results['job_status'] == 86) {
+			$install_item .= '<i class="fas far-thumbs-up faa-tada animated text-danger"></i> '; 
+		} else if ($results['job_status'] == 89) {
+			$install_item .= '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i> '; 
+		}
+		$install_item .= '<span class="';
+		if ( $results['ual'] == 0 ) {
+			$install_item .= 'text-muted'; 
+		} else { 
+			$install_item .= 'text-primary'; 
+		}; 
+		$install_item .= '">' . $results['team'] . '</span>';
+		$install_item .= ' <span class="text-danger">';
+		if ($results['first_stop'] == 1 && $results['am'] == 1) { 
+			$install_item .= '- 1st Stop AM'; 
+		} elseif ($results['first_stop'] == 1 && $results['pm'] != 1) { 
+			$install_item .= '- 1st Stop'; 
+		} elseif ($results['am'] == 1) { 
+			$install_item .= '- AM'; 
+		} elseif ($results['first_stop'] != 1 && $results['am'] != 1 && $results['pm'] != 1) { 
+			$install_item .= ''; 
+		} elseif ($results['first_stop'] == 1 && $results['pm'] == 1) { 
+			$install_item .= '- 1st Stop PM'; 
+		} elseif ($results['pm'] == 1) { 
+			$install_item .= '- PM'; 
+		} 
+		$install_item .= '</span>';
+		$install_item .= '</div>';
+		$install_item .= '<div class="col-md-2 text-primary">' . $results['job_name'] . '</div>';
+		$install_item .= '<div class="col-6 col-md-1 text-primary">' . $results['order_num'] . '</div>';
+		$install_item .= '<div class="col-md-3 text-primary">';
+		$address = '';
+		$address .= $results['address_1'];
+		if ($results['address_2'] > '') {
+			$address .= ', ' . $results['address_2'];
+		}
+		$address .= ', ' . $results['city'];
+		$address .= ', ' . $results['state'];
+		$address .= ', ' . $results['zip'];
+		$install_item .= '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
+		$install_item .= '</div>';
+		$install_item .= '<div  class="col-1">';
+		$install_item .= '<div id="' . $results['id'] . '" class="btn btn-sm ';
+		if ($results['job_status'] > 79 || $results['job_status'] == 73 || $results['job_status'] == 72) { 
+			$install_item .= 'btn-primary '; 
+		} else { 
+			$install_item .= 'btn-danger '; 
+		} 
+		$install_item .= ' w-100" style="cursor:pointer" onClick="viewThisProject(' .  $results['id'] . ',' . $results['uid'] . ');"><i class="fas fa-eye"></i></div>';
+		$install_item .= '</div>';
+		$install_item .= '</div>';
+		$install_item .= '<hr>';
 		return $install_item;
 	}
 

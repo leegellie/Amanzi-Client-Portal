@@ -70,6 +70,8 @@ if(isset($_GET['marble'])){
 	require_once ('admin_graphs.php');
 } elseif (isset($_GET['accessories'])) {
 	require_once ('admin_accessories.php');
+} elseif (isset($_GET['approval'])) {
+	require_once ('admin_approval.php');
 }
 ?>
 	</div>
