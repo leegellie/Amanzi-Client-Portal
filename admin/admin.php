@@ -38,7 +38,7 @@ include('includes.php');
 	<script src="bootgrid/jquery.bootgrid.min.js"></script>
 	<script src="bootgrid/jquery.bootgrid.fa.min.js"></script>
 	<script src="js/projects.js"></script>
-	<script src="js/projects_edit.js"></script>
+	<script src="js/project_edit.js"></script>
 	<script src="js/materials.js"></script>
 <script>
 <?PHP 
