@@ -1655,42 +1655,40 @@ if ($action=="approval_list") {
 	unset($_POST['action']);
 	$get_approval = new project_action;
 	foreach($get_approval->get_approval() as $results) {
-		if ($results['request_approval'] == 1) {
-			$useDate;
-			if ($results['install_date'] == '2200-01-01') {
-				$useDate = $results['template_date'];
-			} else {
-				$useDate = $results['install_date'];
-			}
-			$date = new DateTime($useDate);
-			$date = $date->format('m/d');
-			?>
-			<hr>
-			<div class="w-100 btn purple-gradient">
-				<div class="row">
-					<div class="col-md-2 h5"><?= $date ?></div>
-					<div class="col-md-4 h5 text-left">
-						<?
-						if ($results['order_num'] == '') {
-							?>
-						Q-<?= $results['quote_num']; ?> - <?= $results['job_name']; ?>	
-							<?
-						} else {
-							?>
-						<?= $results['order_num']; ?> - <?= $results['job_name']; ?>
-							<?
-						}
+		$useDate;
+		if ($results['install_date'] == '2200-01-01') {
+			$useDate = $results['template_date'];
+		} else {
+			$useDate = $results['install_date'];
+		}
+		$date = new DateTime($useDate);
+		$date = $date->format('m/d');
+		?>
+		<hr>
+		<div class="w-100 btn purple-gradient">
+			<div class="row">
+				<div class="col-md-2 h5"><?= $date ?></div>
+				<div class="col-md-4 h5 text-left">
+					<?
+					if ($results['order_num'] == '') {
 						?>
-					</div>
-					<div class="col-md-2 h5">Prof: <?= $results['profit']; ?></div>
-					<div class="col-md-4 h5">
-						<div class="btn btn-sm btn-primary" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="far fa-eye"></i> View</div>
-						<div class="btn btn-sm btn-primary" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-check"></i> Approve</div>
-					</div>
+					Q-<?= $results['quote_num']; ?> - <?= $results['job_name']; ?>	
+						<?
+					} else {
+						?>
+					<?= $results['order_num']; ?> - <?= $results['job_name']; ?>
+						<?
+					}
+					?>
+				</div>
+				<div class="col-md-2 h5">Prof: <?= $results['profit']; ?></div>
+				<div class="col-md-4 h5">
+					<div class="btn btn-sm btn-primary" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="far fa-eye"></i> View</div>
+					<div class="btn btn-sm btn-primary" onClick="approveLoss(1,<?= $results['job_price']; ?>,<?= $_SESSION['id']; ?>)"><i class="fas fa-check"></i> Approve</div>
 				</div>
 			</div>
-			<?
-		}
+		</div>
+		<?
 	}
 }
 
