@@ -1718,6 +1718,27 @@ if ($action=="programming_list") {
 	}
 }
 
+function get_fab_files($uid, $pid) {
+	$folderPath = base_dir . "job-files/" . $uid . "/" . $pid . "/fab/";
+	if (file_exists($folderPath)) {
+		$fileList = array_diff(scandir($folderPath), array('..', '.'));
+		$return = '';
+		if (!empty($fileList)) {
+			foreach($fileList as $filename) {
+				if (strpos($filename, '.') !== false) {
+					$filename = str_replace('#','%23',$filename);
+					$return .= "<a class='btn btn-sm btn-primary mb-2 mr-2 d-inline-block' href='/job-files/" . $uid . "/" . $pid . "/fab/" . $filename . "' target='_blank'>" . $filename . "</a>";
+				}
+			}
+		}
+		echo $return;
+	}
+}
+
+
+
+
+
 if ($action=="saw_list") {
 
 	$results = "";
@@ -1753,7 +1774,17 @@ if ($action=="saw_list") {
 						?>
 					<?= $date ?></div>
 					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
-					<div class="col-md-5 h5"><div class="btn btn-sm btn-primary my-0">A</div><div class="btn btn-sm btn-primary my-0">A</div><div class="btn btn-sm btn-primary my-0">A</div><div class="btn btn-sm btn-primary my-0">A</div></div>
+					<div class="col-md-5 h5">
+						<div class="btn btn-sm btn-primary my-0">A</div>
+						<div class="btn btn-sm btn-primary my-0">A</div>
+						<div class="btn btn-sm btn-primary my-0">A</div>
+						<div class="btn btn-sm btn-primary my-0">A</div>
+					</div>
+				</div>
+				<div class="row">
+					<?
+						get_fab_files($results['uid'], $results['id'])
+					?>
 				</div>
 			</div>
 		<?
