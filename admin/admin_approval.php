@@ -25,6 +25,7 @@
 				</div>
 			</div>
 	<script src="js/projects.js"></script>
+	<script src="js/projects_edit.js"></script>
 <script>
 $(document).ready(function(){
     loadApproval();

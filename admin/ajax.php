@@ -1676,7 +1676,7 @@ if ($action=="approval_list") {
 						}
 						?>
 					</div>
-					<div class="col-md-2 h5"><?= $results['profit']; ?></div>
+					<div class="col-md-2 h5">Prof: <?= $results['profit']; ?></div>
 					<div class="col-md-3 h5">
 						<div class="btn btn-sm btn-primary" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="far fa-eye"></i> View</div>
 						<div class="btn btn-sm btn-primary" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-check"></i> Approve</div>
