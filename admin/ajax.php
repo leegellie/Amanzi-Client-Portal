@@ -1727,7 +1727,7 @@ function get_fab_files($uid, $pid) {
 			foreach($fileList as $filename) {
 				if (strpos($filename, '.') !== false) {
 					$filename = str_replace('#','%23',$filename);
-					$return .= "<a class='btn btn-sm btn-primary mb-2 mr-2 d-inline-block' href='/job-files/" . $uid . "/" . $pid . "/fab/" . $filename . "' target='_blank'>" . $filename . "</a>";
+					$return .= "<a class='btn btn-sm btn-warning mb-2 mr-2 d-inline-block' href='/job-files/" . $uid . "/" . $pid . "/fab/" . $filename . "' target='_blank'>" . $filename . "</a>";
 				}
 			}
 		}
@@ -1738,14 +1738,13 @@ function get_fab_files($uid, $pid) {
 
 
 
-
 if ($action=="saw_list") {
 
 	$results = "";
 	unset($_POST['action']);
 	$get_entries = new project_action;
 	foreach($get_entries->get_saw($_SESSION['id']) as $results) {
-		if ($results['job_status'] != 52) {
+		if ($results['job_status'] != 52 && $results['job_status'] != 53) {
 			?>
 			<hr>
 			<div class="w-100 btn pb-0 <?
@@ -1764,7 +1763,7 @@ if ($action=="saw_list") {
 			}
 			$date = new DateTime($results['install_date']);
 			$date = $date->format('m/d');
-			?>" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
+			?>">
 				<div class="row">
 					<div class="col-md-2 h5">
 						<?
@@ -1775,12 +1774,67 @@ if ($action=="saw_list") {
 					<?= $date ?></div>
 					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
 					<div class="col-md-5 h5">
-						<div class="btn btn-sm btn-primary my-0">A</div>
-						<div class="btn btn-sm btn-primary my-0">A</div>
-						<div class="btn btn-sm btn-primary my-0">A</div>
-						<div class="btn btn-sm btn-primary my-0">A</div>
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
+						<?
+						if ($results['job_status'] < 51) {
+							?>
+							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,51)"><i class="fas fa-arrow-square-right"></i> Start</div>
+							<?
+						} elseif ($results['job_status'] == 51) {
+							?>
+							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,52)"><i class="fas fa-check"></i> Complete</div>
+							<?
+						}
+						?>
+						<div class="btn btn-sm btn-primary my-0" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
 					</div>
 				</div>
+				<hr>
+				<div class="row">
+					<?
+						get_fab_files($results['uid'], $results['id'])
+					?>
+				</div>
+			</div>
+			<hr>
+		<?
+		}
+	}
+	foreach($get_entries->get_saw($_SESSION['id']) as $results) {
+		if ($results['job_status'] == 52 || $results['job_status'] == 53) {
+			$date = new DateTime($results['install_date']);
+			$date = $date->format('m/d');
+			?>
+			<hr>
+			<div class="w-100 btn pb-0 <?
+			if ($results['job_status'] == 52) {
+				?>peach-gradient<?
+			} elseif ($results['job_status'] == 53) {
+				?>blue-gradient<?
+			}
+			?>">
+				<div class="row">
+					<div class="col-md-2 h5">
+						<?
+			if((time()+(60*60*24*4)) > strtotime($results['install_date']) && ($results['job_status'] < 53 || $results['job_status'] != 59)) {
+				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
+			}
+						?>
+					<?= $date ?></div>
+					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
+					<div class="col-md-5 h5">
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
+						<?
+						if ($results['job_status'] == 52) {
+							?>
+							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,53)"><i class="fas fa-truck"></i> To CNC</div>
+							<?	
+						}
+						?>
+						<div class="btn btn-sm btn-primary my-0" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
+					</div>
+				</div>
+				<hr>
 				<div class="row">
 					<?
 						get_fab_files($results['uid'], $results['id'])
@@ -1788,33 +1842,6 @@ if ($action=="saw_list") {
 				</div>
 			</div>
 		<?
-		} else {
-			?>
-			<hr>
-			<div class="w-100 btn <?
-			if ($results['job_status'] == 44 || $results['job_status'] == 50) {
-				?>btn-muted mdb-color lighten-5 text-dark<?
-			} elseif ($results['job_status'] == 51) {
-				?>btn-success<?
-			} elseif ($results['job_status'] == 52) {
-				?>peach-gradient<?
-			} elseif ($results['job_status'] == 53) {
-				?>btn-success<?
-			} elseif ($results['job_status'] == 59) {
-				?>btn-danger<?
-			}
-			$date = new DateTime($results['install_date']);
-			$date = $date->format('m/d');
-			?>" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
-				<div class="row">
-					<div class="col-md-1 h5"><i class="fas fa-check fa-pulse text-success"></i></div>
-					<div class="col-md-2 h5"><?= $date ?></div>
-					<div class="col-md-5 h5 text-left"><?= $results['job_name']; ?></div>
-					<div class="col-md-2 h5"><?= $results['quote_num']; ?></div>
-					<div class="col-md-2 h5"><?= $results['order_num']; ?></div>
-				</div>
-			</div>
-<?
 		}
 	}
 }
@@ -1825,40 +1852,108 @@ if ($action=="cnc_list") {
 	unset($_POST['action']);
 	$get_entries = new project_action;
 	foreach($get_entries->get_cnc($_SESSION['id']) as $results) {
-		?>
-		<hr>
-		<div class="w-100 btn <?
-		if ($results['job_status'] == 53 || $results['job_status'] == 60) {
-			?>btn-muted mdb-color lighten-5 text-dark<?
-		} elseif ($results['job_status'] == 61) {
-			?>btn-success<?
-		} elseif ($results['job_status'] == 62) {
-			?>peach-gradient<?
-		} elseif ($results['job_status'] == 63) {
-			?>btn-success<?
-		} elseif ($results['job_status'] == 69) {
-			?>btn-danger<?
-		}
-		$date = new DateTime($results['install_date']);
-		$date = $date->format('m/d');
-		?>" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
-			<div class="row">
-				<div class="col-md-1 h5">
+		if ($results['job_status'] != 62 && $results['job_status'] != 63) {
+			?>
+			<hr>
+			<div class="w-100 btn pb-0 <?
+			if ($results['job_status'] == 53 || $results['job_status'] == 60) {
+				?>btn-muted mdb-color lighten-5 text-dark<?
+			} elseif ($results['job_status'] == 61) {
+				?>btn-success<?
+			} elseif ($results['job_status'] == 62) {
+				?>peach-gradient<?
+			} elseif ($results['job_status'] == 63) {
+				?>btn-success<?
+			} elseif ($results['job_status'] == 69) {
+				?>btn-danger<?
+			} else {
+				?>btn-muted mdb-color lighten-5 text-dark<?
+			}
+			$date = new DateTime($results['install_date']);
+			$date = $date->format('m/d');
+			?>">
+				<div class="row">
+					<div class="col-md-2 h5">
+						<?
+			if((time()+(60*60*24*3)) > strtotime($results['install_date']) && ($results['job_status'] < 63 || $results['job_status'] != 69)) {
+				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
+			}
+						?>
+					<?= $date ?></div>
+					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
+					<div class="col-md-5 h5">
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
+						<?
+						if ($results['job_status'] < 61) {
+							?>
+							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,61)"><i class="fas fa-arrow-square-right"></i> Start</div>
+							<?
+						} elseif ($results['job_status'] == 61) {
+							?>
+							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,62)"><i class="fas fa-check"></i> Complete</div>
+							<?
+						}
+						?>
+						<div class="btn btn-sm btn-primary my-0" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
 					<?
-		if((time()+(60*60*24*3)) > strtotime($results['install_date']) && $results['job_status'] < 62) {
-			echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
-		}
+						get_fab_files($results['uid'], $results['id'])
 					?>
 				</div>
-				<div class="col-md-2 h5"><?= $date ?></div>
-				<div class="col-md-5 h5 text-left"><?= $results['job_name']; ?></div>
-				<div class="col-md-2 h5"><?= $results['quote_num']; ?></div>
-				<div class="col-md-2 h5"><?= $results['order_num']; ?></div>
 			</div>
-		</div>
+			<hr>
 		<?
+		}
+	}
+	foreach($get_entries->get_cnc($_SESSION['id']) as $results) {
+		if ($results['job_status'] == 62 || $results['job_status'] == 63) {
+			$date = new DateTime($results['install_date']);
+			$date = $date->format('m/d');
+			?>
+			<hr>
+			<div class="w-100 btn pb-0 <?
+			if ($results['job_status'] == 62) {
+				?>peach-gradient<?
+			} elseif ($results['job_status'] == 63) {
+				?>blue-gradient<?
+			}
+			?>">
+				<div class="row">
+					<div class="col-md-2 h5">
+						<?
+			if((time()+(60*60*24*3)) > strtotime($results['install_date']) && ($results['job_status'] < 63 || $results['job_status'] != 69)) {
+				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
+			}
+						?>
+					<?= $date ?></div>
+					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
+					<div class="col-md-5 h5">
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
+						<?
+						if ($results['job_status'] == 62) {
+							?>
+							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,63)"><i class="fas fa-truck"></i> To Polishing</div>
+							<?	
+						}
+						?>
+						<div class="btn btn-sm btn-primary my-0" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<?
+						get_fab_files($results['uid'], $results['id'])
+					?>
+				</div>
+			</div>
+		<?
+		}
 	}
 }
+
 
 if ($action=="polishing_list") {
 
@@ -1866,38 +1961,105 @@ if ($action=="polishing_list") {
 	unset($_POST['action']);
 	$get_entries = new project_action;
 	foreach($get_entries->get_polishing($_SESSION['id']) as $results) {
-		?>
-		<hr>
-		<div class="w-100 btn <?
-		if ($results['job_status'] == 63 || $results['job_status'] == 70) {
-			?>btn-muted mdb-color lighten-5 text-dark<?
-		} elseif ($results['job_status'] == 71) {
-			?>btn-success<?
-		} elseif ($results['job_status'] == 72) {
-			?>peach-gradient<?
-		} elseif ($results['job_status'] == 73) {
-			?>btn-success<?
-		} elseif ($results['job_status'] == 79) {
-			?>btn-danger<?
-		}
-		$date = new DateTime($results['install_date']);
-		$date = $date->format('m/d');
-		?>" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
-			<div class="row">
-				<div class="col-md-1 h5">
+		if ($results['job_status'] != 72 && $results['job_status'] != 73) {
+			?>
+			<hr>
+			<div class="w-100 btn pb-0 <?
+			if ($results['job_status'] == 63 || $results['job_status'] == 70) {
+				?>btn-muted mdb-color lighten-5 text-dark<?
+			} elseif ($results['job_status'] == 71) {
+				?>btn-success<?
+			} elseif ($results['job_status'] == 72) {
+				?>peach-gradient<?
+			} elseif ($results['job_status'] == 73) {
+				?>btn-success<?
+			} elseif ($results['job_status'] == 79) {
+				?>btn-danger<?
+			} else {
+				?>btn-muted mdb-color lighten-5 text-dark<?
+			}
+			$date = new DateTime($results['install_date']);
+			$date = $date->format('m/d');
+			?>">
+				<div class="row">
+					<div class="col-md-2 h5">
+						<?
+			if((time()+(60*60*24*3)) > strtotime($results['install_date']) && ($results['job_status'] < 73 || $results['job_status'] != 79)) {
+				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
+			}
+						?>
+					<?= $date ?></div>
+					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
+					<div class="col-md-5 h5">
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
+						<?
+						if ($results['job_status'] < 71) {
+							?>
+							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,71)"><i class="fas fa-arrow-square-right"></i> Start</div>
+							<?
+						} elseif ($results['job_status'] == 71) {
+							?>
+							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,72)"><i class="fas fa-check"></i> Complete</div>
+							<?
+						}
+						?>
+						<div class="btn btn-sm btn-primary my-0" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
 					<?
-		if((time()+(60*60*24*2)) > strtotime($results['install_date']) && $results['job_status'] < 72) {
-			echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
-		}
+						get_fab_files($results['uid'], $results['id'])
 					?>
 				</div>
-				<div class="col-md-2 h5"><?= $date ?></div>
-				<div class="col-md-5 h5 text-left"><?= $results['job_name']; ?></div>
-				<div class="col-md-2 h5"><?= $results['quote_num']; ?></div>
-				<div class="col-md-2 h5"><?= $results['order_num']; ?></div>
 			</div>
-		</div>
+			<hr>
 		<?
+		}
+	}
+	foreach($get_entries->get_polishing($_SESSION['id']) as $results) {
+		if ($results['job_status'] == 72 || $results['job_status'] == 73) {
+			$date = new DateTime($results['install_date']);
+			$date = $date->format('m/d');
+			?>
+			<hr>
+			<div class="w-100 btn pb-0 <?
+			if ($results['job_status'] == 72) {
+				?>peach-gradient<?
+			} elseif ($results['job_status'] == 73) {
+				?>blue-gradient<?
+			}
+			?>">
+				<div class="row">
+					<div class="col-md-2 h5">
+						<?
+			if((time()+(60*60*24*3)) > strtotime($results['install_date']) && ($results['job_status'] < 73 || $results['job_status'] != 79)) {
+				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
+			}
+						?>
+					<?= $date ?></div>
+					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
+					<div class="col-md-5 h5">
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
+						<?
+						if ($results['job_status'] == 72) {
+							?>
+							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,73)"><i class="fas fa-truck"></i> To Installs</div>
+							<?	
+						}
+						?>
+						<div class="btn btn-sm btn-primary my-0" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+					<?
+						get_fab_files($results['uid'], $results['id'])
+					?>
+				</div>
+			</div>
+		<?
+		}
 	}
 }
 
