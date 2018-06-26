@@ -37,7 +37,6 @@ include('includes.php');
     <script src="js/printThis.js"></script>
 	<script src="bootgrid/jquery.bootgrid.min.js"></script>
 	<script src="bootgrid/jquery.bootgrid.fa.min.js"></script>
-	<script src="js/projects.js"></script>
 	<script src="js/materials.js"></script>
 <script>
 <?PHP 
