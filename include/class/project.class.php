@@ -119,11 +119,10 @@ class project_action {
 	public function request_approval($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$q = $conn->prepare("UPDATE projects SET request_approval = 1 WHERE id = :id");
+		$q = $conn->prepare("UPDATE projects SET request_approval = 1, mngr_approved = 0 WHERE id = :id");
 		$q->bindParam('id',$a['id']);
 		$q->execute();
 	}
-
 
 	public function db_profit_update($pid,$ePjtCost,$eSqFt,$profit,$project_costs) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);

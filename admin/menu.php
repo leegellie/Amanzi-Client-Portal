@@ -44,6 +44,7 @@ if ($access_level < 11) {
 			if ($_SESSION['id'] != 1447) {
 ?>
 						<a class="dropdown-item text-dark" href="admin.php?profit">Profit/Loss</a>
+						<a class="dropdown-item text-dark" href="admin.php?approval">Need Approval</a>
 <?
 			}
 ?>
