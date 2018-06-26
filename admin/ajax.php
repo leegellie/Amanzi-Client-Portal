@@ -1656,7 +1656,13 @@ if ($action=="approval_list") {
 	$get_approval = new project_action;
 	foreach($get_approval->get_approval() as $results) {
 		if ($results['request_approval'] == 1) {
-			$date = new DateTime($results['install_date']);
+			$useDate;
+			if ($results['install_date'] == '2200-01-01') {
+				$useDate = $results['template_date'];
+			} else {
+				$useDate = $results['install_date'];
+			}
+			$date = new DateTime($useDate);
 			$date = $date->format('m/d');
 			?>
 			<hr>
