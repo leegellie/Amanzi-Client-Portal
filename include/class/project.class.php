@@ -1393,7 +1393,8 @@ class project_action {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			$sql = "
-			SELECT projects.*
+			SELECT *
+			  FROM projects
 			 WHERE request_approval = 1
 			 ORDER BY 
 				   install_date ASC, 
