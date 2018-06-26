@@ -1,4 +1,4 @@
-		<div class="row">
+		<div class="row w-100">
             <div class="col-12" style="margin-left:0">
                 <div id="user-data" class="col-12">
 					<div class="row">
