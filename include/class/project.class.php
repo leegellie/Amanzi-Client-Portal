@@ -1354,21 +1354,14 @@ class project_action {
 	}
 
 	// SELECT PROJECT LIST BASED ON USER CRITERIA 
-	public function get_entries($a) {
+	public function get_entries() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "SELECT projects.id, projects.uid, projects.job_name, projects.quote_num, projects.order_num, projects.job_status, status.name AS status FROM projects JOIN status ON status.id = projects.job_status WHERE entry = 1";
-		if ($a == 10){
-			$sql .= " AND (acct_rep = 8 OR acct_rep = 7)";
-		} if ($a == 985) {
-			$sql .= " AND NOT acct_rep = 8 AND NOT acct_rep = 7";
-		}
-		$sql .= " ORDER BY job_status DESC";
+		$sql = "SELECT projects.id, projects.uid, projects.job_name, projects.quote_num, projects.order_num, projects.job_status, status.name AS status FROM projects JOIN status ON status.id = projects.job_status WHERE entry = 1 ORDER BY job_status DESC";
 		$q = $conn->prepare($sql);
 		$q->execute();
 		return $row = $q->fetchAll();
 	}
-
 
 	/////////// LEE
 	/////////// LEE
@@ -1395,6 +1388,7 @@ class project_action {
 			SELECT *
 			  FROM projects
 			 WHERE request_approval = 1
+			   AND isActive = 1
 			 ORDER BY 
 				   install_date ASC, 
 				   first_stop DESC, 
@@ -1457,6 +1451,7 @@ class project_action {
 			}
 			$sql .= "
 			ORDER BY 
+				 projects.in_house_template DESC,
 				  team ASC, 
 				  temp_first_stop DESC, 
 				  temp_am DESC,
@@ -1806,28 +1801,30 @@ class project_action {
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 
 		$q = $conn->prepare("
-		SELECT projects.*, 
-			   rep.fname AS repFname, 
-			   rep.lname AS repLname, 
-			   rep.email AS repEmail, 
-			   clients.company AS clientCompany, 
-			   clients.fname AS clientFname, 
-			   clients.lname AS clientLname, 
-			   clients.discount AS clientDiscount, 
-			   clients.discount_quartz AS discount_quartz, 
-			   clients.address1 AS cAdd1, 
-			   clients.address2 AS cAdd2, 
-			   clients.city AS cCity, 
-			   clients.state AS cState, 
-			   clients.zip AS cZip, 
-			   clients.email AS cEmail, 
-			   clients.phone AS cPhone 
-		  FROM projects 
-		  JOIN users rep 
-		    ON rep.id = projects.acct_rep 
-		  JOIN users clients 
-		    ON projects.uid = clients.id 
-		 WHERE projects.uid = " . $a['userID'] . " AND projects.id = " . $a['pjtID']);
+			SELECT projects.*, 
+				   rep.fname AS repFname, 
+				   rep.lname AS repLname, 
+				   rep.email AS repEmail, 
+				   clients.company AS clientCompany, 
+				   clients.fname AS clientFname, 
+				   clients.lname AS clientLname, 
+				   clients.discount AS clientDiscount, 
+				   clients.discount_quartz AS discount_quartz, 
+				   clients.address1 AS cAdd1, 
+				   clients.address2 AS cAdd2, 
+				   clients.city AS cCity, 
+				   clients.state AS cState, 
+				   clients.zip AS cZip, 
+				   clients.email AS cEmail, 
+				   clients.phone AS cPhone 
+			  FROM projects 
+			  JOIN users rep 
+				ON rep.id = projects.acct_rep 
+			  JOIN users clients 
+				ON projects.uid = clients.id 
+			 WHERE projects.uid = :userID AND projects.id = :pjtID");
+		$q->bindParam('userID',$a['userID']);
+		$q->bindParam('pjtID',$a['pjtID']);
 		$q->execute();
 		
 		return $row = $q->fetchAll();

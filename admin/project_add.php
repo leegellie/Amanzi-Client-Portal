@@ -25,20 +25,12 @@
 									</div>
 									<div class="row">
 										<fieldset class="form-group col-4 col-md-3 text-left">
-											<input class="filled-in mr-4" name="in_house_template" id="in_house_template" type="checkbox" value="1">
-											<label for="in_house_template" class="text-left">In-House Template</label>
-										</fieldset>
-										<fieldset class="form-group col-4 col-md-3 text-left">
 											<input class="filled-in mr-4" name="no_template" id="no_template" type="checkbox" value="1">
 											<label for="no_template" class="text-left">No Template Needed</label>
 										</fieldset>
 										<fieldset class="form-group col-4 col-md-3 text-left">
 											<input class="filled-in mr-4" name="no_charge" id="no_charge" type="checkbox" value="1">
 											<label for="no_charge" class="text-left">No Charge</label>
-										</fieldset>
-										<fieldset class="form-group col-4 col-md-3 text-left">
-											<input class="filled-in mr-4" name="pick_up" id="pick_up" type="checkbox" value="1">
-											<label for="pick_up" class="text-left">Customer Pick Up</label>
 										</fieldset>
 										<fieldset class="form-group col-4 col-md-2 text-left servoption reoption">
 											<input class="filled-in mr-4" name="call_out_fee" id="call_out_fee" type="checkbox" value="1">
@@ -115,12 +107,12 @@
 												<select class="mdb-select" id="acct_rep" name="acct_rep">
 													<option value="0">Unspecified</option>
 <?
-	$uOptions = '';
-	$salesReps = new project_action;
+	$uOptions = ''; 
+	$salesReps = new project_action; 
 	foreach($salesReps->get_reps() as $results) {
-		$uOptions .= '<option value="' . $results['id'] . '">' . $results['fname'] . ' ' . $results['lname'] . '</option>';
-	}
-	echo $uOptions;
+		$uOptions .= '<option value="' . $results['id'] . '">' . $results['fname'] . ' ' . $results['lname'] . '</option>'; 
+	} 
+	echo $uOptions; 
 ?>
 												</select>
 											</fieldset>
@@ -129,7 +121,7 @@
 												<input class="form-control" id="builder" name="builder" type="text">
 											</fieldset>
 											<fieldset class="form-group col-6 col-md-3">
-												<label for="po-cost">P.O. Cost:</label>
+												<label for="po-cost">Deposit Paid:</label>
 												<input class="form-control" id="po_cost" name="po_cost" type="text">
 											</fieldset>
 											<fieldset class="form-group col-6 col-md-3">
@@ -256,19 +248,28 @@
 											</div>
 										</div>
 									</fieldset>
-									<fieldset class="form-group col-4 col-md-2">
-										<input class="filled-in" id="temp_am" name="temp_am" type="checkbox" value="1">
-										<label for="temp_am">AM?:</label>
-									</fieldset>
-									<fieldset class="form-group col-4 col-md-2">
-										<input class="filled-in" id="temp_first_stop" name="temp_first_stop" type="checkbox" value="1">
-										<label for="temp_first_stop">1st Stop?:</label>
-									</fieldset>
-									<fieldset class="form-group col-4 col-md-2">
-										<input class="filled-in" id="temp_pm" name="temp_pm" type="checkbox" value="1">
-										<label for="temp_pm">PM?:</label>
-									</fieldset>
+									<div class="col-6">
+										<div class="row">
+											<fieldset class="form-group col-6 col-md-3">
+												<input class="filled-in" id="temp_am" name="temp_am" type="checkbox" value="1">
+												<label for="temp_am">AM</label>
+											</fieldset>
+											<fieldset class="form-group col-6 col-md-3">
+												<input class="filled-in" id="temp_first_stop" name="temp_first_stop" type="checkbox" value="1">
+												<label for="temp_first_stop">1<sup>st</sup> Stop</label>
+											</fieldset>
+											<fieldset class="form-group col-6 col-md-3">
+												<input class="filled-in" id="temp_pm" name="temp_pm" type="checkbox" value="1">
+												<label for="temp_pm">PM?</label>
+											</fieldset>
+											<fieldset class="form-group col-6 col-md-3 text-left">
+												<input class="filled-in mr-4" name="in_house_template" id="in_house_template" type="checkbox" value="1">
+												<label for="in_house_template" class="text-left">In-House</label>
+											</fieldset>
+										</div>
+									</div>
 									<hr>
+
 									<fieldset class="form-group col-6 col-md-6">
 										<div class="container">
 											<div class="row">
@@ -278,18 +279,28 @@
 											</div>
 										</div>
 									</fieldset>
-									<fieldset class="form-group col-4 col-md-2">
-										<input class="filled-in" name="am" id="am" type="checkbox" value="1">
-										<label for="am">AM?:</label>
-									</fieldset>
-									<fieldset class="form-group col-4 col-md-2">
-										<input class="filled-in" name="first_stop" id="first_stop" type="checkbox" value="1">
-										<label for="first_stop">1st Stop?:</label>
-									</fieldset>
-									<fieldset class="form-group col-4 col-md-2">
-										<input class="filled-in" name="pm" id="pm" type="checkbox" value="1">
-										<label for="pm">PM?:</label>
-									</fieldset>
+
+									<div class="col-6">
+										<div class="row">
+											<fieldset class="form-group col-6 col-md-3">
+												<input class="filled-in" name="am" id="am" type="checkbox" value="1">
+												<label for="am">AM</label>
+											</fieldset>
+											<fieldset class="form-group col-6 col-md-3">
+												<input class="filled-in" name="first_stop" id="first_stop" type="checkbox" value="1">
+												<label for="first_stop">1<sup>st</sup> Stop</label>
+											</fieldset>
+											<fieldset class="form-group col-6 col-md-3">
+												<input class="filled-in" name="pm" id="pm" type="checkbox" value="1">
+												<label for="pm">PM</label>
+											</fieldset>
+											<fieldset class="form-group col-6 col-md-3 text-left">
+												<input class="filled-in mr-4" name="pick_up" id="pick_up" type="checkbox" value="1">
+												<label for="pick_up" class="text-left">Pick Up</label>
+											</fieldset>
+										</div>
+									</div>
+	
 									<div class="container pt-3 mb-3 border border-light border-right-0 border-left-0 blue lighten-5">
 										<div class="row">
 											<fieldset class="form-group col-md-6">

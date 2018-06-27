@@ -174,6 +174,7 @@ class materials_action {
 					ON materials.pid = projects.id
 				 WHERE projects.job_status > 11 
 				   AND projects.job_status < 50 
+				   AND projects.job_status <> 44
 				   AND !(projects.install_date = '2200-01-01' AND projects.template_date = '2200-01-01')
 				   AND projects.isActive = 1 
 			  ORDER BY projects.install_date ASC,

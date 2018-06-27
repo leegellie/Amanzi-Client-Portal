@@ -2305,6 +2305,39 @@ function approveLoss(mngr_approved,mngr_approved_price,mngr_approved_id) {
 
 }
 
+function mngrApproveLoss(pid,mngr_approved,mngr_approved_price,mngr_approved_id) {
+	var approval_name = '';
+	var cmt_user = mngr_approved_id;
+
+	var datastring = 'action=loss_approval&id=' + pid + '&mngr_approved=' + mngr_approved + '&mngr_approved_price=' + mngr_approved_price + '&mngr_approved_id=' + mngr_approved_id;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+		},
+		error: function(data) {
+		},
+		complete: function(data) {
+		}
+	});
+
+	var cmt_comment = '$' + mngr_approved_price + ' approved.'
+	var datastring = 'action=submit_comment&cmt_ref_id=' + pid + '&cmt_comment=' + cmt_comment + '&cmt_user=' + cmt_user + '&cmt_type=pjt&cmt_priority=log';
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			//console.log(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+
+}
+
 function request_approval(id,pid,uid) {
 	var cmt_user = id;
 

@@ -40,7 +40,7 @@ include('includes.php');
 	<script src="js/projects.js"></script>
 	<script src="js/project_edit.js"></script>
 	<script src="js/materials.js"></script>
-<script>
+	<script>
 <?PHP 
 
 ?>
@@ -79,7 +79,24 @@ if(isset($_GET['marble'])){
 	</div>
 </div>
 <!-- END BODY CONTENT AREA -->
-<? include ('footer.php'); ?>
+<? 
+	include ('modal_install_edit.php');
+	include ('modal_project_edit.php');
+	include ('modal_client_select.php');
+	include ('modal_client_add.php');
+	include ('modal_comment_add.php');
+	include ('modal_email_success.php');
+	include ('modal_location.php');
+	include ('modal_piece_add.php');
+	include ('modal_sink_edit.php');
+	//include ('modal_qr_reader.php');
+	include ('modal_contact_verif.php');
+	include ('modal_user_discount.php');
+	include ('modal_entry_reject.php');
+	include ('modal_hold_notice.php');
+	include ('modal_release_hold.php');
+	include ('modal_job_lookup.php');
+include ('footer.php'); ?>
 <? 
 // echo $access_level 
 ?>

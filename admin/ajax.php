@@ -990,7 +990,7 @@ if ($action=="get_materials_needed") {
 				<div class="col-9 col-md-7 text-primary"><h3>' . $result['order_num'] . ' - ' . $result['job_name'] . '</h3></div>
 				<div class="col-2 col-md-4 text-right">
 					<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(' . $result['pid'] . ','. $result['uid'] .');"><span class="hidden-md-down">View </span><i class="fas fa-eye"></i></div>
-					<div id="' . $result['id'] . '" class="btn btn-sm btn-success" onClick="material_delivered(this.id);"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
+					<div id="' . $result['pid'] . '" class="btn btn-sm btn-success" onClick="material_delivered(' . $result['pid'] . ');"><span class="hidden-md-down">Delivered </span><i class="fas fa-truck"></i></div>
 				</div>
 			</div>';
 		return $head_arr;
@@ -1064,9 +1064,9 @@ if ($action=="get_materials_needed") {
 	foreach($pullbymaterialsbyname as $results) {
     $mathold_Max = max(array_column($results['detail'], 'mat_hold'));
     $matstatus_Min = min(array_column($results['detail'], 'material_status'));
-		$index = 0;
-    if($mathold_Max == 0 && $matstatus_Min > 2){
-		  foreach($results['detail'] as $result){
+	$index = 0;
+    if($mathold_Max == 0 && $matstatus_Min > 2) {
+		  foreach($results['detail'] as $result) {
         if ( !($result['install_date'] == '2200-01-01') ) {
           $job_status = $result['job_status'];
           $lastDigit = substr($job_status, -1);
@@ -1476,13 +1476,17 @@ if ($action=="templates_list") {
 			$template_item .= '<i class="fas fa-exclamation-triangle faa-flash animated text-danger"></i>'; 
 		}
 		$template_item .= '</div>';
-		$template_item .= '<div class="col-6 col-md-1 ';
-		if ( $results['ual'] == 0 ) {
-			$template_item .= 'text-muted'; 
-		} else { 
-			$template_item .= 'text-primary'; 
-		}; 
-		$template_item .= '">' . $results['team'] . '</div>';
+		if ($results['in_house_template']){
+			$install_item .= '<span class="text-success">In-House</span>';
+		} else {
+			$template_item .= '<div class="col-6 col-md-1 ';
+			if ( $results['ual'] == 0 ) {
+				$template_item .= 'text-muted'; 
+			} else { 
+				$template_item .= 'text-primary'; 
+			}; 
+			$template_item .= '">' . $results['team'] . '</div>';
+		}
 		$template_item .= '<div class="col-6 col-md-1 text-danger">';
 		if ($results['temp_first_stop'] == 1 && $results['temp_am'] == 1) { 
 			$template_item .= '1st Stop AM'; 
@@ -1663,6 +1667,16 @@ if ($action=="approval_list") {
 		}
 		$date = new DateTime($useDate);
 		$date = $date->format('m/d');
+
+		if ($results['job_tax'] < 1){
+			$results['job_tax'] = 0;
+		}
+		$ePjtCost = $results['job_price']; 
+		$price_print = number_format($ePjtCost, 2, '.', ','); 
+		$tax_rate = $results['job_tax']; 
+		$tax = $ePjtCost*$tax_rate/100;
+		$price_tax = $ePjtCost + $tax; 
+
 		?>
 		<hr>
 		<div class="w-100 btn purple-gradient">
@@ -1683,8 +1697,8 @@ if ($action=="approval_list") {
 				</div>
 				<div class="col-md-2 h5">Prof: <?= $results['profit']; ?></div>
 				<div class="col-md-4 h5">
-					<div class="btn btn-sm btn-primary" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="far fa-eye"></i> View</div>
-					<div class="btn btn-sm btn-primary" onClick="approveLoss(1,<?= $results['job_price']; ?>,<?= $_SESSION['id']; ?>)"><i class="fas fa-check"></i> Approve</div>
+					<div class="btn btn-sm btn-primary" style="cursor: pointer" onClick="window.open('/admin/projects.php?edit&pid=<?= $results['id']; ?>&uid=<?= $results['uid']; ?>')"><i class="far fa-eye"></i> View</div>
+					<div class="btn btn-sm btn-success" style="cursor: pointer" onClick="mngrApproveLoss(<?= $results['id']; ?>,1,<?= $price_tax ?>,<?= $_SESSION['id']; ?>)"><i class="fas fa-check"></i> Approve</div>
 				</div>
 			</div>
 		</div>
@@ -1917,7 +1931,7 @@ if ($action=="cnc_list") {
 				<div class="row">
 					<div class="col-md-2 h5">
 						<?
-			if((time()+(60*60*24*3)) > strtotime($results['install_date']) && ($results['job_status'] < 63 || $results['job_status'] != 69)) {
+			if((time()+(60*60*24*3)) > strtotime($results['install_date']) && ($results['job_status'] < 53 || $results['job_status'] != 59)) {
 				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 			}
 						?>
@@ -3418,7 +3432,7 @@ if ($action=="entry_list") {
 
 	echo '<div class="col-9 col-md-5 thead">Install</div><div class="col-3 hidden-md-down thead"></div><div class="col-3 hidden-md-down thead"></div><div class="col-3 col-md-1 thead text-right">Edit</div>';
 
-	foreach($get_entries->get_entries($_SESSION['id']) as $results) {
+	foreach($get_entries->get_entries() as $results) {
 		$statusText = '';
 		$statusBar = '';
 		if ($results['job_status'] == 19 || $results['job_status'] == 39 || $results['job_status'] == 49 || $results['job_status'] == 59 || $results['job_status'] == 69 || $results['job_status'] == 79 || $results['job_status'] == 89 ) {
