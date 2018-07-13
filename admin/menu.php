@@ -1,5 +1,5 @@
 <?PHP 
-// IF USER ACCESS  = 1 THEN USER IS AN ADMIN. SHOW ADMIN MENU
+ // IF USER ACCESS  = 1 THEN USER IS AN ADMIN. SHOW ADMIN MENU
 if ($access_level < 11) {
 ?>
 <header class=" d-print-none">
