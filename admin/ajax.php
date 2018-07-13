@@ -1912,7 +1912,7 @@ if ($action=="hold_list") {
 					?>
 				<?= $results['job_name']; ?></div>
 				<div class="col-md-2 h5">
-					<div class="btn btn-sm btn-primary" style="cursor: pointer" onClick="window.open('/admin/projects.php?edit&pid=<?= $results['id']; ?>&uid=<?= $results['uid']; ?>')"><i class="far fa-eye"></i> View</div>
+					<div class="btn btn-sm btn-primary" style="cursor: pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="far fa-eye"></i> View</div>
 				</div>
 			</div>
 		</div>

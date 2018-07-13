@@ -1858,6 +1858,11 @@ class project_action {
 			   WHERE projects.template_date < '2200-01-01' 
 			   	 AND projects.template_date >= CURDATE()
 				 AND projects.isActive = 1
+				 ";
+			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
+				$sql .= "AND acct_rep = " . $a;
+			}
+			$sql .= "
 			ORDER BY projects.install_date ASC,
 					 projects.am DESC,
 					 projects.first_stop DESC,
@@ -1890,6 +1895,11 @@ class project_action {
 			   WHERE projects.job_status > 16
 			   	 AND projects.job_status < 30
 				 AND projects.isActive = 1
+				 ";
+			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
+				$sql .= "AND acct_rep = " . $a;
+			}
+			$sql .= "
 			ORDER BY projects.install_date ASC,
 					 projects.am DESC,
 					 projects.first_stop DESC,
@@ -1922,6 +1932,11 @@ class project_action {
 			   WHERE projects.install_date < '2200-01-01' 
 				 AND projects.install_date >= CURDATE()
 				 AND projects.isActive = 1
+				 ";
+			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
+				$sql .= "AND acct_rep = " . $a;
+			}
+			$sql .= "
 			ORDER BY projects.install_date ASC,
 					 projects.am DESC,
 					 projects.first_stop DESC,

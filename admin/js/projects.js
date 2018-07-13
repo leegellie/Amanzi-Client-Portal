@@ -230,6 +230,40 @@ function statusChange(user,pjt,status) {
 		}
 	});
 }
+
+function statusChangeInv(user,pjt,status) {
+	var datastring = 'action=change_status&staffid=' + user + '&pid=' + pjt + '&status=' + status;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			////console.log(data);
+			Command: toastr["success"]("Status Changed to " + JSON.stringify(data) + ".", "Projects")
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": false,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": 300,
+				"hideDuration": 1000,
+				"timeOut": 5000,
+				"extendedTimeOut": 1000,
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			}
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
 function jobHold(uid,pjt,status) {
 	var $tempArr = [12,13,14,15,16,17];
 	var $progArr = [25,30,31,32];
