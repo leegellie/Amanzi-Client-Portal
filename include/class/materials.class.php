@@ -108,7 +108,52 @@ class materials_action {
 		$q->bindParam(':notes',$a['notes']);
 		$q->execute();
 	}
-	
+
+
+	public function add_accs($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql='INSERT INTO accessories (`'.implode( '`,`', array_keys( $a ) ) .'`) values (:'.implode(',:',array_keys( $a ) ).');';
+			foreach( $a as $field => $value ) $params[":{$field}"]=$value;
+			$q = $conn->prepare($sql);
+			$q->execute( $params );
+			$this->_message = $conn->lastInsertId();
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+		}
+		return $this->_message;
+	}
+
+	public function delete_accs($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("DELETE FROM accessories WHERE accs_id = :accs_id");
+		$q->bindParam(':accs_id',$a['accs_id']);
+		$q->execute();
+	}
+
+	public function update_accs($a,$id) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+			$sql = "UPDATE accessories SET";
+			foreach($a as $key1 => $value1) {
+				$sql .=" $key1 = :$key1 ,";
+			}
+			$sql = substr($sql, 0, -2);
+			$sql .=" WHERE accs_id = $id";
+			$q = $conn->prepare($sql);
+			foreach($a as $key => $value) {
+				$q->bindParam("$key",$value);
+			}
+			$q->execute($a);
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+
+
 	// SELECT PROJECT BY QUOTE NUMBER OR ORDER NUMBER FROM SEARCH CRITERIA 
 	public function get_materials_needed() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
@@ -234,6 +279,13 @@ class materials_action {
 		$q->execute();
 	}
 
+	public function material_reset($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("UPDATE installs SET material_status = 1 WHERE id = :id");
+		$q->bindParam(':id',$a);
+		$q->execute();
+	}
 
 }
 

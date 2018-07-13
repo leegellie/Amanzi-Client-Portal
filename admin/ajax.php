@@ -755,6 +755,28 @@ if ($action=="update_quartz") {
 	$update_quartz = new materials_action;
 	$update_quartz -> update_quartz($_POST);
 }
+if ($action=="add_accs") {
+	unset($_POST['action']);
+	unset($_POST['accs_id']);
+	if (!isset($_POST['accs_status'])) {
+		$_POST['accs_status'] = '0';
+	}
+	$add_accs = new materials_action;
+	$add_accs -> add_accs($_POST);
+}
+if ($action=="delete_accs") {
+	unset($_POST['action']);
+	$delete_accs = new materials_action;
+	$delete_accs -> delete_accs($_POST);
+}
+if ($action=="update_accs") {
+	unset($_POST['action']);
+	if (!isset($_POST['accs_status'])) {
+		$_POST['accs_status'] = '0';
+	}
+	$update_accs = new materials_action;
+	$update_accs -> update_accs($_POST,$_POST['accs_id']);
+}
 if ($action=="assign_material") {
 	unset($_POST['action']);
 	$run = new materials_action;
@@ -776,6 +798,25 @@ if ($action=="material_delivered") {
 	$_POST['cmt_type'] = 'pjt';
 	$_POST['cmt_user'] = $_SESSION['id'];
 	$_POST['cmt_comment'] = 'Delivered to Fabrication.';
+	$_POST['cmt_priority'] = 'log';
+	$log_project = new log_action;
+	$log = $log_project -> pjt_changes($_POST);
+}
+if ($action=="material_reset") {
+	$iid = $_POST['iid'];
+	$pid = $_POST['pid'];
+	$iname = $_POST['name'];
+	unset($_POST['action']);
+	unset($_POST['iid']);
+	unset($_POST['pid']);
+	unset($_POST['name']);
+	$run = new materials_action;
+	$run -> material_reset($iid);
+	$_POST = array();
+	$_POST['cmt_ref_id'] = $pid;
+	$_POST['cmt_type'] = 'pjt';
+	$_POST['cmt_user'] = $_SESSION['id'];
+	$_POST['cmt_comment'] = 'Material reset for ' . $iname;
 	$_POST['cmt_priority'] = 'log';
 	$log_project = new log_action;
 	$log = $log_project -> pjt_changes($_POST);
@@ -919,63 +960,68 @@ if ($action=="get_materials_needed") {
 			if ($result['material_status'] == 1) {
 				$tmp_arr .= '
 	<div class="container d-flex">
-			<div class="col-5 text-danger">
-				<b>'. $status . '</b>
-			</div>
-			<div class="col-1 btn btn-sm btn-danger mr-2" onclick="noMaterial(' . $result['id'] . ')">
-				N/A <i class="fas fa-ban"></i>
-			</div>
-			<div class="col-2 btn btn-sm btn-success mr-2 orderMaterials" onclick="matOrdered('. $result['id'] .',\''. $result['install_name'] .'\')">
-				Ordered <i class="far fa-calendar-check"></i>
-			</div>
-			<div class="col-2 btn btn-sm btn-primary haveMaterials" onclick="matOnHand(' . $result['id'] . ',\'' . $result['install_name'] . '\')">
-				Have Materials <i class="fas fa-check"></i>
-			</div>
-			<div class="col-2 btn btn-sm btn-danger mr-2" onclick="mat_hold_modal(' . $_SESSION['id'] . ',' . $result['id'] . ',' . $result['pid'] . ')">
-				Material Hold <i class="fas fa-ban"></i>
-			</div>
+		<div class="col-5 text-danger">
+			<b>'. $status . '</b>
+		</div>
+	</div>
+	<div class="container d-flex">
+		<div class="col-1 btn btn-sm btn-danger mr-2 float-right" onclick="noMaterial(' . $result['id'] . ')">
+			N/A <i class="fas fa-ban"></i>
+		</div>
+		<div class="col-2 btn btn-sm btn-success mr-2 orderMaterials float-right" onclick="matOrdered('. $result['id'] .',\''. $result['install_name'] .'\')">
+			Ordered <i class="far fa-calendar-check"></i>
+		</div>
+		<div class="col-2 btn btn-sm btn-primary haveMaterials float-right" onclick="matOnHand(' . $result['id'] . ',\'' . $result['install_name'] . '\')">
+			Have Materials <i class="fas fa-check"></i>
+		</div>
+		<div class="col-2 btn btn-sm btn-danger mr-2 float-right" onclick="mat_hold_modal(' . $_SESSION['id'] . ',' . $result['id'] . ',' . $result['pid'] . ')">
+			Material Hold <i class="fas fa-ban"></i>
+		</div>
 	</div>
 	<hr>';
 			} else if ($result['material_status'] == 2) {
 				$tmp_arr .= '
 	<div class="container d-flex">
-			<div class="col-5 text-success">
-				<b>'. $status .date("Y-m-d",strtotime($result['material_date'])).'</b>
-			</div>
-			<div class="col-3">
-				Reference: '.$result['assigned_material'].'
-			</div>
-			<div class="col-2 btn btn-sm btn-primary haveMaterials" onclick="matOnHand('. $result['id'] .',\''. $result['install_name'] .'\')">
-				Have Materials
-			</div>
-			<div class="col-2 btn btn-sm btn-danger mr-2" onclick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">
-				Material Hold <i class="fas fa-ban"></i>
-			</div>
+		<div class="col-5 text-success">
+			<b>'. $status .date("Y-m-d",strtotime($result['material_date'])).'</b>
+		</div>
+		<div class="col-5">
+			Reference: '.$result['assigned_material'].'
+		</div>
+	</div>
+	<div class="container d-flex">
+		<div class="col-12">
+			<div class="btn btn-sm btn-primary haveMaterials float-right" onclick="matOnHand('. $result['id'] .',\''. $result['install_name'] .'\')">Have Materials</div>
+			<div class="btn btn-sm btn-warning resetMaterials float-right" onclick="matReset('. $result['id'] .','. $result['pid'] .',\''. $result['install_name'] .'\')"><i class="fas fa-undo"></i></div>
+			<div class="btn btn-sm btn-danger mr-2 float-right" onclick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Material Hold <i class="fas fa-ban"></i></div>
+		</div>
 	</div>
 	<hr>';
 			} else if ($result['material_status'] == 3) {
 				$tmp_arr .= '
 	<div class="container d-flex">
-			<div class="col-5 text-primary">
-				<b>Status: Materials On Hand</b>
-			</div>
-			<div class="col-5">
-				Assigned Material: '.$result['assigned_material'].'
-			</div>
-			<div class="col-2 btn btn-sm btn-danger mr-2" onclick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">
-				Material Hold <i class="fas fa-ban"></i>
-			</div>
+		<div class="col-5 text-primary">
+			<b>Status: Materials On Hand</b>
+		</div>
+		<div class="col-5">
+			Assigned Material: '.$result['assigned_material'].'
+		</div>
+	</div>
+	<div class="container d-flex">
+		<div class="col-12">
+			<div class="btn btn-sm btn-warning resetMaterials float-right" onclick="matReset('. $result['id'] .','. $result['pid'] .',\''. $result['install_name'] .'\')"><i class="fas fa-undo"></i></div>
+			<div class="btn btn-sm btn-danger mr-2 float-right" onclick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Material Hold <i class="fas fa-ban"></i></div>
+		</div>
 	</div>
 	<hr>';
 			} else if ($result['material_status'] == 4) {
 				$tmp_arr .= '
 	<div class="container d-flex">
-			<div class="col-10 text-muted">
-				<b>Status: Materials not needed.</b>
-			</div>
-			<div class="col-2 btn btn-sm btn-danger mr-2" onclick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">
-				Material Hold <i class="fas fa-ban"></i>
-			</div>
+		<div class="col-10 text-muted">
+			<b>Status: Materials not needed.</b>
+		</div>
+		<div class="btn btn-sm btn-warning resetMaterials" onclick="matReset('. $result['id'] .','. $result['pid'] .',\''. $result['install_name'] .'\')"><i class="fas fa-undo"></i></div>
+		<div class="col-2 btn btn-sm btn-danger mr-2" onclick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Material Hold <i class="fas fa-ban"></i></div>
 	</div>
 	<hr>';
 			}
@@ -1477,7 +1523,7 @@ if ($action=="templates_list") {
 		}
 		$template_item .= '</div>';
 		if ($results['in_house_template']){
-			$install_item .= '<span class="text-success">In-House</span>';
+			$template_item .= '<span class="text-success">In-House</span>';
 		} else {
 			$template_item .= '<div class="col-6 col-md-1 ';
 			if ( $results['ual'] == 0 ) {
@@ -1674,7 +1720,7 @@ if ($action=="approval_list") {
 		$ePjtCost = $results['job_price']; 
 		$price_print = number_format($ePjtCost, 2, '.', ','); 
 		$tax_rate = $results['job_tax']; 
-		$tax = $ePjtCost*$tax_rate/100;
+		$tax = $ePjtCost*$tax_rate/100; 
 		$price_tax = $ePjtCost + $tax; 
 
 		?>
@@ -1706,6 +1752,220 @@ if ($action=="approval_list") {
 	}
 }
 
+if ($action=="invoice_list") {
+	$results = "";
+	unset($_POST['action']);
+	$get_invoices = new project_action;
+	$toinvoice = '';
+	$outstanding = '';
+	$disputed = '';
+	$paid = '';
+	foreach($get_invoices->get_invoices() as $results) {
+		$pjtString;
+		$useDate;
+		$dateOK = 0;
+		if ($results['install_date'] != '2200-01-01') {
+			$useDate = $results['install_date'];
+			$dateOK = 1;
+		}
+		$date;
+		if ($dateOK == 1) {
+			$date = new DateTime($useDate);
+			$date = $date->format('m/d');
+		} else {
+			$date = '';
+		}
+		$price = 0.00;
+		if ($results['tax_free'] == 0) {
+			$tax = $results['job_price'] * $results['job_tax']/100;
+			$price = $results['job_price'] + $tax;
+		} else {
+			$price = $results['job_price'];
+		}
+		$invBtn = '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',91)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoiced"><i class="fas fa-file-export"></i></div>';
+		$uncolBtn = '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',98)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Uncollectable"><i class="fas fa-file-excel"></i></div>';
+		$legalBtn = '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',97)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Sent to Legal/collections"><i class="fas fa-balance-scale-right"></i></div>';
+		$dispBtn = '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',94)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice disputed"><i class="fas fa-question-circle"></i></div>';
+		$ppaidBtn = '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',93)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice partially paid"><i class="fas fa-star-half-alt"></i></div>';
+		$paidBtn = '<div class="btn btn-sm btn-primary float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',92)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice paid in full"><i class="fas fa-dollar-sign"></i></div>';
+		$holdBtn = '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',99)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice on Hold"><i class="fas fa-times-octagon"></i></div>';
+
+		$price_print = number_format($price, 2, '.', ','); 
+		$pjtString = '<hr><div class="w-100 btn btn-sm ';
+		if ($results['job_status'] == 85 || $results['job_status'] == 86 || $results['job_status'] == 90) {
+			$pjtString .= 'blue-gradient';
+		} elseif ($results['job_status'] == 91) {
+			$pjtString .= 'peach-gradient';
+		} elseif ($results['job_status'] == 92) {
+			$pjtString .= 'purple-gradient';
+		} elseif ($results['job_status'] == 93) {
+			$pjtString .= 'peach-gradient';
+		} elseif ($results['job_status'] == 94) {
+			$pjtString .= 'btn-warning';
+		} elseif ($results['job_status'] == 97) {
+			$pjtString .= 'btn-warning text-primary';
+		} elseif ($results['job_status'] == 98) {
+			$pjtString .= 'btn-danger';
+		} elseif ($results['job_status'] == 99) {
+			$pjtString .= 'btn-danger';
+		}
+		$pjtString .= '"><div class="row"><div class="col-md-1 h6">';
+		if ($results['job_status'] == 85 || $results['job_status'] == 86 || $results['job_status'] == 90) {
+			$pjtString .= '<i class="fas fa-file-invoice-dollar"></i> ' . $date;
+		} elseif ($results['job_status'] == 91) {
+			$pjtString .= '<i class="fas fa-file-export"></i> ' . $date;
+		} elseif ($results['job_status'] == 92) {
+			$pjtString .= '<i class="fas fa-dollar-sign"></i> ' . $date;
+		} elseif ($results['job_status'] == 93) {
+			$pjtString .= '<i class="fas fa-star-half-alt"></i> ' . $date;
+		} elseif ($results['job_status'] == 94) {
+			$pjtString .= '<i class="fas fa-question-circle"></i> ' . $date;
+		} elseif ($results['job_status'] == 97) {
+			$pjtString .= '<i class="fas fa-balance-scale-right"></i> ' . $date;
+		} elseif ($results['job_status'] == 98) {
+			$pjtString .= '<i class="fas fa-exclamation-triangle"></i> ' . $date;
+		} elseif ($results['job_status'] == 99) {
+			$pjtString .= '<i class="fas fa-ban"></i> ' . $date;
+		}
+		$pjtString .= '</div><div class="col-md-2 h6">$ ';
+		$pjtString .= $price_print;
+		$pjtString .= '</div><div class="col-md-5 h6 text-left">';
+		$pjtString .= $results['order_num'];
+		$pjtString .= ' - ';
+		$pjtString .= $results['job_name'];
+		$pjtString .= '</div>';
+		$pjtString .= '	<div class="col-md-4 h6">';
+
+
+		if ($results['job_status'] == 85 || $results['job_status'] == 86 || $results['job_status'] == 90) {
+			$pjtString .= $invBtn . $uncolBtn . $holdBtn;
+		} elseif ($results['job_status'] == 91) {
+			$pjtString .= $paidBtn . $ppaidBtn . $dispBtn . $legalBtn . $uncolBtn . $holdBtn;
+		} elseif ($results['job_status'] == 93) {
+			$pjtString .= $paidBtn . $dispBtn . $legalBtn . $uncolBtn . $holdBtn;
+		} elseif ($results['job_status'] == 94) {
+			$pjtString .= $paidBtn . $ppaidBtn . $legalBtn . $uncolBtn . $holdBtn;
+		} elseif ($results['job_status'] == 97) {
+			$pjtString .= $paidBtn . $ppaidBtn . $dispBtn . $uncolBtn . $holdBtn;
+		} elseif ($results['job_status'] == 98) {
+			$pjtString .= $paidBtn . $ppaidBtn . $dispBtn . $legalBtn . $holdBtn;
+		} elseif ($results['job_status'] == 99) {
+			$pjtString .= $invBtn . $paidBtn . $ppaidBtn . $dispBtn . $legalBtn . $uncolBtn;
+		}
+
+		$pjtString .= '		<div class="btn btn-sm btn-primary" style="cursor: pointer" data-toggle="tooltip" data-placement="top" title="View Job" onClick="window.open(';
+		$pjtString .= "'/admin/projects.php?edit&pid=" . $results['id'] . '&uid=' . $results['uid'];
+		$pjtString .= "')";
+		$pjtString .= '"><i class="far fa-eye"></i></div>';
+
+		$pjtString .= '	</div></div></div>';
+
+		if ($results['job_status'] == 85 || $results['job_status'] == 86 || $results['job_status'] == 90 || $results['job_status'] == 99) {
+			$toinvoice .= $pjtString;
+		} elseif ($results['job_status'] == 91 || $results['job_status'] == 93 || $results['job_status'] == 97) {
+			$outstanding .= $pjtString;
+		} elseif ($results['job_status'] == 94) {
+			$disputed .= $pjtString;
+		} elseif ($results['job_status'] == 92 || $results['job_status'] == 98) {
+			$paid .= $pjtString;
+		}
+	}
+	$toReturn = $toinvoice . ':::' . $outstanding . ':::' . $disputed . ':::' . $paid;
+	echo $toReturn;
+}
+
+if ($action=="hold_list") {
+	$results = "";
+	unset($_POST['action']);
+	$get_holds = new project_action;
+	echo '<h2>Job Hold List</h2>';
+	foreach($get_holds->get_hold() as $results) {
+		$useDate;
+		$dateOK = 0;
+		if ($results['install_date'] != '2200-01-01') {
+			$useDate = $results['install_date'];
+			$dateOK = 1;
+		} elseif ($results['template_date'] == '2200-01-01') {
+			$useDate = $results['template_date'];
+			$dateOK = 1;
+		}
+		$date;
+		if ($dateOK == 1) {
+			$date = new DateTime($useDate);
+			$date = $date->format('m/d');
+		} else {
+			$date = '';
+		}
+		?>
+		<hr>
+		<div class="w-100 btn btn-danger">
+			<div class="row">
+				<div class="col-md-2 h5"><?= $date ?></div>
+				<div class="col-md-8 h5 text-left">
+					<?
+					if ($results['order_num'] == '') {
+						?>
+					Q-<?= $results['quote_num']; ?> - 	
+						<?
+					} else {
+						?>
+					<?= $results['order_num']; ?> - 
+						<?
+					}
+					?>
+				<?= $results['job_name']; ?></div>
+				<div class="col-md-2 h5">
+					<div class="btn btn-sm btn-primary" style="cursor: pointer" onClick="window.open('/admin/projects.php?edit&pid=<?= $results['id']; ?>&uid=<?= $results['uid']; ?>')"><i class="far fa-eye"></i> View</div>
+				</div>
+			</div>
+		</div>
+		<?
+	}
+	echo '<hr><h2>Materials Hold List</h2>';
+	foreach($get_holds->get_mat_hold() as $results) {
+		$useDate;
+		$dateOK = 0;
+		if ($results['install_date'] != '2200-01-01') {
+			$useDate = $results['install_date'];
+			$dateOK = 1;
+		} elseif ($results['template_date'] == '2200-01-01') {
+			$useDate = $results['template_date'];
+			$dateOK = 1;
+		}
+		$date;
+		if ($dateOK == 1) {
+			$date = new DateTime($useDate);
+			$date = $date->format('m/d');
+		} else {
+			$date = '';
+		}
+		?>
+		<hr>
+		<div class="w-100 btn btn-danger">
+			<div class="row">
+				<div class="col-md-2 h5"><?= $date ?></div>
+				<div class="col-md-8 h5 text-left">
+					<?
+					if ($results['order_num'] == '') {
+						?>
+					Q-<?= $results['quote_num']; ?> - 	
+						<?
+					} else {
+						?>
+					<?= $results['order_num']; ?> - 
+						<?
+					}
+					?>
+				<?= $results['job_name']; ?></div>
+				<div class="col-md-2 h5">
+					<div class="btn btn-sm btn-primary" style="cursor: pointer" onClick="window.open('/admin/projects.php?edit&pid=<?= $results['id']; ?>&uid=<?= $results['uid']; ?>')"><i class="far fa-eye"></i> View</div>
+				</div>
+			</div>
+		</div>
+		<?
+	}
+
+}
 if ($action=="programming_list") {
 	$results = "";
 	unset($_POST['action']);
@@ -2073,50 +2333,6 @@ if ($action=="polishing_list") {
 		<?
 		}
 	}
-	foreach($get_entries->get_polishing($_SESSION['id']) as $results) {
-		if ($results['job_status'] == 72 || $results['job_status'] == 73) {
-			$date = new DateTime($results['install_date']);
-			$date = $date->format('m/d');
-			?>
-			<hr>
-			<div class="w-100 btn pb-0 <?
-			if ($results['job_status'] == 72) {
-				?>peach-gradient<?
-			} elseif ($results['job_status'] == 73) {
-				?>blue-gradient<?
-			}
-			?>">
-				<div class="row">
-					<div class="col-md-2 h5">
-						<?
-			if((time()+(60*60*24*3)) > strtotime($results['install_date']) && ($results['job_status'] < 73 || $results['job_status'] != 79)) {
-				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
-			}
-						?>
-					<?= $date ?></div>
-					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
-					<div class="col-md-5 h5">
-						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
-						<?
-						if ($results['job_status'] == 72) {
-							?>
-							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,73)"><i class="fas fa-truck"></i> To Installs</div>
-							<?	
-						}
-						?>
-						<div class="btn btn-sm btn-primary my-0" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
-					</div>
-				</div>
-				<hr>
-				<div class="row">
-					<?
-						get_fab_files($results['uid'], $results['id'])
-					?>
-				</div>
-			</div>
-		<?
-		}
-	}
 }
 
 if ($action=="installs_list") {
@@ -2362,6 +2578,317 @@ if ($action=="installs_list") {
 				echo install_item($results);
 			}
 		}
+	}
+}
+
+
+if ($action=="precall_temp_list") {
+	$a = 0;
+	function getWeekday($date) {
+		$dayOfWeek = date('w', strtotime($date));
+		$days = array('Sunday', 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday');
+		echo $days[$dayOfWeek];
+	}
+	$results = "";
+	$today = date('Y-m-d');
+	function precall_item($results) {
+		$string = $results['contact_number'];
+		$precall_item = '<tr><td>';
+		$precall_item .= preg_replace('/[^0-9]/', '', $string);
+		$precall_item .= '</td></tr>';
+		return $precall_item;
+	}
+
+	if (date('w', strtotime($today)) != 0 && date('w', strtotime($today)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $today;
+		echo ' : ';
+		echo getWeekday($today);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precallsTemp() as $results) {
+			if ($results['template_date'] == $today){
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+
+	$datetime = new DateTime('tomorrow');
+	$tomorrow = $datetime->format('Y-m-d');
+
+	if (date('w', strtotime($tomorrow)) != 0 && date('w', strtotime($tomorrow)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $tomorrow;
+		echo ' : ';
+		echo getWeekday($tomorrow);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precallsTemp() as $results) {
+			if ($results['template_date'] == $tomorrow) {
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+
+	$plus2 = date('Y-m-d', strtotime("+2 days"));
+	if (date('w', strtotime($plus2)) != 0 && date('w', strtotime($plus2)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $plus2;
+		echo ' : ';
+		echo getWeekday($plus2);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precallsTemp() as $results) {
+			if ($results['template_date'] == $plus2) {
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+
+	$plus3 = date('Y-m-d', strtotime("+3 days"));
+	if (date('w', strtotime($plus3)) != 0 && date('w', strtotime($plus3)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $plus3;
+		echo ' : ';
+		echo getWeekday($plus3);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precallsTemp() as $results) {
+			if ($results['template_date'] == $plus3){
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+
+	$plus4 = date('Y-m-d', strtotime("+4 days"));
+	if (date('w', strtotime($plus4)) != 0 && date('w', strtotime($plus4)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $plus4;
+		echo ' : ';
+		echo getWeekday($plus4);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precallsTemp() as $results) {
+			if ($results['template_date'] == $plus4){
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+
+	$plus5 = date('Y-m-d', strtotime("+5 days"));
+	if (date('w', strtotime($plus5)) != 0 && date('w', strtotime($plus5)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $plus5;
+		echo ' : ';
+		echo getWeekday($plus5);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precallsTemp() as $results) {
+			if ($results['template_date'] == $plus5){
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+
+	$plus6 = date('Y-m-d', strtotime("+6 days"));
+	if (date('w', strtotime($plus6)) != 0 && date('w', strtotime($plus6)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $plus6;
+		echo ' : ';
+		echo getWeekday($plus6);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precallsTemp() as $results) {
+			if ($results['template_date'] == $plus6){
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+
+	$plus7 = date('Y-m-d', strtotime("+7 days"));
+	if (date('w', strtotime($plus7)) != 0 && date('w', strtotime($plus7)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $plus7;
+		echo ' : ';
+		echo getWeekday($plus7);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precallsTemp() as $results) {
+			if ($results['template_date'] == $plus7){
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+}
+
+if ($action=="precall_list") {
+	$a = 0;
+	function getWeekday($date) {
+		$dayOfWeek = date('w', strtotime($date));
+		$days = array('Sunday', 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday');
+		echo $days[$dayOfWeek];
+	}
+	$results = "";
+	$today = date('Y-m-d');
+	function precall_item($results) {
+		$string = $results['contact_number'];
+		$precall_item = '<tr><td>';
+		$precall_item .= preg_replace('/[^0-9]/', '', $string);
+		$precall_item .= '</td></tr>';
+		return $precall_item;
+	}
+
+	if (date('w', strtotime($today)) != 0 && date('w', strtotime($today)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $today;
+		echo ' : ';
+		echo getWeekday($today);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precalls() as $results) {
+			if ($results['install_date'] == $today){
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+
+	$datetime = new DateTime('tomorrow');
+	$tomorrow = $datetime->format('Y-m-d');
+
+	if (date('w', strtotime($tomorrow)) != 0 && date('w', strtotime($tomorrow)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $tomorrow;
+		echo ' : ';
+		echo getWeekday($tomorrow);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precalls() as $results) {
+			if ($results['install_date'] == $tomorrow) {
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+
+	$plus2 = date('Y-m-d', strtotime("+2 days"));
+	if (date('w', strtotime($plus2)) != 0 && date('w', strtotime($plus2)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $plus2;
+		echo ' : ';
+		echo getWeekday($plus2);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precalls() as $results) {
+			if ($results['install_date'] == $plus2) {
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+
+	$plus3 = date('Y-m-d', strtotime("+3 days"));
+	if (date('w', strtotime($plus3)) != 0 && date('w', strtotime($plus3)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $plus3;
+		echo ' : ';
+		echo getWeekday($plus3);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precalls() as $results) {
+			if ($results['install_date'] == $plus3){
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+
+	$plus4 = date('Y-m-d', strtotime("+4 days"));
+	if (date('w', strtotime($plus4)) != 0 && date('w', strtotime($plus4)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $plus4;
+		echo ' : ';
+		echo getWeekday($plus4);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precalls() as $results) {
+			if ($results['install_date'] == $plus4){
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+
+	$plus5 = date('Y-m-d', strtotime("+5 days"));
+	if (date('w', strtotime($plus5)) != 0 && date('w', strtotime($plus5)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $plus5;
+		echo ' : ';
+		echo getWeekday($plus5);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precalls() as $results) {
+			if ($results['install_date'] == $plus5){
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+
+	$plus6 = date('Y-m-d', strtotime("+6 days"));
+	if (date('w', strtotime($plus6)) != 0 && date('w', strtotime($plus6)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $plus6;
+		echo ' : ';
+		echo getWeekday($plus6);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precalls() as $results) {
+			if ($results['install_date'] == $plus6){
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
+	}
+
+	$plus7 = date('Y-m-d', strtotime("+7 days"));
+	if (date('w', strtotime($plus7)) != 0 && date('w', strtotime($plus7)) != 6 ) {
+		echo '<div class="row"><h3>';
+		echo $plus7;
+		echo ' : ';
+		echo getWeekday($plus7);
+		echo '</h3></div>';
+		echo '<table width="100%">';
+		$get_precall = new project_action;
+		foreach($get_precall->get_precalls() as $results) {
+			if ($results['install_date'] == $plus7){
+				echo precall_item($results);
+			}
+		}
+		echo '</table>';
 	}
 }
 
@@ -5081,11 +5608,29 @@ if ($action=="view_selected_pjt") {
 			$html .= '<h2 class="w-100 text-primary text-center mt-4">No Charge</h2>';
 		} else {
 			if ($job_status < 22) {
-				$html .= '<h2 class="w-100 text-primary text-center mt-4">Est. Cost: $' . $tax_print . '</h2>';
+				$html .= '<h2 class="w-100 text-primary text-center mt-4">Est. Cost: $' . $tax_print;
+				if ($results['po_cost'] > 0) {
+					$priceLeft = $price_tax - $results['po_cost'];
+					$printLeft = number_format($priceLeft, 2, '.', ',');
+					$html .= ' - $' . $printLeft . ' Outstanding';
+				}
+				$html .= '</h2>';
 			} elseif ($job_status < 85 && $job_status != 89) {
-				$html .= '<h2 class="w-100 text-primary text-center mt-4">Price: $' . $tax_print . '</h2>';
+				$html .= '<h2 class="w-100 text-primary text-center mt-4">Price: $' . $tax_print;
+				if ($results['po_cost'] > 0) {
+					$priceLeft = $price_tax - $results['po_cost'];
+					$printLeft = number_format($priceLeft, 2, '.', ',');
+					$html .= ' - $' . $printLeft . ' Outstanding';
+				}
+				$html .= '</h2>';
 			} elseif ($job_status == 85) {
-				$html .= '<h2 class="w-100 text-primary text-center mt-4">Final Price: $' . $tax_print . '</h2>';
+				$html .= '<h2 class="w-100 text-primary text-center mt-4">Final Price: $' . $tax_print;
+				if ($results['po_cost'] > 0) {
+					$priceLeft = $price_tax - $results['po_cost'];
+					$printLeft = number_format($priceLeft, 2, '.', ',');
+					$html .= ' - $' . $printLeft . ' Outstanding';
+				}
+				$html .= '</h2>';
 			}
 		}
 
@@ -5288,6 +5833,9 @@ if ($action=="view_selected_pjt") {
 					}
 				}
 			}
+			if ($results['job_status'] == 39) {
+				$html .= '<div class="btn btn-sm btn-secondary float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',30)" style="cursor:pointer"><i class="fas fa-check"></i> Remove Job Hold</div>';
+			}
 			if ($results['job_status'] == 49) {
 				$html .= '<div class="btn btn-sm btn-secondary float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',40)" style="cursor:pointer"><i class="fas fa-check"></i> Remove Job Hold</div>';
 			}
@@ -5438,7 +5986,54 @@ if ($action=="view_selected_pjt") {
 			}
 		}
 
-		if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448) {
+
+
+		// INVOICING
+		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 3) {
+			if ($results['job_status'] == 85 || $results['job_status'] == 86 || $results['job_status'] == 90) {
+				$html .= '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',98)" style="cursor:pointer"><i class="fas fa-file-excel"></i> Uncollectable</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',91)" style="cursor:pointer"><i class="fas fa-file-invoice-dollar"></i> Invoiced</div>';
+			}
+			if ($results['job_status'] == 91) {
+				$html .= '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',98)" style="cursor:pointer"><i class="fas fa-file-excel"></i> Uncollectable</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',97)" style="cursor:pointer"><i class="fas fa-balance-scale-right"></i> To Legal</div>';
+				$html .= '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',94)" style="cursor:pointer"><i class="fas fa-question-circle"></i> Disputed</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',93)" style="cursor:pointer"><i class="fas fa-star-half-alt"></i> Part-Paid</div>';
+				$html .= '<div class="btn btn-sm btn-primary float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',92)" style="cursor:pointer"><i class="fas fa-dollar-sign"></i> Paid</div>';
+			}
+			if ($results['job_status'] == 93) {
+				$html .= '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',98)" style="cursor:pointer"><i class="fas fa-file-excel"></i> Uncollectable</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',97)" style="cursor:pointer"><i class="fas fa-balance-scale-right"></i> To Legal</div>';
+				$html .= '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',94)" style="cursor:pointer"><i class="fas fa-question-circle"></i> Disputed</div>';
+				$html .= '<div class="btn btn-sm btn-primary float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',92)" style="cursor:pointer"><i class="fas fa-dollar-sign"></i> Paid</div>';
+			}
+			if ($results['job_status'] == 94) {
+				$html .= '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',98)" style="cursor:pointer"><i class="fas fa-file-excel"></i> Uncollectable</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',97)" style="cursor:pointer"><i class="fas fa-balance-scale-right"></i> To Legal</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',93)" style="cursor:pointer"><i class="fas fa-star-half-alt"></i> Part-Paid</div>';
+				$html .= '<div class="btn btn-sm btn-primary float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',92)" style="cursor:pointer"><i class="fas fa-dollar-sign"></i> Paid</div>';
+			}
+			if ($results['job_status'] == 97) {
+				$html .= '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',98)" style="cursor:pointer"><i class="fas fa-file-excel"></i> Uncollectable</div>';
+				$html .= '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',94)" style="cursor:pointer"><i class="fas fa-question-circle"></i> Disputed</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',93)" style="cursor:pointer"><i class="fas fa-star-half-alt"></i> Part-Paid</div>';
+				$html .= '<div class="btn btn-sm btn-primary float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',92)" style="cursor:pointer"><i class="fas fa-dollar-sign"></i> Paid</div>';
+			}
+			if ($results['job_status'] == 98) {
+				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',97)" style="cursor:pointer"><i class="fas fa-balance-scale-right"></i> To Legal</div>';
+				$html .= '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',94)" style="cursor:pointer"><i class="fas fa-question-circle"></i> Disputed</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',93)" style="cursor:pointer"><i class="fas fa-star-half-alt"></i> Part-Paid</div>';
+				$html .= '<div class="btn btn-sm btn-primary float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',92)" style="cursor:pointer"><i class="fas fa-dollar-sign"></i> Paid</div>';
+			}
+			if ($results['job_status'] == 99) {
+				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',90)" style="cursor:pointer"><i class="fas fa-dollar-sign"></i> Remove Hold</div>';
+			}
+		}
+
+
+
+
+		if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 13 || $_SESSION['id'] == 10 || $_SESSION['id'] == 985 || $_SESSION['id'] == 1448) {
 			$html .= '<select id="changeStatus" onChange="statusChange('. $_SESSION['id'] . ',' . $results['id'] .',this.value)" class="mdb-select float-right d-print-none col-12 col-md-4 col-lg-2 d-print-none">';
 			$html .= $statList;
 			$html .= '</select>';
@@ -5607,7 +6202,7 @@ if ($action=="view_selected_pjt") {
 		$html .= '<div class="row">'; 
 		$html .= '<div class="col-12 d-print-none">'; 
 		$html .= '	<div class="row">'; 
-		$html .= '		<div class="col-6 col-md-2 ' . $noCharge . ' ' . $noProg . '">Job Price: <br><b>$' . $print_pre . '</b></div>'; 
+		$html .= '		<div class="col-6 col-md-2 ' . $noCharge . ' ' . $noProg . '">Job Price: <br><b>$' . $print_pre . '</b></div>';
 		$html .= '		<div class="col-6 col-md-2 ' . $noCharge . ' ' . $noProg . '">Extra Discount: <br><b>$' . $print_disc . '</b></div>'; 
 		$html .= '		<div class="col-6 col-md-2 ' . $noCharge . ' ' . $noProg . '">Tax: <br><b>$' . $tax . ' @ ' . $tax_rate . '%</b></div>'; 
 		$html .= '		<div class="col-6 col-md-2 ' . $noCharge . ' ' . $noProg . '">Total: <br><b>$' . $tax_print . '</b></div>'; 
@@ -5615,17 +6210,28 @@ if ($action=="view_selected_pjt") {
 		$html .= '		<div class="col-6 col-md-2">Account Rep: <br><b>'. $results['repFname'] . ' ' . $results['repLname'] .'</b></div>'; 
 		$html .= '		<div id="repID" class="d-none">'. $results['acct_rep'] . '</div>'; 
 		$html .= '	</div>'; 
+		if ($results['po_cost'] > 0) {
+		$html .= '	<div class="row">'; 
+		$dp = number_format($results['po_cost'], 2, '.', ','); 
+		
+		$html .= '		<div class="col-12 ' . $noCharge . ' ' . $noProg . '">Deposit Paid: <br><b>$' . $dp . '</b></div>'; 
+		$html .= '</div>'; 
+
+		}
 		$html .= '</div>'; 
 
 		$html .= '<div class="col-12 d-none d-print-block">'; 
 		$html .= '	<div class="row">'; 
 		$html .= '		<div class="col-3 ' . $noCharge . '">Job Price: <b>$' . $print_pre . '</b></div>'; 
-		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Extra Discount: <b>$' . $print_disc . '</b></div>'; 
+		if ($results['job_discount'] > 1) {
+			$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Extra Discount: <b>$' . $print_disc . '</b></div>'; 
+		}
 		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Tax: <b>$' . $tax . ' @ ' . $tax_rate . '%</b></div>'; 
 		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Total: <b>$' . $tax_print . '</b></div>'; 
 		if ($results['call_out_fee'] == 1) {
 			$html .= '		<div class="col-6 col-md-4">Call-out/Trip Charge: <b>$ 75.00</b></div>'; 
 		}
+		$html .= '		<div class="col-3 col-md-2">Deposit Paid: <b>' . $results['po_cost'] . '</b></div>'; 
 		$html .= '		<div class="col-3 col-md-2">PO #: <b>' . $results['po_num'] . '</b></div>'; 
 		$html .= '		<div class="col-3 col-md-2">Account Rep: <b>'. $results['repFname'] . ' ' . $results['repLname'] .'</b></div>'; 
 		$html .= '	</div>'; 

@@ -4,23 +4,93 @@
 						<h1 class="text-primary col-10">Statistics</h1>
 					</div>
 					<hr>
-					<div class="row">
-						<h2>Installs by Day</h2>
-						<canvas id="installsGraph" class="col-12"></canvas>
-           			</div>
-                    <div class="row">
-						<h2>Entry</h2>
-						<canvas id="entryGraph" class="col-12"></canvas>
-           			</div>
-                    <div class="row">
-						<h2>Install Value</h2>
-						<canvas id="incomeGraph" class="col-12"></canvas>
-           			</div>
-					<hr>
-                    <div class="row">
-						<h2>Walk-Ins</h2>
-						<canvas id="walkinsGraph" class="col-12"></canvas>
-           			</div>
+					<!-- Nav tabs -->
+					<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">
+						<li class="nav-item">
+							<a class="nav-link active" data-toggle="tab" href="#panel_admin" role="tab">Admin</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#panel_sales" role="tab">Sales</a>
+						</li>
+						<!-- <li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#panel_production" role="tab">Production</a>
+						</li>-->
+						<li class="nav-item">
+							<a class="nav-link" data-toggle="tab" href="#panel_installs" role="tab">Installs</a>
+						</li>
+					</ul>
+					<!-- Tab panels -->
+					<div class="tab-content px-0">
+						<!--Panel 1-->
+						<div class="tab-pane fade in show active" id="panel_admin" role="tabpanel">
+							<div class="row">
+								<h2>Entry</h2>
+								<canvas id="entryGraph" class="col-12"></canvas>
+							</div>
+						</div>
+						<div class="tab-pane fade" id="panel_sales" role="tabpanel">
+							<ul class="nav nav-tabs nav-justified mdb-color darken-5" role="tablist">
+								<li class="nav-item">
+									<a class="nav-link active" data-toggle="tab" href="#tab_income" role="tab">Value Installed</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#tab_entry" role="tab">Walk-Ins</a>
+								</li>
+							</ul>
+							<div class="tab-content px-0">
+								<!--Panel 1-->
+								<div class="tab-pane fade in show active" id="tab_income" role="tabpanel">
+									<div class="row">
+										<h2>Install Value</h2>
+										<canvas id="incomeGraph" class="col-12"></canvas>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="tab_entry" role="tabpanel">
+									<div class="row">
+										<h2>Walk-Ins</h2>
+										<canvas id="walkinsGraph" class="col-12"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- <div class="tab-pane fade" id="panel_production" role="tabpanel">
+
+						</div>-->
+						<div class="tab-pane fade" id="panel_installs" role="tabpanel">
+							<ul class="nav nav-tabs nav-justified mdb-color darken-5" role="tablist">
+								<li class="nav-item">
+									<a class="nav-link active" data-toggle="tab" href="#tab_installs" role="tab">Installs</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#tab_instStart" role="tab">Late Starts</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#tab_instEnd" role="tab">Late Working</a>
+								</li>
+							</ul>
+							<div class="tab-content px-0">
+								<!--Panel 1-->
+								<div class="tab-pane fade in show active" id="tab_installs" role="tabpanel">
+									<div class="row">
+										<h2>Installs by Day</h2>
+										<canvas id="installsGraph" class="col-12"></canvas>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="tab_instStart" role="tabpanel">
+									<div class="row">
+										<h2>Install Late Start</h2>
+										<canvas id="instStartGraph" class="col-12"></canvas>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="tab_instEnd" role="tabpanel">
+									<div class="row">
+										<h2>Install Late Finish</h2>
+										<canvas id="instEndGraph" class="col-12"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -29,6 +99,7 @@ console.log("start");
 var $installed = [];
 var $costs = [];
 var $profit = [];
+var $profitPerc = [];
 var $walkins = [0,0];
 var $converted = [0,0];
 var $eDate = [];
@@ -39,7 +110,35 @@ var $rAlex = [];
 var $idate = [];
 var $sqft = [];
 var $jobs = [];
+var $lateStartDate = [];
+var $lateStartTot = [];
+var $lateStartLate = [];
+var $lateStartTime = [];
+var $lateEndDate = [];
+var $lateEndTot = [];
+var $lateEndLate = [];
+
 <?
+	$get_late_starts = new project_action;
+	foreach($get_late_starts->get_late_starts() as $results) {
+		?>
+		$lateStartDate.push ('<?= date("m/d/y", strtotime($results['startdate'])) ?>');
+		$lateStartTot.push (<?= $results['am_pjts'] ?>);
+		$lateStartLate.push (<?= $results['overpjt'] ?>);
+		var $mins = (<?= $results['sec_late'] ?>) / 60;
+		$lateStartTime.push ($mins);
+		<?
+	}
+
+	$get_late_ends = new project_action;
+	foreach($get_late_ends->get_late_ends() as $results) {
+		?>
+		$lateEndDate.push ('<?= date("m/d/y", strtotime($results['startdate'])) ?>');
+		$lateEndTot.push (<?= $results['totalpjt'] ?>);
+		$lateEndLate.push (<?= $results['overpjt'] ?>);
+		<?
+	}
+
 	$get_entry_stats = new project_action;
 	foreach($get_entry_stats->get_entry_stats() as $results) {
 		?>
@@ -57,7 +156,9 @@ var $jobs = [];
 		$installed.push(<?= $results['stat'] ?>);
 		$costs.push(<?= $results['cost'] ?>);
 		$profit.push(<?= $results['profit'] ?>);
-
+		var percentProf = 100 / <?= $results['cost'] ?> * <?= $results['profit'] ?>;
+		//percentProfa = parseFloat(percentProf).toFixed(2);
+		$profitPerc.push(percentProf);
 		<?
 	}
 
@@ -79,10 +180,115 @@ var $jobs = [];
 	}
 ?>
 var installsGraph = document.getElementById("installsGraph").getContext('2d');
+var instStartGraph = document.getElementById("instStartGraph").getContext('2d');
+var instEndGraph = document.getElementById("instEndGraph").getContext('2d');
 var ctx3 = document.getElementById("entryGraph").getContext('2d');
 var ctx2 = document.getElementById("walkinsGraph").getContext('2d');
 var ctx = document.getElementById("incomeGraph").getContext('2d');
 console.log('middle');
+
+var instEndChart = new Chart(instEndGraph, {
+    type: 'line',
+    data: {
+        labels: $lateEndDate,
+        datasets: [
+			{
+				label: 'Daily Jobs',
+				yAxisID: 'A',
+				data: $lateEndTot,
+				backgroundColor: 'rgba(54, 162, 235, 0.2)',
+				borderColor: 'rgba(54, 162, 235, 1)',
+				borderWidth: 1
+			},
+			{
+				label: 'Late Finish',
+				yAxisID: 'B',
+				data: $lateEndLate,
+				backgroundColor: 'rgba(235, 162, 54, 0.2)',
+				borderColor: 'rgba(235, 162, 54, 1)',
+				borderWidth: 1
+			}
+		]
+    },
+    options: {
+    	scales: {
+    		yAxes: [{
+    			id: 'A',
+    			type: 'linear',
+    			position: 'left',
+                ticks: {
+                    beginAtZero:true
+                }
+    		}, {
+    			id: 'B',
+    			type: 'linear',
+    			position: 'right',
+    			ticks: {
+                    beginAtZero:true
+    			}
+    		}]
+    	}
+    }
+});
+
+
+
+
+var instStartChart = new Chart(instStartGraph, {
+    type: 'bar',
+    data: {
+        labels: $lateStartDate,
+        datasets: [
+			{
+				label: 'First Stop Jobs',
+				data: $lateStartTot,
+				yAxisID: 'A',
+				backgroundColor: 'rgba(54, 162, 235, 0.2)',
+				borderColor: 'rgba(54, 162, 235, 1)',
+				borderWidth: 1
+			},
+			{
+				label: 'Late Starts',
+				data: $lateStartLate,
+				yAxisID: 'A',
+				backgroundColor: 'rgba(235, 162, 54, 0.2)',
+				borderColor: 'rgba(235, 162, 54, 1)',
+				borderWidth: 1
+			},
+			{
+				label: 'Avg. Minutes Late',
+				data: $lateStartTime,
+				yAxisID: 'B',
+				backgroundColor: 'rgba(255, 193, 7, 0.2)',
+				borderColor: 'rgba(255, 193, 7, 1)',
+				borderWidth: 1,
+				type: 'line'
+			}
+		]
+    },
+    options: {
+    	scales: {
+    		yAxes: [{
+    			id: 'A',
+    			type: 'linear',
+    			position: 'left',
+                ticks: {
+                    beginAtZero:true
+                }
+    		}, {
+    			id: 'B',
+    			type: 'linear',
+    			position: 'right',
+    			ticks: {
+                    beginAtZero:false
+    			}
+    		}]
+    	}
+    }
+});
+
+
+
 var installsChart = new Chart(installsGraph, {
     type: 'bar',
     data: {
@@ -91,245 +297,39 @@ var installsChart = new Chart(installsGraph, {
 			{
 				label: 'SqFt',
 				data: $sqft,
-				backgroundColor: [
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)'
-				],
-				borderColor: [
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)'
-				],
+				yAxisID: 'A',
+				backgroundColor: 'rgba(80, 235, 80, 0.2)',
+				borderColor: 'rgba(80, 235, 80, 1)',
 				borderWidth: 1
 			},
 			{
 				label: 'Jobs',
 				data: $jobs,
-				backgroundColor: [
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)'
-				],
-				borderColor: [
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)'
-				],
+				yAxisID: 'B',
+				backgroundColor: 'rgba(54, 162, 235, 0.2)',
+				borderColor: 'rgba(255,99,132,1)',
 				borderWidth: 1
 			}
 		]
     },
     options: {
-        scales: {
-            yAxes: [{
+    	scales: {
+    		yAxes: [{
+    			id: 'A',
+    			type: 'linear',
+    			position: 'left',
                 ticks: {
                     beginAtZero:true
                 }
-            }]
-        }
+    		}, {
+    			id: 'B',
+    			type: 'linear',
+    			position: 'right',
+    			ticks: {
+                    beginAtZero:false
+    			}
+    		}]
+    	}
     }
 });
 
@@ -341,168 +341,29 @@ var entryChart = new Chart(ctx3, {
 			{
 				label: 'Entered by Anya',
 				data: $eAnya.slice(-15),
-				backgroundColor: [
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)'
-				],
-				borderColor: [
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)'
-				],
+				backgroundColor: 'rgba(54, 162, 235, 0.2)',
+				borderColor: 'rgba(54, 162, 235, 1)',
 				borderWidth: 1
 			},
 			{
 				label: 'Rejected by Anya',
 				data: $rAnya.slice(-15),
-				backgroundColor: [
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)',
-					'rgba(54, 162, 235, 0.2)'
-				],
-				borderColor: [
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)'
-				],
+				backgroundColor: 'rgba(54, 162, 235, 0.2)',
+				borderColor: 'rgba(255,99,132,1)',
 				borderWidth: 1
 			},
 			{
 				label: 'Entered by Alex',
 				data: $eAlex.slice(-15),
-				backgroundColor: [
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)',
-					'rgba(100, 255, 100, 0.2)'
-					
-				],
-				borderColor: [
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)',
-					'rgba(54, 162, 235, 1)'
-				],
+				backgroundColor: 'rgba(100, 255, 100, 0.2)',
+				borderColor: 'rgba(54, 162, 235, 1)',
 				borderWidth: 1
 			},
 			{
 				label: 'Rejected by Alex',
 				data: $rAlex.slice(-15),
-				backgroundColor: [
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)',
-					'rgba(255, 99, 132, 0.2)'
-				],
-				borderColor: [
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)',
-					'rgba(255,99,132,1)'
-				],
+				backgroundColor: 'rgba(255, 99, 132, 0.2)',
+				borderColor: 'rgba(255,99,132,1)',
 				borderWidth: 1
 			}
 		]
@@ -526,67 +387,15 @@ var walkinChart = new Chart(ctx2, {
 			{
             label: 'Walk-Ins',
             data: $walkins,
-            backgroundColor: [
-                'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)'
-            ],
-            borderColor: [
-                'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)'
-            ],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
             borderWidth: 1
         },
 		{
             label: 'Converted to Sale',
             data: $converted,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)'
-            ],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255,99,132,1)',
             borderWidth: 1
         }]
     },
@@ -608,112 +417,56 @@ var myChart = new Chart(ctx, {
         datasets: [
 			{
             label: 'Value Installed',
+			yAxisID: 'A',
             data: $installed,
-            backgroundColor: [
-                'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)',
-				'rgba(54, 162, 235, 0.2)'
-            ],
-            borderColor: [
-                'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)',
-				'rgba(54, 162, 235, 1)'
-            ],
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
             borderWidth: 1
         },
 		{
             label: 'Cost of Jobs',
+			yAxisID: 'A',
             data: $costs,
-            backgroundColor: [
-                'rgba(255, 159, 64, 0.2)',
-				'rgba(255, 159, 64, 0.2)',
-				'rgba(255, 159, 64, 0.2)',
-				'rgba(255, 159, 64, 0.2)',
-				'rgba(255, 159, 64, 0.2)',
-				'rgba(255, 159, 64, 0.2)',
-				'rgba(255, 159, 64, 0.2)',
-				'rgba(255, 159, 64, 0.2)',
-				'rgba(255, 159, 64, 0.2)',
-				'rgba(255, 159, 64, 0.2)',
-				'rgba(255, 159, 64, 0.2)',
-				'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255, 159, 64, 1)',
-				'rgba(255, 159, 64, 1)',
-				'rgba(255, 159, 64, 1)',
-				'rgba(255, 159, 64, 1)',
-				'rgba(255, 159, 64, 1)',
-				'rgba(255, 159, 64, 1)',
-				'rgba(255, 159, 64, 1)',
-				'rgba(255, 159, 64, 1)',
-				'rgba(255, 159, 64, 1)',
-				'rgba(255, 159, 64, 1)',
-				'rgba(255, 159, 64, 1)',
-				'rgba(255, 159, 64, 1)'
-            ],
+            backgroundColor: 'rgba(255, 159, 64, 0.2)',
+            borderColor: 'rgba(255, 159, 64, 1)',
             borderWidth: 1
         },
 		{
             label: 'Profit',
+			yAxisID: 'A',
             data: $profit,
-            backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)',
-				'rgba(255, 99, 132, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)',
-				'rgba(255,99,132,1)'
-            ],
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255,99,132,1)',
+            borderWidth: 1
+        },
+		{
+            label: 'Profit %',
+			yAxisID: 'B',
+			type: 'line',
+            data: $profitPerc,
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255,99,132,1)',
             borderWidth: 1
         }]
     },
     options: {
-        scales: {
-            yAxes: [{
+    	scales: {
+    		yAxes: [{
+    			id: 'A',
+    			type: 'linear',
+    			position: 'left',
                 ticks: {
                     beginAtZero:true
                 }
-            }]
-        }
+    		}, {
+    			id: 'B',
+    			type: 'linear',
+    			position: 'right',
+    			ticks: {
+                    beginAtZero:false
+    			}
+    		}]
+    	}
     }
 });
 console.log('end');

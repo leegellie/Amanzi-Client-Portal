@@ -595,7 +595,17 @@ class project_action {
 	}
 
 	public function add_project($a) {
-		try {
+    try {
+      $a['job_name'] = $this->mysql_escape($a['job_name']);
+      $a['job_notes'] = $this->mysql_escape($a['job_notes']);
+      $a['acct_rep'] = $this->mysql_escape($a['acct_rep']);
+      $a['builder'] = $this->mysql_escape($a['builder']);
+      $a['address_1'] = $this->mysql_escape($a['address_1']);
+      $a['address_2'] = $this->mysql_escape($a['address_2']);
+      $a['city'] = $this->mysql_escape($a['city']);
+      $a['state'] = $this->mysql_escape($a['state']);
+      $a['contact_name'] = $this->mysql_escape($a['contact_name']);
+      
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			$q = $conn->prepare("INSERT INTO projects (
@@ -1685,5 +1695,15 @@ class project_action {
 			return $this->_message = "ERROR: " . $e->getMessage();
 		}
 	}
+  
+  public function mysql_escape($inp){ 
+    if(is_array($inp)) return array_map(__METHOD__, $inp);
+
+    if(!empty($inp) && is_string($inp)) { 
+        return str_replace(array('\\', "\0", "\n", "\r", "'", '"', "\x1a"), array('\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\Z'), $inp); 
+    } 
+
+    return $inp; 
+  }
 }
 ?>

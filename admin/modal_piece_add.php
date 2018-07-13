@@ -1,4 +1,4 @@
-li<div class="modal fade" id="add_piece" tabindex="-1" role="dialog" aria-labelledby="locationLabel" aria-hidden="true">
+<div class="modal fade" id="add_piece" tabindex="-1" role="dialog" aria-labelledby="locationLabel" aria-hidden="true">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="margin-top: 7rem;">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -107,7 +107,7 @@ li<div class="modal fade" id="add_piece" tabindex="-1" role="dialog" aria-labell
 									<div class="row">
 										<fieldset class="form-group col-12 d-inline-block">
 											<label class="">SqFt: </label>
-											<input class="form-control type="number" id="SqFt" name="SqFt">
+											<input class="form-control" type="number" id="SqFt" name="SqFt">
 										</fieldset>
 									</div>
 								</div>

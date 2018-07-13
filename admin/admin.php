@@ -74,6 +74,14 @@ if(isset($_GET['marble'])){
 	require_once ('admin_accessories.php');
 } elseif (isset($_GET['approval'])) {
 	require_once ('admin_approval.php');
+} elseif (isset($_GET['holds'])) {
+	require_once ('admin_hold.php');
+} elseif (isset($_GET['precall'])) {
+	require_once ('admin_precall.php');
+} elseif (isset($_GET['precalltemp'])) {
+	require_once ('admin_precall_temp.php');
+} elseif (isset($_GET['invoices'])) {
+	require_once ('admin_invoicing.php');
 }
 ?>
 	</div>
@@ -89,7 +97,6 @@ if(isset($_GET['marble'])){
 	include ('modal_location.php');
 	include ('modal_piece_add.php');
 	include ('modal_sink_edit.php');
-	//include ('modal_qr_reader.php');
 	include ('modal_contact_verif.php');
 	include ('modal_user_discount.php');
 	include ('modal_entry_reject.php');
@@ -447,19 +454,148 @@ function editMarbModal(id,name,p0,p1,p2,p3,p4,p5,p6,p7,notes) {
 	$('#i-notes').val(notes);
 	$('#editMarble').modal('show');
 }
+var entityMap = {
+	'&': '&amp;',
+	'<': '&lt;',
+	'>': '&gt;',
+	'"': '&quot;',
+	"'": '&#39;',
+	'/': '&#x2F;',
+	'`': '&#x60;',
+	'=': '&#x3D;'
+};
 
-function editAccsModal( accs_id, accs_code, accs_model, accs_cost, accs_price, accs_status, accs_width, accs_depth, accs_name) {
-	accs_name = unescape(accs_name);
-	$('#a-accs_id').val(accs_id);
-	$('#a-accs_code').val(accs_code);
-	$('#a-accs_model').val(accs_model);
-	$('#a-accs_name').val(accs_name);
-	$('#a-accs_cost').val(accs_cost);
-	$('#a-accs_price').val(accs_price);
-	$('#a-accs_status').val(accs_status);
-	$('#a-accs_width').val(accs_width);
-	$('#a-accs_depth').val(accs_depth);
-	$('#editAccs').modal('show');
+function escapeHtml (string) {
+  return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+    return entityMap[s];
+  });
+}
+	
+function editAccsModal(string) {
+	var res = string.split('::');
+	var accs_name = unescape(res[0]);
+	var accs_id = res[1];
+	var accs_code = res[2];
+	var accs_model = res[3];
+	var accs_cost = res[4];
+	var accs_price = res[5];
+	var accs_status = res[6];
+	var accs_width = res[7];
+	var accs_depth = res[8];
+	var accs_count = res[9];
+
+	$('#add_accs #action').val('update_accs');
+	$('#edit-text').show();
+	$('#accsName').text(accs_name);
+	$('#accs_id').val(accs_id);
+	$('#accs_code').val(accs_code);
+	$('#accs_model').val(accs_model);
+	$('#accs_name').val(accs_name);
+	$('#accs_cost').val(accs_cost);
+	$('#accs_price').val(accs_price);
+	if (accs_status == 1) {
+		$('#accs_status').prop('checked',true);
+	} else {
+		$('#accs_status').prop('checked',false);
+	}
+	$('#accs_width').val(accs_width);
+	$('#accs_depth').val(accs_depth);
+	$('#accs_count').val(accs_count);
+	$('#addAccsBtn').text('Update Database');
+	$('#addAccs').modal('show');
+}
+function delete_accessory(accs_id) {
+	if (confirm('Are you sure you want to delete this from the database?')) {
+		var datastring = 'action=delete_accs&accs_id=' + accs_id;
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				//console.log(data);
+				console.log(data);
+				location.reload();
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	} else {
+		return;
+	}
+}
+function addAccs() {
+	$('#add_accs #action').val('add_accs');
+	$('#edit-text').hide();
+	$('#accsName').text('accs_name');
+	$('#accs_id').val(0);
+	$('#accs_code').val('');
+	$('#accs_model').val('');
+	$('#accs_name').val('');
+	$('#accs_cost').val(0.00);
+	$('#accs_price').val(0.00);
+	$('#accs_status').prop('checked',true);
+	$('#accs_width').val(0);
+	$('#accs_depth').val(0);
+	$('#accs_count').val(0);
+	$('#addAccsBtn').text('Add to Database');
+	$('#addAccs').modal('show');
+}
+// 1	Sink	DURANGO TU-013	DURANGO TU-013 UNDERMOUNT STAINLESS STEEL SINK 18X14X6	79.00	316.00	Yes	18	14
+function update_accs(){
+	$('.is-invalid').removeClass('.is-invalid');
+	if ($('#add_accs #accs_name').val() == '') {
+		alert("Accessory must have a name.");
+		$('#add_accs #accs_name').addClass('.is-invalid');
+		$('#add_accs #accs_name').focus();
+		return;
+	}
+	if ($('#add_accs #accs_cost').val() < 1) {
+		$('#add_accs #accs_cost').val(0);
+	}
+	if ($('#add_accs #accs_price').val() < 1) {
+		alert("A selling price must be entered.");
+		$('#add_accs #accs_price').addClass('.is-invalid');
+		return;
+	}
+	if ($('#add_accs #accs_width').val() < 1) {
+		$('#add_accs #accs_width').val(0);
+	}
+	if ($('#add_accs #accs_width').val() < 1) {
+		$('#add_accs #accs_width').val(0);
+	}
+	if ($('#add_accs #accs_depth').val() < 1) {
+		$('#add_accs #accs_depth').val(0);
+	}
+	if ($('#add_accs #accs_count').val() < 1) {
+		$('#add_accs #accs_count').val(0);
+	}
+	var accs_status;
+	if ($('#accs_status').prop('checked') == true) {
+		accs_status = 1;
+	} else {
+		accs_status = 0;
+	}
+	if (isNaN($('#add_accs #accs_code option:selected').val()) || $('#add_accs #accs_code option:selected').val() < 1) {
+		alert("You must select which type of Accesseory it is.");
+		$('#add_accs #accs_code').addClass('.is-invalid');
+		return;
+	}
+	var datastring = 'action=' + $('#add_accs #action').val() + '&accs_id=' + $('#add_accs #accs_id').val() + '&accs_name=' + $('#add_accs #accs_name').val() + '&accs_code=' + $('#add_accs #accs_code option:selected').val() + '&accs_model=' + $('#add_accs #accs_model').val() + '&accs_cost=' + $('#add_accs #accs_cost').val() + '&accs_price=' + $('#add_accs #accs_price').val() + '&accs_width=' + $('#add_accs #accs_width').val() + '&accs_depth=' + $('#add_accs #accs_depth').val() + '&accs_count=' + $('#add_accs #accs_count').val() + '&accs_status=' + accs_status;
+
+	console.log(datastring);
+	$.ajax({
+		url: 'ajax.php',
+		data: datastring,
+		type: 'POST',
+		success: function(data) {
+			console.log('done - ' + data);
+			location.reload();
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
 }
 
 $(document).ready(function(){
@@ -469,7 +605,6 @@ $(document).ready(function(){
 			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 		});
 	});
-
 	$('.table').DataTable({
 		"pageLength": 50,
 		"aoColumnDefs" : [{
@@ -481,7 +616,7 @@ $(document).ready(function(){
 	$("#mdb-lightbox-ui").load("/mdb-addons/mdb-lightbox-ui.html");
 	$('select[name=DataTables_Table_0_length]').addClass('mdb-select');
 	$('.mdb-select').material_select();
-
 });
-</script></body>
+</script>
+</body>
 </html>

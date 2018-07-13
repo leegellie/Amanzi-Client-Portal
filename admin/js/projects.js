@@ -1568,7 +1568,25 @@ function loadApproval() {
 			console.log(data);
 		}
 	});
-	setTimeout(loadApproval, 2000);
+	setTimeout(loadApproval, 4000);
+}
+
+function loadHolds() {
+	var datastring = "action=hold_list"
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log(data);
+			$('#tableResults').html('');
+			$('#tableResults').append(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+	setTimeout(loadHolds, 10000);
 }
 
 
@@ -1621,7 +1639,7 @@ function loadSaw() {
 			console.log(data);
 		}
 	});
-	setTimeout(loadSaw, 2000);
+	setTimeout(loadSaw, 5000);
 }
 
 function loadCNC() {
@@ -1638,7 +1656,7 @@ function loadCNC() {
 			console.log(data);
 		}
 	});
-	setTimeout(loadCNC, 2000);
+	setTimeout(loadCNC, 5000);
 }
 
 function loadPolishing() {
@@ -1655,7 +1673,7 @@ function loadPolishing() {
 			console.log(data);
 		}
 	});
-	setTimeout(loadPolishing, 2000);
+	setTimeout(loadPolishing, 5000);
 }
 function loadInstalls() {
 	var datastring = "action=installs_list"
@@ -1696,6 +1714,65 @@ function loadTimelines() {
   });
 }
 
+function loadPrecalls() {
+	var datastring = "action=precall_list"
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			$('#tableResults').html('');
+			$('#tableResults').append(data);
+			setTimeout(loadPrecalls, 60000);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+	//setTimeout(loadInstalls, 5000);
+}
+
+function loadPrecallsTemp() {
+	var datastring = "action=precall_temp_list"
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			$('#tableResults').html('');
+			$('#tableResults').append(data);
+			setTimeout(loadPrecallsTemp, 60000);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+	//setTimeout(loadInstalls, 5000);
+}
+
+function loadInvoices() {
+	var datastring = "action=invoice_list"
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			var divs = data.split(':::')
+			$('#panel_to_invoice').html(divs[0]);
+			$('#panel_outstanding').html(divs[1]);
+			$('#panel_disputed').html(divs[2]);
+			$('#panel_paid').html(divs[3]);
+			$('[data-toggle="tooltip"]').tooltip();
+		},
+		error: function(data) {
+			console.log(data);
+		},
+		complete: function() {
+			setTimeout(loadInvoices, 10000);
+		}
+	});
+	//setTimeout(loadInstalls, 5000);
+}
 
 function matModalOpen(element) {
 	var formUse = $(element).closest('form').attr('id');

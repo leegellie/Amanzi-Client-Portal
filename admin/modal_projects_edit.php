@@ -8,67 +8,12 @@
 			<div class="modal-body">
 
 					<form id="editPjtOne" class="row">
-						<div class="row">
-							<div class="container">
-								<div class="row mx-0">
-									<fieldset class="form-group col-4 col-md-3 text-left">
-										<input class="filled-in mr-4" name="in_house_template" id="p-in_house_template" type="checkbox" value="1">
-										<label for="p-in_house_template" class="text-left">In-House Template</label>
-									</fieldset>
-									<fieldset class="form-group col-4 col-md-3 text-left">
-										<input class="filled-in mr-4" name="no_template" id="p-no_template" type="checkbox" value="1">
-										<label for="p-no_template" class="text-left">No Template Needed</label>
-									</fieldset>
-									<fieldset class="form-group col-4 col-md-3 text-left">
-										<input class="filled-in mr-4" name="no_charge" id="p-no_charge" type="checkbox" value="1">
-										<label for="p-no_charge" class="text-left">No Charge</label>
-									</fieldset>
-									<fieldset class="form-group col-4 col-md-3 text-left">
-										<input class="filled-in mr-4" name="pick_up" id="p-pick_up" type="checkbox" value="1">
-										<label for="p-pick_up" class="text-left">Customer Pick Up</label>
-									</fieldset>
-									<fieldset class="form-group col-4 col-md-2 text-left">
-										<input class="filled-in mr-4" name="call_out_fee" id="p-call_out_fee" type="checkbox" value="1">
-										<label for="p-call_out_fee" class="text-left">Call Out Fee</label>
-										<input id="p-isActive" class="form-check-input filled-in" name="isActive" type="checkbox" value="1">
-										<label for="p-isActive" class="w-100">Active?</label>
-									</fieldset>
-									<fieldset class="form-group col-4 col-md-4 text-left reprew" style="display: none">
-										<label for="p-responsible" class="text-left">Who is responsible</label>
-										<select class="mdb-select" name="responsible" id="p-responsible">
-											<option value="0">Select one</option>
-											<option value="11">Customer</option>
-											<option value="2">Sales</option>
-											<option value="3">Entry</option>
-											<option value="4">Templaters</option>
-											<option value="5">Programming</option>
-											<option value="6">Materials</option>
-											<option value="7">Saw</option>
-											<option value="8">Montissor/CNC</option>
-											<option value="9">Polishing</option>
-											<option value="10">Installers</option>
-											<option value="99">Unknown</option>
-										</select>
-									</fieldset>
-									<fieldset class="form-group col-12 col-md-6 text-left reprew" style="display: none">
-										<label for="p-reason" class="text-left w-100">Please detail the reason for Repair/Rework/No-Charge</label>
-										<textarea class="filled-in rounded mr-4 w-100" name="reason" id="p-reason"></textarea>
-									</fieldset>
-								</div>
-							</div>
-						</div>
-
-						<hr>
-						<input type="hidden" id="p-repair" name="repair" value="0">
-						<input type="hidden" id="p-rework" name="rework" value="0">
-						<input type="hidden" id="p-addition" name="addition" value="0">
-
 						<input type="hidden" id="p-pid" name="id" value="">
 						<input type="hidden" id="p-uid" name="uid" value="">
-						<input type="hidden" id="p-job_lat" name="job_lat" value="">
-						<input type="hidden" id="p-job_long" name="job_long" value="">
+						<input type="hidden" id="p-job_lat" name="job_lat">
+						<input type="hidden" id="p-job_long" name="job_long">
 
-						<input type="hidden" id="p-job_sqft" value="">
+						<input type="hidden" id="p-job_sqft">
 
 
 						<div class="container pt-3 mb-3 border border-light border-right-0 border-left-0 blue lighten-5">
@@ -79,12 +24,8 @@
                   <input type="text" class="form-control" id="p-geo-lat" hidden>
                   <input type="text" class="form-control" id="p-geo-long" hidden>
                   <input type="text" class="form-control" id="p-job-sqft" hidden>
-                  
-<!--                   <input type="text" class="form-control" id="p-geo_lat" hidden>
-                  <input type="text" class="form-control" id="p-geo_long" hidden>
-                  <input type="text" class="form-control" id="p-job_sqft" hidden> -->
 								</fieldset>
-								<fieldset class="form-group col-md-4">
+								<fieldset class="form-group col-md-3">
 									<label for="account-rep">Account Rep:</label>
 									<select class="mdb-select" id="p-acct_rep" name="acct_rep">
 										<option value="0">Unspecified</option>
@@ -106,6 +47,10 @@
 								<fieldset class="form-group col-6 col-md-2">
 									<label for="order-num">Order #:</label>
 									<input class="form-control text-center" id="p-order_num" name="order_num" type="text">
+								</fieldset>
+								<fieldset class="form-check col-4 col-md-1">
+									<input id="p-isActive" class="form-check-input filled-in" name="isActive" type="checkbox" value="1">
+									<label for="p-isActive" class="w-100">Active?</label>
 								</fieldset>
 
 
@@ -238,7 +183,7 @@
 										<div class="row">
 											<label class="col-md-5" for="template-date">Template Date:</label>
 											<!--<input class="col-md-7 form-control" id="p-template_date" name="template_date" type="date">-->
-											<input class="col-md-7 form-control datepicker" type="text" id="p-template_date" name="template_date" autocomplete="off">
+											<input class="col-md-7 form-control datepicker" type="text" id="p-template_date" name="template_date">
 										</div>
 									</div>
 								</fieldset>
@@ -260,7 +205,7 @@
 									<div class="container">
 										<div class="row">
 											<label class="col-md-5" for="install-date">Install Date:</label>
-											<input class="col-md-7 form-control datepicker1" type="text" id="p-install_date" name="install_date" autocomplete="off">
+											<input class="col-md-7 form-control datepicker1" type="text" id="p-install_date" name="install_date">
 											<!--<input class="col-md-7 form-control" id="p-install_date" name="install_date" type="date">-->
 										</div>
 									</div>

@@ -26,7 +26,6 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $q = $conn->prepare("SELECT * FROM template_teams");
 $q->execute();
 $rows = $q->fetchAll(PDO::FETCH_ASSOC);
-
 if( isset($_POST['teamID']) && isset($_POST['jobID']) && isset($_POST['cur_date'])){
 	$teamID = $_POST['teamID'];
 	$jobID = $_POST['jobID'];
@@ -483,7 +482,7 @@ function getLatLong($address){
 										html_str +=   "Account rep: <b>" + value['fname'] + ' ' + value['lname'] + "</b></p>";
 										html_str +=   "<div class='container-fluid'>";
 										html_str +=   "<div class='row'>";
-										html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
+										html_str +=     "<a class='btn btn-primary col-3' style='cursor:pointer' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
 										<?
 										if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1449) {
 										?>
@@ -571,7 +570,7 @@ function getLatLong($address){
 												html_str +=   "Account rep: <b>" + value['fname'] + ' ' + value['lname'] + "</b></p>";
 												html_str +=   "<div class='container-fluid'>";
 												html_str +=   "<div class='row'>";
-												html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
+												html_str +=     "<a class='btn btn-primary col-3' style='cursor:pointer' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
 												<?
 												if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1449) {
 												?>
@@ -650,7 +649,7 @@ function getLatLong($address){
 												html_str +=   "Account rep: <b>" + value['fname'] + ' ' + value['lname'] + "</b></p>";
 												html_str +=   "<div class='container-fluid'>";
 												html_str +=   "<div class='row'>";
-												html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
+												html_str +=     "<a class='btn btn-primary col-3' style='cursor:pointer' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
 												<?
 												if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1449) {
 												?>
@@ -751,7 +750,7 @@ function getLatLong($address){
 
 						var teamID = value['template_team'];
 						//joblist_str[teamID] += '<li>'+value['job_name']+'</li>'
-						joblist_str[teamID] += '<li class="list-group-item py-1"><div class="btn btn-primary btn-sm mr-1" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div><a class="text-primary text-left btn btn-sm p-0" target="_blank" onClick="' + modalFunct + '">' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></li>';
+						joblist_str[teamID] += '<li class="list-group-item py-1"><div class="btn btn-primary btn-sm mr-1" style="cursor:pointer" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div><a class="text-primary text-left btn btn-sm p-0" style="cursor:pointer" target="_blank" onClick="' + modalFunct + '">' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></li>';
 
 						var modalPull = '';
 
@@ -792,7 +791,7 @@ modalPull += 						', ' + value['state'];
 modalPull += 						' ' + value['zip'];
 modalPull += 					'</b></p></div>';
 modalPull += '					<form class="row" id="form' + value['id'] + '">';
-modalPull += '					<a class="btn btn-primary col-3" target="_blank" href="/admin/projects.php?edit&pid=' + value['id'] + '&uid=' + value['uid'] + '"><i class="fas fa-eye"></i></a>';
+modalPull += '					<a class="btn btn-primary col-3" style="cursor:pointer" target="_blank" href="/admin/projects.php?edit&pid=' + value['id'] + '&uid=' + value['uid'] + '"><i class="fas fa-eye"></i></a>';
 
 								<?php 
 								if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1449) {
@@ -810,13 +809,13 @@ modalPull += '					</select>';
 								<?
 								}
 								?>
-modalPull += "						<a class='btn btn-success col-12 mt-2' target='_blank' href='https://maps.google.com/maps?11=" + latitude + "," + longitude + "&q=" + latitude + "," + longitude + "&hl=en&t=h&z=18'>Go <i class='fas fa-car'></i></a>";
+modalPull += "						<a class='btn btn-success col-12 mt-2' style='cursor:pointer' target='_blank' href='https://maps.google.com/maps?11=" + latitude + "," + longitude + "&q=" + latitude + "," + longitude + "&hl=en&t=h&z=18'>Go <i class='fas fa-car'></i></a>";
 
 modalPull += '					</form>';
 modalPull += '				</div>';
 modalPull += '			</div>';
 modalPull += '			<div class="modal-footer">';
-modalPull += '				<button class="btn btn-secondary" data-dismiss="modal" type="button">Close &#10008;</button>';
+modalPull += '				<button class="btn btn-secondary" style="cursor:pointer" data-dismiss="modal" type="button">Close &#10008;</button>';
 modalPull += '			</div>';
 modalPull += '		</div>';
 modalPull += '</div>';
@@ -874,13 +873,13 @@ modalPull += '</div>';
 									html_str +=   "<div class='container-fluid'>";
 									html_str +=   "<div class='row'>";
 
-									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
+									html_str +=     "<a class='btn btn-primary col-3' style='cursor:pointer' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
 
 									<?php 
 									if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1449) {
 									?>
 
-									html_str +=     "<select class='form-control col-9' onchange='assign_btn("+value['id']+");'>";
+									html_str +=     "<select class='form-control col-9' style='cursor:pointer' onchange='assign_btn("+value['id']+");'>";
 									<?php foreach ($rows as $row){ ?>
 									var selectedTeam = <?php echo $row['temp_team_id']; ?>;
 									html_str +=       "<option id='contactChoice<?php echo $row['temp_team_id']; ?>' value='<?php echo $row['temp_team_id']; ?>' "
@@ -894,7 +893,7 @@ modalPull += '</div>';
 
 
 									html_str +=    "</div>";
-									html_str +=    "<a class='btn btn-success col-12 mt-2' target='_blank' href='https://maps.google.com/maps?11=" + latitude + "," + longitude + "&q=" + latitude + "," + longitude + "&hl=en&t=h&z=18'>Go <i class='fas fa-car'></i></a>";
+									html_str +=    "<a class='btn btn-success col-12 mt-2' style='cursor:pointer' target='_blank' href='https://maps.google.com/maps?11=" + latitude + "," + longitude + "&q=" + latitude + "," + longitude + "&hl=en&t=h&z=18'>Go <i class='fas fa-car'></i></a>";
 									html_str +=    "</div>";
 									html_str +=  "</div>";
 									html_str += "</div>";
@@ -1017,7 +1016,7 @@ modalPull += '</div>';
 					joblist_html[teamID] += '<li class="list-group-item py-1"><div class="btn btn-primary btn-sm mr-1" onClick="targetMap('+latResult+','+longResult+')"><i class="fas fa-bullseye"></i></div><a class="text-primary text-left btn btn-sm p-0" style="cursor:pointer" target="_blank" onClick="' + modalFunct + '">' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></li>';
 				});
 
-				for (var i = 0; i <= <?php echo count($rows); ?>; i++) {
+				for (var i = 0; i <= <?php echo $rows[count($rows)-1]['temp_team_id']; ?>; i++) {
 					var team_id = '.row.team' + i + ' .jobs_list';
 					$(team_id).empty().html(joblist_html[i]);
 				}
@@ -1087,7 +1086,7 @@ modalPull += '</div>';
 					joblist_html[teamID] += '<li class="list-group-item py-1"><div class="btn btn-primary btn-sm mr-1" onClick="targetMap(' + latResult + ',' + longResult + ')"><i class="fas fa-bullseye"></i></div><a class="text-primary text-left btn btn-sm p-0" style="cursor:pointer" target="_blank" onClick="' + modalFunct + '">' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></li>';
 					console.log(joblist_html[teamID]);
 				});
-				for (var i = 0; i <= <? echo count($rows); ?>; i++) {
+				for (var i = 0; i <= <? echo $rows[count($rows)-1]['temp_team_id']; ?>; i++) {
 					var team_id = '.row.team' + i + ' .jobs_list';
 					$(team_id).empty().html(joblist_html[i]);
 				}

@@ -26,6 +26,7 @@ $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $q = $conn->prepare("SELECT * FROM install_teams WHERE isActive = 1");
 $q->execute();
 $rows = $q->fetchAll(PDO::FETCH_ASSOC);
+
 if( isset($_POST['teamID']) && isset($_POST['jobID']) && isset($_POST['cur_date'])){
 	$teamID = $_POST['teamID'];
 	$jobID = $_POST['jobID'];
@@ -37,12 +38,14 @@ if( isset($_POST['teamID']) && isset($_POST['jobID']) && isset($_POST['cur_date'
 	$q->execute();
 
 	$q = $conn->prepare("
-	SELECT projects.*, users.fname, users.lname 
+	SELECT projects.*, u.fname, u.lname, c.company AS comp_name, c.fname AS cFname, c.company AS cLname
 	FROM projects 
-	JOIN users 
-		ON users.id = projects.acct_rep 
-	WHERE projects.install_date = :install_date
-	  AND projects.isActive = 1
+	JOIN users u
+		ON u.id = projects.acct_rep 
+	JOIN users c 
+		ON c.id = projects.uid 
+	WHERE projects.install_date = :install_date 
+	  AND projects.isActive = 1 
 	ORDER BY 
 		first_stop DESC,
 		am DESC,
@@ -63,10 +66,12 @@ if( isset($_POST['date']) ){
 	$dateNow = date("Y-m-d");
 
 	$q = $conn->prepare("
-	SELECT projects.*, users.fname, users.lname 
+	SELECT projects.*, u.fname, u.lname, c.company AS comp_name, c.fname AS cFname, c.company AS cLname
 	FROM projects 
-	JOIN users 
-		ON users.id = projects.acct_rep 
+	JOIN users u
+		ON u.id = projects.acct_rep 
+	JOIN users c 
+		ON c.id = projects.uid 
 	WHERE projects.install_date = :install_date
 	  AND projects.isActive = 1
 	ORDER BY 
@@ -80,10 +85,12 @@ if( isset($_POST['date']) ){
 	$projects = getinfoByJob($jobs);
 
 	$p = $conn->prepare("
-	SELECT projects.*, users.fname, users.lname 
-	 FROM projects 
-	 JOIN users 
-	   ON users.id = projects.acct_rep 
+	SELECT projects.*, u.fname, u.lname, c.company AS comp_name, c.fname AS cFname, c.company AS cLname
+	FROM projects 
+	JOIN users u
+		ON u.id = projects.acct_rep 
+	JOIN users c 
+		ON c.id = projects.uid 
 	WHERE projects.install_date <> :curDate 
 	  AND projects.install_date >= :dateNow 
 	  AND projects.install_date > :pastDate
@@ -103,6 +110,7 @@ if( isset($_POST['date']) ){
 	echo json_encode(array('projects'=>$projects,'extra_projects'=>$ex_jobs));
 	exit;
 }
+
 function getinfoByJob($jobs){
 	$result;
 	$index = 0;
@@ -193,9 +201,9 @@ function getLatLong($address){
   
   <!--  INCLUDE bootstrap CSS & JS files for Datepicker  -->
 <!--   <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet"> -->
-<script type='text/javascript' src='//code.jquery.com/jquery-1.8.3.js'></script>
-<script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-  
+<?
+include('includes.php');
+?>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
 
@@ -222,7 +230,69 @@ function getLatLong($address){
     var job_coords = [];
 	  var installers = [];
     var pointHOME_initial = new google.maps.LatLng(36.1181642, -80.0626623,59);
-
+//     $('.mdb-select').material_select();
+    function markerCreator1(value,latitude,longitude){
+//     $('.mdb-select').material_select('destroy');
+ 		var html_str = "<div style = 'width:200px;min-height:40px'>";
+ 			html_str += "<div id='myForm'>";
+ 			html_str +=   "<p class='text-success'>Job: <b>" + value['job_name'] + ' - ' + value['job_sqft'] + "<sup>sf</sup></b></p>";
+ 			html_str +=   "<p class='text-success'>Client: <b>";
+ 			if (value['comp_name'] > '') {
+ 				html_str += value['comp_name'];
+ 			} else {
+ 				html_str += value['cFname'] + ' ' + value['cLname'];
+ 			}
+ 			html_str += "</b></p>";
+ 			html_str +=   "<p>Inst. Date: <b class='text-success'>" + value['install_date'] + "</b>";
+ 			if (value['first_stop'] == 1){
+ 				html_str +=   "<b class='text-primary'> 1st Stop</b>";
+ 			}else if (value['am'] == 1) {
+ 				html_str +=   "<b class='text-primary'> AM</b>";
+ 			}else if (value['pm'] == 1) {
+ 				html_str +=   "<b class='text-primary'> PM</b>";
+ 			}
+ 			var instTeamID = value['install_team'];
+ 			html_str +=   "<br>Installer: <b>" + installers[instTeamID] + "</b><br>";
+ 			html_str +=   "Account rep: <b>" + value['fname'] + ' ' + value['lname'] + "</b></br>";
+ 			html_str +=   "Address: <b>" + value['address_1'] + ', ';
+ 			if (value['address_2'] != '' && value['address_2'] != null) {
+ 				html_str +=   value['address_2'] + ', ';
+ 			}
+ 			html_str +=   value['city'] + ", ";
+ 			html_str +=   value['state'] + " ";
+			html_str +=   value['zip'] + "</b></p>";
+			html_str +=   "<div class='container-fluid'>";
+			html_str +=   "<div class='row'>";
+			html_str +=     "<a class='btn btn-primary col-3' target='_blank' style='cursor:pointer' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
+			<?
+			if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448  || $_SESSION['id'] == 1582) {
+			?>
+				html_str +=     "<select class='form-control col-9 markersele' onchange='assign_btn("+value['id']+");'>";
+				<?
+				foreach ($rows as $row){ 
+				?>
+					var selectedTeam = <?php echo $row['inst_team_id']; ?>;
+					html_str +=       "<option id='contactChoice<?php echo $row['inst_team_id']; ?>' value='<?php echo $row['inst_team_id']; ?>' "
+					if (selectedTeam == value['install_team']) {
+						html_str += 'selected'
+					};
+					html_str +=       " ><?php echo $row['inst_team_name']; ?></option>";
+				<? 
+				} 
+				?>
+				html_str +=     "</select>";
+			<?
+			}
+			?>
+			html_str +=    "</div>";
+			if (longitude > 0) {
+				html_str +=    "<a class='btn btn-success col-12 mt-2' style='cursor:pointer' target='_blank' href='https://maps.google.com/maps?11=" + latitude + "," + longitude + "&q=" + latitude + "," + longitude + "&hl=en&t=h&z=18'>Go <i class='fas fa-truck'></i></a>";
+			}
+			html_str +=    "</div>";
+			html_str +=  "</div>";
+			html_str += "</div>";
+			return html_str;
+    }
 <? foreach ($rows as $row){ ?>
 		installers[<?= $row['inst_team_id'] ?>] = '<?= $row['inst_team_name'] ?>';
 <? } ?>
@@ -266,6 +336,7 @@ function getLatLong($address){
     
     
 	function initializeMap() {
+		$('.mdb-select').material_select('destroy');
 		// Map options
 		var iconBase_home = '/images/map-icon.png';
 		var opts = {
@@ -301,10 +372,9 @@ function getLatLong($address){
 		});
 		var infoWindow = new google.maps.InfoWindow();
 		
-		
-		
 		$('.get_info_btn').click(function(){
-			$('.rteBtn').removeClass('hidden');
+      $('.mdb-select').material_select('destroy');
+      $('.rteBtn').removeClass('hidden');
 
 			// Map options
 			var iconBase_home = '/images/map-icon.png';
@@ -344,21 +414,19 @@ function getLatLong($address){
 			var infoWindow = new google.maps.InfoWindow();
 			clearMap();
 			$('.loading').removeClass('hidden');
-			var cur_date = $('.datepicker_sec .form-control').val();
+			var cur_date = $('.datepicker_sec li .form-control').val();
 			var bounds = new google.maps.LatLngBounds();
 
 			$('.modal').remove();
-
-
 			$.ajax({
 				type: 'post',
 				data: {date: cur_date},
 				success: function(response){
+					
 					$('.loading').addClass('hidden');
 					//var marker;
-          console.log(response);
+          //console.log(response);
 					var result = JSON.parse(response);
-          console.log("*****************",result);
 					var extra_projects = result.extra_projects;
 					result = result.projects;
 	
@@ -384,10 +452,6 @@ function getLatLong($address){
 					var plotLong = [];
 					var plottedLat = [];
 					var plottedLong = [];
-
-
-
-
 					var time = 0;
 					$.each(extra_projects, function(key, value){
 						setTimeout(function() {
@@ -459,57 +523,14 @@ function getLatLong($address){
 								});
 
 								(function (marker, value) {
+//                   $('.mdb-select').material_select('destroy');
+//                   $('.mdb-select').material_select();
 									google.maps.event.addListener(marker, "click", function (e) {
-										//Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
-									var html_str = "<div style = 'width:200px;min-height:40px'>";
-										html_str += "<div id='myForm'>";
-										html_str +=   "<p class='text-success'>Job: <b>" + value['job_name'] + "</b></p>";
-										html_str +=   "<p>Inst. Date: <b class='text-success'>" + value['install_date'] + "</b>";
-										if (value['first_stop'] == 1){
-											html_str +=   "<b class='text-primary'> 1st Stop</b>";
-										}else if (value['am'] == 1) {
-											html_str +=   "<b class='text-primary'> AM</b>";
-										}else if (value['pm'] == 1) {
-											html_str +=   "<b class='text-primary'> PM</b>";
-										}
-										var instTeamID = value['install_team'];
-										html_str +=   "<br>Installer: <b>" + installers[instTeamID] + "</b><br>";
-										html_str +=   "Account rep: <b>" + value['fname'] + ' ' + value['lname'] + "</b></br>";
-										html_str +=   "Address: <b>" + value['address_1'] + ', ';
-										if (value['address_2'] != '' && value['address_2'] != null) {
-											html_str +=   value['address_2'] + ', ';
-										}
-										html_str +=   value['city'] + ", ";
-										html_str +=   value['state'] + " ";
-										html_str +=   value['zip'] + "</b></p>";
-										html_str +=   "<div class='container-fluid'>";
-										html_str +=   "<div class='row'>";
-										html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
-										<?
-										if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448  || $_SESSION['id'] == 1582) {
-										?>
-											html_str +=     "<select class='form-control col-9' onchange='assign_btn("+value['id']+");'>";
-										<?php foreach ($rows as $row){ ?>
-										var selectedTeam = <?php echo $row['inst_team_id']; ?>;
-										html_str +=       "<option id='contactChoice<?php echo $row['inst_team_id']; ?>' value='<?php echo $row['inst_team_id']; ?>' "
-										if (selectedTeam == value['install_team']) {
-											html_str += 'selected'
-										};
-										html_str +=       " ><?php echo $row['inst_team_name']; ?></option>";
-										<?php } ?>
-										html_str +=     "</select>";
-										<?
-										}
-										?>
-
-										html_str +=    "</div>";
-										html_str +=    "</div>";
-										html_str +=  "</div>";
-										html_str += "</div>";
-
-
+										html_str = markerCreator1(value,latitude,longitude);
 										infoWindow.setContent(html_str);
 										infoWindow.open(map, marker);
+                    $('.markersele').addClass('mdb-select');
+                    $('.mdb-select').material_select();
 									});
 								})(marker, value);
 								var point_item1 = new google.maps.LatLng(latitude, longitude);
@@ -553,55 +574,14 @@ function getLatLong($address){
 											animation:google.maps.Animation.DROP
 										});
 										(function (marker, value) {
+//                       $('.mdb-select').material_select('destroy');
+//                       $('.mdb-select').material_select();
 											google.maps.event.addListener(marker, "click", function (e) {
-												//Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
-											var html_str = "<div style = 'width:200px;min-height:40px'>";
-												html_str += "<div id='myForm'>";
-												html_str +=   "<p class='text-success'>Job: <b>" + value['job_name'] + "</b></p>";
-												html_str +=   "<p>Inst. Date: <b class='text-success'>" + value['install_date'] + "</b>";
-												if (value['first_stop'] == 1){
-													html_str +=   "<b class='text-primary'> 1st Stop</b>";
-												}else if (value['am'] == 1) {
-													html_str +=   "<b class='text-primary'> AM</b>";
-												}else if (value['pm'] == 1) {
-													html_str +=   "<b class='text-primary'> PM</b>";
-												}
-												var instTeamID = value['install_team'];
-												html_str +=   "<br>Installer: <b>" + installers[instTeamID] + "</b><br>";
-												html_str +=   "Account rep: <b>" + value['fname'] + ' ' + value['lname'] + "</b></br>";
-												html_str +=   "Address: <b>" + value['address_1'] + ', ';
-												if (value['address_2'] != '' && value['address_2'] != null) {
-													html_str +=   value['address_2'] + ', ';
-												}
-												html_str +=   value['city'] + ", ";
-												html_str +=   value['state'] + " ";
-												html_str +=   value['zip'] + "</b></p>";
-												html_str +=   "<div class='container-fluid'>";
-												html_str +=   "<div class='row'>";
-												html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
-												<?
-												if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448  || $_SESSION['id'] == 1582) {
-												?>
-													html_str +=     "<select class='form-control col-9' onchange='assign_btn("+value['id']+");'>";
-												<?php foreach ($rows as $row){ ?>
-												var selectedTeam = <?php echo $row['inst_team_id']; ?>;
-												html_str +=       "<option id='contactChoice<?php echo $row['inst_team_id']; ?>' value='<?php echo $row['inst_team_id']; ?>' "
-												if (selectedTeam == value['install_team']) {
-													html_str += 'selected'
-												};
-												html_str +=       " ><?php echo $row['inst_team_name']; ?></option>";
-												<?php } ?>
-												html_str +=     "</select>";
-												<?
-												}
-												?>
-		
-												html_str +=    "</div>";
-												html_str +=    "</div>";
-												html_str +=  "</div>";
-												html_str += "</div>";
+											  html_str = markerCreator1(value,latitude,longitude);
 												infoWindow.setContent(html_str);
 												infoWindow.open(map, marker);
+                        $('.markersele').addClass('mdb-select');
+                        $('.mdb-select').material_select();
 											});
 										})(marker, value);
 										var point_item1 = new google.maps.LatLng(latitude, longitude);
@@ -639,55 +619,14 @@ function getLatLong($address){
 											animation:google.maps.Animation.DROP
 										});
 										(function (marker, value) {
+//                       $('.mdb-select').material_select('destroy');
+//                       $('.mdb-select').material_select();
 											google.maps.event.addListener(marker, "click", function (e) {
-												//Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
-											var html_str = "<div style = 'width:200px;min-height:40px'>";
-												html_str += "<div id='myForm'>";
-												html_str +=   "<p class='text-success'>Job: <b>" + value['job_name'] + "</b></p>";
-												html_str +=   "<p>Inst. Date: <b class='text-success'>" + value['install_date'] + "</b>";
-												if (value['first_stop'] == 1){
-													html_str +=   "<b class='text-primary'> 1st Stop</b>";
-												}else if (value['am'] == 1) {
-													html_str +=   "<b class='text-primary'> AM</b>";
-												}else if (value['pm'] == 1) {
-													html_str +=   "<b class='text-primary'> PM</b>";
-												}
-												var instTeamID = value['install_team'];
-												html_str +=   "<br>Installer: <b>" + installers[instTeamID] + "</b><br>";
-												html_str +=   "Account rep: <b>" + value['fname'] + ' ' + value['lname'] + "</b></br>";
-												html_str +=   "Address: <b>" + value['address_1'] + ', ';
-												if (value['address_2'] != '' && value['address_2'] != null) {
-													html_str +=   value['address_2'] + ', ';
-												}
-												html_str +=   value['city'] + ", ";
-												html_str +=   value['state'] + " ";
-												html_str +=   value['zip'] + "</b></p>";
-												html_str +=   "<div class='container-fluid'>";
-												html_str +=   "<div class='row'>";
-												html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
-												<?
-												if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448  || $_SESSION['id'] == 1582) {
-												?>
-													html_str +=     "<select class='form-control col-9' onchange='assign_btn("+value['id']+");'>";
-												<?php foreach ($rows as $row){ ?>
-												var selectedTeam = <?php echo $row['inst_team_id']; ?>;
-												html_str +=       "<option id='contactChoice<?php echo $row['inst_team_id']; ?>' value='<?php echo $row['inst_team_id']; ?>' "
-												if (selectedTeam == value['install_team']) {
-													html_str += 'selected'
-												};
-												html_str +=       " ><?php echo $row['inst_team_name']; ?></option>";
-												<?php } ?>
-												html_str +=     "</select>";
-												<?
-												}
-												?>
-		
-												html_str +=    "</div>";
-												html_str +=    "</div>";
-												html_str +=  "</div>";
-												html_str += "</div>";
+											  var html_str = markerCreator1(value,latitude,longitude);
 												infoWindow.setContent(html_str);
 												infoWindow.open(map, marker);
+                        $('.markersele').addClass('mdb-select');
+                        $('.mdb-select').material_select();
 											});
 										
 										})(marker, value);
@@ -696,13 +635,9 @@ function getLatLong($address){
 									} 
 								});
 							}
-            }, time);
+						}, time);
 						time += 200;
 					});
-
-
-
-
 
 					job_coords = [];
 					$.each( result, function( key, value ) {
@@ -763,7 +698,7 @@ function getLatLong($address){
 						var teamID = value['install_team'];
             //console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",value, teamID);
 						//joblist_str[teamID] += '<li>'+value['job_name']+'</li>'
-						joblist_str[teamID] += '<li class="list-group-item py-1"><div class="btn btn-primary btn-sm mr-1" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div><a class="text-primary text-left btn btn-sm p-0" target="_blank" onClick="' + modalFunct + '">' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></li>';
+						joblist_str[teamID] += '<li class="list-group-item py-1"><div class="row"><div class="col-2"><div class="btn btn-primary btn-sm mr-1" style="cursor:pointer" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div></div><div class="col-10"><a class="text-primary text-left p-0" style="cursor:pointer; line-height:1.2; text-shadow:none" target="_blank" onClick="' + modalFunct + '">' + value['job_sqft'] + '<sup>sf</sup> - ' + value['comp_name'] + '<br>' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></div></div></li>';
 
 						var modalPull = '';
             //console.log(joblist_str[teamID]);
@@ -803,12 +738,12 @@ modalPull += 						', ' + value['state'];
 modalPull += 						' ' + value['zip'];
 modalPull += 					'</b></p></div>';
 modalPull += '					<form class="row" id="form' + value['id'] + '">';
-modalPull += '						<a class="btn btn-primary col-3" target="_blank" href="/admin/projects.php?edit&pid=' + value['id'] + '&uid=' + value['uid'] + '"><i class="fas fa-eye"></i></a>';
+modalPull += '						<a class="btn btn-primary col-3" style="cursor:pointer" target="_blank" href="/admin/projects.php?edit&pid=' + value['id'] + '&uid=' + value['uid'] + '"><i class="fas fa-eye"></i></a>';
 
 								<?php 
 								if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448  || $_SESSION['id'] == 1582) {
 								?>
-modalPull += '						<select class="form-control col-9" onchange="assign_select(' + value['id'] + ');">';
+modalPull += '						<select class="mdb-select form-control col-9" onchange="assign_select(' + value['id'] + ');">';
 								<?
 								foreach ($rows as $row){ ?>
 
@@ -821,22 +756,18 @@ modalPull += '						</select>';
 								<?
 								}
 								?>
-modalPull += "						<a class='btn btn-success col-12 mt-2' target='_blank' href='https://maps.google.com/maps?11=" + latitude + "," + longitude + "&q=" + latitude + "," + longitude + "&hl=en&t=h&z=18'>Go <i class='fas fa-truck'></i></a>";
+modalPull += "						<a class='btn btn-success col-12 mt-2' style='cursor:pointer' target='_blank' href='https://maps.google.com/maps?11=" + latitude + "," + longitude + "&q=" + latitude + "," + longitude + "&hl=en&t=h&z=18'>Go <i class='fas fa-truck'></i></a>";
 modalPull += '					</form>';
 modalPull += '				</div>';
 modalPull += '			</div>';
 modalPull += '			<div class="modal-footer">';
-modalPull += '				<button class="btn btn-secondary" data-dismiss="modal" type="button">Close &#10008;</button>';
+modalPull += '				<button class="btn btn-secondary" style="cursor:pointer" data-dismiss="modal" type="button">Close &#10008;</button>';
 modalPull += '			</div>';
 modalPull += '		</div>';
 modalPull += '</div>';
 
 
 						$('body').append(modalPull);
-
-
-
-
 						marker = new google.maps.Marker({
 							position: new google.maps.LatLng(latitude, longitude),
 							map: map,
@@ -864,63 +795,17 @@ modalPull += '</div>';
 						//Attach click event to the marker.
 						(function (marker, value) {
 							google.maps.event.addListener(marker, "click", function (e) {
-							  //Wrap the content inside an HTML DIV in order to set height and width of InfoWindow.
-
-								var html_str = "<div style = 'width:200px;min-height:40px'>";
-									html_str += "<div id='myForm'>";
-									html_str +=   "<p class='text-success'>Job: <b>" + value['job_name'] + "</b></p>";
-									html_str +=   "<p>Inst. Date: <b class='text-success'>" + value['install_date'] + "</b>";
-									if (value['first_stop'] == 1){
-										html_str +=   "<b class='text-primary'> 1st Stop</b>";
-									}else if (value['am'] == 1) {
-										html_str +=   "<b class='text-primary'> AM</b>";
-									}else if (value['pm'] == 1) {
-										html_str +=   "<b class='text-primary'> PM</b>";
-									}
-									var instTeamID = value['install_team'];
-									html_str +=   "<br>Installer: <b>" + installers[instTeamID] + "</b><br>";
-									html_str +=   "Account rep: <b>" + value['fname'] + ' ' + value['lname'] + "</b></br>";
-									html_str +=   "Address: <b>" + value['address_1'] + ', ';
-									if (value['address_2'] != '' && value['address_2'] != null) {
-										html_str +=   value['address_2'] + ', ';
-									}
-									html_str +=   value['city'] + ", ";
-									html_str +=   value['state'] + " ";
-									html_str +=   value['zip'] + "</b></p>";
-									html_str +=   "<div class='container-fluid'>";
-									html_str +=   "<div class='row'>";
-
-									html_str +=     "<a class='btn btn-primary col-3' target='_blank' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
-
-									<?php 
-									if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448  || $_SESSION['id'] == 1582) {
-									?>
-
-									html_str +=     "<select class='form-control col-9' onchange='assign_btn("+value['id']+");'>";
-									<?php foreach ($rows as $row){ ?>
-									var selectedTeam = <?php echo $row['inst_team_id']; ?>;
-									html_str +=       "<option id='contactChoice<?php echo $row['inst_team_id']; ?>' value='<?php echo $row['inst_team_id']; ?>' "
-									if (selectedTeam == value['install_team']) {html_str += 'selected'};
-									html_str +=       " ><?php echo $row['inst_team_name']; ?></option>";
-									<?php } ?>
-									html_str +=     "</select>";
-									<?php 
-									}
-									?>
-									html_str +=    "</div>";
-									html_str +=    "<a class='btn btn-success col-12 mt-2' target='_blank' href='https://maps.google.com/maps?11=" + latitude + "," + longitude + "&q=" + latitude + "," + longitude + "&hl=en&t=h&z=18'>Go <i class='fas fa-truck'></i></a>";
-									html_str +=    "</div>";
-									html_str +=  "</div>";
-									html_str += "</div>";
-						
-						
+// 								$('.mdb-select').material_select('destroy');
+                var html_str = markerCreator1(value,latitude,longitude);
 								infoWindow.setContent(html_str);
 								infoWindow.open(map, marker);
+                $('.markersele').addClass('mdb-select');
+                $('.mdb-select').material_select();
 							});
 						
 						})(marker, value);
 					
-					  });
+					});
 					map.fitBounds(bounds);
 					//map.panToBounds(bounds);
 
@@ -935,11 +820,8 @@ modalPull += '</div>';
 					
 				}
 			});
+			$('.mdb-select').material_select();
 		})
-
-
-
-
 
 		function getlatlng(address){
 			var geocoder = new google.maps.Geocoder();
@@ -983,8 +865,9 @@ modalPull += '</div>';
 
 
 	function assign_btn(n) {
+		$('.mdb-select').material_select('destroy');
 		//$('.rteBtn').addClass('hidden');
-		var cur_date = $('.datepicker_sec .form-control').val();
+		var cur_date = $('.datepicker_sec li .form-control').val();
 		var team_select_id = $('select option:selected', '#myForm').val();
 		$.ajax({
 			type: 'post',
@@ -994,7 +877,7 @@ modalPull += '</div>';
 				cur_date: cur_date
 			},
 			success: function(response) {
-		        clearDirections();
+        clearDirections();
 				var result = JSON.parse(response);
 				var joblist_html = [];
 				for (var i = 0; i <= 100; i++) {
@@ -1004,8 +887,6 @@ modalPull += '</div>';
 				}
 
 				$.each(result, function(key, value) {
-
-
 					var orderText = '';					
 					if (value['first_stop'] == 1) {
 						orderText = '<span class="text-danger">1st Stop </span>';
@@ -1023,26 +904,27 @@ modalPull += '</div>';
 					var longPull = 'long' + value['id'];
 					var latResult = job_coords[latPull];
 					var longResult = job_coords[longPull];
-
+          console.log("--------------------");
+          console.log(latResult, longResult);
+          console.log("--------------------");
 					var point_item_assign = new google.maps.LatLng(latResult, longResult);
 					console.log(teamID);
 					nodes_team[teamID].push(point_item_assign);
 					console.log(nodes_team[teamID]);
-
+          var latitude = parseFloat(value['job_lat']).toFixed(8);
+          var longitude = parseFloat(value['job_long']).toFixed(8);
 					//joblist_str[teamID] += '<li>'+value['job_name']+'</li>'
 					//joblist_html[teamID] += '<li><a class="text-primary" target="_blank" onClick="' + modalFunct + '">' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></li>';
-					joblist_html[teamID] += '<li class="list-group-item py-1"><div class="btn btn-primary btn-sm mr-1" onClick="targetMap('+latResult+','+longResult+')"><i class="fas fa-bullseye"></i></div><a class="text-primary text-left btn btn-sm p-0" style="cursor:pointer" target="_blank" onClick="' + modalFunct + '">' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></li>';
-					console.log(joblist_html[teamID]);
+					joblist_html[teamID] += '<li class="list-group-item py-1"><div class="row"><div class="col-2"><div class="btn btn-primary btn-sm mr-1" style="cursor:pointer" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div></div><div class="col-10"><a class="text-primary text-left p-0" style="cursor:pointer; line-height:1.2; text-shadow:none" target="_blank" onClick="' + modalFunct + '">' + value['job_sqft'] + '<sup>sf</sup> - ' + value['comp_name'] + '<br>' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></div></div></li>';
 
 				});
-
-				for (var i = 0; i <= <?php echo count($rows); ?>; i++) {
+				for (var i = 0; i <= <?php echo $rows[count($rows)-1]['inst_team_id']; ?>; i++) {
 					var team_id = '.row.team' + i + ' .jobs_list';
 					$(team_id).empty().html(joblist_html[i]);
 				}
-
 			}
 		});
+		$('.mdb-select').material_select();
 	}
 
 	function targetMap(newLat,newLng) {
@@ -1056,10 +938,11 @@ modalPull += '</div>';
 	}
 
 	function assign_select(n) {
+		$('.mdb-select').material_select('destroy');
 		//$('.rteBtn').addClass('hidden');
 		var modalClose = 'modalPull' + n;
 		var myForm = '#form' + n + ' select option:selected';
-		var cur_date = $('.datepicker_sec .form-control').val();
+		var cur_date = $('.datepicker_sec li .form-control').val();
 		var team_select_id = $(myForm).val();
 		$.ajax({
 			type: 'post',
@@ -1078,7 +961,6 @@ modalPull += '</div>';
 					nodes_team[i] = [];
 					nodes_team[i].push(pointHOME_initial);
 				}
-
 				$.each(result, function(key, value) {
 					var orderText = '';					
 					if (value['first_stop'] == 1) {
@@ -1102,9 +984,10 @@ modalPull += '</div>';
 					console.log(teamID);
 					nodes_team[teamID].push(point_item_assign);
 					console.log(nodes_team[teamID]);
+          var latitude = parseFloat(value['job_lat']).toFixed(8);
+          var longitude = parseFloat(value['job_long']).toFixed(8);
+					joblist_html[teamID] += '<li class="list-group-item py-1"><div class="row"><div class="col-2"><div class="btn btn-primary btn-sm mr-1" style="cursor:pointer" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div></div><div class="col-10"><a class="text-primary text-left p-0" style="cursor:pointer; line-height:1.2; text-shadow:none" target="_blank" onClick="' + modalFunct + '">' + value['job_sqft'] + '<sup>sf</sup> - ' + value['comp_name'] + '<br>' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></div></div></li>';
 
-					joblist_html[teamID] += '<li class="list-group-item py-1"><div class="btn btn-primary btn-sm mr-1" onClick="targetMap(' + latResult + ',' + longResult + ')"><i class="fas fa-bullseye"></i></div><a class="text-primary text-left btn btn-sm p-0" style="cursor:pointer" target="_blank" onClick="' + modalFunct + '">' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></li>';
-					console.log(joblist_html[teamID]);
 				});
 				for (var i = 0; i <= <? echo count($rows); ?>; i++) {
 					var team_id = '.row.team' + i + ' .jobs_list';
@@ -1117,8 +1000,11 @@ modalPull += '</div>';
 			complete: function() {
 				$(modalClose).modal('hide');
 				$('.modal').modal('hide');
-			}	
+
+			}
+
 		});
+		$('.mdb-select').material_select();
 	}
 
     // Get all durations depending on travel type
@@ -1600,32 +1486,136 @@ modalPull += '</div>';
   
     });
   </script>
+<style>
+.side-nav {
+	width: 40%;
+	min-width: 400px;
+	background: url(../images/marble.jpg);
+}
+.side-nav ul, .side-nav li {
+	margin-bottom: 5px;
+}
+/* .datepicker.dropdown-menu{
+		top: 67px !important;
+		right: 147px !important;
+} */
+  .datepicker>div {
+    display: block;
+  }
+  #myForm .btn.btn-primary.col-3 {
+    margin: 0;
+    padding: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .gm-style-pbc {z-index: -2!important;}
+  .tertiary-text{position: fixed;}
+  #ga-buttons{position: absolute;top: 100px;}
+  .blank_high{display:none!important;}
+.datepicker_sec li input { 
+	margin-top: 7px;
+	font-size: 25px!important;
+	font-weight: bold!important;
+	text-align: center!important;
+	line-height: 1px;
+}
+  .datepicker.dropdown-menu{width:300px;}
+  .datepicker.dropdown-menu .table-condensed{width: 100%;}
+  button:focus {outline: none!important;}
+  input[type=radio], input[type=checkbox] {width: 20px;}
+  .shadow {
+    position: absolute;
+  }
+  .shadow::after {
+    position: absolute;
+    left: -125px;
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin-top: -25px;
+    content: '';
+    transform: rotateX(55deg);
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, .5) 100px 0 20px;
+  }
+  .pulse {
+    position: absolute;
+    margin-top: -50px;
+    margin-left: -50px;
+    transform: rotateX(55deg);
+  }
+  .pulse::after {
+    display: block;
+    width: 100px;
+    height: 100px;
+    content: '';
+    animation: pulsate 1s ease-out;
+    animation-delay: 1.6s;
+    animation-iteration-count: infinite;
+    opacity: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 1px 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 6px 3px rgba(99, 99, 252, 0.68);
+  }
+  @keyframes pulsate {
+    0% {
+      transform: scale(0.1, 0.1);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.2, 1.2);
+      opacity: 0;
+    }
+  }
+  .team_section ul li{
+    font-size: 14px;
+    font-weight: bold;
+  }
+  html, body{
+    overflow-y:hidden!important;
+  }
+/*   #myForm .select-wrapper.mdb-select{
+    display: contents;
+  }
+  #myForm .select-wrapper span.caret,
+  #myForm .select-wrapper input.select-dropdown,*/
+  #myForm .select-wrapper ul.dropdown-content.select-dropdown{
+    top: 50px!important;
+  } 
+  #myForm .markersele{
+    padding: 0 0 0 10px;
+    border: none;
+  }
+  #myForm input.select-dropdown{
+    margin: 0px;
+  }
+  #myForm ul.dropdown-content.select-dropdown {
+/*     position: fixed!important; */
+/*     top: -70px!important;
+    left:-140px!important; */
+  }
+  .gm-style-iw,
+  .gm-style-iw > div{ 
+    overflow: unset!important;
+  }
+  .markersele {
+    position: absolute;
+    bottom: 0;
+    right:0;
+  }
+</style>
 
 
 </head>
-<body style="margin: 0; padding: 0; overflow-x: hidden; background:none !important">
+<body class="hidden-sn grey-skin" style="margin: 0; padding: 0; overflow-x: hidden; background:none !important">
 	<div class="loading hidden h-100 w-100 m-0 position-absolute" style="z-index: 3; touch-action: pan-x pan-y;background: #0000004a url(../images/icon.gif) no-repeat fixed center;"></div>
-
-	<div class="row">
-		<div class="col-3 pr-0 border-secondary border-right border-bottom-0 border-top-0 border-left-0">
+    <header>
+        <!-- Sidebar navigation -->
+        <div id="slide-out" class="side-nav">
 			<div class="container" style="overflow-y:auto; overflow-x:hidden; max-height:100vh">
-				<div class="row py-3">
-					<div class="datepicker_sec">
-						<div class="col-2 pr-0">
-							<a href="/admin/dashboard.php">
-								<img class="img-fluid" src="../images/icon.png" alt="Amanzi">
-							</a>
-						</div>
-						<div class="input-group col-7">
-							<input class="form-control date" type="text" placeholder="Select date">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-						</div>
-						<div class="input-group col-3">
-							<button class="btn btn-success get_info_btn">SHOW</button>
-						</div>
-					</div>
-				</div>
-				<hr>
 				<div class="row">
 					<div class="col-12 pr-4 team_section">
 						<?php 
@@ -1689,7 +1679,7 @@ modalPull += '</div>';
 								}
 								?>
 							</div>
-							<div class="col-sm-9 team_no">
+							<div class="col-sm-8 team_no">
 								<span class="pl-1">
 								<? 
 								if ($row['inst_team_id'] == 0) {
@@ -1700,11 +1690,11 @@ modalPull += '</div>';
 								?>
 								</span>
 							</div>
-							<div class="col-sm-2">
+							<div class="col-sm-3">
 								<?
 								if ($row['inst_team_id'] > 0) {
 								?>
-								<button class="btn btn-primary mt-1 rteBtn" onclick="display_route(<?php echo $row['inst_team_id']; ?>)"><i class="far fa-route"></i></button>
+								<button class="btn btn-primary mt-1 rteBtn" style='cursor:pointer' onclick="display_route(<?php echo $row['inst_team_id']; ?>)"><i class="far fa-route"></i></button>
 								<?
 								}
 								?>
@@ -1722,12 +1712,38 @@ modalPull += '</div>';
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="col-9 pl-0" style="height: 100vh;">
+            <div class="sidenav-bg mask-strong"></div>
+        </div>
+        <!--/. Sidebar navigation -->
+        <!-- Navbar -->
+        <nav class="navbar navbar-toggleable-md navbar-expand-lg scrolling-navbar double-nav">
+            <!-- SideNav slide-out button -->
+            <div class="float-left">
+                <a href="#" data-activates="slide-out" class="button-collapse"><i class="fa fa-bars"></i></a>
+            </div>
+            <!-- Breadcrumb-->
+            <div class="breadcrumb-dn mr-auto">
+				<img class="img-fluid" src="../images/icon.png"  style="max-width:52px; margin-left: 20px" alt="Amanzi">
+            </div>
+            <ul class="nav navbar-nav nav-flex-icons ml-auto datepicker_sec">
+                <li class="nav-item">
+					        <input class="form-control date" type="text" placeholder="Select date">
+                </li>
+                <li class="nav-item">
+					        <button class="btn btn-success get_info_btn" style="cursor:pointer;">SHOW</button>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.Navbar -->
+    </header>
+	<div class="row">
+
+		<div class="col-12" style="height: 100vh;">
 			<div id="map-canvas" style="width:100%; height:100vh;position:fixed!important;"></div>
 			<div class="hr vpad"></div>
 			<div>
 		</div>
+
     <table>
         <tr style="display:none;">
             <td colspan="2"><b>Configuration</b></td>
@@ -1847,75 +1863,15 @@ modalPull += '</div>';
   ?>
   <!-- END FOOTER --> 
 </body>
-<style>
-  .gm-style-pbc {z-index: -2!important;}
-  .tertiary-text{position: fixed;}
-  #ga-buttons{position: absolute;top: 100px;}
-  .blank_high{display:none!important;}
-  .datepicker_sec input
-  {    
-      font-size: 25px!important;
-      font-weight: bold!important;
-      text-align: center!important;
-      line-height: 1px;
-  }
-  .datepicker.dropdown-menu{width:300px;}
-  .datepicker.dropdown-menu .table-condensed{width: 100%;}
-  button:focus {outline: none!important;}
-  input[type=radio], input[type=checkbox] {width: 20px;}
-  .shadow {
-    position: absolute;
-  }
-  .shadow::after {
-    position: absolute;
-    left: -125px;
-    display: block;
-    width: 50px;
-    height: 50px;
-    margin-top: -25px;
-    content: '';
-    transform: rotateX(55deg);
-    border-radius: 50%;
-    box-shadow: rgba(0, 0, 0, .5) 100px 0 20px;
-  }
-  .pulse {
-    position: absolute;
-    margin-top: -50px;
-    margin-left: -50px;
-    transform: rotateX(55deg);
-  }
-  .pulse::after {
-    display: block;
-    width: 100px;
-    height: 100px;
-    content: '';
-    animation: pulsate 1s ease-out;
-    animation-delay: 1.6s;
-    animation-iteration-count: infinite;
-    opacity: 0;
-    border-radius: 50%;
-    box-shadow: 0 0 1px 2px rgba(0, 0, 0, .5);
-    box-shadow: 0 0 6px 3px rgba(99, 99, 252, 0.68);
-  }
-  @keyframes pulsate {
-    0% {
-      transform: scale(0.1, 0.1);
-      opacity: 0;
-    }
-    50% {
-      opacity: 1;
-    }
-    100% {
-      transform: scale(1.2, 1.2);
-      opacity: 0;
-    }
-  }
-  .team_section ul li{
-    font-size: 14px;
-    font-weight: bold;
-  }
-  html, body{
-    overflow-y:hidden!important;
-  }
-</style>
+<script>
+	$( document ).ready(function() {
+	// SideNav Button Initialization
+	$(".button-collapse").sideNav();
+	// SideNav Scrollbar Initialization
+	var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+	Ps.initialize(sideNavScrollbar);
+});
+
+</script>
+
 </html>

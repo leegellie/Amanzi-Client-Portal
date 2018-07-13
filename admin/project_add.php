@@ -243,7 +243,7 @@
 										<div class="container">
 											<div class="row">
 												<label class="col-5" for="template-date">Template Date:</label>
-												<input class="col-md-7 form-control datepicker" type="text" id="template_date" name="template_date">
+												<input class="col-md-7 form-control datepicker" type="text" id="template_date" name="template_date" autocomplete="off">
 												<!--<input class="col-7 form-control" id="template_date" name="template_date" type="date">-->
 											</div>
 										</div>
@@ -274,7 +274,7 @@
 										<div class="container">
 											<div class="row">
 												<label class="col-5" for="install-date">Install Date:</label>
-												<input class="col-md-7 form-control datepicker1" type="text" id="install_date" name="install_date" readonly="readonly">
+												<input class="col-md-7 form-control datepicker1" type="text" id="install_date" name="install_date" readonly="readonly" autocomplete="off">
 												<!--<input class="col-7 form-control" id="install_date" name="install_date" type="date">-->
 											</div>
 										</div>
@@ -301,6 +301,7 @@
 										</div>
 									</div>
 	
+									
 									<div class="container pt-3 mb-3 border border-light border-right-0 border-left-0 blue lighten-5">
 										<div class="row">
 											<fieldset class="form-group col-md-6">

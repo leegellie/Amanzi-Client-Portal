@@ -55,7 +55,7 @@
 									<td class="text-right"><?= $results['fname'] ?></td>
 									<td></td>
 									<td class="text-right">
-										<a class="btn btn-sm btn-primary" target="_blank" href="/admin/projects.php?edit&pid=<?= $results['id'] ?>&uid=<?= $results['uid'] ?>">
+										<a class="btn btn-sm btn-primary" target="_blank" href="https://amanziportal.com/admin/projects.php?edit&pid=<?= $results['id'] ?>&uid=<?= $results['uid'] ?>">
 											<i class="fas fa-eye"></i>
 										</a>
 									</td>

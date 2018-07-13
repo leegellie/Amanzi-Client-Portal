@@ -318,6 +318,24 @@ function assignMat(thisForm) {
         }
     });
 }
+function matReset(iid, pid, name) {
+	if (confirm("Are you sure you want to reset the status of this material?")) {
+		var datastring = 'action=material_reset&iid=' + iid + '&pid=' + pid + '$name=' + name;
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				console.log(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	} else {
+		return;
+	}
+}
 
 $(document).ready(function() {
 
