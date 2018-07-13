@@ -103,9 +103,6 @@ function viewThisProject($a,$b) {
 		},
 		error: function(data) {
 			console.log(data);
-			
-			
-			
 		}
 	});
 	$('#materials-block').hide();

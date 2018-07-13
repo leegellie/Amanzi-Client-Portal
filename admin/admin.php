@@ -9,6 +9,74 @@ require_once (__DIR__ . '/../include/class/project.class.php');
 require_once ('head_php.php');
 
 /*
+GET THE INSTALLED JOBS BETWEEN TOADY AND 30 DAYS LATER.
+*/
+$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+
+$startDate = date("Y-m-d");
+$instStartDate = date("Y-m-d");
+
+//	$instStartDate = date('Y-m-d', strtotime($startDate. ' + 7 days'));
+
+$limitDate = date('Y-m-d', strtotime($startDate. ' + 60 days'));
+
+//Get the template date
+$q = $conn->prepare("SELECT * FROM projects 
+					WHERE template_date >= :startDate and template_date <= :limitDate
+					ORDER BY template_date");
+$q->bindParam('startDate', $startDate);
+$q->bindParam('limitDate', $limitDate);
+$q->execute();
+$jobs = $q->fetchAll(PDO::FETCH_ASSOC);
+$tmp = array();
+
+foreach($jobs as $job){
+	$tmp[$job['template_date']][] = $job;
+}
+$output = array();
+
+foreach($tmp as $type => $labels){
+	$output[] = array(
+		'template_date' => $type,
+		'detail' => $labels
+	);
+}
+
+
+//Get the projects by install date
+
+$q = $conn->prepare("SELECT * FROM projects 
+					WHERE install_date >= :startDate and install_date <= :limitDate
+					ORDER BY install_date");
+$q->bindParam('startDate', $instStartDate);
+$q->bindParam('limitDate', $limitDate);
+$q->execute();
+$jobs = $q->fetchAll(PDO::FETCH_ASSOC);
+$tmp = array();
+foreach($jobs as $job){
+	$tmp[$job['install_date']][] = $job;
+}
+$outputforinstall = array();
+
+foreach($tmp as $type => $labels){
+	$outputforinstall[] = array(
+		'install_date' => $type,
+		'detail' => $labels
+	);
+}
+
+$q = $conn->prepare("SELECT * FROM holidays");
+$q->execute();
+$holidays = $q->fetchAll(PDO::FETCH_ASSOC);
+
+$id = 1;
+$q = $conn->prepare("SELECT * FROM prod_limits where id = :id");
+$q->bindParam('id',$id);
+$q->execute();
+$limitinfo = $q->fetchAll(PDO::FETCH_ASSOC); // get the currently sqft and projects limit
+/*
 HERE ARE THE CODE SNIPPETS TO DISPLAY USER INFO.
 WHAT TO DISPLAY = CODE TO INSERT THE VALUE
 USERNAME = <?= $username ?>
@@ -103,8 +171,7 @@ if(isset($_GET['marble'])){
 	include ('modal_hold_notice.php');
 	include ('modal_release_hold.php');
 	include ('modal_job_lookup.php');
-include ('footer.php'); ?>
-<? 
+	include ('footer.php'); 
 // echo $access_level 
 ?>
 

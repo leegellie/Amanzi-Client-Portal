@@ -109,7 +109,7 @@ USER'S EMAIL = <?= $user_email ?>
 		<?PHP 
 		if(isset($_GET['add'])){
 			require_once ('js/project_add.js');
-		}else{
+		} else {
 			require_once ('js/project_edit.js');
 		}
 		?>

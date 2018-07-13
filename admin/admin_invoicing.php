@@ -32,16 +32,15 @@
 						<div class="tab-pane fade" id="panel_paid" role="tabpanel">
 						</div>
            			</div>
-					<div id="pjt-block" class="content">
-						<div class="col-12" id="pjtResults"></div>
-					</div>
-					<div id="inst-list" class="content">
-						<div class="col-12" id="pjtDetails"></div>
-					</div>
-					<div id="inst-block" class="content">
-						<div class="col-12" id="instDetails"></div>
-					</div>
-
+				</div>
+				<div id="pjt-block" class="content">
+					<div class="col-12" id="pjtResults"></div>
+				</div>
+				<div id="inst-list" class="content">
+					<div class="col-12" id="pjtDetails"></div>
+				</div>
+				<div id="inst-block" class="content">
+					<div class="col-12" id="instDetails"></div>
 				</div>
 			</div>
 		</div>

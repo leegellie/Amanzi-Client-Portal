@@ -1782,13 +1782,13 @@ if ($action=="invoice_list") {
 		} else {
 			$price = $results['job_price'];
 		}
-		$invBtn = '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',91)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoiced"><i class="fas fa-file-export"></i></div>';
-		$uncolBtn = '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',98)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Uncollectable"><i class="fas fa-file-excel"></i></div>';
-		$legalBtn = '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',97)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Sent to Legal/collections"><i class="fas fa-balance-scale-right"></i></div>';
-		$dispBtn = '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',94)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice disputed"><i class="fas fa-question-circle"></i></div>';
-		$ppaidBtn = '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',93)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice partially paid"><i class="fas fa-star-half-alt"></i></div>';
-		$paidBtn = '<div class="btn btn-sm btn-primary float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',92)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice paid in full"><i class="fas fa-dollar-sign"></i></div>';
-		$holdBtn = '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',99)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice on Hold"><i class="fas fa-times-octagon"></i></div>';
+		$invBtn = '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',91)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoiced"><i class="fas fa-file-export"></i></div>';
+		$uncolBtn = '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',98)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Uncollectable"><i class="fas fa-file-excel"></i></div>';
+		$legalBtn = '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',97)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Sent to Legal/collections"><i class="fas fa-balance-scale-right"></i></div>';
+		$dispBtn = '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',94)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice disputed"><i class="fas fa-question-circle"></i></div>';
+		$ppaidBtn = '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',93)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice partially paid"><i class="fas fa-star-half-alt"></i></div>';
+		$paidBtn = '<div class="btn btn-sm btn-primary float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',92)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice paid in full"><i class="fas fa-dollar-sign"></i></div>';
+		$holdBtn = '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',99)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice on Hold"><i class="fas fa-times-octagon"></i></div>';
 
 		$price_print = number_format($price, 2, '.', ','); 
 		$pjtString = '<hr><div class="w-100 btn btn-sm ';
@@ -1853,10 +1853,7 @@ if ($action=="invoice_list") {
 			$pjtString .= $invBtn . $paidBtn . $ppaidBtn . $dispBtn . $legalBtn . $uncolBtn;
 		}
 
-		$pjtString .= '		<div class="btn btn-sm btn-primary" style="cursor: pointer" data-toggle="tooltip" data-placement="top" title="View Job" onClick="window.open(';
-		$pjtString .= "'/admin/projects.php?edit&pid=" . $results['id'] . '&uid=' . $results['uid'];
-		$pjtString .= "')";
-		$pjtString .= '"><i class="far fa-eye"></i></div>';
+		$pjtString .= '		<div class="btn btn-sm btn-primary" style="cursor: pointer" data-toggle="tooltip" data-placement="top" title="View Job" onClick="viewThisProject(' . $results['id'] . ',' . $results['uid'] . ')"><i class="far fa-eye"></i></div>';
 
 		$pjtString .= '	</div></div></div>';
 
