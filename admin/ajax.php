@@ -3915,7 +3915,7 @@ if ($action=="timelines_list") {
 	echo 	'		<div class="col-12 col-md-3"><h3>Install Complete/Incomplete</h3>';
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
-		if ((time()-(60*60*24*2)) < strtotime($t['install_date']) && $stat == 84 || $stat == 85) {
+		if (strtotime($t['install_date']) > (time()-(60*60*24*2)) && $stat == 84 || $stat == 85) {
 			$status = instStatus($stat);
 			production_button($t,$status);
 		}
