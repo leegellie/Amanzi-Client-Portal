@@ -3912,10 +3912,10 @@ if ($action=="timelines_list") {
 		}
 	}
 	echo 	'		</div>';
-	echo 	'		<div class="col-12 col-md-3"><h3>Install Complete/Incomplete</h3>';
+	echo 	'		<div class="col-12 col-md-3"><h3>Install Incomplete</h3>';
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
-		if ($stat == 84 || $stat == 85) {
+		if ($stat == 84) {
 			$status = instStatus($stat);
 			production_button($t,$status);
 		}
