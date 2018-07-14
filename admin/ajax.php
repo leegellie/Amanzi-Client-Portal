@@ -3921,10 +3921,8 @@ if ($action=="timelines_list") {
 		}
 	}
 	echo 	'		</div>';
-
 	echo 	'	</div>';
 	echo 	'	</div>';
-
 	echo '	</div>';
 	echo '</div>';
 
