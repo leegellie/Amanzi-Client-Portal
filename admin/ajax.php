@@ -2454,7 +2454,7 @@ if ($action=="installs_list") {
 
 	$get_entries = new project_action;
 	foreach($get_entries->get_installs($a) as $results) {
-		if ($results['install_date'] == $today){
+		if ($results['install_date'] == $today) {
 			echo install_item($results);
 		}
 	}
