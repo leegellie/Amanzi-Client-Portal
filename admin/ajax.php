@@ -2344,18 +2344,17 @@ if ($action=="installs_list") {
 	} else {
 		$a = 0;
 	}
-
+	
 	function getWeekday($date) {
-    	$dayOfWeek = date('w', strtotime($date));
+		$dayOfWeek = date('w', strtotime($date));
 		$days = array('Sunday', 'Monday', 'Tuesday', 'Wednesday','Thursday','Friday', 'Saturday');
 		echo $days[$dayOfWeek];
 	}
 	$results = "";
 	unset($_POST['action']);
-
+	
 	$today = date('Y-m-d');
-
-
+	
 	function install_item($results) {
 		$install_item = '
 				<div class="row">
@@ -2439,68 +2438,58 @@ if ($action=="installs_list") {
 	$get_entries = new project_action;
 	$items = $get_entries->incomplete_installs($a);
 
-	if(is_array($items) && !empty($items)) {
+	if (is_array($items) && !empty($items)) {
 		foreach($items as $results) {
-				echo install_item($results);
+			echo install_item($results);
 		}
 	} else {
 ?>
-			<div class="col-12">No outstanding jobs.</div>
-			<hr>
-<?
+		<div class="col-12">No outstanding jobs.</div>
 	}
-
-	if (date('w', strtotime($today)) != 0 && date('w', strtotime($today)) != 6 ) {
-?>
+		<hr>
 		<div class="row">
 			<h3><?= $today ?> : <? getWeekday($today) ?></h3>
 		</div>
 	<?
 
-		$get_entries = new project_action;
-		foreach($get_entries->get_installs($a) as $results) {
-			if ($results['install_date'] == $today){
-				echo install_item($results);
-			}
+	$get_entries = new project_action;
+	foreach($get_entries->get_installs($a) as $results) {
+		if ($results['install_date'] == $today){
+			echo install_item($results);
+		}
 		}
 	}
 
 	$datetime = new DateTime('tomorrow');
 	$tomorrow = $datetime->format('Y-m-d');
 
-	if (date('w', strtotime($tomorrow)) != 0 && date('w', strtotime($tomorrow)) != 6 ) {
 
 	?>
 		<div class="row">
 			<h3><?= $tomorrow ?> : <? getWeekday($tomorrow) ?></h3>
 		</div>
 	<?
-		$get_entries = new project_action;
-		foreach($get_entries->get_installs($a) as $results) {
-			if ($results['install_date'] == $tomorrow){
-				echo install_item($results);
-			}
+	$get_entries = new project_action;
+	foreach($get_entries->get_installs($a) as $results) {
+		if ($results['install_date'] == $tomorrow){
+			echo install_item($results);
 		}
 	}
-
 	$plus2 = date('Y-m-d', strtotime("+2 days"));
-	if (date('w', strtotime($plus2)) != 0 && date('w', strtotime($plus2)) != 6 ) {
 
 	?>
 		<div class="row">
 			<h3><?= $plus2 ?> : <? getWeekday($plus2) ?></h3>
 		</div>
 	<?		
-		$get_entries = new project_action;
-		foreach($get_entries->get_installs($a) as $results) {
-			if ($results['install_date'] == $plus2){
-				echo install_item($results);
-			}
+	$get_entries = new project_action;
+	foreach($get_entries->get_installs($a) as $results) {
+		if ($results['install_date'] == $plus2){
+			echo install_item($results);
 		}
 	}
 
 	$plus3 = date('Y-m-d', strtotime("+3 days"));
-	if (date('w', strtotime($plus3)) != 0 && date('w', strtotime($plus3)) != 6 ) {
 
 	?>
 		<div class="row">
@@ -2513,10 +2502,8 @@ if ($action=="installs_list") {
 				echo install_item($results);
 			}
 		}
-	}
 
 	$plus4 = date('Y-m-d', strtotime("+4 days"));
-	if (date('w', strtotime($plus4)) != 0 && date('w', strtotime($plus4)) != 6 ) {
 
 	?>
 		<div class="row">
@@ -2529,10 +2516,8 @@ if ($action=="installs_list") {
 				echo install_item($results);
 			}
 		}
-	}
 
 	$plus5 = date('Y-m-d', strtotime("+5 days"));
-	if (date('w', strtotime($plus5)) != 0 && date('w', strtotime($plus5)) != 6 ) {
 
 	?>
 		<div class="row">
@@ -2545,10 +2530,8 @@ if ($action=="installs_list") {
 				echo install_item($results);
 			}
 		}
-	}
 
 	$plus6 = date('Y-m-d', strtotime("+6 days"));
-	if (date('w', strtotime($plus6)) != 0 && date('w', strtotime($plus6)) != 6 ) {
 
 	?>
 		<div class="row">
@@ -2561,10 +2544,8 @@ if ($action=="installs_list") {
 				echo install_item($results);
 			}
 		}
-	}
 
 	$plus7 = date('Y-m-d', strtotime("+7 days"));
-	if (date('w', strtotime($plus7)) != 0 && date('w', strtotime($plus7)) != 6 ) {
 
 	?>
 		<div class="row">
@@ -2577,7 +2558,6 @@ if ($action=="installs_list") {
 				echo install_item($results);
 			}
 		}
-	}
 }
 
 
