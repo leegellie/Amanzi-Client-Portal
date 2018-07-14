@@ -194,7 +194,6 @@ var instEndChart = new Chart(instEndGraph, {
         datasets: [
 			{
 				label: 'Daily Jobs',
-				yAxisID: 'A',
 				data: $lateEndTot,
 				backgroundColor: 'rgba(54, 162, 235, 0.2)',
 				borderColor: 'rgba(54, 162, 235, 1)',
@@ -202,7 +201,6 @@ var instEndChart = new Chart(instEndGraph, {
 			},
 			{
 				label: 'Late Finish',
-				yAxisID: 'B',
 				data: $lateEndLate,
 				backgroundColor: 'rgba(235, 162, 54, 0.2)',
 				borderColor: 'rgba(235, 162, 54, 1)',
@@ -213,22 +211,19 @@ var instEndChart = new Chart(instEndGraph, {
     options: {
     	scales: {
     		yAxes: [{
-    			id: 'A',
     			type: 'linear',
     			position: 'left',
                 ticks: {
                     beginAtZero:true
-                }
-    		}, {
-    			id: 'B',
-    			type: 'linear',
-    			position: 'right',
-    			ticks: {
-                    beginAtZero:true
-    			}
-    		}]
-    	}
-    }
+				}
+			}]
+		},
+		elements: {
+			line: {
+				tension: 0
+			}
+		}
+	}
 });
 
 

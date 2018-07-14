@@ -1743,7 +1743,7 @@ if ($action=="approval_list") {
 				</div>
 				<div class="col-md-2 h5">Prof: <?= $results['profit']; ?></div>
 				<div class="col-md-4 h5">
-					<div class="btn btn-sm btn-primary" style="cursor: pointer" onClick="window.open('/admin/projects.php?edit&pid=<?= $results['id']; ?>&uid=<?= $results['uid']; ?>')"><i class="far fa-eye"></i> View</div>
+					<div class="btn btn-sm btn-primary" style="cursor: pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="far fa-eye"></i> View</div>
 					<div class="btn btn-sm btn-success" style="cursor: pointer" onClick="mngrApproveLoss(<?= $results['id']; ?>,1,<?= $price_tax ?>,<?= $_SESSION['id']; ?>)"><i class="fas fa-check"></i> Approve</div>
 				</div>
 			</div>
@@ -1875,6 +1875,7 @@ if ($action=="hold_list") {
 	$results = "";
 	unset($_POST['action']);
 	$get_holds = new project_action;
+	echo '<div class="row"><div class="col-6">';
 	echo '<h2>Job Hold List</h2>';
 	foreach($get_holds->get_hold() as $results) {
 		$useDate;
@@ -1895,10 +1896,10 @@ if ($action=="hold_list") {
 		}
 		?>
 		<hr>
-		<div class="w-100 btn btn-danger">
+		<div class="w-100 btn btn-sm btn-danger">
 			<div class="row">
-				<div class="col-md-2 h5"><?= $date ?></div>
-				<div class="col-md-8 h5 text-left">
+				<div class="col-md-2 h6"><?= $date ?></div>
+				<div class="col-md-7 h6 text-left">
 					<?
 					if ($results['order_num'] == '') {
 						?>
@@ -1911,14 +1912,15 @@ if ($action=="hold_list") {
 					}
 					?>
 				<?= $results['job_name']; ?></div>
-				<div class="col-md-2 h5">
+				<div class="col-md-3 h6">
 					<div class="btn btn-sm btn-primary" style="cursor: pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="far fa-eye"></i> View</div>
 				</div>
 			</div>
 		</div>
 		<?
 	}
-	echo '<hr><h2>Materials Hold List</h2>';
+	echo '</div><div class="col-6">';
+	echo '<h2>Materials Hold List</h2>';
 	foreach($get_holds->get_mat_hold() as $results) {
 		$useDate;
 		$dateOK = 0;
@@ -1938,10 +1940,10 @@ if ($action=="hold_list") {
 		}
 		?>
 		<hr>
-		<div class="w-100 btn btn-danger">
+		<div class="w-100 btn btn-sm btn-danger">
 			<div class="row">
-				<div class="col-md-2 h5"><?= $date ?></div>
-				<div class="col-md-8 h5 text-left">
+				<div class="col-md-2 h6"><?= $date ?></div>
+				<div class="col-md-7 h6 text-left">
 					<?
 					if ($results['order_num'] == '') {
 						?>
@@ -1954,14 +1956,14 @@ if ($action=="hold_list") {
 					}
 					?>
 				<?= $results['job_name']; ?></div>
-				<div class="col-md-2 h5">
+				<div class="col-md-3 h6">
 					<div class="btn btn-sm btn-primary" style="cursor: pointer" onClick="window.open('/admin/projects.php?edit&pid=<?= $results['id']; ?>&uid=<?= $results['uid']; ?>')"><i class="far fa-eye"></i> View</div>
 				</div>
 			</div>
 		</div>
 		<?
 	}
-
+	echo '</div></div>';
 }
 if ($action=="programming_list") {
 	$results = "";

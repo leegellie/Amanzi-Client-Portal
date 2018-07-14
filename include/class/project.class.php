@@ -1691,7 +1691,8 @@ class project_action {
 			 WHERE install_date < '2200-01-01' 
 			   AND job_status > 31
 			   AND job_status < 60
-			   AND NOT job_status = 49
+			   AND job_status <> 49
+			   AND job_status <> 39
 			   AND projects.isActive = 1
 			 ORDER BY 
 				   install_date ASC, 
