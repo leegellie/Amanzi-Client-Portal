@@ -1968,10 +1968,13 @@ class project_action {
 				FROM projects 
 				JOIN status 
 				  ON status.id = projects.job_status 
-			   WHERE projects.job_status < 85
-				 AND projects.job_status > 24
-				 AND projects.install_date < CURDATE()
-				 AND projects.isActive = 1
+			   WHERE 
+					(projects.job_status < 85
+					AND projects.job_status > 24
+					AND projects.install_date < CURDATE()
+					AND projects.isActive = 1)
+				 OR 
+					(projects.job_status = 84)
 				 ";
 			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
 				$sql .= "AND acct_rep = " . $a;
