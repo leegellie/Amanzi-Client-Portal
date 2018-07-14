@@ -2445,10 +2445,12 @@ if ($action=="installs_list") {
 	} else {
 ?>
 		<div class="col-12">No outstanding jobs.</div>
+<?
 	}
+?>
 		<hr>
 		<div class="row">
-			<h3><?= $today ?> : <? getWeekday($today) ?></h3>
+			<h3><?= $today ?> : <?= getWeekday($today) ?></h3>
 		</div>
 	<?
 
@@ -2465,7 +2467,7 @@ if ($action=="installs_list") {
 
 	?>
 		<div class="row">
-			<h3><?= $tomorrow ?> : <? getWeekday($tomorrow) ?></h3>
+			<h3><?= $tomorrow ?> : <?= getWeekday($tomorrow) ?></h3>
 		</div>
 	<?
 	$get_entries = new project_action;
