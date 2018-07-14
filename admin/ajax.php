@@ -3495,7 +3495,7 @@ if ($action=="timelines_list") {
 		}
 	}
 	echo 	'		</div>';
-	echo 	'		<div class="col-12 col-md-3"><h3>Incomplete</h3>';
+	echo 	'		<div class="col-12 col-md-3"><h3>Incomplete / Overdue</h3>';
 	foreach($incomplete_pro as $t) {
 		$stat = $t['job_status'];
 		$status = instStatus($stat);
