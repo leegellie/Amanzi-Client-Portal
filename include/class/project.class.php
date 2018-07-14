@@ -1931,6 +1931,7 @@ class project_action {
 				JOIN status 
 				  ON status.id = projects.job_status 
 			   WHERE projects.install_date < '2200-01-01' 
+				 AND projects.install_date >= CURDATE()
 				 AND projects.isActive = 1
 				 ";
 			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
