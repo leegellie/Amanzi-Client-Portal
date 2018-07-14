@@ -3169,31 +3169,6 @@ if ($action=="timelines_list") {
 
 
 
-//	foreach($sale_list as $sale) {
-//				foreach($sale['details'] as $t) {
-//					$stat = $t['job_status'];
-//// ADD function
-//					echo temlpate_button($t,$stat);
-//
-//	echo		'		<div class="row">';
-//					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-//	echo		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
-//					if (htmlentities($t['job_notes']) != '') {
-//	echo 		'	Notes: ' . htmlentities($t['job_notes']);
-//					}
-//	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$sale['button'].'" style="width:100%; cursor:pointer">';
-//					if ($t['order_num'] > 0) {
-//						echo 'O-'.$t['order_num'].' - ';
-//					} elseif ($t['quote_num'] > 0) {
-//						echo 'q-'.$t['quote_num'].' - ';
-//					}
-//					if ($t['job_sqft'] > 0) {
-//						echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
-//					}
-//	echo 				$t['job_name'].'</button>';
-//	echo       	'		</div>';
-//				}
-//			}
 	echo 		'	</div>';
 
 
@@ -3228,32 +3203,6 @@ if ($action=="timelines_list") {
 		}
 	}
 
-//	foreach($fabrication_list as $fabrication) {
-//	//               if(isset($fabrication_list[$i])){
-//				foreach($fabrication['details'] as $t) {
-//					if ($t['stage'] == 3) {
-//
-//	echo		'		<div class="row">';
-//					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-//	echo    	'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
-//					if (htmlentities($t['job_notes']) != '') {
-//	echo 		'	Notes: ' . htmlentities($t['job_notes']);
-//					}
-//	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%; cursor:pointer">';
-//						if ($t['order_num'] > 0) {
-//							echo 'O-'.$t['order_num'].' - ';
-//						} elseif ($t['quote_num'] > 0) {
-//							echo 'q-'.$t['quote_num'].' - ';
-//						}
-//						if ($t['job_sqft'] > 0) {
-//							echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
-//						}
-//	echo 					$t['job_name'].'</button>';
-//	echo		'		</div>';
-//					}
-//				}
-//			}
-
 
 	echo		'		<div class="row">';
 	echo		'			<h4>Materials</h4>';
@@ -3270,31 +3219,6 @@ if ($action=="timelines_list") {
 
 
 
-//			foreach($fabrication_list as $fabrication) {
-//	//               if(isset($fabrication_list[$i])){
-//				foreach($fabrication['details'] as $t) {
-//					if ($t['stage'] == 4) {
-//	echo		'		<div class="row">';
-//					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-//	echo 		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
-//					if (htmlentities($t['job_notes']) != '') {
-//	echo 		'	Notes: ' . htmlentities($t['job_notes']);
-//					}
-//	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%; cursor:pointer">';
-//						if ($t['order_num'] > 0) {
-//							echo 'O-'.$t['order_num'].' - ';
-//						} elseif ($t['quote_num'] > 0) {
-//							echo 'q-'.$t['quote_num'].' - ';
-//						}
-//						if ($t['job_sqft'] > 0) {
-//							echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
-//						}
-//	echo 					$t['job_name'].'</button>';
-//	echo		'		</div>';
-//					}
-//				}
-//			}
-
 
 	echo		'		<div class="row">';
 	echo		'			<h4>Saw</h4>';
@@ -3310,34 +3234,6 @@ if ($action=="timelines_list") {
 	}
 
 
-//	foreach($fabrication_list as $fabrication) {
-//	//               if(isset($fabrication_list[$i])){
-//				foreach($fabrication['details'] as $t) {
-//					if ($t['stage'] == 5) {
-//
-//echo		'		<div class="row">';
-//					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-//	echo 		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
-//					if (htmlentities($t['job_notes']) != '') {
-//	echo 		'	Notes: ' . htmlentities($t['job_notes']);
-//					}
-//	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%; cursor:pointer">';
-//						if ($t['order_num'] > 0) {
-//							echo 'O-'.$t['order_num'].' - ';
-//						} elseif ($t['quote_num'] > 0) {
-//							echo 'q-'.$t['quote_num'].' - ';
-//						}
-//						if ($t['job_sqft'] > 0) {
-//							echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
-//						}
-//	echo 					$t['job_name'].'</button>';
-//	echo		'		</div>';
-//
-//					}
-//				}
-//			}
-
-
 	echo		'		<div class="row">';
 	echo		'			<h4>CNC</h4>';
 	echo		'		</div>';
@@ -3348,31 +3244,6 @@ if ($action=="timelines_list") {
 			production_button($t,$status);
 		}
 	}
-
-//			foreach($fabrication_list as $fabrication) {
-//	//               if(isset($fabrication_list[$i])){
-//				foreach($fabrication['details'] as $t) {
-//					if ($t['stage'] == 6) {
-//	echo		'		<div class="row">';
-//					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-//	echo 		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
-//					if (htmlentities($t['job_notes']) != '') {
-//	echo 		'	Notes: ' . htmlentities($t['job_notes']);
-//					}
-//	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%; cursor:pointer">';
-//						if ($t['order_num'] > 0) {
-//							echo 'O-'.$t['order_num'].' - ';
-//						} elseif ($t['quote_num'] > 0) {
-//							echo 'q-'.$t['quote_num'].' - ';
-//						}
-//						if ($t['job_sqft'] > 0) {
-//							echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
-//						}
-//	echo 					$t['job_name'].'</button>';
-//	echo		'		</div>';
-//					}
-//				}
-//			}
 
 
 	echo		'		<div class="row">';
@@ -3387,30 +3258,6 @@ if ($action=="timelines_list") {
 		}
 	}
 
-//	foreach($fabrication_list as $fabrication) {
-//	//               if(isset($fabrication_list[$i])){
-//				foreach($fabrication['details'] as $t) {
-//					if ($t['stage'] == 7) {
-//	echo		'		<div class="row">';
-//					$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-//	echo 		'			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.htmlentities($t['job_name'])."</b><br>".$t['status_name'].'" data-content="';
-//					if (htmlentities($t['job_notes']) != '') {
-//	echo 		'	Notes: ' . htmlentities($t['job_notes']);
-//					}
-//	echo 		' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '.$fabrication['button'].'" style="width:100%; cursor:pointer">';
-//						if ($t['order_num'] > 0) {
-//							echo 'O-'.$t['order_num'].' - ';
-//						} elseif ($t['quote_num'] > 0) {
-//							echo 'q-'.$t['quote_num'].' - ';
-//						}
-//						if ($t['job_sqft'] > 0) {
-//							echo ''.$t['job_sqft'].'<sup>sf</sup> - ';
-//						}
-//	echo 					$t['job_name'].'</button>';
-//	echo		'		</div>';
-//					}
-//				}
-//			} 
 
 	echo		'	</div>';
 
@@ -3642,15 +3489,6 @@ if ($action=="timelines_list") {
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if ($stat > 80 && $stat != 84 && $stat != 85) {
-			$status = instStatus($stat);
-			production_button($t,$status);
-		}
-	}
-	echo 	'		</div>';
-	echo 	'		<div class="col-12 col-md-3"><h3>Install Incomplete</h3>';
-	foreach($installs_pro as $t) {
-		$stat = $t['job_status'];
-		if ($stat == 84) {
 			$status = instStatus($stat);
 			production_button($t,$status);
 		}
