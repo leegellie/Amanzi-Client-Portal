@@ -3870,7 +3870,7 @@ if ($action=="timelines_list") {
 	echo 	'		<div class="col-12 col-md-3"><h3>Polishing</h3>';
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
-		if (($stat > 69 && $stat < 80) || $stat == 63 && $stat != 73) {
+		if ((($stat > 69 && $stat < 80) || $stat == 63) && $stat != 73) {
 			$status = polStatus($stat);
 			production_button($t,$status);
 		}
