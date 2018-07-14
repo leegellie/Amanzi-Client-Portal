@@ -3011,6 +3011,7 @@ if ($action=="timelines_list") {
 	$template_pro = $get_entries -> get_templates_timeline($_SESSION['id']);
 	$sales_pro = $get_entries -> get_sales_timeline($_SESSION['id']);
 	$installs_pro = $get_entries -> get_installs_timeline($_SESSION['id']);
+	$incomplete_pro = $get_entries -> get_incomplete_timeline($_SESSION['id']);
 
 	$temp_list = array();
 	$all_pjts = array();
@@ -3489,6 +3490,15 @@ if ($action=="timelines_list") {
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
 		if ($stat > 80 && $stat != 84 && $stat != 85) {
+			$status = instStatus($stat);
+			production_button($t,$status);
+		}
+	}
+	echo 	'		</div>';
+	echo 	'		<div class="col-12 col-md-3"><h3>Incomplete</h3>';
+	foreach($incomplete_pro as $t) {
+		$stat = $t['job_status'];
+		if ($stat == 84) {
 			$status = instStatus($stat);
 			production_button($t,$status);
 		}

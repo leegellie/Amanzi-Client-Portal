@@ -1887,7 +1887,6 @@ class project_action {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      
 			$sql = "
 			SELECT 	*, projects.id AS pid, status.name, status.stage, status.short_name, status.name AS status_name, status.id AS status
 				FROM projects 
@@ -1919,12 +1918,12 @@ class project_action {
 			$this->_message = "ERROR: " . $e->getMessage();
 			return $this->_message;
 		}  
-  }
+	}
+
 	public function get_installs_timeline($a) {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
 			$sql = "
 			SELECT 	*, projects.id AS pid, status.name, status.stage, status.short_name, status.name AS status_name, status.id AS status
 				FROM projects 
@@ -1948,6 +1947,33 @@ class project_action {
 					 projects.temp_pm ASC,
 					 projects.urgent DESC,
 					 projects.job_status";
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$rows = $q->fetchAll(PDO::FETCH_ASSOC);
+			return $rows;
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}  
+	}
+
+	public function get_incomplete_timeline($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = "
+			SELECT 	*, projects.id AS pid, status.name, status.stage, status.short_name, status.name AS status_name, status.id AS status
+				FROM projects 
+				JOIN status 
+				  ON status.id = projects.job_status 
+			   WHERE projects.job_status = 84
+				 AND projects.isActive = 1
+				 ";
+			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
+				$sql .= "AND acct_rep = " . $a;
+			}
+			$sql .= "
+			ORDER BY projects.install_date ASC";
 			$q = $conn->prepare($sql);
 			$q->execute();
 			$rows = $q->fetchAll(PDO::FETCH_ASSOC);
