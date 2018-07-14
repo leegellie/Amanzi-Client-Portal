@@ -3897,7 +3897,7 @@ if ($action=="timelines_list") {
 	echo 	'		<div class="col-12 col-md-3"><h3>Install Scheduled</h3>';
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
-		if ($stat == 80 || ($stat == 73 && $t['install_team'] > 0) {
+		if ($stat == 80 || ($stat == 73 && $t['install_team'] > 0)) {
 			$status = instStatus($stat);
 			production_button($t,$status);
 		}
