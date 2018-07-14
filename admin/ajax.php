@@ -2457,7 +2457,6 @@ if ($action=="installs_list") {
 		if ($results['install_date'] == $today){
 			echo install_item($results);
 		}
-		}
 	}
 
 	$datetime = new DateTime('tomorrow');
