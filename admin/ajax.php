@@ -3861,7 +3861,7 @@ if ($action=="timelines_list") {
 	echo 	'		<div class="col-12 col-md-3"><h3>CNC Machine</h3>';
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
-		if (($stat > 59 && $stat < 70) || $stat == 53 && $stat != 63) {
+		if ((($stat > 59 && $stat < 70) || $stat == 53) && $stat != 63) {
 			$status = cncStatus($stat);
 			production_button($t,$status);
 		}
