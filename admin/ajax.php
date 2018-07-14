@@ -6032,7 +6032,7 @@ if ($action=="view_selected_pjt") {
 
 
 
-		if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 13 || $_SESSION['id'] == 10 || $_SESSION['id'] == 985 || $_SESSION['id'] == 1448) {
+		if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 13 || $_SESSION['id'] == 10 || $_SESSION['id'] == 985 || $_SESSION['id'] == 1448 || $_SESSION['id'] == 1582) {
 			$html .= '<select id="changeStatus" onChange="statusChange('. $_SESSION['id'] . ',' . $results['id'] .',this.value)" class="mdb-select float-right d-print-none col-12 col-md-4 col-lg-2 d-print-none">';
 			$html .= $statList;
 			$html .= '</select>';

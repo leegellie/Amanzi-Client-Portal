@@ -384,7 +384,7 @@ USER'S EMAIL = <?= $user_email ?>
 				if(jday == 0 || jday == 6) flag = true;
         console.log("today: ", _cur_day, "currently month = ", _cur_mon);
 				//           if((access_level != 1 || access_level != 14 ) && st_d < _cur_day + 7 ) flag = true;
-				if(!(session_id == 1 || session_id == 14 || session_id == 985 || session_id == 1444 || session_id == 1448 ) && (st_m == _cur_mon && st_d < _cur_day + 7 )) flag = true;
+				if(!(session_id == 1 || session_id == 14 || session_id == 985 || session_id == 1444 || session_id == 1448 || session_id == 1582 ) && (st_m == _cur_mon && st_d < _cur_day + 7 )) flag = true;
 				$.each(resforinstall, function(key, value){
 					if(value['install_date'] == curdate){
 						var sum_sqft = 0;
@@ -436,7 +436,7 @@ USER'S EMAIL = <?= $user_email ?>
 						flag = true;
 					}
 				});
-				if(session_id == 1 || session_id == 14  || session_id == 985 || session_id == 1444 || session_id == 1448)  flag = false;
+				if(session_id == 1 || session_id == 14  || session_id == 985 || session_id == 1444 || session_id == 1448 || session_id == 1582)  flag = false;
 				return flag;
 			},
 			onDraw(){

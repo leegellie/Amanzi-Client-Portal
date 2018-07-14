@@ -741,7 +741,7 @@ modalPull += '					<form class="row" id="form' + value['id'] + '">';
 modalPull += '						<a class="btn btn-primary col-3" style="cursor:pointer" target="_blank" href="/admin/projects.php?edit&pid=' + value['id'] + '&uid=' + value['uid'] + '"><i class="fas fa-eye"></i></a>';
 
 								<?php 
-								if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448  || $_SESSION['id'] == 1582) {
+								if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 1448 || $_SESSION['id'] == 1582) {
 								?>
 modalPull += '						<select class="mdb-select form-control col-9" onchange="assign_select(' + value['id'] + ');">';
 								<?

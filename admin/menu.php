@@ -34,7 +34,7 @@ if ($access_level < 11) {
 					<a class="element" href="<?= $link ?>"><span class="icon-home"></span></a>
 				</li>
 <?
-	if ($access_level < 4 || $_SESSION['id'] == 1448) {
+	if ($access_level < 4 || $_SESSION['id'] == 1448 || $_SESSION['id'] == 1582) {
 		if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14 || $_SESSION['id'] == 1447 || $_SESSION['id'] == 1456) {
 ?>
 				<li class="nav-item py-3 px-4 dropdown">
