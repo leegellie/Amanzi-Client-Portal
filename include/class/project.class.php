@@ -1929,7 +1929,8 @@ class project_action {
 				FROM projects 
 				JOIN status 
 				  ON status.id = projects.job_status 
-			   WHERE projects.install_date < '2100-01-01' 
+			   WHERE projects.install_date < '2200-01-01' 
+				 AND projects.install_date >= CURDATE()
 				 AND projects.isActive = 1
 				 ";
 			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
@@ -1961,13 +1962,7 @@ class project_action {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$sql = "
-			SELECT 	*, 
-					 projects.id AS pid, 
-					 status.name, 
-					 status.stage, 
-					 status.short_name, 
-					 status.name AS status_name, 
-					 status.id AS status
+			SELECT 	*, projects.id AS pid, status.name, status.stage, status.short_name, status.name AS status_name, status.id AS status
 				FROM projects 
 				JOIN status 
 				  ON status.id = projects.job_status 
