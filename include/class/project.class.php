@@ -1969,7 +1969,7 @@ class project_action {
 				JOIN status 
 				  ON status.id = projects.job_status 
 			   WHERE 
-					(projects.job_status < 85
+					(projects.job_status < 84
 					AND projects.job_status > 24
 					AND projects.install_date < CURDATE()
 					AND projects.isActive = 1)
