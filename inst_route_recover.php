@@ -47,7 +47,6 @@ if( isset($_POST['teamID']) && isset($_POST['jobID']) && isset($_POST['cur_date'
 	JOIN status s 
 		ON s.id = projects.job_status 
 	WHERE projects.install_date = :install_date 
-	  AND projects.job_status > 24 
 	  AND projects.isActive = 1 
 	ORDER BY 
 		zip ASC,
@@ -79,7 +78,6 @@ if( isset($_POST['date']) ){
 	JOIN status s 
 		ON s.id = projects.job_status 
 	WHERE projects.install_date = :install_date
-	  AND projects.job_status > 24 
 	  AND projects.isActive = 1
 	ORDER BY 
 		zip ASC,
@@ -103,7 +101,6 @@ if( isset($_POST['date']) ){
 	  AND projects.install_date >= :dateNow 
 	  AND projects.install_date > :pastDate
 	  AND projects.install_date < :limitDate
-	  AND projects.job_status > 24 
 	  AND projects.isActive = 1
 	  ORDER BY zip ASC
 	");
@@ -240,76 +237,72 @@ include('includes.php');
     var job_coords = [];
 	  var installers = [];
     var pointHOME_initial = new google.maps.LatLng(36.1181642, -80.0626623,59);
-		// $('.mdb-select').material_select();
+//     $('.mdb-select').material_select();
     function markerCreator1(value,latitude,longitude){
-		// $('.mdb-select').material_select('destroy');
-		var html_str = "<div style = 'width:200px;min-height:40px'>";
-		html_str += "<div id='myForm'>";
-		html_str +=   "<p class='text-success'>Job: <b>" + value['job_name'] + ' - ' + value['job_sqft'] + "<sup>sf</sup></b></p>";
-		html_str +=   "<p class='text-success'>Client: <b>";
-		if (value['comp_name'] > '') {
-			html_str += value['comp_name'];
-		} else {
-			html_str += value['cFname'] + ' ' + value['cLname'];
-		}
-		html_str += "</b></p>";
-		html_str +=   "<p>Inst. Date: <b class='text-success'>" + value['install_date'] + "</b>";
-		if (value['first_stop'] == 1) {
-			html_str +=   "<b class='text-primary'> 1st Stop</b>";
-		}else if (value['am'] == 1) {
-			html_str +=   "<b class='text-primary'> AM</b>";
-		}else if (value['pm'] == 1) {
-			html_str +=   "<b class='text-primary'> PM</b>";
-		}
-		var instTeamID = value['install_team'];
-		html_str +=   "<br>Installer: <b>" + installers[instTeamID] + "</b><br>";
-		html_str +=   "Account rep: <b>" + value['fname'] + ' ' + value['lname'] + "</b></br>";
-		html_str +=   "Address: <b>" + value['address_1'] + ', ';
-		if (value['address_2'] != '' && value['address_2'] != null) {
-			html_str +=   value['address_2'] + ', ';
-		}
-		html_str +=   value['city'] + ", ";
-		html_str +=   value['state'] + " ";
-		html_str +=   value['zip'] + "</b></p>";
-		html_str +=   "<div class='container-fluid'>";
-		html_str +=   "<div class='row'>";
-		html_str +=     "<a class='btn btn-primary col-3' target='_blank' style='cursor:pointer' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
-		<?
-		if ($_SESSION['access_level'] == 1) {
-		?>
-			html_str +=     "<select class='form-control col-9 markersele border-0 select" + value['id'] + "' onchange='assign_btn("+value['id']+");'>";
-		<?
-			foreach ($rows as $row){ 
-		?>
-				var selectedTeam = <?php echo $row['inst_team_id']; ?>;
-				html_str +=       "<option id='contactChoice<?php echo $row['inst_team_id']; ?>' value='<?php echo $row['inst_team_id']; ?>' "
-				if (selectedTeam == value['install_team']) {
-					html_str += 'selected';
-				}
-				html_str +=       " ><?php echo $row['inst_team_name']; ?></option>";
-		<? 
-			} 
-		?>
-			html_str +=     "</select>";
-		<?
-		}
-		?>
-		html_str +=    "</div>";
-		if (longitude > 0) {
-			html_str +=    "<a class='btn btn-success col-12 mt-2' style='cursor:pointer' target='_blank' href='https://maps.google.com/maps?11=" + latitude + "," + longitude + "&q=" + latitude + "," + longitude + "&hl=en&t=h&z=18'>Go <i class='fas fa-truck'></i></a>";
-		}
-		html_str +=    "</div>";
-		html_str +=  "</div>";
-		html_str += "</div>";
-		return html_str;
-	}
-	<? 
-	foreach ($rows as $row) { 
-	?>
+//     $('.mdb-select').material_select('destroy');
+ 		var html_str = "<div style = 'width:200px;min-height:40px'>";
+ 			html_str += "<div id='myForm'>";
+ 			html_str +=   "<p class='text-success'>Job: <b>" + value['job_name'] + ' - ' + value['job_sqft'] + "<sup>sf</sup></b></p>";
+ 			html_str +=   "<p class='text-success'>Client: <b>";
+ 			if (value['comp_name'] > '') {
+ 				html_str += value['comp_name'];
+ 			} else {
+ 				html_str += value['cFname'] + ' ' + value['cLname'];
+ 			}
+ 			html_str += "</b></p>";
+ 			html_str +=   "<p>Inst. Date: <b class='text-success'>" + value['install_date'] + "</b>";
+ 			if (value['first_stop'] == 1) {
+ 				html_str +=   "<b class='text-primary'> 1st Stop</b>";
+ 			}else if (value['am'] == 1) {
+ 				html_str +=   "<b class='text-primary'> AM</b>";
+ 			}else if (value['pm'] == 1) {
+ 				html_str +=   "<b class='text-primary'> PM</b>";
+ 			}
+ 			var instTeamID = value['install_team'];
+ 			html_str +=   "<br>Installer: <b>" + installers[instTeamID] + "</b><br>";
+ 			html_str +=   "Account rep: <b>" + value['fname'] + ' ' + value['lname'] + "</b></br>";
+ 			html_str +=   "Address: <b>" + value['address_1'] + ', ';
+ 			if (value['address_2'] != '' && value['address_2'] != null) {
+ 				html_str +=   value['address_2'] + ', ';
+ 			}
+ 			html_str +=   value['city'] + ", ";
+ 			html_str +=   value['state'] + " ";
+			html_str +=   value['zip'] + "</b></p>";
+			html_str +=   "<div class='container-fluid'>";
+			html_str +=   "<div class='row'>";
+			html_str +=     "<a class='btn btn-primary col-3' target='_blank' style='cursor:pointer' href='/admin/projects.php?edit&pid=" + value['id'] + "&uid=" + value['uid'] + "'><i class='fas fa-eye'></i></a>";
+			<?
+			if ($_SESSION['access_level'] == 1) {
+			?>
+				html_str +=     "<select class='col-9 markersele border-0' onchange='assign_btn("+value['id']+");'>";
+				<?
+				foreach ($rows as $row){ 
+				?>
+					var selectedTeam = <?php echo $row['inst_team_id']; ?>;
+					html_str +=       "<option id='contactChoice<?php echo $row['inst_team_id']; ?>' value='<?php echo $row['inst_team_id']; ?>' "
+					if (selectedTeam == value['install_team']) {
+						html_str += 'selected'
+					};
+					html_str +=       " ><?php echo $row['inst_team_name']; ?></option>";
+				<? 
+				} 
+				?>
+				html_str +=     "</select>";
+			<?
+			}
+			?>
+			html_str +=    "</div>";
+			if (longitude > 0) {
+				html_str +=    "<a class='btn btn-success col-12 mt-2' style='cursor:pointer' target='_blank' href='https://maps.google.com/maps?11=" + latitude + "," + longitude + "&q=" + latitude + "," + longitude + "&hl=en&t=h&z=18'>Go <i class='fas fa-truck'></i></a>";
+			}
+			html_str +=    "</div>";
+			html_str +=  "</div>";
+			html_str += "</div>";
+			return html_str;
+    }
+<? foreach ($rows as $row){ ?>
 		installers[<?= $row['inst_team_id'] ?>] = '<?= $row['inst_team_name'] ?>';
-	<? 
-	} 
-	?>
+<? } ?>
 
 
     // Initialize google maps
@@ -320,7 +313,7 @@ include('includes.php');
     }
 
     CustomMarker.prototype.draw = function() {
-		var self = this;
+        var self = this;
         var div = this.div;
         if (!div) {
             div = this.div = $('' +
@@ -347,8 +340,8 @@ include('includes.php');
             div.style.top = point.y + 'px';
         }
     };
-
-
+    
+    
 	function initializeMap() {
 		$('.mdb-select').material_select('destroy');
 		// Map options
@@ -360,7 +353,7 @@ include('includes.php');
 			mapTypeControl: true
 		};
 		map = new google.maps.Map(document.getElementById('map-canvas'), opts);
-
+		
 		var pointHOME = new google.maps.LatLng(36.1181642, -80.0626623,59),
 		markerHOME = new google.maps.Marker({
 			position: pointHOME,
@@ -378,21 +371,15 @@ include('includes.php');
 			animation:google.maps.Animation.DROP,
 			map: map
 		}),  
-
+		
 		geocoder = new google.maps.Geocoder();
 		var markerHOME = new CustomMarker({
 			position: pointHOME,
 			map: map,
 		});
 		var infoWindow = new google.maps.InfoWindow();
-
-
-
-
-
+		
 		$('.get_info_btn').click(function(){
-			$('.modal').modal('hide');
-			$('.modal-backdrop').hide();
 			$('.mdb-select').material_select('destroy');
 			$('.rteBtn').removeClass('hidden');
 			// Map options
@@ -433,7 +420,7 @@ include('includes.php');
 			$('.loading').removeClass('hidden');
 			var cur_date = $('.datepicker_sec li .form-control').val();
 			var bounds = new google.maps.LatLngBounds();
-			$('.modalDelete').remove();
+			$('.modal').remove();
 			$.ajax({
 				type: 'post',
 				data: {date: cur_date},
@@ -457,10 +444,10 @@ include('includes.php');
 					var iconBase2 = '/images/icon-hold.png';
 					var iconBase3 = '/images/icon-future.png';
 	
-					var joblist_str = [];
+					var joblist_html = [];
 					for(var i=0;i<=1000;i++){
 						nodes_team[i] = [];
-						joblist_str[i] = '';
+						joblist_html[i] = '';
 						nodes_team[i].push(pointHOME);
 					}
 
@@ -479,6 +466,7 @@ include('includes.php');
 									text: value['install_date'] + ' 1st Stop',
 									bg: 'yellow'
 								}
+
 							} else if (value['am'] == 1) {
 								mText = {
 									icon: iconBase3,
@@ -591,20 +579,22 @@ include('includes.php');
 											animation:google.maps.Animation.DROP
 										});
 										(function (marker, value) {
-											// $('.mdb-select').material_select('destroy');
-											// $('.mdb-select').material_select();
+//                       $('.mdb-select').material_select('destroy');
+//                       $('.mdb-select').material_select();
 											google.maps.event.addListener(marker, "click", function (e) {
 												$('.mdb-select').material_select('destroy');
-												html_str = markerCreator1(value,latitude,longitude);
+											  html_str = markerCreator1(value,latitude,longitude);
 												infoWindow.setContent(html_str);
 												infoWindow.open(map, marker);
-												$('.markersele').addClass('mdb-select');
-												$('.mdb-select').material_select();
+                        $('.markersele').addClass('mdb-select');
+                        $('.mdb-select').material_select();
 											});
 										})(marker, value);
 										var point_item1 = new google.maps.LatLng(latitude, longitude);
 										bounds.extend(point_item1);
+	
 									} else {
+		
 										var latitude = 36.1181642;
 										var longitude = -80.0626623;
 										if ($.inArray(latitude,plottedLat) > -1) {
@@ -635,15 +625,15 @@ include('includes.php');
 											animation:google.maps.Animation.DROP
 										});
 										(function (marker, value) {
-											// $('.mdb-select').material_select('destroy');
-											// $('.mdb-select').material_select();
+//                       $('.mdb-select').material_select('destroy');
+//                       $('.mdb-select').material_select();
 											google.maps.event.addListener(marker, "click", function (e) {
 												$('.mdb-select').material_select('destroy');
-												var html_str = markerCreator1(value,latitude,longitude);
+											  var html_str = markerCreator1(value,latitude,longitude);
 												infoWindow.setContent(html_str);
 												infoWindow.open(map, marker);
-												$('.markersele').addClass('mdb-select');
-												$('.mdb-select').material_select();
+                        $('.markersele').addClass('mdb-select');
+                        $('.mdb-select').material_select();
 											});
 										
 										})(marker, value);
@@ -713,23 +703,30 @@ include('includes.php');
 						var modalFunct = "$('#" + modalName + "').modal('show')";
 
 						var teamID = value['install_team'];
-						joblist_str[teamID] += compileList(value,latitude,longitude,modalFunct,orderText);
+            //console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",value, teamID);
+						//joblist_html[teamID] += '<li>'+value['job_name']+'</li>'
+						joblist_html[teamID] += '<li class="list-group-item py-1"><div class="row"><div class="col-2"><div class="btn btn-sm mr-1 ';
+						if (value['job_status'] < 62 || value['job_status'] == 69) {
+							joblist_html[teamID] += 'btn-danger';
+						} else {
+							joblist_html[teamID] += 'btn-primary';
+						}
+						joblist_html[teamID] += '" style="cursor:pointer" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div></div><div class="col-10"><a class="text-primary text-left p-0" style="cursor:pointer; line-height:1.2; text-shadow:none" target="_blank" onClick="' + modalFunct + '">' + value['job_sqft'] + '<sup>sf</sup> - ' + value['comp_name'] + '<br>' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></div></div>';
 
-
-//						//console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",value, teamID);
-//						//joblist_str[teamID] += '<li>'+value['job_name']+'</li>'
-//						joblist_str[teamID] += '<li class="list-group-item py-1"><div class="row"><div class="col-2"><div class="btn btn-sm mr-1 ';
-//						if (value['job_status'] < 62 || value['job_status'] == 69) {
-//							joblist_str[teamID] += 'btn-danger';
-//						} else {
-//							joblist_str[teamID] += 'btn-primary';
-//						}
-//						joblist_str[teamID] += '" style="cursor:pointer" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div></div><div class="col-10"><a class="text-primary text-left p-0" style="cursor:pointer; line-height:1.2; text-shadow:none" target="_blank" onClick="' + modalFunct + '">' + value['job_sqft'] + '<sup>sf</sup> - ' + value['comp_name'] + '<br>' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></div></div>';
+						joblist_html[teamID] += '	<div class="row"><div class="col-12"><select class="mdb-select col-9 mb-0" onchange="assign_new(' + value['id'] + ');">';
+						<?
+						foreach ($rows as $row){ ?>
+							var selectedTeam = <?php echo $row['inst_team_id']; ?>;
+							joblist_html[teamID] += '	<option id="contactChoice<?php echo $row['inst_team_id']; ?>" value="<?php echo $row['inst_team_id']; ?>" '
+							if (selectedTeam == value['install_team']) {joblist_html[teamID] += 'selected'};
+							joblist_html[teamID] += 	' ><?php echo $row['inst_team_name']; ?></option>';
+						<?php } ?>
+						joblist_html[teamID] += '	</select></div></div></li>';
 
 						var modalPull = '';
-            //console.log(joblist_str[teamID]);
+            //console.log(joblist_html[teamID]);
 
-modalPull += '<div class="modal fade modalDelete" aria-hidden="true" aria-labelledby="' + modalName + 'Label" id="' + modalName + '" role="dialog" tabindex="-1">';
+modalPull += '<div class="modal fade" aria-hidden="true" aria-labelledby="' + modalName + 'Label" id="' + modalName + '" role="dialog" tabindex="-1">';
 modalPull += '	<div class="modal-dialog modal-dialog-centered" role="document" >';
 modalPull += '		<div class="modal-content">';
 modalPull += '			<div class="modal-header">';
@@ -743,6 +740,7 @@ modalPull += '				<div class="container">';
 modalPull += '					<div class="row"><h2>Job: <span class="text-primary">'+value['job_name']+ '</span></h2></div>';
 
 modalPull += '					<div class="row">';
+
 									if (value['first_stop'] == 1){
 										modalPull +=   "<p class='text-danger'><b>1st Stop</b></p>";
 									}else if (value['am'] == 1) {
@@ -773,7 +771,7 @@ modalPull += 			"'><i class='fas fa-eye'></i></a>";
 								<?php 
 								if ($_SESSION['access_level'] == 1) {
 								?>
-modalPull += '						<select class="mdb-select form-control col-9 border-0 select' + value['id'] + '" onchange="assign_select(' + value['id'] + ');">';
+modalPull += '						<select class="mdb-select col-9 border-0 mb-0" onchange="assign_new(' + value['id'] + ');">';
 								<?
 								foreach ($rows as $row){ ?>
 
@@ -825,49 +823,39 @@ modalPull += '</div>';
 						//Attach click event to the marker.
 						(function (marker, value) {
 							google.maps.event.addListener(marker, "click", function (e) {
- 								$('.mdb-select').material_select('destroy');
+								$('.mdb-select').material_select('destroy');
+// 								$('.mdb-select').material_select('destroy');
 								var html_str = markerCreator1(value,latitude,longitude);
 								infoWindow.setContent(html_str);
 								infoWindow.open(map, marker);
 								$('.markersele').addClass('mdb-select');
 								$('.mdb-select').material_select();
 							});
-						
 						})(marker, value);
-					
 					});
 					map.fitBounds(bounds);
 					//map.panToBounds(bounds);
 					var team_num = <?php echo $rows[count($rows)-1]['inst_team_id']; ?>;
 					for(var i=0;i<=team_num;i++){
-						$('.mdb-select').material_select('destroy');
 						var team_id = '.row.team'+i+' .jobs_list';
-						$(team_id).empty().html(joblist_str[i]); 
-						$('.mdb-select').material_select();
-
+						$(team_id).empty().html(joblist_html[i]); 
 					}
-					
+					$('.mdb-select').material_select();
 					// Update destination count
 					$('#destinations-count').html(nodes.length);
-					
 				}
 			});
 		})
 
 		function getlatlng(address){
 			var geocoder = new google.maps.Geocoder();
-
 			geocoder.geocode( { 'address': address}, function(results, status) {
-
 				if (status == google.maps.GeocoderStatus.OK) {
 					var latitude = results[0].geometry.location.lat();
 					var longitude = results[0].geometry.location.lng();
 				} 
 			}); 
 		}
-
-
-
 
 		// Add "my location" button
 		var myLocationDiv = document.createElement('div');
@@ -896,6 +884,8 @@ modalPull += '</div>';
 
 
 	function assign_btn(n) {
+		alert('Job: ' + n);
+		alert($(this).val());
 		$('.mdb-select').material_select('destroy');
 		//$('.rteBtn').addClass('hidden');
 		var cur_date = $('.datepicker_sec li .form-control').val();
@@ -909,30 +899,18 @@ modalPull += '</div>';
 			},
 			success: function(response) {
 				clearDirections();
-				$('.modal').modal('hide');
-				$('.mdb-select').material_select('destroy');
-				var currentStr = 'select.select' + n + ' option:selected';
-				console.log(currentStr);
-				$(currentStr).prop('selected',false);
-				var newStr = "select.select" + n + ' option[value="' + team_select_id + '"]';
-				console.log(newStr);
-				$(newStr).prop('selected',true)
-				var moveStr = '.team' + team_select_id + ' ul.jobs_list';
-				console.log(moveStr);
-				var toMove = '#list' + n;
-				console.log(toMove);
-				$(moveStr).append($(toMove).closest('li'));
-				$('.mdb-select').material_select();
-				//$('.get_info_btn').click();
+				$('.get_info_btn').click();
+
 //				var result = JSON.parse(response);
-//				var joblist_str = [];
+//				var joblist_html = [];
 //				for (var i = 0; i <= 100; i++) {
-//					joblist_str[i] = '';
+//					joblist_html[i] = '';
 //					nodes_team[i] = [];
 //					nodes_team[i].push(pointHOME_initial);
 //				}
+//
 //				$.each(result, function(key, value) {
-//					var orderText = '';	
+//					var orderText = '';					
 //					if (value['first_stop'] == 1) {
 //						orderText = '<span class="text-danger">1st Stop </span>';
 //					} else if (value['am'] == 1) {
@@ -940,8 +918,10 @@ modalPull += '</div>';
 //					} else if (value['pm'] == 1) {
 //						orderText = '<span class="text-danger">PM </span>';
 //					} 
+//
 //					var modalName = 'modalPull' + value['id'];
 //					var modalFunct = "$('#" + modalName + "').modal('show')";
+//
 //					var teamID = value['install_team'];
 //					var latPull = 'lat' + value['id'];
 //					var longPull = 'long' + value['id'];
@@ -956,38 +936,74 @@ modalPull += '</div>';
 //					console.log(nodes_team[teamID]);
 //					var latitude = parseFloat(value['job_lat']).toFixed(8);
 //					var longitude = parseFloat(value['job_long']).toFixed(8);
-//					joblist_str[teamID] += compileList(value,latitude,longitude,modalFunct,orderText);
-
-					//joblist_str[teamID] += '<li>'+value['job_name']+'</li>'
-					//joblist_str[teamID] += '<li><a class="text-primary" target="_blank" onClick="' + modalFunct + '">' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></li>';
-//					joblist_str[teamID] += '<li class="list-group-item py-1"><div class="row"><div class="col-2"><div class="btn btn-sm mr-1 ';
-//					if (value['job_status'] < 62 || value['job_status'] == 69) {
-//						joblist_str[teamID] += 'btn-danger';
-//					} else {
-//						joblist_str[teamID] += 'btn-primary';
-//					}
-//					joblist_str[teamID] += '" style="cursor:pointer" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div></div><div class="col-10"><a class="text-primary text-left p-0" style="cursor:pointer; line-height:1.2; text-shadow:none" target="_blank" onClick="' + modalFunct + '">' + value['job_sqft'] + '<sup>sf</sup> - ' + value['comp_name'] + '<br>' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></div></div></li>';
+//					//joblist_html[teamID] += '<li>'+value['job_name']+'</li>'
+//					//joblist_html[teamID] += '<li><a class="text-primary" target="_blank" onClick="' + modalFunct + '">' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></li>';
+//					joblist_html[teamID] += '<li class="list-group-item py-1"><div class="row"><div class="col-2"><div class="btn btn-sm mr-1 ';
+//						if (value['job_status'] < 62 || value['job_status'] == 69) {
+//							joblist_html[teamID] += 'btn-danger';
+//						} else {
+//							joblist_html[teamID] += 'btn-primary';
+//						}
+//						joblist_html[teamID] += '" style="cursor:pointer" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div></div><div class="col-10"><a class="text-primary text-left p-0" style="cursor:pointer; line-height:1.2; text-shadow:none" target="_blank" onClick="' + modalFunct + '">' + value['job_sqft'] + '<sup>sf</sup> - ' + value['comp_name'] + '<br>' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></div></div></li>';
+//
+//						joblist_html[teamID] += '	<div class="row"><div class="col-12"><select class="mdb-select col-9 border-0 mb-0" onchange="assign_select(' + value['id'] + ');">';
+//						<?
+//						foreach ($rows as $row){ ?>
+//							var selectedTeam = <?php echo $row['inst_team_id']; ?>;
+//							joblist_html[teamID] += '	<option id="contactChoice<?php echo $row['inst_team_id']; ?>" value="<?php echo $row['inst_team_id']; ?>" '
+//							if (selectedTeam == value['install_team']) {joblist_html[teamID] += 'selected'};
+//							joblist_html[teamID] += 	' ><?php echo $row['inst_team_name']; ?></option>';
+//						<?php // } ?>
+//						joblist_html[teamID] += '	</select></div></div></li>';
+//
 //				});
 //				for (var i = 0; i <= <?php echo $rows[count($rows)-1]['inst_team_id']; ?>; i++) {
 //					var team_id = '.row.team' + i + ' .jobs_list';
-//					$(team_id).empty().html(joblist_str[i]);
+//					$(team_id).empty().html(joblist_html[i]);
+//					$('.mdb-select').material_select();
 //				}
 			},
 			error: function(data) {
 				console.log(data);
-			},
-			complete: function() {
 			}
 		});
+		$('.mdb-select').material_select();
 	}
 
+	function assign_new(n) {
+		alert($(this).val());
+		$('.mdb-select').material_select('destroy');
+		//$('.rteBtn').addClass('hidden');
+		var cur_date = $('.datepicker_sec li .form-control').val();
+		var team_select_id = $($this).val();
+//		$.ajax({
+//			type: 'post',
+//			data: {
+//				teamID: team_select_id,
+//				jobID: n,
+//				cur_date: cur_date
+//			},
+//			success: function(response) {
+//				clearDirections();
+//				$('.get_info_btn').click();
+//			},
+//			error: function(data) {
+//				console.log(data);
+//			}
+//		});
+		$('.mdb-select').material_select();
+	}
+
+
+
 	function targetMap(newLat,newLng) {
+
 		map.setCenter(new google.maps.LatLng(newLat, newLng));
 		map.setZoom(15);
-		//	map.setCenter({
-		//		lat : newLat,
-		//		lng : newLng,
-		//	});
+//		map.setCenter({
+//			lat : newLat,
+//			lng : newLng,
+//		});
 	}
 
 	function assign_select(n) {
@@ -1005,31 +1021,19 @@ modalPull += '</div>';
 				cur_date: cur_date
 			},
 			success: function(response) {
-				clearDirections();
-				$('.modal').modal('hide');
-				$('.mdb-select').material_select('destroy');
-				var currentStr = 'select.select' + n + ' option:selected';
-				console.log(currentStr);
-				$(currentStr).prop('selected',false);
-				var newStr = "select.select" + n + ' option[value="' + team_select_id + '"]';
-				console.log(newStr);
-				$(newStr).prop('selected',true)
-				var moveStr = '.team' + team_select_id + ' ul.jobs_list';
-				console.log(moveStr);
-				var toMove = '#list' + n;
-				console.log(toMove);
-				$(moveStr).append($(toMove).closest('li'));
-				$('.mdb-select').material_select();
-				//$('.get_info_btn').click();
+		        clearDirections();
+				$('.get_info_btn').click();
+
+//				$('.modal').modal('hide');
 //				var result = JSON.parse(response);
-//				var joblist_str = [];
+//				var joblist_html = [];
 //				for (var i = 0; i <= 100; i++) {
-//					joblist_str[i] = '';
+//					joblist_html[i] = '';
 //					nodes_team[i] = [];
 //					nodes_team[i].push(pointHOME_initial);
 //				}
 //				$.each(result, function(key, value) {
-//					var orderText = '';	
+//					var orderText = '';					
 //					if (value['first_stop'] == 1) {
 //						orderText = '<span class="text-danger">1st Stop </span>';
 //					} else if (value['am'] == 1) {
@@ -1037,32 +1041,44 @@ modalPull += '</div>';
 //					} else if (value['pm'] == 1) {
 //						orderText = '<span class="text-danger">PM </span>';
 //					} 
+//
 //					var teamID = value['install_team'];
 //					var latPull = 'lat' + value['id'];
 //					var longPull = 'long' + value['id'];
+//
 //					var modalName = 'modalPull' + value['id'];
 //					var modalFunct = "$('#" + modalName + "').modal('show')";
 //					var latResult = job_coords[latPull];
 //					var longResult = job_coords[longPull];
+//
 //					var point_item_assign = new google.maps.LatLng(latResult, longResult);
 //					console.log(teamID);
 //					nodes_team[teamID].push(point_item_assign);
 //					console.log(nodes_team[teamID]);
-//					var latitude = parseFloat(value['job_lat']).toFixed(8);
-//					var longitude = parseFloat(value['job_long']).toFixed(8);
-//					joblist_str[teamID] += compileList(value,latitude,longitude,modalFunct,orderText);
-
-//					joblist_str[teamID] += '<li class="list-group-item py-1"><div class="row"><div class="col-2"><div class="btn btn-sm mr-1 ';
-//					if (value['job_status'] < 62 || value['job_status'] == 69) {
-//						joblist_str[teamID] += 'btn-danger';
-//					} else {
-//						joblist_str[teamID] += 'btn-primary';
-//					}
-//					joblist_str[teamID] += '" style="cursor:pointer" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div></div><div class="col-10"><a class="text-primary text-left p-0" style="cursor:pointer; line-height:1.2; text-shadow:none" target="_blank" onClick="' + modalFunct + '">' + value['job_sqft'] + '<sup>sf</sup> - ' + value['comp_name'] + '<br>' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></div></div></li>';
+//          var latitude = parseFloat(value['job_lat']).toFixed(8);
+//          var longitude = parseFloat(value['job_long']).toFixed(8);
+//					joblist_html[teamID] += '<li class="list-group-item py-1"><div class="row"><div class="col-2"><div class="btn btn-sm mr-1 ';
+//						if (value['job_status'] < 62 || value['job_status'] == 69) {
+//							joblist_html[teamID] += 'btn-danger';
+//						} else {
+//							joblist_html[teamID] += 'btn-primary';
+//						}
+//						joblist_html[teamID] += '" style="cursor:pointer" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div></div><div class="col-10"><a class="text-primary text-left p-0" style="cursor:pointer; line-height:1.2; text-shadow:none" target="_blank" onClick="' + modalFunct + '">' + value['job_sqft'] + '<sup>sf</sup> - ' + value['comp_name'] + '<br>' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></div></div></li>';
+//
+//						joblist_html[teamID] += '	<div class="row"><div class="col-12"><select class="mdb-select col-9 border-0 mb-0" onchange="assign_select(' + value['id'] + ');">';
+//						<?
+//						foreach ($rows as $row){ ?>
+//							var selectedTeam = <?php echo $row['inst_team_id']; ?>;
+//							joblist_html[teamID] += '	<option id="contactChoice<?php echo $row['inst_team_id']; ?>" value="<?php echo $row['inst_team_id']; ?>" '
+//							if (selectedTeam == value['install_team']) {joblist_html[teamID] += 'selected'};
+//							joblist_html[teamID] += 	' ><?php echo $row['inst_team_name']; ?></option>';
+//						<?php // } ?>
+//						joblist_html[teamID] += '	</select></div></div></li>';
+//
 //				});
 //				for (var i = 0; i <= <? echo count($rows); ?>; i++) {
 //					var team_id = '.row.team' + i + ' .jobs_list';
-//					$(team_id).empty().html(joblist_str[i]);
+//					$(team_id).empty().html(joblist_html[i]);
 //				}
 			},
 			error: function(response) {
@@ -1071,242 +1087,175 @@ modalPull += '</div>';
 			complete: function() {
 				$(modalClose).modal('hide');
 				$('.modal').modal('hide');
+
 			}
+
 		});
+		$('.mdb-select').material_select();
 	}
-
-	function assign_list(n) {
-		$('.mdb-select').material_select('destroy');
-		//$('.rteBtn').addClass('hidden');
-		var modalClose = 'modalPull' + n;
-		var myForm = '#list' + n + ' select option:selected';
-		var cur_date = $('.datepicker_sec li .form-control').val();
-		var team_select_id = $(myForm).val();
-		$.ajax({
-			type: 'post',
-			data: {
-				teamID: team_select_id,
-				jobID: n,
-				cur_date: cur_date
-			},
-			success: function(response) {
-				$('.modal').modal('hide');
-				$('.mdb-select').material_select('destroy');
-
-				var currentStr = 'select.select' + n + ' option:selected';
-				console.log(currentStr);
-				$(currentStr).prop('selected',false);
-
-				var newStr = "select.select" + n + ' option[value="' + team_select_id + '"]';
-				console.log(newStr);
-				$(newStr).prop('selected', true);
-
-				var moveStr = '.team' + team_select_id + ' ul.jobs_list';
-				console.log(moveStr);
-				var toMove = '#list' + n;
-				console.log(toMove);
-				$(moveStr).append($(toMove).closest('li'));
-
-				$('.mdb-select').material_select();
-				//$('.get_info_btn').click();
-//				clearDirections();
-//				$('.modal').modal('hide');
-//				var result = JSON.parse(response);
-//				var joblist_str = [];
-//				for (var i = 0; i <= 100; i++) {
-//					joblist_str[i] = '';
-//					nodes_team[i] = [];
-//					nodes_team[i].push(pointHOME_initial);
-//				}
-//				$.each(result, function(key, value) {
-//					var orderText = '';	
-//					if (value['first_stop'] == 1) {
-//						orderText = '<span class="text-danger">1st Stop </span>';
-//					} else if (value['am'] == 1) {
-//						orderText = '<span class="text-danger">AM </span>';
-//					} else if (value['pm'] == 1) {
-//						orderText = '<span class="text-danger">PM </span>';
-//					} 
-//					var teamID = value['install_team'];
-//					var latPull = 'lat' + value['id'];
-//					var longPull = 'long' + value['id'];
-//					var modalName = 'modalPull' + value['id'];
-//					var modalFunct = "$('#" + modalName + "').modal('show')";
-//					var latResult = job_coords[latPull];
-//					var longResult = job_coords[longPull];
-//					var point_item_assign = new google.maps.LatLng(latResult, longResult);
-//					console.log(teamID);
-//					nodes_team[teamID].push(point_item_assign);
-//					console.log(nodes_team[teamID]);
-//					var latitude = parseFloat(value['job_lat']).toFixed(8);
-//					var longitude = parseFloat(value['job_long']).toFixed(8);
-//					joblist_str[teamID] += compileList(value,latitude,longitude,modalFunct,orderText);
-//				});
-//				for (var i = 0; i <= <? echo count($rows); ?>; i++) {
-//					var team_id = '.row.team' + i + ' .jobs_list';
-//					$(team_id).empty().html(joblist_str[i]);
-//					$('.mdb-select').material_select();
-//				}
-			},
-			error: function(response) {
-				console.log('Error: ' + response);
-			},
-			complete: function() {
-			}
-		});
-	}
-
 
     // Get all durations depending on travel type
-	function getDurations(callback) {
-		var service = new google.maps.DistanceMatrixService();
-		service.getDistanceMatrix({
-			origins: nodes,
-			destinations: nodes,
-			travelMode: google.maps.TravelMode[$('#travel-type').val()],
-			avoidHighways: parseInt($('#avoid-highways').val()) > 0 ? true : false,
-			avoidTolls: true,
-		}, function(distanceData) {
-			// Create duration data array
-			var nodeDistanceData;
-			for (originNodeIndex in distanceData.rows) {
-				nodeDistanceData = distanceData.rows[originNodeIndex].elements;
-				durations[originNodeIndex] = [];
-				for (destinationNodeIndex in nodeDistanceData) {
-					if (durations[originNodeIndex][destinationNodeIndex] = nodeDistanceData[destinationNodeIndex].duration == undefined) {
-						alert('Error: couldn\'t get a trip duration from API');
-						return;
-					}
-					durations[originNodeIndex][destinationNodeIndex] = nodeDistanceData[destinationNodeIndex].duration.value;
-				}
-			}
-			if (callback != undefined) {
-				callback();
-			}
-		});
-	}
-	// Removes markers and temporary paths
-	function clearMapMarkers() {
-		for (index in markers) {
-			markers[index].setMap(null);
-		}
-		prevNodes = nodes;
-		nodes = [];
-		if (polylinePath != undefined) {
-			polylinePath.setMap(null);
-		}
-		markers = [];
-		//         $('#ga-buttons').show();
-	}
+    function getDurations(callback) {
+        var service = new google.maps.DistanceMatrixService();
+        service.getDistanceMatrix({
+            origins: nodes,
+            destinations: nodes,
+            travelMode: google.maps.TravelMode[$('#travel-type').val()],
+            avoidHighways: parseInt($('#avoid-highways').val()) > 0 ? true : false,
+            avoidTolls: true,
+        }, function(distanceData) {
+            // Create duration data array
+            var nodeDistanceData;
+            for (originNodeIndex in distanceData.rows) {
+                nodeDistanceData = distanceData.rows[originNodeIndex].elements;
+                durations[originNodeIndex] = [];
+                for (destinationNodeIndex in nodeDistanceData) {
+                    if (durations[originNodeIndex][destinationNodeIndex] = nodeDistanceData[destinationNodeIndex].duration == undefined) {
+                        alert('Error: couldn\'t get a trip duration from API');
+                        return;
+                    }
+                    durations[originNodeIndex][destinationNodeIndex] = nodeDistanceData[destinationNodeIndex].duration.value;
+                }
+            }
+            if (callback != undefined) {
+                callback();
+            }
+        });
+    }
+    // Removes markers and temporary paths
+    function clearMapMarkers() {
+        for (index in markers) {
+            markers[index].setMap(null);
+        }
+        prevNodes = nodes;
+        nodes = [];
+        if (polylinePath != undefined) {
+            polylinePath.setMap(null);
+        }
 
-	// Removes map directions
-	function clearDirections() {
-		// If there are directions being shown, clear them
-		if (directionsDisplay != null) {
-			directionsDisplay.setMap(null);
-			directionsDisplay = null;
-		}
-	}
-	// Completely clears map
-	function clearMap() {
-		clearMapMarkers();
-		clearDirections();
-		$('#destinations-count').html('0');
-	}
-	// Initial Google Maps
-	google.maps.event.addDomListener(window, 'load', initializeMap);
-	function display_route(n){
-		nodes = [];
-		nodes = nodes_team[n];
-		if (nodes.length < 2) {
-			alert("No jobs assigned to this team");
-			return;
-			//           if (prevNodes.length >= 2) {
-			//               nodes = prevNodes;
-			//           } else {
-			//               alert('Click on the map to select destination points');
-			//               return;
-			//           }
-		}
-		if (directionsDisplay != null) {
-			//directionsDisplay.setMap(null);
-			directionsDisplay = null;
-		}
-		$('#ga-buttons').hide();
-		// Get route durations
-		//https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=40.6655101,-73.89188969999998&destinations=40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626%7C40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626&key=AIzaSyBqPzFs8u8_yAC5N-nWXFp0eNz02xaGik4
+        markers = [];
 
-		getDurations(function(){
-			$('.ga-info').show();
-			// Get config and create initial GA population
-			ga.getConfig();
-			var pop = new ga.population();
-			pop.initialize(nodes.length);
-			var route = pop.getFittest().chromosome;
-			ga.evolvePopulation(pop, function(update) {
-				$('#generations-passed').html(update.generation);
-				var time_id = '.team'+n+' #best-time';
+//         $('#ga-buttons').show();
+    }
+
+    // Removes map directions
+    function clearDirections() {
+        // If there are directions being shown, clear them
+        if (directionsDisplay != null) {
+            directionsDisplay.setMap(null);
+            directionsDisplay = null;
+        }
+    }
+    // Completely clears map
+    function clearMap() {
+        clearMapMarkers();
+        clearDirections();
+
+        $('#destinations-count').html('0');
+    }
+    // Initial Google Maps
+    google.maps.event.addDomListener(window, 'load', initializeMap);
+    
+    function display_route(n){
+      nodes = [];
+      nodes = nodes_team[n];
+      
+      if (nodes.length < 2) {
+        alert("No jobs assigned to this team");
+        return;
+//           if (prevNodes.length >= 2) {
+//               nodes = prevNodes;
+//           } else {
+//               alert('Click on the map to select destination points');
+//               return;
+//           }
+      }
+      if (directionsDisplay != null) {
+          //directionsDisplay.setMap(null);
+          directionsDisplay = null;
+      }
+
+      $('#ga-buttons').hide();
+      // Get route durations
+
+
+//https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=40.6655101,-73.89188969999998&destinations=40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.6905615%2C-73.9976592%7C40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626%7C40.659569%2C-73.933783%7C40.729029%2C-73.851524%7C40.6860072%2C-73.6334271%7C40.598566%2C-73.7527626&key=AIzaSyBqPzFs8u8_yAC5N-nWXFp0eNz02xaGik4
+
+
+      getDurations(function(){
+          $('.ga-info').show();
+          // Get config and create initial GA population
+          ga.getConfig();
+          var pop = new ga.population();
+          pop.initialize(nodes.length);
+          var route = pop.getFittest().chromosome;
+          ga.evolvePopulation(pop, function(update) {
+              $('#generations-passed').html(update.generation);
+              var time_id = '.team'+n+' #best-time';
+
 				var mins = Math.floor(update.population.getFittest().getDistance() / 60);
 				var hours = Math.floor(mins/60);
 				var removeMins = hours * 60;
 				var totMins = Math.floor( mins - removeMins );
-				$(time_id).empty().html('Driving time: <b>' + hours + ' hrs ' + totMins + ' mins</b>');
-				// Get route coordinates
-				var route = update.population.getFittest().chromosome;
-				var routeCoordinates = [];
-				for (index in route) {
-					routeCoordinates[index] = nodes[route[index]];
-				}
-				routeCoordinates[route.length] = nodes[route[0]];
-				// Display temp. route
-				if (polylinePath != undefined) {
-					polylinePath.setMap(null);
-				}
-				polylinePath = new google.maps.Polyline({
-					path: routeCoordinates,
-					strokeColor: "#f066ff",
-					strokeOpacity: 0.75,
-					strokeWeight: 2,
-				});
-				//polylinePath.setMap(map);
-			}, function(result) {
-				// Get route
-				route = result.population.getFittest().chromosome;
-				// Add route to map
-				directionsService = new google.maps.DirectionsService();
-				directionsDisplay = new google.maps.DirectionsRenderer({
-					polylineOptions: {
-						strokeColor: getRandomColor(n)
-					}
-				});
-				directionsDisplay.setMap(map);
-				var waypts = [];
-				for (var i = 1; i < route.length; i++) {
-					waypts.push({
-						location: nodes[route[i]],
-						stopover: true
-					});
-				}
-				// Add final route to map
-				var request = {
-					origin: nodes[route[0]],
-					destination: nodes[route[0]],
-					waypoints: waypts,
-					travelMode: google.maps.TravelMode[$('#travel-type').val()],
-					avoidHighways: parseInt($('#avoid-highways').val()) > 0 ? true : false,
-					avoidTolls: true
-				};
-				directionsService.route(request, function(response, status) {
-					if (status == google.maps.DirectionsStatus.OK) {
-						directionsDisplay.setDirections(response);
-					}
-					//clearMapMarkers();
-				});
-			});
-		});
-	}
-	//Get the random Route color
-	function getRandomColor(n) {
+              $(time_id).empty().html('Driving time: <b>' + hours + ' hrs ' + totMins + ' mins</b>');
+
+              // Get route coordinates
+              var route = update.population.getFittest().chromosome;
+              var routeCoordinates = [];
+              for (index in route) {
+                  routeCoordinates[index] = nodes[route[index]];
+              }
+              routeCoordinates[route.length] = nodes[route[0]];
+              // Display temp. route
+              if (polylinePath != undefined) {
+                  polylinePath.setMap(null);
+              }
+              polylinePath = new google.maps.Polyline({
+                  path: routeCoordinates,
+                  strokeColor: "#f066ff",
+                  strokeOpacity: 0.75,
+                  strokeWeight: 2,
+              });
+              //polylinePath.setMap(map);
+          }, function(result) {
+              // Get route
+              route = result.population.getFittest().chromosome;
+              // Add route to map
+              directionsService = new google.maps.DirectionsService();
+              directionsDisplay = new google.maps.DirectionsRenderer({
+                                              polylineOptions: {
+                                                strokeColor: getRandomColor(n)
+                                              }
+                                            });
+              directionsDisplay.setMap(map);
+              var waypts = [];
+              for (var i = 1; i < route.length; i++) {
+                  waypts.push({
+                      location: nodes[route[i]],
+                      stopover: true
+                  });
+              }
+
+              // Add final route to map
+              var request = {
+                  origin: nodes[route[0]],
+                  destination: nodes[route[0]],
+                  waypoints: waypts,
+                  travelMode: google.maps.TravelMode[$('#travel-type').val()],
+                  avoidHighways: parseInt($('#avoid-highways').val()) > 0 ? true : false,
+                  avoidTolls: true
+              };
+              directionsService.route(request, function(response, status) {
+                  if (status == google.maps.DirectionsStatus.OK) {
+                      directionsDisplay.setDirections(response);
+                  }
+                  //clearMapMarkers();
+              });
+          });
+      });
+    }
+    //Get the random Route color
+    function getRandomColor(n) {
 		if (n == 1) {
 			color = '#000000';
 		} else if (n == 2) {
@@ -1352,384 +1301,285 @@ modalPull += '</div>';
 		} else if (n == 22) {
 			color = '#e85050';
 		} 
-		//      var letters = '0123456789ABCDEF';
-		//      var color = '#';
-		//      for (var i = 0; i < 6; i++) {
-		//        color += letters[Math.floor(Math.random() * 16)];
-		//      }
-		return color;
+//      var letters = '0123456789ABCDEF';
+//      var color = '#';
+//      for (var i = 0; i < 6; i++) {
+//        color += letters[Math.floor(Math.random() * 16)];
+//      }
+      return color;
+    }
+    
+    // Create listeners
+    $(document).ready(function() {
+        $('#clear-map').click(clearMap);
+      
+        // Start GA
+        $('#find-route').click(function() {    
+            
+        });
+    });
+    // GA code
+    var ga = {
+        // Default config
+        "crossoverRate": 0.5,
+        "mutationRate": 0.1,
+        "populationSize": 50,
+        "tournamentSize": 5,
+        "elitism": true,
+        "maxGenerations": 50,
+
+        "tickerSpeed": 60,
+        // Loads config from HTML inputs
+        "getConfig": function() {
+            ga.crossoverRate = parseFloat($('#crossover-rate').val());
+            ga.mutationRate = parseFloat($('#mutation-rate').val());
+            ga.populationSize = parseInt($('#population-size').val()) || 50;
+            ga.elitism = parseInt($('#elitism').val()) || false;
+            ga.maxGenerations = parseInt($('#maxGenerations').val()) || 50;
+        },
+
+        // Evolves given population
+        "evolvePopulation": function(population, generationCallBack, completeCallBack) {        
+            // Start evolution
+            var generation = 1;
+            var evolveInterval = setInterval(function() {
+                if (generationCallBack != undefined) {
+                    generationCallBack({
+                        population: population,
+                        generation: generation,
+                    });
+                }
+                // Evolve population
+                population = population.crossover();
+                population.mutate();
+                generation++;
+
+                // If max generations passed
+                if (generation > ga.maxGenerations) {
+                    // Stop looping
+                    clearInterval(evolveInterval);
+
+                    if (completeCallBack != undefined) {
+                        completeCallBack({
+                            population: population,
+                            generation: generation,
+                        });
+                    }
+                }
+            }, ga.tickerSpeed);
+        },
+        // Population class
+        "population": function() {
+            // Holds individuals of population
+            this.individuals = [];
+
+            // Initial population of random individuals with given chromosome length
+            this.initialize = function(chromosomeLength) {
+                this.individuals = [];
+
+                for (var i = 0; i < ga.populationSize; i++) {
+                    var newIndividual = new ga.individual(chromosomeLength);
+                    newIndividual.initialize();
+                    this.individuals.push(newIndividual);
+                }
+            };
+
+            // Mutates current population
+            this.mutate = function() {
+                var fittestIndex = this.getFittestIndex();
+                for (index in this.individuals) {
+                    // Don't mutate if this is the elite individual and elitism is enabled 
+                    if (ga.elitism != true || index != fittestIndex) {
+                        this.individuals[index].mutate();
+                    }
+                }
+            };
+            // Applies crossover to current population and returns population of offspring
+            this.crossover = function() {
+                // Create offspring population
+                var newPopulation = new ga.population();
+
+                // Find fittest individual
+                var fittestIndex = this.getFittestIndex();
+                for (index in this.individuals) {
+                    // Add unchanged into next generation if this is the elite individual and elitism is enabled
+                    if (ga.elitism == true && index == fittestIndex) {
+                        // Replicate individual
+                        var eliteIndividual = new ga.individual(this.individuals[index].chromosomeLength);
+                        eliteIndividual.setChromosome(this.individuals[index].chromosome.slice());
+                        newPopulation.addIndividual(eliteIndividual);
+                    } else {
+                        // Select mate
+                        var parent = this.tournamentSelection();
+                        // Apply crossover
+                        this.individuals[index].crossover(parent, newPopulation);
+                    }
+                }
+
+                return newPopulation;
+            };
+            // Adds an individual to current population
+            this.addIndividual = function(individual) {
+                this.individuals.push(individual);
+            };
+            // Selects an individual with tournament selection
+            this.tournamentSelection = function() {
+                // Randomly order population
+                for (var i = 0; i < this.individuals.length; i++) {
+                    var randomIndex = Math.floor(Math.random() * this.individuals.length);
+                    var instIndividual = this.individuals[randomIndex];
+                    this.individuals[randomIndex] = this.individuals[i];
+                    this.individuals[i] = instIndividual;
+                }
+                // Create tournament population and add individuals
+                var tournamentPopulation = new ga.population();
+                for (var i = 0; i < ga.tournamentSize; i++) {
+                    tournamentPopulation.addIndividual(this.individuals[i]);
+                }
+                return tournamentPopulation.getFittest();
+            };
+
+            // Return the fittest individual's population index
+            this.getFittestIndex = function() {
+                var fittestIndex = 0;
+                // Loop over population looking for fittest
+                for (var i = 1; i < this.individuals.length; i++) {
+                    if (this.individuals[i].calcFitness() > this.individuals[fittestIndex].calcFitness()) {
+                        fittestIndex = i;
+                    }
+                }
+                return fittestIndex;
+            };
+            // Return fittest individual
+            this.getFittest = function() {
+                return this.individuals[this.getFittestIndex()];
+            };
+        },
+        // Individual class
+        "individual": function(chromosomeLength) {
+            this.chromosomeLength = chromosomeLength;
+            this.fitness = null;
+            this.chromosome = [];
+            // Initialize random individual
+            this.initialize = function() {
+                this.chromosome = [];
+                // Generate random chromosome
+                for (var i = 0; i < this.chromosomeLength; i++) {
+                    this.chromosome.push(i);
+                }
+                for (var i = 0; i < this.chromosomeLength; i++) {
+                    var randomIndex = Math.floor(Math.random() * this.chromosomeLength);
+                    var instNode = this.chromosome[randomIndex];
+                    this.chromosome[randomIndex] = this.chromosome[i];
+                    this.chromosome[i] = instNode;
+                }
+            };
+
+            // Set individual's chromosome
+            this.setChromosome = function(chromosome) {
+                this.chromosome = chromosome;
+            };
+
+            // Mutate individual
+            this.mutate = function() {
+                this.fitness = null;
+
+                // Loop over chromosome making random changes
+                for (index in this.chromosome) {
+                    if (ga.mutationRate > Math.random()) {
+                        var randomIndex = Math.floor(Math.random() * this.chromosomeLength);
+                        var instNode = this.chromosome[randomIndex];
+                        this.chromosome[randomIndex] = this.chromosome[index];
+                        this.chromosome[index] = instNode;
+                    }
+                }
+            };
+
+            // Returns individuals route distance
+            this.getDistance = function() {
+                var totalDistance = 0;
+                for (index in this.chromosome) {
+                    var startNode = this.chromosome[index];
+                    var endNode = this.chromosome[0];
+                    if ((parseInt(index) + 1) < this.chromosome.length) {
+                        endNode = this.chromosome[(parseInt(index) + 1)];
+                    }
+                    totalDistance += durations[startNode][endNode];
+                }
+
+                totalDistance += durations[startNode][endNode];
+
+                return totalDistance;
+            };
+            // Calculates individuals fitness value
+            this.calcFitness = function() {
+                if (this.fitness != null) {
+                    return this.fitness;
+                }
+
+                var totalDistance = this.getDistance();
+                this.fitness = 1 / totalDistance;
+                return this.fitness;
+            };
+            // Applies crossover to current individual and mate, then adds it's offspring to given population
+            this.crossover = function(individual, offspringPopulation) {
+                var offspringChromosome = [];
+                // Add a random amount of this individual's genetic information to offspring
+                var startPos = Math.floor(this.chromosome.length * Math.random());
+                var endPos = Math.floor(this.chromosome.length * Math.random());
+                var i = startPos;
+                while (i != endPos) {
+                    offspringChromosome[i] = individual.chromosome[i];
+                    i++
+                    if (i >= this.chromosome.length) {
+                        i = 0;
+                    }
+                }
+                // Add any remaining genetic information from individual's mate
+                for (parentIndex in individual.chromosome) {
+                    var node = individual.chromosome[parentIndex];
+                    var nodeFound = false;
+                    for (offspringIndex in offspringChromosome) {
+                        if (offspringChromosome[offspringIndex] == node) {
+                            nodeFound = true;
+                            break;
+                        }
+                    }
+                    if (nodeFound == false) {
+                        for (var offspringIndex = 0; offspringIndex < individual.chromosome.length; offspringIndex++) {
+                            if (offspringChromosome[offspringIndex] == undefined) {
+                                offspringChromosome[offspringIndex] = node;
+                                break;
+                            }
+                        }
+                    }
+                }
+                // Add chromosome to offspring and add offspring to population
+                var offspring = new ga.individual(this.chromosomeLength);
+                offspring.setChromosome(offspringChromosome);
+                offspringPopulation.addIndividual(offspring);
+            };
+        },
+    };
+    
+    $(function(){
+      
+      $('.date').datepicker({
+        format:'dd MM yyyy',
+        autoclose: true
+      }).on('change', function(){
+        $('.datepicker').hide();
+      });
+  
+    });
+	function mdn_select() {
+		$('.mdb-select').material_select();
 	}
-	// Create listeners
-	$(document).ready(function() {
-		$('#clear-map').click(clearMap);
-		// Start GA
-		$('#find-route').click(function() {
-		});
-	});
-	// GA code
-	var ga = {
-		// Default config
-		"crossoverRate": 0.5,
-		"mutationRate": 0.1,
-		"populationSize": 50,
-		"tournamentSize": 5,
-		"elitism": true,
-		"maxGenerations": 50,
-		"tickerSpeed": 60,
-		// Loads config from HTML inputs
-		"getConfig": function() {
-			ga.crossoverRate = parseFloat($('#crossover-rate').val());
-			ga.mutationRate = parseFloat($('#mutation-rate').val());
-			ga.populationSize = parseInt($('#population-size').val()) || 50;
-			ga.elitism = parseInt($('#elitism').val()) || false;
-			ga.maxGenerations = parseInt($('#maxGenerations').val()) || 50;
-		},
-		// Evolves given population
-		"evolvePopulation": function(population, generationCallBack, completeCallBack) {        
-			// Start evolution
-			var generation = 1;
-			var evolveInterval = setInterval(function() {
-				if (generationCallBack != undefined) {
-					generationCallBack({
-						population: population,
-						generation: generation,
-					});
-				}
-				// Evolve population
-				population = population.crossover();
-				population.mutate();
-				generation++;
-				// If max generations passed
-				if (generation > ga.maxGenerations) {
-					// Stop looping
-					clearInterval(evolveInterval);
-					if (completeCallBack != undefined) {
-						completeCallBack({
-							population: population,
-							generation: generation,
-						});
-					}
-				}
-			}, ga.tickerSpeed);
-		},
-		// Population class
-		"population": function() {
-			// Holds individuals of population
-			this.individuals = [];
-			// Initial population of random individuals with given chromosome length
-			this.initialize = function(chromosomeLength) {
-				this.individuals = [];
-				for (var i = 0; i < ga.populationSize; i++) {
-					var newIndividual = new ga.individual(chromosomeLength);
-					newIndividual.initialize();
-					this.individuals.push(newIndividual);
-				}
-			};
-			// Mutates current population
-			this.mutate = function() {
-				var fittestIndex = this.getFittestIndex();
-				for (index in this.individuals) {
-					// Don't mutate if this is the elite individual and elitism is enabled 
-					if (ga.elitism != true || index != fittestIndex) {
-						this.individuals[index].mutate();
-					}
-				}
-			};
-			// Applies crossover to current population and returns population of offspring
-			this.crossover = function() {
-				// Create offspring population
-				var newPopulation = new ga.population();
-				// Find fittest individual
-				var fittestIndex = this.getFittestIndex();
-				for (index in this.individuals) {
-					// Add unchanged into next generation if this is the elite individual and elitism is enabled
-					if (ga.elitism == true && index == fittestIndex) {
-						// Replicate individual
-						var eliteIndividual = new ga.individual(this.individuals[index].chromosomeLength);
-						eliteIndividual.setChromosome(this.individuals[index].chromosome.slice());
-						newPopulation.addIndividual(eliteIndividual);
-					} else {
-						// Select mate
-						var parent = this.tournamentSelection();
-						// Apply crossover
-						this.individuals[index].crossover(parent, newPopulation);
-					}
-				}
-				return newPopulation;
-			};
-			// Adds an individual to current population
-			this.addIndividual = function(individual) {
-				this.individuals.push(individual);
-			};
-			// Selects an individual with tournament selection
-			this.tournamentSelection = function() {
-				// Randomly order population
-				for (var i = 0; i < this.individuals.length; i++) {
-					var randomIndex = Math.floor(Math.random() * this.individuals.length);
-					var instIndividual = this.individuals[randomIndex];
-					this.individuals[randomIndex] = this.individuals[i];
-					this.individuals[i] = instIndividual;
-				}
-				// Create tournament population and add individuals
-				var tournamentPopulation = new ga.population();
-				for (var i = 0; i < ga.tournamentSize; i++) {
-					tournamentPopulation.addIndividual(this.individuals[i]);
-				}
-				return tournamentPopulation.getFittest();
-			};
-			// Return the fittest individual's population index
-			this.getFittestIndex = function() {
-				var fittestIndex = 0;
-				// Loop over population looking for fittest
-				for (var i = 1; i < this.individuals.length; i++) {
-					if (this.individuals[i].calcFitness() > this.individuals[fittestIndex].calcFitness()) {
-						fittestIndex = i;
-					}
-				}
-				return fittestIndex;
-			};
-			// Return fittest individual
-			this.getFittest = function() {
-				return this.individuals[this.getFittestIndex()];
-			};
-		},
-		// Individual class
-		"individual": function(chromosomeLength) {
-			this.chromosomeLength = chromosomeLength;
-			this.fitness = null;
-			this.chromosome = [];
-			// Initialize random individual
-			this.initialize = function() {
-				this.chromosome = [];
-				// Generate random chromosome
-				for (var i = 0; i < this.chromosomeLength; i++) {
-					this.chromosome.push(i);
-				}
-				for (var i = 0; i < this.chromosomeLength; i++) {
-					var randomIndex = Math.floor(Math.random() * this.chromosomeLength);
-					var instNode = this.chromosome[randomIndex];
-					this.chromosome[randomIndex] = this.chromosome[i];
-					this.chromosome[i] = instNode;
-				}
-			};
-			// Set individual's chromosome
-			this.setChromosome = function(chromosome) {
-				this.chromosome = chromosome;
-			};
-			// Mutate individual
-			this.mutate = function() {
-				this.fitness = null;
-				// Loop over chromosome making random changes
-				for (index in this.chromosome) {
-					if (ga.mutationRate > Math.random()) {
-						var randomIndex = Math.floor(Math.random() * this.chromosomeLength);
-						var instNode = this.chromosome[randomIndex];
-						this.chromosome[randomIndex] = this.chromosome[index];
-						this.chromosome[index] = instNode;
-					}
-				}
-			};
-			// Returns individuals route distance
-			this.getDistance = function() {
-				var totalDistance = 0;
-				for (index in this.chromosome) {
-					var startNode = this.chromosome[index];
-					var endNode = this.chromosome[0];
-					if ((parseInt(index) + 1) < this.chromosome.length) {
-						endNode = this.chromosome[(parseInt(index) + 1)];
-					}
-					totalDistance += durations[startNode][endNode];
-				}
-				totalDistance += durations[startNode][endNode];
-				return totalDistance;
-			};
-			// Calculates individuals fitness value
-			this.calcFitness = function() {
-				if (this.fitness != null) {
-					return this.fitness;
-				}
-				var totalDistance = this.getDistance();
-				this.fitness = 1 / totalDistance;
-				return this.fitness;
-			};
-			// Applies crossover to current individual and mate, then adds it's offspring to given population
-			this.crossover = function(individual, offspringPopulation) {
-				var offspringChromosome = [];
-				// Add a random amount of this individual's genetic information to offspring
-				var startPos = Math.floor(this.chromosome.length * Math.random());
-				var endPos = Math.floor(this.chromosome.length * Math.random());
-				var i = startPos;
-				while (i != endPos) {
-					offspringChromosome[i] = individual.chromosome[i];
-					i++
-					if (i >= this.chromosome.length) {
-						i = 0;
-					}
-				}
-				// Add any remaining genetic information from individual's mate
-				for (parentIndex in individual.chromosome) {
-					var node = individual.chromosome[parentIndex];
-					var nodeFound = false;
-					for (offspringIndex in offspringChromosome) {
-						if (offspringChromosome[offspringIndex] == node) {
-							nodeFound = true;
-							break;
-						}
-					}
-					if (nodeFound == false) {
-						for (var offspringIndex = 0; offspringIndex < individual.chromosome.length; offspringIndex++) {
-							if (offspringChromosome[offspringIndex] == undefined) {
-								offspringChromosome[offspringIndex] = node;
-								break;
-							}
-						}
-					}
-				}
-				// Add chromosome to offspring and add offspring to population
-				var offspring = new ga.individual(this.chromosomeLength);
-				offspring.setChromosome(offspringChromosome);
-				offspringPopulation.addIndividual(offspring);
-			};
-		},
-	};
-
-	$(function(){
-		$('.date').datepicker({
-			format:'dd MM yyyy',
-			autoclose: true
-		}).on('change', function(){
-			$('.datepicker').hide();
-		});
-	});
-
-	function compileList(value,latitude,longitude,modalFunct,orderText) {
-		var $str = '<li class="list-group-item py-1 ';
-
-		if (value['job_status'] == 84) {
-			$str += 'amber lighten-3'; 
-		} else if (value['job_status'] > 84 && value['job_status'] != 89) {
-			$str += 'purple lighten-3 '; 
-		} else if (value['job_status'] == 89) {
-			$str += 'red lighten-3'; 
-		}
-
-		$str += '"><div class="row" id="list' + value['id'] +'"><div class="col-2 text-center"><div class="btn btn-sm mr-1 ';
-		if (value['job_status'] < 62 || value['job_status'] == 69) {
-			$str += 'btn-danger';
-		} else if (value['job_status'] < 72) {
-			$str += 'btn-warning';
-		} else {
-			$str += 'btn-primary';
-		}
-		$str += '" style="cursor:pointer" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye h3"></i></div>';
-
-		if (value['job_status'] == 81) {
-			$str += '<i class="fas fa-truck-loading text-success h3"></i> '; 
-		} else if (value['job_status'] == 82) {
-			$str += '<i class="fas fa-truck faa-passing animated text-success h3"></i> '; 
-		} else if (value['job_status'] == 83) {
-			$str += '<i class="fas fa-gavel faa-shake animated text-success h3"></i> '; 
-		} else if (value['job_status'] == 84) {
-			$str += '<i class="fas fa-exclamation-triangle faa-flash animated text-warning h3"></i> '; 
-		} else if (value['job_status'] > 84 && value['job_status'] != 86 && value['job_status'] != 89) {
-			$str += '<i class="fas fa-check text-success h3"></i> '; 
-		} else if (value['job_status'] == 86) {
-			$str += '<i class="fas far-thumbs-up faa-tada animated text-danger h3"></i> '; 
-		} else if (value['job_status'] == 89) {
-			$str += '<i class="fas fa-exclamation-triangle faa-flash animated text-danger h3"></i> '; 
-		}
-
-		$str += '</div><div class="col-10">';
-<?
-		if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
-?>
-			$str += '<i class="fas fa-calendar-alt text-primary"  onclick="dc_modal(' + value['id'] + ')"></i> ';
-<?
-		}
-?>
-		$str += '<a class="text-primary text-left p-0 d-inline" style="cursor:pointer; line-height:1.2; text-shadow:none" target="_blank" onClick="' + modalFunct + '">' + value['job_sqft'] + '<sup>sf</sup> - ' + value['comp_name'] + '<br>' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a>';
-		
-		if (value['address_notes'] > '') {
-			$str += '<p class="text-muted mb-0">Addr. Notes: <b>' + value['address_notes'] + '</b></p>';
-		}
-
-		$str +=     "<select class='mdb-select border-0 select" + value['id'] + "' onchange='assign_list("+value['id']+");'>";
-		<?
-			foreach ($rows as $row){ 
-		?>
-		var selectedTeam = <?php echo $row['inst_team_id']; ?>;
-		$str +=       "<option id='contactChoice<?php echo $row['inst_team_id']; ?>' value='<?php echo $row['inst_team_id']; ?>' "
-		if (selectedTeam == value['install_team']) {
-			$str += 'selected';
-		}
-		$str +=       " ><?php echo $row['inst_team_name']; ?></option>";
-		<? 
-			} 
-		?>
-		$str +=     "</select></div></div></li>";
-
-
-		return $str;
-	}
-
-	function dc_modal(pid) {
-		$('#dc-pid').val(pid);
-		$('#dc-staff').val(<?= $_SESSION['id'] ?>);
-		$('#date_change').modal('show');
-	}
-function date_change() {
-	if ($('#date_change_reason').val() == '') {
-		alert("You must enter a reason for changing the install date.");
-		return;
-	}
-	var user = $('#dc-staff').val();
-	var pjt = $('#dc-pid').val();
-	var cmt_comment = $('#date_change_reason').val();
-	var install_date = $('#dc-install_date').val();
-
-	var datastring = 'action=date_change&staffid=' + user + '&pid=' + pjt + '&cmt_comment=' + cmt_comment + '&install_date=' + install_date;
-	console.log(datastring);
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			console.log(data);
-
-			var toRemove = '#list' + pjt;
-			$(toRemove).closest('li').remove();
-
-			Command: toastr["error"]("Install Date Changed.", "Projects")
-			toastr.options = {
-				"closeButton": true,
-				"debug": false,
-				"newestOnTop": false,
-				"progressBar": false,
-				"positionClass": "toast-bottom-right",
-				"preventDuplicates": false,
-				"onclick": null,
-				"showDuration": 300,
-				"hideDuration": 1000,
-				"timeOut": 5000,
-				"extendedTimeOut": 1000,
-				"showEasing": "swing",
-				"hideEasing": "linear",
-				"showMethod": "fadeIn",
-				"hideMethod": "fadeOut"
-			};
-			$('#date_change').modal('hide');
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
-}
-
-</script>
+  </script>
 <style>
 .side-nav {
 	width: 40%;
-	min-width: 380px;
+	min-width: 400px;
 	background: url(../images/marble.jpg);
 }
 .side-nav ul, .side-nav li {
@@ -1739,28 +1589,19 @@ function date_change() {
 		top: 67px !important;
 		right: 147px !important;
 } */
-.datepicker>div {
-	display: block;
-}
-#myForm .btn.btn-primary.col-3 {
-	margin: 0;
-	padding: 0;
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-.gm-style-pbc {
-	z-index: -2!important;
-}
-.tertiary-text {
-	position: fixed;
-}
-#ga-buttons {
-	position: absolute;
-	top: 100px;
-}
-.blank_high {
-	display:none!important;
-}
+  .datepicker>div {
+    display: block;
+  }
+  #myForm .btn.btn-primary.col-3 {
+    margin: 0;
+    padding: 0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+  .gm-style-pbc {z-index: -2!important;}
+  .tertiary-text{position: fixed;}
+  #ga-buttons{position: absolute;top: 100px;}
+  .blank_high{display:none!important;}
 .datepicker_sec li input { 
 	margin-top: 7px;
 	font-size: 25px!important;
@@ -1768,114 +1609,98 @@ function date_change() {
 	text-align: center!important;
 	line-height: 1px;
 }
-.datepicker.dropdown-menu {
-	width:300px;
-}
-.datepicker.dropdown-menu .table-condensed {
-	width: 100%;
-}
-button:focus {
-	outline: none!important;
-}
-input[type=radio], input[type=checkbox] {
-	width: 20px;
-}
-.shadow {
-	position: absolute;
-}
-.shadow::after {
-	position: absolute;
-	left: -125px;
-	display: block;
-	width: 50px;
-	height: 50px;
-	margin-top: -25px;
-	content: '';
-	transform: rotateX(55deg);
-	border-radius: 50%;
-	box-shadow: rgba(0, 0, 0, .5) 100px 0 20px;
-}
-.pulse {
-	position: absolute;
-	margin-top: -50px;
-	margin-left: -50px;
-	transform: rotateX(55deg);
-}
-.pulse::after {
-	display: block;
-	width: 100px;
-	height: 100px;
-	content: '';
-	animation: pulsate 1s ease-out;
-	animation-delay: 1.6s;
-	animation-iteration-count: infinite;
-	opacity: 0;
-	border-radius: 50%;
-	box-shadow: 0 0 1px 2px rgba(0, 0, 0, .5);
-	box-shadow: 0 0 6px 3px rgba(99, 99, 252, 0.68);
-}
-@keyframes pulsate {
-	0% {
-		transform: scale(0.1, 0.1);
-		opacity: 0;
-	}
-	50% {
-		opacity: 1;
-	}
-	100% {
-		transform: scale(1.2, 1.2);
-		opacity: 0;
-	}
-}
-.team_section ul li {
-	font-size: 14px;
-	font-weight: bold;
-}
-html, body {
-	overflow-y:hidden!important;
-}
+  .datepicker.dropdown-menu{width:300px;}
+  .datepicker.dropdown-menu .table-condensed{width: 100%;}
+  button:focus {outline: none!important;}
+  input[type=radio], input[type=checkbox] {width: 20px;}
+  .shadow {
+    position: absolute;
+  }
+  .shadow::after {
+    position: absolute;
+    left: -125px;
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin-top: -25px;
+    content: '';
+    transform: rotateX(55deg);
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, .5) 100px 0 20px;
+  }
+  .pulse {
+    position: absolute;
+    margin-top: -50px;
+    margin-left: -50px;
+    transform: rotateX(55deg);
+  }
+  .pulse::after {
+    display: block;
+    width: 100px;
+    height: 100px;
+    content: '';
+    animation: pulsate 1s ease-out;
+    animation-delay: 1.6s;
+    animation-iteration-count: infinite;
+    opacity: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 1px 2px rgba(0, 0, 0, .5);
+    box-shadow: 0 0 6px 3px rgba(99, 99, 252, 0.68);
+  }
+  @keyframes pulsate {
+    0% {
+      transform: scale(0.1, 0.1);
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1.2, 1.2);
+      opacity: 0;
+    }
+  }
+  .team_section ul li{
+    font-size: 14px;
+    font-weight: bold;
+  }
+  html, body{
+    overflow-y:hidden!important;
+  }
 /*   #myForm .select-wrapper.mdb-select{
-	display: contents;
-}
-#myForm .select-wrapper span.caret,
-#myForm .select-wrapper input.select-dropdown,*/
-#myForm .select-wrapper ul.dropdown-content.select-dropdown {
-	top: 50px!important;
-} 
-#myForm .markersele {
-	padding: 0 0 0 10px;
-	border: none;
-}
-#myForm input.select-dropdown {
-	margin: 0px;
-}
-#myForm ul.dropdown-content.select-dropdown {
+    display: contents;
+  }
+  #myForm .select-wrapper span.caret,
+  #myForm .select-wrapper input.select-dropdown,*/
+  #myForm .select-wrapper ul.dropdown-content.select-dropdown{
+    top: 50px!important;
+  } 
+  #myForm .markersele{
+    padding: 0 0 0 10px;
+    border: none;
+  }
+  #myForm input.select-dropdown{
+    margin: 0px;
+  }
+  #myForm ul.dropdown-content.select-dropdown {
 /*     position: fixed!important; */
 /*     top: -70px!important;
-left:-140px!important; */
-}
-.gm-style-iw,
-.gm-style-iw > div { 
-	overflow: unset!important;
-}
-.markersele {
-	position: absolute;
-	bottom: 0;
-	right:0;
-}
-.select-wrapper input.select-dropdown {
-	margin-bottom: 0;
-}
+    left:-140px!important; */
+  }
+  .gm-style-iw,
+  .gm-style-iw > div{ 
+    overflow: unset!important;
+  }
+  .markersele {
+    position: absolute;
+    bottom: 0;
+    right:0;
+  }
 </style>
 
 
 </head>
 <body class="hidden-sn grey-skin" style="margin: 0; padding: 0; overflow-x: hidden; background:none !important">
-  <?PHP 
-	include ('modal_date_change.php');
-
-  // INCLUDE THE footer.php FILE. THIS FILE IS USED TO DISPLAYS EVERYTHING UNDER THE MAIN CONTENT AREA (IE. COPYRIGHT INFO)
-  ?>
 	<div class="loading hidden h-100 w-100 m-0 position-absolute" style="z-index: 3; touch-action: pan-x pan-y;background: #0000004a url(../images/icon.gif) no-repeat fixed center;"></div>
     <header>
         <!-- Sidebar navigation -->
@@ -2123,6 +1948,9 @@ left:-140px!important; */
   
   <!-- END DASHBOARD CONTENT AREA -->
   <!-- START FOOTER -->
+  <?PHP 
+  // INCLUDE THE footer.php FILE. THIS FILE IS USED TO DISPLAYS EVERYTHING UNDER THE MAIN CONTENT AREA (IE. COPYRIGHT INFO)
+  ?>
   <!-- END FOOTER --> 
 </body>
 <script>
@@ -2133,10 +1961,7 @@ left:-140px!important; */
 		var sideNavScrollbar = document.querySelector('.custom-scrollbar');
 		Ps.initialize(sideNavScrollbar);
 	});
-$('.button-collapse').click(function(){
-	$('.mdb-select').material_select('destroy');
-	$('.mdb-select').material_select();
-})
+
 </script>
 
 </html>

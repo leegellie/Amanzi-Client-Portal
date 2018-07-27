@@ -109,6 +109,7 @@ include('includes.php');
 	<script src="js/project_edit.js"></script>
 	<script src="js/materials.js"></script>
 	<script>
+
 <?PHP 
 
 ?>
@@ -171,6 +172,8 @@ if(isset($_GET['marble'])){
 	include ('modal_hold_notice.php');
 	include ('modal_release_hold.php');
 	include ('modal_job_lookup.php');
+	include ('modal_approval_reject.php');
+	include ('modal_select_installers.php');
 	include ('footer.php'); 
 // echo $access_level 
 ?>
@@ -486,7 +489,7 @@ if(isset($_GET['marble'])){
 		</div>
 	</div>
 </div>
-
+<div id="mdb-lightbox-ui"></div>
 
 
 <script>
@@ -539,6 +542,7 @@ function escapeHtml (string) {
 }
 	
 function editAccsModal(string) {
+	$('.mdb-select').material_select('destroy'); 
 	var res = string.split('::');
 	var accs_name = unescape(res[0]);
 	var accs_id = res[1];
@@ -569,6 +573,7 @@ function editAccsModal(string) {
 	$('#accs_depth').val(accs_depth);
 	$('#accs_count').val(accs_count);
 	$('#addAccsBtn').text('Update Database');
+	$('.mdb-select').material_select(); 
 	$('#addAccs').modal('show');
 }
 function delete_accessory(accs_id) {
@@ -679,11 +684,12 @@ $(document).ready(function(){
 			'aTargets' : [ -2, -1 ]
 		}]
 	});
-	$('.mdb-select').material_select('destroy');
-	$("#mdb-lightbox-ui").load("/mdb-addons/mdb-lightbox-ui.html");
-	$('select[name=DataTables_Table_0_length]').addClass('mdb-select');
-	$('.mdb-select').material_select();
+	$('.mdb-select').material_select('destroy'); 
+	$('select[name=DataTables_Table_0_length]').addClass('mdb-select'); 
+	$('.mdb-select').material_select(); 
+	$("#mdb-lightbox-ui").load("https://amanziportal.com/mdb-addons/mdb-lightbox-ui.html"); 
 });
+
 </script>
 </body>
 </html>

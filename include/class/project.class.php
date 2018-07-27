@@ -41,6 +41,123 @@ class project_action {
 	// $dir = OPTIONAL SUBDIRECTORY NAME. 0 = NO SUBDIRECTORY
 	// $name = NAME TO GIVE THE IMAGE
 
+	public function acct_rep_lookup($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "
+			 SELECT	users.email AS rep_email, projects.job_name, projects.order_num, projects.id, projects.uid
+			   FROM	projects
+			   JOIN	users
+				 ON	users.id = projects.acct_rep
+			  WHERE	projects.id = " . $a['id'];
+		$q = $conn->prepare($sql);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function dp_installers_lookup($pid) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "SELECT inst_log_inst_id, inst_log_installer FROM installer_log WHERE inst_log_pid = " . $pid;
+		$q = $conn->prepare($sql);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+
+	public function ud_status($status,$pid,$uid,$comment) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "UPDATE projects SET job_status = " . $status . " WHERE id = " . $pid;
+		$q = $conn->prepare($sql);
+		$q->execute();
+		$sql2 = "INSERT INTO comments (cmt_ref_id, cmt_type, cmt_user, cmt_comment, cmt_priority) VALUES (".$pid.",'pjt',".$uid.",".$comment.",'log')";
+		$q2 = $conn->prepare($sql2);
+		$q2->execute();
+	}
+
+	public function select_installers($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("INSERT INTO installer_log (
+							inst_log_pid,
+							inst_log_installer,
+							inst_log_inst_id,
+							inst_log_sqft,
+							inst_log_date)
+					VALUES (
+							:inst_log_pid,
+							:inst_log_installer,
+							:inst_log_inst_id,
+							:inst_log_sqft,
+							:inst_log_date)");
+		$q->bindParam('inst_log_pid',$a['inst_log_pid']);
+		$q->bindParam('inst_log_installer',$a['inst_log_installer']);
+		$q->bindParam('inst_log_inst_id',$a['inst_log_inst_id']);
+		$q->bindParam('inst_log_sqft',$a['inst_log_sqft']);
+		$q->bindParam('inst_log_date',$a['inst_log_date']);
+		$q->execute();
+	}
+
+	public function clear_installers($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "DELETE 
+				  FROM installer_log
+				 WHERE inst_log_pid = " . $a['pid'];
+		$q = $conn->prepare($sql);
+		$q->execute();
+	}
+
+
+	public function get_installers() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("
+			SELECT id, 
+				   fname, 
+				   lname, 
+				   installer_id 
+			  FROM users 
+			 WHERE installer_id > 0 
+			   AND isActive = 1
+		  ORDER BY lname ASC,
+				   fname ASC
+			 ");
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function get_inst_team($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "
+			 SELECT u.phone, i.inst_team_name
+			   FROM install_teams AS i 
+			   JOIN users AS u
+				 ON u.id = i.inst_lead_id
+			   WHERE inst_team_id = " . $a;
+		$q = $conn->prepare($sql);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function get_jobson() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("SELECT * FROM jobs_on WHERE 1");
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function assign_installer($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("UPDATE projects SET install_team = :teamID WHERE id = :jobID");
+		$q->bindParam('teamID',$a['teamID']);
+		$q->bindParam('jobID',$a['jobID']);
+		$q->execute();
+	}
 
 	// SELECT PROJECT LIST BASED ON USER CRITERIA 
 	public function get_precallsTemp() {
@@ -64,6 +181,34 @@ class project_action {
 		}
 	}
 
+	public function set_ord_num($newOrdNum,$pid) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = "UPDATE projects SET order_num = '" . $newOrdNum . "' WHERE id = " . $pid;
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}
+	}
+	
+	public function check_edges($pid){
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = "SELECT COUNT(1) AS counter FROM install_pieces WHERE piece_edge = 0 AND pid = " . $pid;
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}
+	}
+
 
 	// SELECT PROJECT LIST BASED ON USER CRITERIA 
 	public function get_precalls() {
@@ -75,7 +220,7 @@ class project_action {
 			WHERE install_date >= CURDATE() 
 			  AND install_date < '2200-01-01' 
 			  AND isActive = 1
-			  AND job_status > 62
+			  AND job_status > 61
 			GROUP BY contact_number, install_date";
 			$q = $conn->prepare($sql);
 			$q->execute();
@@ -563,7 +708,7 @@ class project_action {
 			}
 		}
 
-		$finalPrice = ($matPrice + $price_extra + $sinkPrice) - $install_discount + $price_tearout;
+		$finalPrice = ($matPrice + $price_extra + $sinkPrice + $price_tearout) - $install_discount;
 
 		if ($finalPrice < 1) {
 			$finalPrice = 0.00;
@@ -604,10 +749,23 @@ class project_action {
 //		$q->execute();
 //		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 //	}
-	public function get_accs() {
+	public function get_accs($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$q = $conn->prepare("SELECT * FROM accessories WHERE 1 ORDER BY accs_name ASC");
+		$sql = "SELECT * FROM accessories WHERE accs_code = 1 ORDER BY accs_name ASC";
+		if ($a > 1) {
+			$sql = "SELECT * FROM accessories WHERE accs_code > 1 ORDER BY accs_name ASC";
+		}
+		$q = $conn->prepare($sql);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function get_all_accs() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "SELECT * FROM accessories WHERE 1 ORDER BY accs_name ASC";
+		$q = $conn->prepare($sql);
 		$q->execute();
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 	}
@@ -833,15 +991,106 @@ class project_action {
 			echo "ERROR: " . $e->getMessage();
 		}
 	}
+
 	public function get_status_update($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-		$sql = "UPDATE projects SET job_status = :status";
-		if ($a['status'] == 86 || $a['status'] == 26) {
-			$sql .= ", isActive = 0";
-		}
-		$sql .= " WHERE id = :id";
+		$sql = "UPDATE projects SET job_status = :status WHERE id = :id";
+		$q = $conn->prepare($sql);
+		$q->bindParam('id',$a['pid']);
+		$q->bindParam('status',$a['status']);
+		$q->execute();
+
+
+		$q = $conn->prepare("
+			SELECT projects.order_num,
+				   projects.quote_num,
+				   projects.job_name,
+				   projects.uid,
+				   status.name AS status_name,
+				   rep.fname,
+				   rep.email
+			  FROM projects
+			  JOIN status
+				ON status.id = :status
+			  JOIN users rep
+				ON rep.id = projects.acct_rep
+			 WHERE projects.id = :pid");
+		$q->bindParam('pid',$a['pid']);
+		$q->bindParam('status',$a['status']);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function pre_order($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		$sql = "UPDATE projects SET pre_order = 1 WHERE id = :id";
+		$q = $conn->prepare($sql);
+		$q->bindParam('id',$a['pid']);
+		$q->execute();
+
+	}
+
+
+	public function approval_reject($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		$sql = "UPDATE projects SET request_approval = 0 WHERE id = :id";
+		$q = $conn->prepare($sql);
+		$q->bindParam('id',$a['pid']);
+		$q->execute();
+
+		$q = $conn->prepare("
+			SELECT projects.order_num,
+				   projects.quote_num,
+				   projects.job_name,
+				   projects.uid,
+				   rep.fname,
+				   rep.email
+			  FROM projects
+			  JOIN users rep
+				ON rep.id = projects.acct_rep
+			 WHERE projects.id = :pid");
+		$q->bindParam('pid',$a['pid']);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function date_change_update($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		$sql = "UPDATE projects SET install_date = :install_date WHERE id = :id";
+		$q = $conn->prepare($sql);
+		$q->bindParam('id',$a['pid']);
+		$q->bindParam('install_date',$a['install_date']);
+		$q->execute();
+
+		$q = $conn->prepare("
+			SELECT projects.order_num,
+				   projects.job_name,
+				   projects.uid,
+				   rep.fname,
+				   rep.email
+			  FROM projects
+			  JOIN users rep
+				ON rep.id = projects.acct_rep
+			 WHERE projects.id = :pid");
+		$q->bindParam('pid',$a['pid']);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+
+	public function prog_complete($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		$sql = "UPDATE projects SET job_status = :status, prog_ready = 1 WHERE id = :id";
 		$q = $conn->prepare($sql);
 		$q->bindParam('id',$a['pid']);
 		$q->bindParam('status',$a['status']);
@@ -1444,7 +1693,22 @@ class project_action {
 	public function get_entries() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "SELECT projects.id, projects.uid, projects.job_name, projects.quote_num, projects.order_num, projects.job_status, status.name AS status FROM projects JOIN status ON status.id = projects.job_status WHERE entry = 1 ORDER BY job_status DESC";
+		$sql = "
+			 SELECT projects.id, 
+					projects.uid, 
+					projects.job_name, 
+					projects.quote_num, 
+					projects.order_num, 
+					projects.job_status, 
+					projects.entry, 
+					status.name AS status 
+			   FROM projects 
+			   JOIN status 
+				 ON status.id = projects.job_status 
+			  WHERE entry < 2 
+			  	AND isActive = 1 
+				AND job_status < 84
+			  ORDER BY job_status DESC";
 		$q = $conn->prepare($sql);
 		$q->execute();
 		return $row = $q->fetchAll();
@@ -1665,8 +1929,9 @@ class project_action {
 			   AND projects.isActive = 1
 			 ORDER BY 
 				   install_date ASC, 
+				   urgent DESC, 
 				   first_stop DESC, 
-				   am DESC,
+				   am DESC, 
 				   pm ASC";
 			$q = $conn->prepare($sql);
 			$q->execute();
@@ -1689,13 +1954,15 @@ class project_action {
 			  JOIN status 
 				ON status.id = projects.job_status 
 			 WHERE install_date < '2200-01-01' 
-			   AND job_status > 31
+			   AND job_status > 24
 			   AND job_status < 60
+			   AND job_status <> 26
 			   AND job_status <> 49
 			   AND job_status <> 39
 			   AND projects.isActive = 1
 			 ORDER BY 
 				   install_date ASC, 
+				   urgent DESC, 
 				   first_stop DESC, 
 				   am DESC,
 				   pm ASC";
@@ -1725,6 +1992,7 @@ class project_action {
 			   AND projects.isActive = 1
 			 ORDER BY 
 				   install_date ASC, 
+				   urgent DESC, 
 				   first_stop DESC, 
 				   am DESC,
 				   pm ASC";
@@ -1754,6 +2022,7 @@ class project_action {
 			   AND projects.isActive = 1
 			 ORDER BY 
 				   install_date ASC, 
+				   urgent DESC, 
 				   first_stop DESC, 
 				   am DESC,
 				   pm ASC";
@@ -1796,6 +2065,7 @@ class project_action {
 			$sql .= "
 			ORDER BY 
 				team ASC, 
+			   urgent DESC, 
 				first_stop DESC, 
 				am DESC,
 				pm ASC,
@@ -1827,13 +2097,47 @@ class project_action {
 			  JOIN users 
 			    ON users.id = projects.uid 
 			 WHERE install_date < CURDATE() 
-			   AND job_status < 85
-			   AND projects.isActive = 1";
+			   AND (job_status < 85 OR job_status = 89)
+			   AND projects.isActive = 1 ";
 			if ($a > 0) {
 				$sql .= "AND install_teams.inst_lead_id = " . $a;
 			}
 			$sql .= "
 			ORDER BY install_date ASC";
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}
+	}
+
+	public function complete_installs($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = "
+			SELECT projects.*, 
+				   status.name AS status, 
+				   install_teams.inst_team_name AS team, 
+				   install_teams.inst_lead_id, 
+				   users.access_level AS ual 
+			  FROM projects 
+			  JOIN status 
+				ON status.id = projects.job_status 
+			  JOIN install_teams 
+				ON install_teams.inst_team_id = projects.install_team 
+			  JOIN users 
+			    ON users.id = projects.uid 
+			 WHERE job_status = 85
+			   AND install_date > '2018-06-01'
+			   AND projects.isActive = 1";
+			if ($a > 0) {
+				$sql .= "AND install_teams.inst_lead_id = " . $a;
+			}
+			$sql .= "
+			ORDER BY install_date DESC";
 			$q = $conn->prepare($sql);
 			$q->execute();
 			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
@@ -1920,19 +2224,58 @@ class project_action {
 		}  
 	}
 
+	public function get_mats_timeline($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = "
+			    SELECT *,
+					   status.name AS status
+				  FROM projects 
+				  JOIN status ON status.id = projects.job_status 
+				  JOIN installs ON installs.pid = projects.id
+				 WHERE projects.job_status > 11 
+				   AND projects.job_status < 50 
+				   AND !(install_date = '2200-01-01' AND template_date = '2200-01-01')
+				   AND isActive = 1 
+			  ORDER BY projects.install_date ASC,
+					   projects.am DESC,
+					   projects.first_stop DESC,
+					   projects.pm ASC,
+					   projects.template_date ASC,
+					   projects.temp_am DESC,
+					   projects.temp_first_stop DESC,
+					   projects.temp_pm ASC,
+					   projects.urgent DESC,
+					   projects.job_status";
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$rows = $q->fetchAll(PDO::FETCH_ASSOC);
+			return $rows;
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}  
+	}
+
 	public function get_installs_timeline($a) {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$sql = "
-			SELECT 	*, projects.id AS pid, status.name, status.stage, status.short_name, status.name AS status_name, status.id AS status
+			  SELECT *, 
+					 projects.id AS pid, 
+					 status.name, 
+					 status.stage, 
+					 status.short_name, 
+					 status.name AS status_name, 
+					 status.id AS status
 				FROM projects 
 				JOIN status 
 				  ON status.id = projects.job_status 
 			   WHERE projects.install_date < '2200-01-01' 
 			     AND projects.job_status > 24
 				 AND projects.job_status < 84
-				 AND projects.install_date >= CURDATE()
 				 AND projects.isActive = 1
 				 ";
 			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
@@ -1969,12 +2312,7 @@ class project_action {
 				JOIN status 
 				  ON status.id = projects.job_status 
 			   WHERE 
-					(projects.job_status < 84
-					AND projects.job_status > 24
-					AND projects.install_date < CURDATE()
-					AND projects.isActive = 1)
-				 OR 
-					(projects.job_status = 84)
+					projects.job_status = 84
 				 ";
 			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
 				$sql .= "AND acct_rep = " . $a;
@@ -2012,12 +2350,15 @@ class project_action {
 				   clients.state AS cState, 
 				   clients.zip AS cZip, 
 				   clients.email AS cEmail, 
-				   clients.phone AS cPhone 
+				   clients.phone AS cPhone,
+				   installers.inst_team_name
 			  FROM projects 
 			  JOIN users rep 
 				ON rep.id = projects.acct_rep 
 			  JOIN users clients 
 				ON projects.uid = clients.id 
+			  JOIN install_teams installers 
+				ON projects.install_team = installers.inst_team_id 
 			 WHERE projects.uid = :userID AND projects.id = :pjtID");
 		$q->bindParam('userID',$a['userID']);
 		$q->bindParam('pjtID',$a['pjtID']);
@@ -2026,12 +2367,24 @@ class project_action {
 		return $row = $q->fetchAll();
 	}
 
+	public function sum_sqft_update($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "UPDATE projects p,( SELECT pid, SUM(SqFt) as sumSqFt
+                    FROM installs GROUP BY pid) as i
+				     SET p.job_sqft = i.sumSqFt
+				   WHERE p.id = i.pid";
+		$q = $conn->prepare($sql);
+		$q->execute();
+	}
+
 	public function sum_sqft($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$q = $conn->prepare("SELECT SUM(SqFt) FROM installs WHERE pid = " . $a);
 		$q->execute();
-
-		return $row = $q->fetch();
+		$job_sqft = $q->fetch();
+		return $job_sqft;
 	}
 
 	public function sum_sinks($a) {
@@ -2070,7 +2423,8 @@ class project_action {
 								range_type.range_type AS rangeT, 
 								edges.edge_name, 
 								install_types.type_name, 
-								install_types.type_cost 
+								install_types.type_cost,
+								projects.job_status
 							FROM installs 
 							JOIN holes 
 								ON holes.id = installs.holes 
@@ -2080,6 +2434,8 @@ class project_action {
 								ON edges.id = installs.edge 
 							JOIN install_types 
 								ON install_types.type_id = installs.install_room 
+							JOIN projects 
+								ON projects.id = installs.pid 
 							WHERE installs.id = " . $a['instID']);
 		$q->execute();
 		return $row = $q->fetchAll();
@@ -2163,8 +2519,6 @@ class project_action {
 		foreach( $a as $field => $value ) $params[":{$field}"]=$value;
 		$q = $conn->prepare($sql);
 		$q->execute( $params );
-
-
 	}
 
 	// SELECT ACCESSORIES DATA BASED ON LIST SELECT 

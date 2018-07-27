@@ -109,7 +109,7 @@ USER'S EMAIL = <?= $user_email ?>
 		<?PHP 
 		if(isset($_GET['add'])){
 			require_once ('js/project_add.js');
-		} else {
+		}else{
 			require_once ('js/project_edit.js');
 		}
 		?>
@@ -144,6 +144,8 @@ USER'S EMAIL = <?= $user_email ?>
 		require_once ('project_polishing.php');
 	} elseif (isset($_GET['installs'])) {
 		require_once ('project_installs.php');
+	} elseif (isset($_GET['completed'])) {
+		require_once ('project_comp_installs.php');
 	} elseif (isset($_GET['edit'])) {
 		require_once ('project_edit.php');
 	} elseif (isset($_GET['marbgran'])) {
@@ -152,6 +154,8 @@ USER'S EMAIL = <?= $user_email ?>
 		require_once ('project_quartz.php');
 	} elseif (isset($_GET['timeline'])) {
 		require_once('project_timeline.php');
+	} elseif (isset($_GET['test'])) {
+		require_once('project_test.php');
 	}
 
 	include ('footer.php');
@@ -170,7 +174,9 @@ USER'S EMAIL = <?= $user_email ?>
 	include ('modal_entry_reject.php');
 	include ('modal_hold_notice.php');
 	include ('modal_release_hold.php');
+	include ('modal_approval_reject.php');
 	include ('modal_job_lookup.php');
+	include ('modal_select_installers.php');
 	?>
 
 	<script>
@@ -326,7 +332,7 @@ USER'S EMAIL = <?= $user_email ?>
 						flag = true;
 					}
 				});
-				if (session_id == 1 || session_id == 14  || session_id == 985 || session_id == 1444 || session_id == 4)  flag = false;
+				if (session_id == 1 || session_id == 13 || session_id == 14  || session_id == 985 || session_id == 1444 || session_id == 4 || session_id == 1452)  flag = false;
 				return flag;
 			},
 			onDraw(){
@@ -384,7 +390,7 @@ USER'S EMAIL = <?= $user_email ?>
 				if(jday == 0 || jday == 6) flag = true;
         console.log("today: ", _cur_day, "currently month = ", _cur_mon);
 				//           if((access_level != 1 || access_level != 14 ) && st_d < _cur_day + 7 ) flag = true;
-				if(!(session_id == 1 || session_id == 14 || session_id == 985 || session_id == 1444 || session_id == 1448 || session_id == 1582 ) && (st_m == _cur_mon && st_d < _cur_day + 7 )) flag = true;
+				if(!(session_id == 1 || session_id == 13 || session_id == 14 || session_id == 985 || session_id == 1444 || session_id == 1448 || session_id == 1452) && (st_m == _cur_mon && st_d < _cur_day + 7 )) flag = true;
 				$.each(resforinstall, function(key, value){
 					if(value['install_date'] == curdate){
 						var sum_sqft = 0;
@@ -436,7 +442,7 @@ USER'S EMAIL = <?= $user_email ?>
 						flag = true;
 					}
 				});
-				if(session_id == 1 || session_id == 14  || session_id == 985 || session_id == 1444 || session_id == 1448 || session_id == 1582)  flag = false;
+				if(session_id == 1 || session_id == 13  || session_id == 14  || session_id == 985 || session_id == 1444 || session_id == 1448 || session_id == 1452)  flag = false;
 				return flag;
 			},
 			onDraw(){

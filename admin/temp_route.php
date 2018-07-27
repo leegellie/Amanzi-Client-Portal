@@ -23,7 +23,7 @@ GET THE TEMPLATE TEAM INFO
 $conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$q = $conn->prepare("SELECT * FROM template_teams");
+$q = $conn->prepare("SELECT * FROM template_teams WHERE temp_team_active = 1");
 $q->execute();
 $rows = $q->fetchAll(PDO::FETCH_ASSOC);
 if( isset($_POST['teamID']) && isset($_POST['jobID']) && isset($_POST['cur_date'])){
@@ -1556,7 +1556,7 @@ modalPull += '</div>';
 				<div class="row py-3">
 					<div class="datepicker_sec">
 						<div class="col-2 pr-0">
-							<a href="/admin/dashboard.php">
+							<a href="/admin/projects.php?timeline">
 								<img class="img-fluid" src="../images/icon.png" alt="Amanzi">
 							</a>
 						</div>

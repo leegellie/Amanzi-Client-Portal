@@ -320,7 +320,7 @@ class login {
 		$accessLevel = new userData;
 		$accessLevel->set_selection('access_level',$_SESSION['id']);
 		if ( ($accessLevel->get_results('access_level') < 4) && ($accessLevel->get_results('access_level') != "")) {
-			header('Location: /admin/dashboard.php');
+			header('Location: /admin/projects.php?timeline');
 		} elseif ($accessLevel->get_results('access_level') == 4) {
 			header('Location: /admin/projects.php?templates');
 		} elseif ($accessLevel->get_results('access_level') == 5) {
@@ -336,7 +336,7 @@ class login {
 		} elseif ($accessLevel->get_results('access_level') == 10) {
 			header('Location: /admin/projects.php?installs');
 		} else {
-			header('Location: /user/dashboard.php');
+			header('Location: /admin/projects.php?timeline');
 		}
 	}
 

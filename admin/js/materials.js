@@ -292,16 +292,48 @@ function material_delivered(pid) {
 			data: datastring,
 			success: function(data) {
 				console.log(data);
-				$("#materialBtn").click();
+				mat_list_pull();
 			},
-			error: function(xhr, status, error) {
-				// alert("Error submitting form: " + xhr.responseText);
-				successNote = "Error submitting form: " + xhr.responseText;
-				$('#editSuccess').html(succesStarter + successNote + successEnder);
-				document.getElementById('closeFocus').focus();
+			error: function(data) {
+				console.log(data);
 			}
 		});
 	}
+}
+
+function material_delivered_prog(pid) {
+	if (confirm('Mark full project as deliverd to fabrication?')) {
+		var datastring = 'action=material_delivered_prog&pid=' + pid;
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				console.log(data);
+				mat_list_pull();
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
+}
+
+function material_selected(pid) {
+	var datastring = 'action=material_selected&pid=' + pid;
+	console.log(datastring);
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log(data);
+			mat_list_pull();
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
 }
 
 function assignMat(thisForm) {
@@ -318,9 +350,10 @@ function assignMat(thisForm) {
         }
     });
 }
-function matReset(iid, pid, name) {
+
+function matReset(iid, pid, iname) {
 	if (confirm("Are you sure you want to reset the status of this material?")) {
-		var datastring = 'action=material_reset&iid=' + iid + '&pid=' + pid + '$name=' + name;
+		var datastring = 'action=material_reset&iid=' + iid + '&pid=' + pid + '$iname=' + iname;
 		$.ajax({
 			type: "POST",
 			url: "ajax.php",
@@ -336,6 +369,48 @@ function matReset(iid, pid, name) {
 		return;
 	}
 }
+
+function mat_list_pull() {
+	var datastring = "action=get_materials_needed";
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			var res = data.split(":::");
+			$('#toOrder').html(res[0]);
+			$('#mOrdered').html(res[1]);
+			$('#mOnHand').html(res[2]);
+			$('#toDeliver').html(res[3]);
+			$('#sAccsMat').html(res[4]);
+			$('#sAccsJob').html(res[5]);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+	setTimeout(mat_list_pull, 5000);
+}
+
+function set_pullstatus($a, $b) {
+  if (confirm("Are you sure you want to set the status of this material?")) {
+    var datastring = 'action=update_pullstatus&date=' + $a + '&ids=' + $b;
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				console.log(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+  } else {
+		return;
+	}
+}
+
 
 $(document).ready(function() {
 

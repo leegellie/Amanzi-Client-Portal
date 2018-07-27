@@ -173,7 +173,43 @@ class materials_action {
 		$q->execute();
 		return $row = $q->fetchAll();
 	}
-
+  
+  //SELECT ACCESSORIES BY "TODAY" AND "TOMORROW"(ACTUALLY, NEXT BUSINESS DAY)
+  public function get_accessories_ttday() {
+    $conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
+    $q = $conn->prepare("
+		 SELECT install_sink.*, 
+				projects.* 
+		   FROM projects
+		   JOIN installs ON projects.id = installs.pid
+		   JOIN install_sink on install_sink.sink_iid = installs.id
+		  WHERE install_date >= CURDATE() 
+			AND !(install_date = '2200-01-01')
+			AND job_status > 24
+      AND install_sink.pull_status = 0
+	   ORDER BY install_date ASC,
+	   			sink_name ASC,
+				faucet_name ASC
+    ");
+    $q->execute();
+    return $row = $q->fetchAll();
+  }
+  
+  public function update_pullstatus($a){
+    try {
+      $conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+      $q = $conn->prepare("UPDATE install_sink SET pull_status = 2 WHERE sink_id IN (".$a.")");
+//       $q->bindParam(':iid', $a);
+      $q->execute();
+      $this->_message = "SUCCESS";
+    } catch(PDOException $e) {
+      $this->_message = "ERROR: " . $e->getMessage();
+    }
+    return $this->_message;
+  }
+  
 	// SELECT PROJECT BY QUOTE NUMBER OR ORDER NUMBER FROM SEARCH CRITERIA 
 	public function get_install_materials($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
@@ -195,6 +231,7 @@ class materials_action {
       JOIN installs ON installs.pid = projects.id
       WHERE projects.job_status > 11 
         AND projects.job_status < 50 
+        AND projects.job_status <> 44 
         AND !(install_date = '2200-01-01' AND template_date = '2200-01-01')
         AND isActive = 1 
       ORDER BY projects.install_date ASC
@@ -274,17 +311,33 @@ class materials_action {
 	public function material_delivered($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$q = $conn->prepare("UPDATE projects SET job_status = 44 WHERE id = :pid");
+		$q = $conn->prepare("UPDATE projects SET job_status = 44, mat_ready = 1 WHERE id = :pid");
 		$q->bindParam(':pid',$a);
 		$q->execute();
 	}
 
-	public function material_reset($a) {
+	public function material_delivered_prog($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$q = $conn->prepare("UPDATE installs SET material_status = 1 WHERE id = :id");
-		$q->bindParam(':id',$a);
+		$q = $conn->prepare("UPDATE projects SET mat_ready = 1 WHERE id = :pid");
+		$q->bindParam(':pid',$a);
 		$q->execute();
+	}
+
+	public function material_selected($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("UPDATE projects SET mat_selected = 1 WHERE id = :pid");
+		$q->bindParam(':pid',$a);
+		$q->execute();
+	}
+
+	public function material_reset($a) { 
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+		$q = $conn->prepare("UPDATE installs SET material_status = 1 WHERE id = :id"); 
+		$q->bindParam(':id',$a['iid']); 
+		$q->execute(); 
 	}
 
 }

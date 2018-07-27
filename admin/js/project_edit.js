@@ -76,8 +76,10 @@ function viewThisInstall($a,$b,$c) {
 			$("#instDetails").html('');
 			$("#instDetails").append(data);
 			$iName = $('#installName').text();
-			$("html, body").animate({ scrollTop: $('#instDetails').offset().top - 60 }, 300);
 			new Clipboard('.btnCopy');
+			$("#pjtInstalls").hide();
+			$('#instDetails').show();
+			$("html, body").animate({ scrollTop: $('#instDetails').offset().top - 120 }, 600);
 		},
 		error: function(data) {
 			console.log(data);
@@ -113,6 +115,7 @@ function viewThisProject($a,$b) {
 	get_price_mult();
 	//setTimeout(function(){ getStatuses(); }, 300);
 	//setTimeout(function(){ statusSet(); }, 300);
+	$("#mdb-lightbox-ui").load("/mdb-addons/mdb-lightbox-ui.html");
 }
 
 function getStatuses() {

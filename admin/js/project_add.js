@@ -296,6 +296,14 @@ $(document).ready(function() {
 				$('#reason').val('');
 			}
 		}
+		if ($('#pick_up').val() == 0) {
+			$('#install_team').val(22);
+		}
+		if ($('#install_team').val() == 0) {
+			if ($type == 2) {
+				$('#install_team').val(12);
+			}
+		}
 		if ($('#no_charge').prop('checked') == true && $('#reason').val().length < 15) {
 			alert("You must provide a detailed reason as to why there is no charge.");
 			$('#loadOver').fadeOut(500);
@@ -303,8 +311,8 @@ $(document).ready(function() {
 			$('#reason').focus();
 			return;
 		}
-		if ($type > 1 && ($('#responsible option:selected').val() == 0 || $('#reason').val().length < 15)) {
-			alert("You must explain the reason for repairs with as much detail as possible and the area responsible.");
+		if ($type > 1 && ( $('#responsible option:selected').val() == 0 || $('#reason').val().length < 15) ) {
+			alert("You must explain the reason for repairs with as much detail as possible and the area responsible and who is responsible.");
 			$('#loadOver').fadeOut(500);
 			$('#reason').addClass('is-invalid');
 			$('#reason').focus();
@@ -387,7 +395,6 @@ $(document).ready(function() {
 			success: function(data) {
 				if (isNaN(data)) {
 					alert(data);
-
 				} else {
 					$pid = data;
 					$uid = $("#uid").val();

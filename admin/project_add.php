@@ -85,6 +85,7 @@
 												<input type="hidden" id="addition" name="addition" value="0">
 												<input type="hidden" id="job_lat" name="job_lat">
 												<input type="hidden" id="job_long" name="job_long">
+												<input type="hidden" id="install_team" name="install_team" value="0">
 											</div>
 										</div>
 										<div class="col-3 pt-1">
@@ -122,7 +123,13 @@
 											</fieldset>
 											<fieldset class="form-group col-6 col-md-3">
 												<label for="po-cost">Deposit Paid:</label>
-												<input class="form-control" id="po_cost" name="po_cost" type="text">
+												<input class="form-control" id="po_cost" name="po_cost" type="text" 
+<? 
+													if ($_SESSION['access_level'] != 1 && $_SESSION['access_level'] != 3) {
+													    echo ' readonly data="' . $_SESSION['access_level'] . '"';
+													   }
+?>
+													   >
 											</fieldset>
 											<fieldset class="form-group col-6 col-md-3">
 												<label for="po-num">P.O. #:</label>
@@ -242,7 +249,7 @@
 									<fieldset class="form-group col-6 col-md-6">
 										<div class="container">
 											<div class="row">
-												<label class="col-5" for="template-date">Template Date:</label>
+												<label class="col-5" for="template_date">Template Date:</label>
 												<input class="col-md-7 form-control datepicker" type="text" id="template_date" name="template_date" autocomplete="off">
 												<!--<input class="col-7 form-control" id="template_date" name="template_date" type="date">-->
 											</div>
@@ -273,7 +280,7 @@
 									<fieldset class="form-group col-6 col-md-6">
 										<div class="container">
 											<div class="row">
-												<label class="col-5" for="install-date">Install Date:</label>
+												<label class="col-5" for="install_date">Install Date:</label>
 												<input class="col-md-7 form-control datepicker1" type="text" id="install_date" name="install_date" readonly="readonly" autocomplete="off">
 												<!--<input class="col-7 form-control" id="install_date" name="install_date" type="date">-->
 											</div>

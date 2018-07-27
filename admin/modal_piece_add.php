@@ -222,14 +222,12 @@
 							<input type="hidden" name="action" value="add_sink">
 							<input type="hidden" id="sink_iid" name="sink_iid" value="">
 							<input type="hidden" id="sink_price" name="sink_price" value="">
-							<input type="hidden" id="faucet_price" name="faucet_price" value="">
 							<input type="hidden" id="cutout_price" name="cutout_price" value="">
-
+							
 							<div class="row">
-								<fieldset class="form-group col-4 d-inline">
+								<fieldset class="form-group col-6 d-inline">
 									<label for="sink_part"><u>To which piece does the sink belong</u>: </label>
-									<select class="mdb-select" id="sink_part" name="sink_part">
-									</select>
+									<select class="mdb-select" id="sink_part" name="sink_part"></select>
 								</fieldset>
 								<fieldset class="form-group col-3 d-inline">
 									<label for="sink_provided"><u>Customer provided</u>? </label>
@@ -237,57 +235,6 @@
 										<option value="0">No</option>
 										<option value="1">Yes</option>
 									</select>
-								</fieldset>
-								<fieldset class="form-group col-5 d-inline">
-									<label for="sink_faucet"><u>Faucet</u>: </label>
-                                    <div class="input-group">
-										<input type="text" list="faucets" class="form-control" id="sink_faucet" name="sink_faucet" autocomplete="off">
-                                    	<div class="input-group-append">
-	                                        <button type="button" class="btn btn-muted" onClick="$('#sink_faucet').val('')"><i class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-									<datalist id="faucets">
-									<?
-										$get_accs = new project_action;
-										$rows = $get_accs->get_accs(2);
-										foreach ($rows as $row) {
-											echo "<option accs_id='" . $row['accs_id'] . "' price='" . $row['accs_price'] . "' cost='" . $row['accs_cost'] . "'>" . $row['accs_model'] . " - " . $row['accs_name'] . "</option>";
-										}
-									?>
-									</datalist>
-								</fieldset>
-							</div>
-
-							<hr class="w-100">
-							<div class="row">
-<!--								<fieldset class="form-group col-3 d-inline">
-									<label for="sink_style"><u>Sink Type</u>: </label>
-									<select class="mdb-select" id="sink_style" name="sink_style">
-										<option value="None">None</option>
-										<option value="Drop-In">Drop-In</option>
-										<option value="Undermount">Undermount</option>
-										<option value="Vessel">Vessel</option>
-										<option value="Apron/Farm Style">Apron/Farm Style</option>
-										<option value="Top Zero">Top Zero</option>
-									</select>
-								</fieldset>
--->								<fieldset class="form-group col-9 d-inline">
-									<label for="sink_model"><u>Sink Model</u>: </label>
-                                    <div class="input-group">
-										<input class="form-control" list="sinks" type="text" id="sink_model" name="sink_model" autocomplete="off">
-                                    	<div class="input-group-append">
-	                                        <button type="button" class="btn btn-muted" onClick="$('#sink_model').val('')"><i class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-									<datalist id="sinks">
-									<?
-										$get_accs = new project_action;
-										$rows = $get_accs->get_accs(1);
-										foreach ($rows as $row) {
-											echo "<option accs_id='" . $row['accs_id'] . "'  width='" . $row['accs_width'] . "'  depth='" . $row['accs_depth'] . "' price='" . $row['accs_price'] . "' cost='" . $row['accs_cost'] . "'>" . $row['accs_model'] . " - " . $row['accs_name'] . "</option>";
-										}
-									?>
-									</datalist>
 								</fieldset>
 								<fieldset class="form-group col-3 d-inline">
 									<label for="sink_mount"><u>Cutout</u>: </label>
@@ -299,6 +246,27 @@
 										<option value="4">Apron/Farm Style</option>
 										<option value="5">Top Zero</option>
 									</select>
+								</fieldset>
+							</div>
+							<hr class="w-100">
+							<div class="row">
+								<fieldset class="form-group col-12 d-inline">
+									<label for="sink_model"><u>Sink Model</u>: </label>
+									<div class="input-group">
+										<input class="form-control" list="sinks" type="text" id="sink_model" name="sink_model" autocomplete="off">
+										<div class="input-group-append">
+											<button type="button" class="btn btn-muted" onClick="$('#sink_model').val('')"><i class="fas fa-times"></i></button>
+										</div>
+									</div>
+									<datalist id="sinks">
+										<?
+										$get_accs = new project_action;
+										$rows = $get_accs->get_accs(1);
+										foreach ($rows as $row) {
+											echo "<option accs_id='" . $row['accs_id'] . "'  width='" . $row['accs_width'] . "'  depth='" . $row['accs_depth'] . "' price='" . $row['accs_price'] . "' cost='" . $row['accs_cost'] . "'>" . $row['accs_model'] . " - " . $row['accs_name'] . "</option>";
+										}
+										?>
+									</datalist>
 								</fieldset>
 								<fieldset class="form-group col-3 d-inline">
 									<label for="sink_holes"><u>Faucet Spread / Holes</u>:</label>
@@ -327,10 +295,67 @@
 									<input type="text" class="form-control" id="cutout_depth" name="cutout_depth" value="0">
 								</fieldset>
 							</div>
-
+							
 						</form>
 						<div id="addSinkBtn" class="btn btn-lg btn-primary mt-3 w-100" onClick="add_sink('add_sink')">Submit</div>
 					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close &#10008;</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="add_accs" tabindex="-1" role="dialog" aria-labelledby="add_accsLabel" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="margin-top: 7rem;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="modal-title"><h2 class="d-inline text-primary"><i class="fas fa-plus text-warning"></i>  Add Accessory</h2></div>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&#10008;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<div class="container">
+					<form id="add_accs" class="row">
+						<input type="hidden" name="action" value="add_accs">
+						<input type="hidden" id="f-sink_iid" name="sink_iid" value="">
+						<input type="hidden" id="f-faucet_price" name="faucet_price" value="">
+						<fieldset class="form-group col-6 d-inline">
+							<label for="sink_part"><u>To which piece does the accessory belong</u>: </label>
+							<select class="mdb-select" id="f-sink_part" name="sink_part">
+							</select>
+						</fieldset>
+						<fieldset class="form-group col-6 d-inline">
+							<label for="sink_provided"><u>Customer provided</u>? </label>
+							<select class="mdb-select" id="f-sink_provided" name="sink_provided">
+								<option value="0">No</option>
+								<option value="1">Yes</option>
+							</select>
+						</fieldset>
+						<hr class="w-100">
+						<fieldset class="form-group col-12 d-inline">
+							<label for="sink_faucet"><u>Faucet</u>: </label>
+							<div class="input-group">
+								<input type="text" list="faucets" class="form-control" id="sink_faucet" name="sink_faucet" autocomplete="off">
+								<div class="input-group-append">
+									<button type="button" class="btn btn-muted" onClick="$('#sink_faucet').val('')"><i class="fas fa-times"></i></button>
+								</div>
+							</div>
+							<datalist id="faucets">
+								<?
+								$get_accs = new project_action;
+								$rows = $get_accs->get_accs(2);
+								foreach ($rows as $row) {
+									echo "<option accs_id='" . $row['accs_id'] . "' price='" . $row['accs_price'] . "' cost='" . $row['accs_cost'] . "'>" . $row['accs_model'] . " - " . $row['accs_name'] . "</option>";
+								}
+								?>
+							</datalist>
+						</fieldset>
+					</form>
+					<div id="addAccsBtn" class="btn btn-lg btn-primary mt-3 w-100" onClick="add_accs('add_accs')">Submit</div>
 				</div>
 			</div>
 			<div class="modal-footer">

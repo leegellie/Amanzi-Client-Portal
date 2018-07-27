@@ -105,7 +105,7 @@ $(document).ready(function(){
 				if (data=='1') {
 					// alert("User Billing Info Added.");
 					//alert('User Billing Added');
-					window.location.href = 'dashboard.php';
+					window.location.href = '/admin/projects.php?timeline';
 				} else {
 					// alert(data);
 					$('#editSuccess').html(succesStarter+data+successEnder);

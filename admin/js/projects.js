@@ -36,6 +36,151 @@ $addChange = 0;
 $order_num = '';
 $job_name = '';
 
+function select_installers_modal(pid,sqft,date) {
+	$('.installer').prop('checked',false);
+	$('#si-pid').val(pid);
+	$('#si-sqft').val(sqft);
+	$('#si-install_date').val(date);
+	$('#select_installers').modal('show');
+}
+
+function select_installers() {
+	var inst_log_pid = $('#si-pid').val();
+	var inst_log_sqft = $('#si-sqft').val();
+	var inst_log_date = $('#si-install_date').val();
+	var installer_string = "Installed by ";
+	// Clear old installers
+	var datastring = 'action=clear_installers&pid=' + inst_log_pid;
+	console.log(datastring);
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+
+	$('.installer').each(function() {
+		if ($(this).prop('checked') == true) {
+			var inst_log_installer = $(this).data('installer_name');
+			var inst_log_inst_id = this.id;
+			installer_string += ' -- ' + inst_log_inst_id + ' : ' + inst_log_installer;
+			var datastring = 'action=select_installers&inst_log_inst_id=' + inst_log_inst_id + '&inst_log_pid=' + inst_log_pid + '&inst_log_installer=' + inst_log_installer + '&inst_log_sqft=' + inst_log_sqft + '&inst_log_date=' + inst_log_date;
+			console.log(datastring);
+			$.ajax({
+				async: false,
+				type: "POST",
+				url: "ajax.php",
+				data: datastring,
+				success: function(data) {
+					console.log(data);
+					//viewThisProject($pid,$uid);
+				},
+				error: function(data) {
+					console.log(data);
+				}
+			});
+		}
+	});
+	var datastring = 'action=submit_comment&cmt_ref_id=' + inst_log_pid + '&cmt_comment=' + installer_string + '&cmt_user=' + cmt_user + '&cmt_type=pjt&cmt_priority=911';
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			//console.log(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+	statusChange(1,inst_log_pid,85);
+	$('#select_installers').modal('hide');
+	viewThisProject($pid,$uid);
+}
+
+function pre_order(user,pjt) {
+	if (window.confirm("By continuing, you are accepting responsibility for materials ordered before an Approved Quote is accepted by the customer. Ensure you have enough data entered for the Materials Department to order your materials.")) {
+		var datastring = 'action=pre_order&staffid=' + user + '&pid=' + pjt;
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				console.log(data);
+				viewThisProject($pid,$uid);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	} else {
+		return;
+	}
+} 
+
+function getJobsOn() {
+	var datastring = "action=jobson_list"
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			$('#jobsOn').html('');
+			$('#jobsOn').append(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+	setTimeout(getJobsOn, 5000);
+}
+
+function instAssignModal(id) {
+	$('#assign_installer_pjt').val(id);
+	$('#assign_installer_team').val(0);
+	$('#assign_installer').modal('show');
+}
+
+function assign_installer() {
+	var team_select_pjt = $('#assign_installer_pjt').val();
+	var team_select_id = $('#assign_installer_team option:selected').val();
+	var datastring = 'action=assign_installer&teamID=' + team_select_id + '&jobID=' + team_select_pjt;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log('Success: ' + data);
+			$('#assign_installer').modal('hide');
+		},
+		error: function(data) {
+			console.log('Fail: ' + data);
+		}
+	});
+}
+
+function assign_install(n) {
+	var myForm = 'select.select' + n + ' option:selected';
+	var team_select_id = $(myForm).val();
+	var datastring = 'action=assign_installer&teamID=' + team_select_id + '&jobID=' + n;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log('Success: ' + data);
+		},
+		error: function(data) {
+			console.log('Fail: ' + data);
+		}
+	});
+}
+
 function copyJob(pid) {
 	$('#job_lookup').val('');
 	$('#uid').val('');
@@ -96,6 +241,7 @@ function copyJob(pid) {
 			var  alternate_name = res[16];
 			var  alternate_number = res[17];
 			var  alternate_email = res[18];
+			var  install_team = res[19];
 
 			$('#uid').val(uid);
 			$('#user_info').val(uCompany + ' - ' + uFname + ' '+ uLname);
@@ -112,6 +258,7 @@ function copyJob(pid) {
 			$('#alternate_name').val(alternate_name);
 			$('#alternate_number').val(alternate_number);
 			$('#alternate_email').val(alternate_email);
+			$('#install_team').val(install_team);
 
 			$('#job_lookup_modal').modal('hide');
 			$('.mdb-select').material_select();
@@ -197,8 +344,143 @@ function proj_type($type) {
 	}
 }
 
+function estApprove(user,pjt,status,po_cost,po_num,contact_name,contact_number,pick_up,address_verif) {
+	console.log('a');
+	if (contact_name == '') {
+		alert("You must have a contact name listed for this job.");
+		return;
+	}
+	if (contact_number == '') {
+		alert("You must have a contact phone number for this job.");
+		return;
+	}
+	if (address_verif != 1 && pick_up == 0) {
+		alert("You must verify the site address. Edit the job, look up the address and ensure it is correct and save the job.");
+		return;
+	}
+	statusChange(user,pjt,status);
+}
+
+function checkQuote(user,pjt,status,po_cost,po_num,contact_name,contact_number,pick_up,address_verif,no_charge,repair) {
+	if (po_cost < 2 && po_num == '' && no_charge == 0) {
+		alert("You must have a deposit or P.O. number for the job to proceed.");
+		return;
+	}
+	if (contact_name == '') {
+		alert("You must have a contact name listed for this job.");
+		return;
+	}
+	if (contact_number == '') {
+		alert("You must have a contact phone number for this job.");
+		return;
+	}
+	if (address_verif != 1 && pick_up == 0) {
+		alert("You must verify the site address. Edit the job, look up the address and ensure it is correct and save the job.");
+		return;
+	}
+	var datastring = 'action=quote_check_edges&pid=' + pjt;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			if (data > 0) {
+				alert("Not all your pieces have an edge listed.");
+				return;
+			} else {
+				statusChange(user,pjt,status);
+			}
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+	
+}
+
 function statusChange(user,pjt,status) {
 	var datastring = 'action=change_status&staffid=' + user + '&pid=' + pjt + '&status=' + status;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			////console.log(data);
+			Command: toastr["success"]("Status Changed to " + JSON.stringify(data) + ".", "Projects")
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": false,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": 300,
+				"hideDuration": 1000,
+				"timeOut": 5000,
+				"extendedTimeOut": 1000,
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			}
+			viewThisProject($pid, $uid);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
+function instEnRoute(user,pjt,status,client_id,contact_name,contact_number,job_name,order_num,inst_team_name,pick_up) {
+	var datastring = 'action=change_status&staffid=' + user + '&pid=' + pjt + '&status=' + status;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			////console.log(data);
+			Command: toastr["success"]("Status Changed to " + JSON.stringify(data) + ".", "Projects")
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": false,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": 300,
+				"hideDuration": 1000,
+				"timeOut": 5000,
+				"extendedTimeOut": 1000,
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			}
+			var datastring2 = 'action=email_enroute&uid=' + client_id + '&pid=' + pjt + '&contact_name=' + contact_name + '&contact_number=' + contact_number + '&job_name=' + job_name + '&order_num=' + order_num + '&inst_team_name=' + inst_team_name + '&pick_up=' + pick_up;
+			$.ajax({
+				type: "POST",
+				url: "ajax.php",
+				data: datastring2,
+				success: function(data) {
+					console.log(data);
+				},
+				error: function(data) {
+					console.log(data);
+				}
+			});
+			viewThisProject($pid, $uid);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
+
+function prog_complete(user,pjt,status) {
+	var datastring = 'action=prog_complete&staffid=' + user + '&pid=' + pjt + '&status=' + status;
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",
@@ -339,6 +621,58 @@ function job_hold() {
 		}
 	});
 }
+
+function appReject(uid,pjt) {
+	$('#ar-pid').val(pjt);
+	$('#ar-staff').val(uid);
+	$('#approval_reject').modal('show');
+}
+
+function approval_reject() {
+	if ($('#ar-reject_reason').val() == '') {
+		alert("You must enter a reason for rejecting this approval request.");
+		return;
+	}
+	var user = $('#ar-staff').val();
+	var pjt = $('#ar-pid').val();
+	var cmt_comment = $('#ar-reject_reason').val();
+
+	var datastring = 'action=approval_reject&staffid=' + user + '&pid=' + pjt + '&cmt_comment=' + cmt_comment;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			//console.log(data);
+			Command: toastr["error"]("Approval Request Denied.", "Projects")
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": false,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": 300,
+				"hideDuration": 1000,
+				"timeOut": 5000,
+				"extendedTimeOut": 1000,
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			};
+			$('#approval_reject').modal('hide');
+			if ($('#clientName').is(":visible") == true ) {
+				viewThisProject($pid, $uid);
+			}
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
 function mat_hold_modal(uid,iid,pid) {
 	$('#mh-pid').val('');
 	$('#mh-iid').val('');
@@ -675,6 +1009,13 @@ function marbcalc($mat, $price) {
 
 
 function check_address() {
+	alert("You must verify this address shows up as it should on the map. By accepting the address, you are stating that you are confident that the templaters and installers will be able to find the job.");
+	var $link = 'https://maps.google.com/?q=' + $('input[name=address_1]').val();
+	if ($('input[name=address_2]').val() > '') {
+		$link += ',' + $('input[name=address_2]').val();
+	}
+	$link += ',' + $('input[name=city]').val() + ', ' + $('select[name=state]').val() + ' ' + $('input[name=zip]').val();
+	window.open($link);
 	$('input[name=job_lat]').val(null);
 	$('input[name=job_long]').val(null);
 	var $add1 = $('input[name=address_1]').val();
@@ -696,6 +1037,7 @@ function check_address() {
 				$('.addVF').addClass('hidden');
 				$('.addLU').addClass('hidden');
 				$('.addFA').removeClass('hidden');
+				$('input[name=address_verif]').val(0);
 				$addChange = 2;
 			} else {
 				$('input[name=job_lat]').val(res[0]);
@@ -703,6 +1045,7 @@ function check_address() {
 				$('.addLU').addClass('hidden');
 				$('.addFA').addClass('hidden');
 				$('.addVF').removeClass('hidden');
+				$('input[name=address_verif]').val(1);
 				$addChange = 0;
 			}
 		},
@@ -963,18 +1306,38 @@ function sinkAdder() {
 			console.log(data);
 		}
 	});
-	$('.mdb-select').material_select();
 }
+
+// Default Edge not working yet.
+function accsAdder() {
+	$('.mdb-select').material_select('destroy');
+	$('#f-sink_part').html('');
+	var datastring = "action=get_pieces&iid=" + $iid;
+	$.ajax({
+		url: 'ajax.php',
+		data: datastring,
+		cache: false,
+		type: 'POST',
+		success: function(data) {
+			$('#f-sink_part').append('<option value="0">Unassigned</option>');
+			$('#f-sink_part').append(data);
+			$('.mdb-select').material_select();
+			$('#add_accs').modal('show');
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
 
 function add_sink(form) {
 	$('#addSinkBtn').hide();
 	var $form = '#' + form;
 	var $part = $('#sink_part').val();
 	var $provided = $('#sink_provided').val();
-	var $faucet = $('#sink_faucet').val();
 	var $model = $($form).find('#sink_model').val();
 	var $sink_name = $model;
-	var $faucet_name = $faucet;
 	var $mount = $('#sink_mount').val();
 	var $holes = $('#sink_holes').val();
 	var $other = $('#sink_holes_other').val();
@@ -985,15 +1348,11 @@ function add_sink(form) {
 	var $width = $('#cutout_width').val();
 	var $depth = $('#cutout_depth').val();
 	var $sPrice = 0;
-	var $fPrice = 0;
 	var $cPrice = 0;
 
 	var $sSelected = '#add_sink option:contains(' + $model + ')';
 
-	var $fSelected = '#add_sink option:contains(' + $faucet + ')';
-
 	var $sCost = $($sSelected).attr('cost');
-	var $fCost = $($fSelected).attr('cost');
 
 	if ($provided == 0) {
 		$sPrice = $($sSelected).attr('price');
@@ -1004,19 +1363,9 @@ function add_sink(form) {
 				return;
 			}
 		}
-		$fPrice = $($fSelected).attr('price');
-		if ($fPrice == 0) {
-			if (window.confirm('You have not entered a faucet. Or the faucet entered is not in the database. Are you sure you want to continue? Any charges for this faucet will have to be added to the installs "Extra Costs"')) {
-			} else {
-				$('#addSinkBtn').show();
-				return;
-			}
-		}
 	} else {
 		$sCost = 0;
-		$fCost = 0;
 		$sPrice = 0;
-		$fPrice = 0;
 	}
 	if (($('#type_cost').text() * 1) == 1) {
 		$cPrice = 50;
@@ -1029,7 +1378,6 @@ function add_sink(form) {
 		return;
 	}
 	$model = $($sSelected).attr('accs_id');
-	$faucet = $($fSelected).attr('accs_id');
 	if ($model < 1 || $model == null) {
 		$model = 0;
 	} 
@@ -1056,7 +1404,6 @@ function add_sink(form) {
 		success: function(data) {
 			//console.log(data);
 			$('#sink_provided').val(0);
-			$('#sink_faucet').val('');
 			$('#sink_model').val('');
 			$('#sink_mount').val(0);
 			$('#sink_holes').val(0);
@@ -1065,38 +1412,9 @@ function add_sink(form) {
 			$('#cutout_width').val(0);
 			$('#cutout_depth').val(0);
 			$('#sink_price').val('');
-			$('#faucet_price').val(0);
 			$('#cutout_price').val(0);
 			$('#addSinkBtn').show();
 			$('#add_sink').modal('hide');
-			if ($faucet != '') {
-				var datastring = 'action=add_faucet' +
-								 '&sink_iid=' + $iid +
-								 '&sink_provided=' + $provided +
-								 '&sink_faucet=' + $faucet +
-								 '&sink_part=' + $part +
-								 '&faucet_price=' + $fPrice +
-								 '&faucet_cost=' + $fCost +
-								 '&faucet_name=' + $faucet_name;
-				$.ajax({
-					url: 'ajax.php',
-					data: datastring,
-					type: 'POST',
-					success: function() {
-						$('#addSinkBtn').show();
-						$('#add_sink').modal('hide');
-						recalculateInstall($iid);
-					},
-					error: function(data) {
-						$('#addSinkBtn').show();
-						console.log(data);
-					}, 
-					complete: function() {
-						$('#add_sink').modal('hide');
-						recalculateInstall($iid);
-					}
-				});
-			}
 		},
 		error: function(data) {
 			$('#addSinkBtn').show();
@@ -1105,6 +1423,71 @@ function add_sink(form) {
 		complete: function(data) {
 			//console.log(data);
 			$('#add_sink').modal('hide');
+			recalculateInstall($iid);
+		}
+	});
+}
+
+function add_accs(form) {
+	$('#addAccsBtn').hide();
+	var $form = '#' + form;
+
+	if ($('#sink_faucet').val() == "") {
+		alert("You must provide an Accessory Model.");
+		$('#addAccsBtn').show();
+		return;
+	}
+
+	var $fModel = $('#sink_faucet').val();
+	var $fSelected = '#faucets option:contains(' + $fModel + ')';
+	var $fCost = $($fSelected).attr('cost');
+	var $fPrice = $($fSelected).attr('price');
+	var $fID = $($fSelected).attr('accs_id');
+
+	var $part = $('#f-sink_part').val();
+	var $provided = $('#f-sink_provided').val();
+
+	if ($provided == 0) {
+		$fPrice = $($fSelected).attr('price');
+		if ($fPrice == 0) {
+			if (window.confirm('You have not entered a faucet. Or the faucet entered is not in the database. Are you sure you want to continue? Any charges for this faucet will have to be added to the installs "Extra Costs"')) {
+			} else {
+				$('#addAccsBtn').show();
+				return;
+			}
+		}
+	} else {
+		$fCost = 0;
+		$fPrice = 0;
+	}
+	var datastring = 'action=add_faucet' +
+					 '&sink_iid=' + $iid +
+					 '&sink_provided=' + $provided +
+					 '&sink_faucet=' + $fID +
+					 '&sink_part=' + $part +
+					 '&faucet_price=' + $fPrice +
+					 '&faucet_cost=' + $fCost +
+					 '&faucet_name=' + $fModel;
+	console.log(datastring);
+	$.ajax({
+		url: 'ajax.php',
+		data: datastring,
+		type: 'POST',
+		success: function() {
+			$('#sink_provided').val(0);
+			$('#sink_faucet').val('');
+			$('#sink_model').val('');
+			$('#faucet_price').val(0);
+			$('#addAccsBtn').show();
+			$('#add_accs').modal('hide');
+			recalculateInstall($iid);
+		},
+		error: function(data) {
+			$('#addSinkBtn').show();
+			console.log(data);
+		}, 
+		complete: function() {
+			$('#add_accs').modal('hide');
 			recalculateInstall($iid);
 		}
 	});
@@ -1718,7 +2101,25 @@ function loadInstalls() {
 		success: function(data) {
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
-			setTimeout(loadInstalls, 10000);
+			setTimeout(loadInstalls, 4000);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+	//setTimeout(loadInstalls, 5000);
+}
+
+function loadCompInstalls() {
+	var datastring = "action=installs_comp_list"
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			$('#tableResults').html('');
+			$('#tableResults').append(data);
+			setTimeout(loadCompInstalls, 10000);
 		},
 		error: function(data) {
 			console.log(data);
@@ -1857,9 +2258,6 @@ var succesStarter = '<div class="metro window-overlay"><div class="window shadow
 
 var successEnder = '</div><div id="closeFocus" class="button bg-yellow fg-white bd-red" style="width:75px; bottom:5px; margin-left:345px; margin-bottom:10px" tabindex="0" onclick="closeSuccess()">Close &#10008;</div></div>';
 
-
-
-
 function pjtBack() {
 	$("#pjtInstalls").empty();
 	$("#pjtDetails").empty();
@@ -1868,6 +2266,11 @@ function pjtBack() {
 	$("#user-block").show();
 	$('#materials-block').show();
 	$('#searchSubmit').click();
+}
+
+function instBack() {
+	$('#instDetails').empty();
+	$("#pjtInstalls").show();
 }
 
 function loadingAdd(button){
@@ -2120,6 +2523,17 @@ function compilePjtEdit(data) {
 	if (obj.repair == 1 || obj.rework == 1 || obj.addition == 1 || obj.no_charge == 1) {
 		$('.reprew').show();
 	}
+	$('#p-address_verif').val(obj.address_verif);
+	$('#p-address_notes').val(obj.address_notes);
+	if (obj.address_verif == 1) {
+		$('.addLU').addClass('hidden');
+		$('.addFA').addClass('hidden');
+		$('.addVF').removeClass('hidden');
+	} else {
+		$('.addLU').removeClass('hidden');
+		$('.addFA').addClass('hidden');
+		$('.addVF').addClass('hidden');
+	}
 	$('#p-reason').val(obj.reason);
 	$('#p-responsible').val(obj.responsible);
 	$('#pjt_name').text(obj.job_name);
@@ -2371,7 +2785,7 @@ function updateInstall() {
 			return false;
 		},
 		complete: function() {
-			recalculateInstall(iid);
+			recalculateInstall($iid);
 			viewThisProject($pid,$uid);
 			viewThisInstall($iid, $pid, $uid);
 			$addChange = 0;
@@ -2413,7 +2827,6 @@ function approveLoss(mngr_approved,mngr_approved_price,mngr_approved_id) {
 			console.log(data);
 		}
 	});
-
 }
 
 function mngrApproveLoss(pid,mngr_approved,mngr_approved_price,mngr_approved_id) {
@@ -2483,7 +2896,16 @@ function request_approval(id,pid,uid) {
 
 
 
+
 $(document).ready(function() {
+	$('.addChg').change( function() {
+		$('.addVF').addClass('hidden');
+		$('.addFA').addClass('hidden');
+		$('.addLU').removeClass('hidden');
+		$('#address_verif').val(0);
+		$addChange = 1;
+	})
+
 
 // Load links from External Source
 	var pLocation = document.location.search.split('&');
@@ -2727,15 +3149,6 @@ $(document).ready(function() {
 		$('.cInside').removeClass("is-invalid");
 		$('.cVariable').css("background-color",'#FFF');
 	})
-	$('.addChg').change( function() {
-		$('.addVF').addClass('hidden');
-		$('.addFA').addClass('hidden');
-		$('.addLU').removeClass('hidden');
-		$addChange = 1;
-	})
-
-
-
 ///////// Sink Add / Edit
 
 // Gets Sink Details for selected sink
@@ -2754,6 +3167,18 @@ $(document).ready(function() {
 		}
 
 	})
+
+// Gets Accs Details for selected accs
+//	$('#sink_faucet').on('input', function() {
+//		var $fModel = $('#sink_faucet').val();
+//		var $fSelected = 'option:contains(' + $fModel + ')';
+//		var $fCost = $($sSelected).attr('cost');
+//		var $fPrice = $($sSelected).attr('price');
+//		var $fID = $($sSelected).attr('accs_id');
+//		$('#sink_faucet').val($fCost);
+//		$('#f-faucet_price').val($fPrice);
+//		$('#sink_faucet').val($fID);
+//	})
 
 
 ////////// Comments
@@ -2829,27 +3254,60 @@ $(document).ready(function() {
 			}
 		}
 	});
+
 	$('input[name=temp_am]').change(function(){
 		if( $('input[name=temp_am]').is(':checked')) {
 			$('input[name=temp_pm]').prop('checked',false);
+		} else {
+			if ($('input[name=temp_pm]').not(':checked')) {
+				$('input[name=temp_first_stop]').prop('checked',false);
+			}
 		}
 	})
 	$('input[name=temp_pm]').change(function(){
 		if( $('input[name=temp_pm]').is(':checked')) {
 			$('input[name=temp_am]').prop('checked',false);
+		} else {
+			if ($('input[name=temp_am]').not(':checked')) {
+				$('input[name=temp_first_stop]').prop('checked',false);
+			}
 		}
 	})
+	$('input[name=temp_first_stop]').change(function(){
+		if ($('input[name=temp_first_stop]').is(':checked')) {
+			if ($('input[name=temp_pm]').is(':checked') ) {
+			} else {
+				$('input[name=temp_am]').prop('checked',true);
+			}
+		}
+	})
+
 	$('input[name=am]').change(function(){
 		if( $('input[name=am]').is(':checked')) {
 			$('input[name=pm]').prop('checked',false);
+		} else {
+			if ($('input[name=pm]').not(':checked')) {
+				$('input[name=first_stop]').prop('checked',false);
+			}
 		}
 	})
 	$('input[name=pm]').change(function(){
 		if( $('input[name=pm]').is(':checked')) {
 			$('input[name=am]').prop('checked',false);
+		} else {
+			if ($('input[name=am]').not(':checked')) {
+				$('input[name=first_stop]').prop('checked',false);
+			}
 		}
 	})
-
+	$('input[name=first_stop]').change(function(){
+		if ($('input[name=first_stop]').is(':checked')) {
+			if ($('input[name=pm]').is(':checked') ) {
+			} else {
+				$('input[name=am]').prop('checked',true);
+			}
+		}
+	})
 	$('.servoption').hide();
 
 	$('#job_lookup').keypress(function(e) {
@@ -2873,4 +3331,14 @@ $(document).ready(function() {
 			$('.reason').hide();
 		}
 	});
+	$('#no_template').change(function() {
+		if ($('#no_template').prop('checked') == true) {
+			$('input[name=install_date]').prop('readonly',false);
+		} else if ($('#repair').val() == 0 && $('#rework').val() == 0) {
+			$('input[name=install_date]').prop('readonly',true);
+		}
+	});
+	getJobsOn();
+	var headHeight = $('.navbar.navbar-expand-md').outerHeight() + 'px';
+	$('#jobsOn').css('top',headHeight)
 });

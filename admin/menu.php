@@ -1,10 +1,15 @@
 <?PHP 
  // IF USER ACCESS  = 1 THEN USER IS AN ADMIN. SHOW ADMIN MENU
 if ($access_level < 11) {
+		if ($_SESSION['access_level'] == 1) {
+?>
+			<div id="jobsOn" class="m-0 p-0" style="position: fixed; width:100vw;z-index: 5;"></div>
+<?
+		}
 ?>
 <header class=" d-print-none">
 
-	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" style="top:0px; z-index:5">
+	<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark" style="top:0px">
 		<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         	<span class="navbar-toggler-icon"></span>
 		</button>
@@ -13,7 +18,7 @@ if ($access_level < 11) {
 			<ul class="navbar-nav m-auto">
 <?
 		if ( $access_level < 4 && $access_level != "") {
-			$link = '/admin/dashboard.php';
+			$link = '/admin/projects.php?timeline';
 		} elseif ($access_level == 4) {
 			$link = '/admin/projects.php?templates';
 		} elseif ($access_level == 5) {
@@ -35,7 +40,7 @@ if ($access_level < 11) {
 				</li>
 <?
 	if ($access_level < 4 || $_SESSION['id'] == 1448 || $_SESSION['id'] == 1582) {
-		if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14 || $_SESSION['id'] == 1447 || $_SESSION['id'] == 1456) {
+		if ($_SESSION['id'] == 1 || $_SESSION['id'] == 13 || $_SESSION['id'] == 14 || $_SESSION['id'] == 1444 || $_SESSION['id'] == 1447 || $_SESSION['id'] == 1456) {
 ?>
 				<li class="nav-item py-3 px-4 dropdown">
 					<a class="dropdown-toggle text-white" id="userdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
@@ -57,7 +62,10 @@ if ($access_level < 11) {
 				</li>
 <?
 		}
+	}
+	if ($access_level < 4 || $_SESSION['id'] == 1448 || $_SESSION['id'] == 1582 || $_SESSION['id'] == 1449) {
 ?>
+
 				<li class="nav-item py-3 px-4 dropdown">
 					<a class="dropdown-toggle text-white" id="userdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Customers</a>
 					<div class="dropdown-menu" aria-labelledby="userdropdown">
@@ -106,7 +114,8 @@ if ($access_level < 11) {
 				<li class="nav-item py-3 px-4 dropdown">
 					<a class="dropdown-toggle text-white" id="toolsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Staff</a>
 					<div class="dropdown-menu" aria-labelledby="toolsdropdown">
-						<a class="dropdown-item text-dark" href="/admin/time_off.php">Time Off</a>
+						<a class="dropdown-item text-dark" href="/admin/time_off.php">Time Off
+						</a>
 					</div>
 				</li>			
 			</ul>

@@ -69,6 +69,7 @@
 						<input type="hidden" id="p-job_long" name="job_long" value="">
 
 						<input type="hidden" id="p-job_sqft" value="">
+						<input id="p-address_verif" name="address_verif" type="hidden" value="0">
 
 
 						<div class="container pt-3 mb-3 border border-light border-right-0 border-left-0 blue lighten-5">
@@ -136,7 +137,13 @@
 								</fieldset>
 								<fieldset class="form-group col-6 col-md-2">
 									<label for="po-cost">Deposit Paid:</label>
-									<input class="form-control currency" id="p-po_cost" name="po_cost" type="text">
+									<input class="form-control currency" id="p-po_cost" name="po_cost" type="text"
+<? 
+													if ($_SESSION['access_level'] != 1 && $_SESSION['access_level'] != 3) {
+													    echo ' readonly data="' . $_SESSION['access_level'] . '"';
+													   }
+?>
+													   >
 								</fieldset>
 								<fieldset class="form-group col-6 col-md-2">
 									<label for="po-num">P.O. #:</label>
