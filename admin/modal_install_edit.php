@@ -207,7 +207,7 @@
 									<div class="input-group-prepend">
 										<span class="input-group-text"><i class="fas fa-dollar-sign"></i></span>
 									</div>
-									<input class="form-control" id="i-price_extra" name="price_extra" type="number" value="0">
+									<input class="form-control" id="i-price_extra" name="price_extra" type="number" min="0" value="0" oninput="this.value = Math.abs(this.value)">
 								</div>
 							</fieldset>
 						</div>

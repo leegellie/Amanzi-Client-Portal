@@ -391,7 +391,6 @@ function mat_list_pull() {
 	});
 	setTimeout(mat_list_pull, 5000);
 }
-
 function set_pullstatus($a, $b) {
   if (confirm("Are you sure you want to set the status of this material?")) {
     var datastring = 'action=update_pullstatus&date=' + $a + '&ids=' + $b;

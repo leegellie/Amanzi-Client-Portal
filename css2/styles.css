@@ -18,6 +18,11 @@
 [data-toggle="collapse"].collapsed:after {
 	transform: rotate(180deg) ;
 }
+input[type="text"],
+input[type="email"],
+input[type="date"] {
+	height: 2.375rem;
+}
 .lee-made-gradient {
 	background-image: linear-gradient(to top, #a18cd1 0%, #975c87 100%);
 }

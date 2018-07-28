@@ -36,6 +36,15 @@ $addChange = 0;
 $order_num = '';
 $job_name = '';
 
+function CallPrint(strid) {
+	var prtContent = document.getElementById(strid);
+	var WinPrint = window.open('', '', 'letf=0,top=0,width=1000,height=800,toolbar=0,scrollbars=0,status=0');
+	WinPrint.document.write(prtContent.innerHTML);
+	WinPrint.document.close();
+	WinPrint.focus();
+	WinPrint.print();
+	WinPrint.close();
+}
 function select_installers_modal(pid,sqft,date) {
 	$('.installer').prop('checked',false);
 	$('#si-pid').val(pid);
@@ -2952,8 +2961,11 @@ $(document).ready(function() {
 
 ////////// Install Add / Edit
 
-// Removes tax if Tax-Free selected or Unchecks Tax-Free if tax amount entered. 
 	$("#instUpdate").click(function(e) {
+		if ($('#i-price_extra').val() < 0) {
+			alert('"Extra Costs" can not have a negative value. Any discount for the project must be included in the projects "Job Discount" section.');
+			return;
+		}
 		var $form = "#updateInstall";
 		var $material = $('#i-material').val();
 		var $matName = $('#i-color-box').val();

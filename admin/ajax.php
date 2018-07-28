@@ -1451,51 +1451,59 @@ if ($action=="get_materials_needed") {
 			}
 		}
 	}
-
-  //GET THE ACCESSORIES FOR TODAY AND TOMORROW
-  function get_sort_array($array, $label) {
-    $temp = array();
-    foreach($array as $tmp) {
-      $temp[$tmp[$label]][] = $tmp;
-    }
-    $result = array();
-    foreach($temp as $type => $labels) {
-      $result[] = array(
-        $label => $type,
-        'detail' => $labels
-      );
-    }
-    return $result;
-  }
-  
+	//GET THE ACCESSORIES FOR TODAY AND TOMORROW
+	function get_sort_array($array, $label) {
+		$temp = array();
+		foreach($array as $tmp) {
+			$temp[$tmp[$label]][] = $tmp;
+		}
+		$result = array();
+		foreach($temp as $type => $labels) {
+			$result[] = array(
+				$label => $type,
+				'detail' => $labels
+			);
+		}
+		return $result;
+	}
 	$sink_array = get_sort_array($search->get_accessories_ttday(), 'install_date');
-
 	foreach($sink_array as $results) {
+		$dateDay = $results['install_date'];
 		$fifth_tab .= ' <hr class="blue-gradient" style="height:10px">';
+		$fifth_tab .= '	<div id="byMat' . $dateDay . '">';
 		$fifth_tab .= '	<div class="w-100 d-flex">';
-		$fifth_tab .= '		<div class="col-2">';
-		$fifth_tab .= '		  <h3>' . $results['install_date'] . '</h3>';
+		$fifth_tab .= '		<div class="col-12">';
+		$fifth_tab .= '		  <h3>' . $dateDay . ' <i class="fas fa-print text-success" onClick="CallPrint(' . "'byMat" . $dateDay . "'" . ')"></i> <span class="d-none d-print-block">Accessories Pull List - printed: ' . date("Y-m-d h:i:sa") . '</span></h3>';
 		$fifth_tab .= '		</div></div>';
-
 		$sinks_array = get_sort_array($results['detail'], 'sink_name');
 		foreach($sinks_array as $result_sink) {
 			$fifth_tab .= '	<hr>';
 			$fifth_tab .= '	<div class="container d-md-flex">';
-			$fifth_tab .= '		<div class="col-11 pl-2 text-primary"><strong><span class="text-success">' .count($result_sink['detail']) . ' X </span></strong>' . $result_sink['sink_name'] . '</div>';
-      $sink_ids = '';
-      foreach($result_sink['detail'] as $res){
-        $sink_ids .= $res['sink_id'].',';
-      }
-      $fifth_tab .= '		<div class="col-1 pl-2"><div class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')"><i class="fas fa-truck-container"></i></div></div>';
-			$fifth_tab .= '	</div>';
+			if($result_sink['sink_name'] == '' || $result_sink['sink_name'] == null) {
+				$fifth_tab .= '  <div class="col-11 pl-2 text-primary"><strong><span class="text-success">' .count($result_sink['detail']) . ' X </span></strong>' . $result_sink['detail'][0]['faucet_name'] . '</div>';
+			} else {
+				$fifth_tab .= '  <div class="col-11 pl-2 text-primary"><strong><span class="text-success">' .count($result_sink['detail']) . ' X </span></strong>' . $result_sink['sink_name'] . '</div>';
+			}
+			$sink_ids = '';
+			$order_nums = '';
+			foreach($result_sink['detail'] as $res){
+				$sink_ids .= $res['sink_id'].',  ';
+				$order_nums .= $res['order_num'].', ';
+			}
+			$order_num = trim($order_nums, ', ');
+			$fifth_tab .= '  <div class="col-1 pl-2"><div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')"><i class="fas fa-truck-container"></i></div></div>';
+			$fifth_tab .= ' </div>';
+			$fifth_tab .= '  <div class="col-11 pl-2 text-secondary"><strong><span class="text-success">  Jobs:  </span></strong>' . $order_num . '</div>';
 		}
+		$fifth_tab .= ' </div>';
 	}
-
 	foreach($sink_array as $results) {
 		$sixth_tab .= ' <hr class="blue-gradient" style="height:10px">';
+		$dateDay = $results['install_date'];
+		$sixth_tab .= '	<div id="byJob' . $dateDay . '">';
 		$sixth_tab .= '	<div class="w-100 d-flex">';
-		$sixth_tab .= '		<div class="col-2">';
-		$sixth_tab .= '		  <h3>' . $results['install_date'] . '</h3>';
+		$sixth_tab .= '		<div class="col-12">';
+		$sixth_tab .= '		  <h3>' . $dateDay . ' <i class="fas fa-print text-success" onClick="CallPrint(' . "'byJob" . $dateDay . "'" . ')"></i> <span class="d-none d-print-block">Accessories Pull List - printed: ' . date("Y-m-d h:i:sa") . '</span></h3>';
 		$sixth_tab .= '		</div></div>';
 		$jobs_array = get_sort_array($results['detail'], 'job_name');
 		foreach($jobs_array as $result_job) {
@@ -1507,18 +1515,23 @@ if ($action=="get_materials_needed") {
 			foreach($sinkname_array as $result_sink) {
 				$sixth_tab .= '		<div class="container d-md-flex">';
 				$sixth_tab .= '     <div class="col-11 pl-4">';
-				$sixth_tab .= ' <strong><span class="text-success">'.count($result_sink['detail']) .' X</span></strong> ' . $result_sink['sink_name'] . '';
+				if($result_sink['sink_name'] == '' || $result_sink['sink_name'] == null) {
+					$sixth_tab .= ' <strong><span class="text-success">'.count($result_sink['detail']) .' X</span></strong> ' . $result_sink['detail'][0]['faucet_name'] . '';
+				} else {
+					$sixth_tab .= ' <strong><span class="text-success">'.count($result_sink['detail']) .' X</span></strong> ' . $result_sink['sink_name'] . '';
+				}
 				$sixth_tab .= '     </div>';
 				$sink_ids = '';
 				foreach($result_sink['detail'] as $res){
 					$sink_ids .= $res['sink_id'].',';
 				}
 				$sixth_tab .= '     <div class="col-1 pl-4">';
-				$sixth_tab .= '       <div class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')"><i class="fas fa-truck-container"></i></div>';
+				$sixth_tab .= '       <div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')"><i class="fas fa-truck-container"></i></div>';
 				$sixth_tab .= '     </div>';
 				$sixth_tab .= '   </div>';  
-			}	
+			} 
 		}
+		$sixth_tab .= '   </div>';  
 	}
 	echo $first_tab . ':::' . $second_tab . ':::' . $third_tab . ':::' . $fourth_tab . ':::' . $fifth_tab . ':::' . $sixth_tab;
 }
@@ -6982,6 +6995,23 @@ if ($action=="view_selected_pjt") {
 				</div>
 				<?
 			}
+			if ($results['price_extra'] < 0) {
+				$extraPricePrint = number_format($results['price_extra'], 2, '.', ',');
+				$accounting .= '<tr><td class="">' . $results['install_name'] . ' - Extra Discount</td><td class="text-center">1</td><td class="text-right">$'.$extraPricePrint.'</td><td class="text-right">$ ';
+					if ($nc == 0) {
+						$accounting .= $extraPricePrint;
+					} else {
+						$accounting .= '$ 0.00';
+					}
+					$accounting .= '</td></tr>';
+				?>
+				<div class="row w-100 d-flex d-print-flex">
+					<div class="col-9 text-dark"><h5><small>Extra Costs</small></h5></div>
+					<div class="col-3 col-md-2 text-muted text-right"><h5><small>$<?= $extraPricePrint ?></small></h5></div>
+				</div>
+				<?
+			}
+
 			if ($results['install_notes'] != "") {
 			?>
 			<div class="w-100 row d-none d-print-flex">

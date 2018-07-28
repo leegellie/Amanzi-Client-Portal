@@ -1613,7 +1613,7 @@ modalPull += '</div>';
 			$str += 'red lighten-3'; 
 		}
 
-		$str += '"><div class="row" id="list' + value['id'] +'"><div class="col-2 text-center"><div class="btn btn-sm mr-1 ';
+		$str += '"><div class="row" id="list' + value['id'] +'"><div class="col-3 col-md-2 text-center"><div class="btn btn-sm mr-1 ';
 		if (value['job_status'] < 62 || value['job_status'] == 69) {
 			$str += 'btn-danger';
 		} else if (value['job_status'] < 72) {
@@ -1621,7 +1621,7 @@ modalPull += '</div>';
 		} else {
 			$str += 'btn-primary';
 		}
-		$str += '" style="cursor:pointer" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye h3"></i></div>';
+		$str += '" style="cursor:pointer" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div>';
 
 		if (value['job_status'] == 81) {
 			$str += '<i class="fas fa-truck-loading text-success h3"></i> '; 
@@ -1639,7 +1639,7 @@ modalPull += '</div>';
 			$str += '<i class="fas fa-exclamation-triangle faa-flash animated text-danger h3"></i> '; 
 		}
 
-		$str += '</div><div class="col-10">';
+		$str += '</div><div class="col-9 col-md-10">';
 <?
 		if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
 ?>
@@ -1729,7 +1729,7 @@ function date_change() {
 <style>
 .side-nav {
 	width: 40%;
-	min-width: 380px;
+	min-width: 360px;
 	background: url(../images/marble.jpg);
 }
 .side-nav ul, .side-nav li {
@@ -1881,8 +1881,13 @@ left:-140px!important; */
         <!-- Sidebar navigation -->
         <div id="slide-out" class="side-nav">
 			<div class="container" style="overflow-y:auto; overflow-x:hidden; max-height:100vh">
+<!--
+				<a class="button-collapse" >
+					<i class="fas fa-times-circle"></i>
+				</a>
+-->
 				<div class="row">
-					<div class="col-12 pr-4 team_section">
+					<div class="col-12 pr-3 team_section">
 						<?php 
 						foreach ($rows as $row){ 
 							$color = '';
@@ -1935,7 +1940,7 @@ left:-140px!important; */
 							}
 						?>
 						<div class="row team<?= $row['inst_team_id'] ?>">
-							<div class="col-sm-1 team_no">
+							<div class="col-1 team_no">
 								<?
 								if ($row['inst_team_id'] > 0) {
 								?>
@@ -1944,7 +1949,7 @@ left:-140px!important; */
 								}
 								?>
 							</div>
-							<div class="col-sm-8 team_no">
+							<div class="col-8 team_no">
 								<span class="pl-1">
 								<? 
 								if ($row['inst_team_id'] == 0) {
@@ -1955,11 +1960,11 @@ left:-140px!important; */
 								?>
 								</span>
 							</div>
-							<div class="col-sm-3">
+							<div class="col-3">
 								<?
 								if ($row['inst_team_id'] > 0) {
 								?>
-								<button class="btn btn-primary mt-1 rteBtn" style='cursor:pointer' onclick="display_route(<?php echo $row['inst_team_id']; ?>)"><i class="far fa-route"></i></button>
+								<button class="btn btn-sm btn-primary mt-1 rteBtn" style='cursor:pointer' onclick="display_route(<?php echo $row['inst_team_id']; ?>)"><i class="far fa-route"></i></button>
 								<?
 								}
 								?>
@@ -2126,17 +2131,21 @@ left:-140px!important; */
   <!-- END FOOTER --> 
 </body>
 <script>
-	$( document ).ready(function() {
-		// SideNav Button Initialization
-		$(".button-collapse").sideNav();
-		// SideNav Scrollbar Initialization
-		var sideNavScrollbar = document.querySelector('.custom-scrollbar');
-		Ps.initialize(sideNavScrollbar);
-	});
-$('.button-collapse').click(function(){
-	$('.mdb-select').material_select('destroy');
-	$('.mdb-select').material_select();
-})
+$( document ).ready(function() {
+	// SideNav Button Initialization
+	$(".button-collapse").sideNav({
+		closeOnClick: true
+	});		
+	//$('.button-collapse').sideNav('hide');
+	// SideNav Scrollbar Initialization
+	var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+	Ps.initialize(sideNavScrollbar);
+});
+//$('.button-collapse').click(function() {
+//	$('.mdb-select').material_select('destroy');
+//	$('.mdb-select').material_select();
+//})
+
 </script>
 
 </html>
