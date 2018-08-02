@@ -5,14 +5,19 @@ require_once(__DIR__ . '/../config.php');
 class log_action {
 
 	public function pjt_changes($a) {
-		date_default_timezone_set('America/New_York');
-		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+		try {
+			date_default_timezone_set('America/New_York');
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 
-		$sql='INSERT INTO comments (`'.implode( '`,`', array_keys( $a ) ) .'`) values (:'.implode(',:',array_keys( $a ) ).');';
-		foreach( $a as $field => $value ) $params[":{$field}"]=$value;
-		$q = $conn->prepare($sql);
-		$q->execute( $params );
+			$sql='INSERT INTO comments (`'.implode( '`,`', array_keys( $a ) ) .'`) values (:'.implode(',:',array_keys( $a ) ).');';
+			foreach( $a as $field => $value ) $params[":{$field}"]=$value;
+			$q = $conn->prepare($sql);
+			$q->execute( $params );
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}
 	}
 
 	public function location_log($uid,$lat,$long) {
@@ -480,7 +485,7 @@ class project_action {
 
 	public function update_inst_dicounts($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-		$qry = $conn->prepare("SELECT installs.id, installs.cpSqFt_override, installs.materials_cost, installs.material, installs.SqFt, installs.accs_prices, installs.price_extra, installs.slabs, users.discount, users.discount_quartz FROM installs JOIN users ON installs.uid = users.id WHERE installs.pid = " . $a);
+		$qry = $conn->prepare("SELECT installs.id, installs.cpSqFt_override, installs.materials_cost, installs.material, installs.SqFt, installs.accs_prices, installs.price_extra, installs.slabs, installs.tearout_cost, users.discount, users.discount_quartz FROM installs JOIN users ON installs.uid = users.id WHERE installs.pid = " . $a);
 		$qry->execute();
 		$row = $qry->fetchAll(PDO::FETCH_ASSOC);
 		foreach($row as $r) {
@@ -493,7 +498,7 @@ class project_action {
 					$mc = $mc * 1.45;
 					$matPrice = $mc * $disc;
 					$cpSqFt = $matPrice / $r['SqFt'];
-					$jobPrice = $matPrice + $r['accs_prices'] + $r['price_extra'] - $r['install_discount'];
+					$jobPrice = $matPrice + $r['accs_prices'] + $r['price_extra'] + $r['tearout_cost'] - $r['install_discount'];
 					$q = $conn->prepare("UPDATE installs SET cpSqFt = :cpSqFt, install_price = :install_price, price_calc = :price_calc WHERE id = :id");
 					$q->bindParam('id',$r['id']);
 					$q->bindParam('cpSqFt',$r['cpSqFt']);
@@ -510,7 +515,7 @@ class project_action {
 					$mc = $r['material'] * 6;
 					$matPrice = $mc * $disc;
 					$cpSqFt = $matPrice / $r['SqFt'];
-					$jobPrice = $matPrice + $r['accs_prices'] + $r['price_extra'] - $r['install_discount'];
+					$jobPrice = $matPrice + $r['accs_prices'] + $r['price_extra'] + $r['tearout_cost'] - $r['install_discount'];
 					$q = $conn->prepare("UPDATE installs SET cpSqFt = :cpSqFt, install_price = :install_price, price_calc = :price_calc WHERE id = :id");
 					$q->bindParam('id',$r['id']);
 					$q->bindParam('cpSqFt',$r['cpSqFt']);
@@ -601,7 +606,7 @@ class project_action {
 		$cpSqFt->bindParam('color',$a['color']);
 		$cpSqFt->execute();
 
-		$q = $conn->prepare("SELECT id, price_extra, cpSqFt, SqFt, accs_prices, install_discount FROM installs WHERE pid = :pid");
+		$q = $conn->prepare("SELECT id, price_extra, cpSqFt, SqFt, accs_prices, install_discount, tearout_cost FROM installs WHERE pid = :pid");
 		$q->bindParam('pid',$a['pid']);
 		$q->execute();
 		$row = $q->fetchAll(PDO::FETCH_ASSOC);
@@ -614,7 +619,7 @@ class project_action {
 			}
 			$price_extra = $r['price_extra'];
 			$install_discount = $r['install_discount'];
-			$finalPrice = ($matPrice + $price_extra + $r['accs_prices']) - $install_discount;
+			$finalPrice = ($matPrice + $price_extra + $r['accs_prices'] + $r['tearout_cost']) - $install_discount;
 			if ($finalPrice < 1) {
 				$finalPrice = 0.00;
 			}
@@ -1116,6 +1121,65 @@ class project_action {
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+// LEE UPDATE
+	public function get_sink_update($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+		$sql = "UPDATE install_sink SET sink_hold = 1 WHERE sink_id = :sink_id";
+		$q = $conn->prepare($sql);
+		$q->bindParam('sink_id',$a['sink_id']);
+		$q->execute();
+		$q = $conn->prepare("
+			SELECT projects.order_num,
+				   projects.quote_num,
+				   projects.job_name,
+				   projects.uid,
+				   rep.fname AS rep_name,
+				   rep.email AS rep_email,
+				   sink.fname AS sink_name,
+				   sink.email AS sink_email
+			  FROM projects
+			  JOIN users rep
+				ON rep.id = :user
+			  JOIN users sink
+				ON sink.id = projects.acct_rep
+			 WHERE projects.id = :pid");
+		$q->bindParam('pid',$a['pid']);
+		$q->bindParam('user',$a['user']);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function get_sink_release($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "UPDATE install_sink SET sink_hold = 0 WHERE sink_id = :sink_id";
+		$q = $conn->prepare($sql);
+		$q->bindParam('sink_id',$a['sink_id']);
+		$q->execute();
+		$q = $conn->prepare("
+			SELECT projects.order_num,
+				   projects.quote_num,
+				   projects.job_name,
+				   projects.uid,
+				   rep.fname AS rep_name,
+				   rep.email AS rep_email,
+				   sink.fname AS sink_name,
+				   sink.email AS sink_email
+			  FROM projects
+			  JOIN users rep
+				ON rep.id = :user
+			  JOIN users sink
+				ON sink.id = projects.acct_rep
+			 WHERE projects.id = :pid");
+		$q->bindParam('pid',$a['pid']);
+		$q->bindParam('user',$a['user']);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+	
+
 	public function get_material_update($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -1177,7 +1241,7 @@ class project_action {
 		$q->execute();
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 	}
-
+	
 
 	public function get_material_status($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
@@ -1500,7 +1564,7 @@ class project_action {
 			$search_string .= " AND acct_rep = :acct_rep";
 		}
 
-		$search_string .= " ORDER BY projects.last_modified DESC";
+		$search_string .= " ORDER BY projects.last_modified DESC LIMIT 40";
 
 		$q = $conn->prepare($search_string);
 		$q->bindParam('search',$a['search']);
@@ -1708,7 +1772,9 @@ class project_action {
 			  WHERE entry < 2 
 			  	AND isActive = 1 
 				AND job_status < 84
-			  ORDER BY job_status DESC";
+			  ORDER BY job_status DESC
+			  
+			  ";
 		$q = $conn->prepare($sql);
 		$q->execute();
 		return $row = $q->fetchAll();
@@ -1758,24 +1824,15 @@ class project_action {
 		}
 	}
 
-	public function get_hold() {
+		public function get_hold() {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			$sql = "
 			SELECT *
-			  FROM projects
-			 WHERE RIGHT(job_status,1) = 9
-			   AND isActive = 1
-			 ORDER BY 
-				   install_date ASC, 
-				   first_stop DESC, 
-				   am DESC,
-				   pm ASC,
-				   template_date ASC, 
-				   temp_first_stop DESC, 
-				   temp_am DESC,
-				   temp_pm ASC";
+			  FROM hold_list
+			 WHERE 1
+				";
 			$q = $conn->prepare($sql);
 			$q->execute();
 			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
@@ -1790,24 +1847,10 @@ class project_action {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			$sql = "
-				SELECT t1.*
-				FROM projects AS t1
-				WHERE EXISTS
-					  ( SELECT *
-						FROM installs AS t2
-						WHERE t2.pid = t1.id
-						  AND t2.mat_hold = 1
-					  ) 
-			   AND isActive = 1
-			 ORDER BY 
-				   install_date ASC, 
-				   first_stop DESC, 
-				   am DESC,
-				   pm ASC,
-				   template_date ASC, 
-				   temp_first_stop DESC, 
-				   temp_am DESC,
-				   temp_pm ASC";
+				SELECT *
+				FROM mat_hold
+				WHERE 1
+				";
 			$q = $conn->prepare($sql);
 			$q->execute();
 			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
@@ -1816,6 +1859,65 @@ class project_action {
 			return $this->_message;
 		}
 	}
+
+//	public function get_hold() {
+//		try {
+//			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
+//			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+//			$sql = "
+//			SELECT *
+//			  FROM projects
+//			 WHERE RIGHT(job_status,1) = 9
+//			   AND isActive = 1
+//			 ORDER BY 
+//				   install_date ASC, 
+//				   first_stop DESC, 
+//				   am DESC,
+//				   pm ASC,
+//				   template_date ASC, 
+//				   temp_first_stop DESC, 
+//				   temp_am DESC,
+//				   temp_pm ASC";
+//			$q = $conn->prepare($sql);
+//			$q->execute();
+//			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+//		} catch(PDOException $e) {
+//			$this->_message = "ERROR: " . $e->getMessage();
+//			return $this->_message;
+//		}
+//	}
+//
+//	public function get_mat_hold() {
+//		try {
+//			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
+//			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+//			$sql = "
+//				SELECT t1.*
+//				FROM projects AS t1
+//				WHERE EXISTS
+//					  ( SELECT *
+//						FROM installs AS t2
+//						WHERE t2.pid = t1.id
+//						  AND t2.mat_hold = 1
+//					  ) 
+//			   AND isActive = 1
+//			 ORDER BY 
+//				   install_date ASC, 
+//				   first_stop DESC, 
+//				   am DESC,
+//				   pm ASC,
+//				   template_date ASC, 
+//				   temp_first_stop DESC, 
+//				   temp_am DESC,
+//				   temp_pm ASC";
+//			$q = $conn->prepare($sql);
+//			$q->execute();
+//			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+//		} catch(PDOException $e) {
+//			$this->_message = "ERROR: " . $e->getMessage();
+//			return $this->_message;
+//		}
+//	}
 
 	public function get_temp_teams() {
 		try {
@@ -2058,6 +2160,7 @@ class project_action {
 			WHERE 
 				install_date >= CURDATE() 
 			AND install_date < '2200-01-01' 
+			AND projects.job_status > 23
 			  AND projects.isActive = 1 ";
 			if ($a > 0) {
 				$sql .= "AND install_teams.inst_lead_id = " . $a;
@@ -2342,6 +2445,7 @@ class project_action {
 				   clients.company AS clientCompany, 
 				   clients.fname AS clientFname, 
 				   clients.lname AS clientLname, 
+				   clients.access_level AS clientAccessLevel, 
 				   clients.discount AS clientDiscount, 
 				   clients.discount_quartz AS discount_quartz, 
 				   clients.address1 AS cAdd1, 

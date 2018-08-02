@@ -21,7 +21,7 @@ USER'S EMAIL = <?= $user_email ?>
 <html>
 <head>
 <meta charset="utf-8">
-<title>ACP | Admin - Materials Needed</title>
+<title>ACP | Admin - Accessories Needed</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <?
 // INCLUDE THE JS and CSS files needed on all ADMIN PAGES
@@ -45,7 +45,7 @@ include('includes.php');
 <div id="loadOver"></div>
 <div class="container">
 	<div class="grid fluid">
-		<h1>Materials Needed</h1>
+		<h1><br>Accessories Needed</h1>
 	</div>
 </div>
 <!-- START BODY CONTENT AREA -->
@@ -114,11 +114,10 @@ include ('modal_sink_order.php');
 include ('modal_accessory_assign.php');
 include ('modal_sink_hold.php');
 include ('modal_sink_release_hold.php');
-
 ?>
 <script>
 $(document).ready(function(){
-    mat_list_pull();
+    mat_list_pull_accs();
 });
 </script>
 </body>

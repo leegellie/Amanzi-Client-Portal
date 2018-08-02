@@ -1303,7 +1303,7 @@ if(isset($_GET['add'])){
 						<label class="form-label col-12 col-md-4">Comment: </label>
 						<textarea class="form-control" id="cmt_comment" name="cmt_comment" rows="5"></textarea>
 						<hr>
-						<div id="submitComments" class="btn btn-lg btn-primary col-12">Submit Comments <i class="fa fa-paper-plane-o"></i></div>
+						<div id="submitComments" class="btn btn-lg btn-primary col-12">Submit Comments <i class="fab fa-telegram-plane"></i></div>
 					</form>
 				</div>
 			</div>
@@ -1322,7 +1322,7 @@ if(isset($_GET['add'])){
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="margin-top: 7rem;">
 		<div class="modal-content">
 			<div class="modal-header">
-				<i class="fa fa-paper-plane-o"></i>
+				<i class="fab fa-telegram-plane"></i>
 				<div class="modal-title">Success</div>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&#10008;</span>
@@ -1348,7 +1348,7 @@ if(isset($_GET['add'])){
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="margin-top: 7rem;">
 		<div class="modal-content">
 			<div class="modal-header">
-				<i class="fa fa-paper-plane-o"></i>
+				<i class="fab fa-telegram-plane"></i>
 				<div class="modal-title">User Location</div>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&#10008;</span>

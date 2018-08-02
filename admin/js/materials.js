@@ -370,6 +370,41 @@ function matReset(iid, pid, iname) {
 	}
 }
 
+function sinkReset(sink_id, pid, aname) {
+	if (confirm("Are you sure you want to reset the status of this accessory?")) {
+		var datastring = 'action=sink_reset&sink_id=' + sink_id + '&pid=' + pid + '&aname=' + aname;
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				console.log(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	} else {
+		return;
+	}
+}
+
+function get_materials_pull_list() {
+	var datastring = "action=get_materials_pull_list";
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			$('#toDeliver').html(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+	setTimeout(get_materials_pull_list, 5000);
+}
+
 function mat_list_pull() {
 	var datastring = "action=get_materials_needed";
 	$.ajax({
@@ -382,6 +417,7 @@ function mat_list_pull() {
 			$('#mOrdered').html(res[1]);
 			$('#mOnHand').html(res[2]);
 			$('#toDeliver').html(res[3]);
+
 			$('#sAccsMat').html(res[4]);
 			$('#sAccsJob').html(res[5]);
 		},
@@ -391,6 +427,49 @@ function mat_list_pull() {
 	});
 	setTimeout(mat_list_pull, 5000);
 }
+
+
+function mat_list_pull_accs() {
+	var datastring = "action=get_accessories_needed";
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			var res = data.split(":::");
+			$('#toOrder').html(res[0]);
+			$('#mOrdered').html(res[1]);
+			$('#mOnHand').html(res[2]);
+			$('#toDeliver').html(res[3]);
+
+			$('#sAccsMat').html(res[4]);
+			$('#sAccsJob').html(res[5]);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+	setTimeout(mat_list_pull_accs, 5000);
+}
+
+function get_pull_list() {
+	var datastring = "action=get_pull_list";
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			var res = data.split(":::");
+			$('#sAccsMat').html(res[0]);
+			$('#sAccsJob').html(res[1]);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+	setTimeout(get_pull_list, 5000);
+}
+
 function set_pullstatus($a, $b) {
   if (confirm("Are you sure you want to set the status of this material?")) {
     var datastring = 'action=update_pullstatus&date=' + $a + '&ids=' + $b;
@@ -410,10 +489,73 @@ function set_pullstatus($a, $b) {
 	}
 }
 
+function sinkOrdered(sink_id,pid,aName) {
+	$('.aAssign').text(aName);
+	$('input[name=sinkName]').val(aName);
+	$('input[name=sink_id]').val(sink_id);
+	$('input[name=pid]').val(pid);
+	$('#sinkOrder').modal('show');
+}
+
+function sinkOnHand(sink_id,pid,aName) {
+	$('.aAssign').text(aName);
+	$('input[name=sinkName]').val(aName);
+	$('input[name=pid]').val(pid);
+	$('input[name=sink_id]').val(sink_id);
+	$('#sinkAssign').modal('show');
+}
+
+function noSink(sink_id,pid,sinkName) {
+	if (confirm("Are you sure this does not require an accessory pull?")) {
+		var form = 'action=no_sink&sink_status=4&sink_id=' + sink_id + '&pid=' + pid + '&sinkName=' + sinkName;
+		assignSink(form);
+	} else {
+    	return;
+	}
+}
+
+function sink_selected(pid) {
+	var datastring = 'action=sink_selected&sink_id=' + sink_id;
+	console.log(datastring);
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log(data);
+			mat_list_pull_accs();
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
+function assignSink(thisForm) {
+    $.ajax({
+        type: "POST",
+        url: "ajax.php",
+        data: thisForm,
+        success: function(data) {
+            $('div').modal('hide');
+        },
+        error: function(data) {
+			console.log('assignSink: ' + data);
+        }
+    });
+}
+
+
 
 $(document).ready(function() {
 
-    $("form").on("submit", function(event) {
+    $("form.accs").on("submit", function(event) {
+        event.preventDefault();
+        var sinkAss = $(this).serialize();
+        assignSink(sinkAss);
+    });
+
+    $("form.mats").on("submit", function(event) {
         event.preventDefault();
         var matAss = $(this).serialize();
         assignMat(matAss);

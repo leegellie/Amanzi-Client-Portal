@@ -53,7 +53,7 @@
 									?>
 									</datalist>
 								</fieldset>
-								<fieldset class="form-group col-3 d-inline">
+								<fieldset class="form-group col-4 d-inline">
 									<label for="sink_mount"><u>Cutout</u>: </label>
 									<select class="mdb-select" id="e-sink_mount" name="sink_mount">
 										<option value="0">None</option>
@@ -64,7 +64,7 @@
 										<option value="5">Top Zero</option>
 									</select>
 								</fieldset>
-								<fieldset class="form-group col-3 d-inline">
+								<fieldset class="form-group col-4 d-inline">
 									<label for="sink_holes"><u>Faucet Spread / Holes</u>:</label>
 									<select class="mdb-select holeOpt" id="e-sink_holes" name="sink_holes">
 										<option value="0">None</option>
@@ -74,19 +74,27 @@
 										<option class="controller" data-control="sink_holes_other" value="99">Other Holes</option>
 									</select>
 								</fieldset>
-								<fieldset class="form-group col-3 d-inline">
+								<fieldset class="form-group col-4 d-inline">
 									<label for="sink_holes_other"><u>Sink Holes Data</u>:</label>
 									<input type="text" class="form-control" id="e-sink_holes_other" name="sink_holes_other">
 								</fieldset>
-								<fieldset class="form-group col-2 d-inline">
+								<fieldset class="form-group col-4 d-inline">
 									<input type="checkbox" class="filled-in form-control" id="e-sink_soap" name="sink_soap" value="1">
 									<label for="e-sink_soap"><u>Soap Hole</u>?</label>
 								</fieldset>
-								<fieldset class="form-group col-2 d-inline">
+								<fieldset class="form-group col-4 d-inline">
+									<input type="checkbox" class="filled-in form-control" id="e-sink_onsite" name="sink_onsite" value="1">
+									<label for="e-sink_onsite"><u>Sink on Location</u>?</label>
+								</fieldset>
+								<fieldset class="form-group col-4 d-inline">
+									<input type="checkbox" class="filled-in form-control" id="e-sink_pickup" name="sink_pickup" value="1">
+									<label for="e-sink_pickup"><u>Installer Pick-up?</u>?</label>
+								</fieldset>
+								<fieldset class="form-group col-4 d-inline">
 									<label for="cutout_width"><u>Cutout Width</u>:</label>
 									<input type="text" class="form-control" id="e-cutout_width" name="cutout_width" value="0">
 								</fieldset>
-								<fieldset class="form-group col-2 d-inline">
+								<fieldset class="form-group col-4 d-inline">
 									<label for="cutout_depth"><u>Cutout Depth</u>:</label>
 									<input type="text" class="form-control" id="e-cutout_depth" name="cutout_depth" value="0">
 								</fieldset>

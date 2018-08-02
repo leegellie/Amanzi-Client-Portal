@@ -294,8 +294,26 @@
 									<label for="cutout_depth"><u>Cutout Depth</u>:</label>
 									<input type="text" class="form-control" id="cutout_depth" name="cutout_depth" value="0">
 								</fieldset>
+								<div class="col-12">
+									<div class="row text-center border border-light">
+									<fieldset class="form-group col-3 d-inline">
+										<input type="checkbox" class="filled-in form-control" id="sink_onsite" name="sink_onsite" value="1">
+										<label for="sink_onsite"><u>Stays on Location</u>?</label>
+									</fieldset>
+									<fieldset class="form-group col-3 d-inline">
+										<input type="checkbox" class="filled-in form-control" id="sink_pickup" name="sink_pickup" value="1">
+										<label for="sink_pickup"><u>Templater Pick-up</u>?</label>
+									</fieldset>
+									<fieldset class="form-group col-2 d-inline">
+										<input type="checkbox" class="filled-in form-control" id="sink_here" name="sink_here" value="1">
+										<label for="sink_here"><u>Here</u>?</label>
+									</fieldset>
+									<fieldset class="form-group col-4 d-inline">
+										<label for="sink_location"><u>Sink Location</u>:</label>
+										<input type="text" class="form-control" id="sink_location" name="sink_location">
+									</fieldset>
+								</div></div>
 							</div>
-							
 						</form>
 						<div id="addSinkBtn" class="btn btn-lg btn-primary mt-3 w-100" onClick="add_sink('add_sink')">Submit</div>
 					</div>

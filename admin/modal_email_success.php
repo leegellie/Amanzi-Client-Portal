@@ -2,7 +2,7 @@
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="margin-top: 7rem;">
 		<div class="modal-content">
 			<div class="modal-header">
-				<i class="fa fa-paper-plane-o"></i>
+				<i class="fab fa-telegram-plane"></i>
 				<div class="modal-title">Success</div>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&#10008;</span>

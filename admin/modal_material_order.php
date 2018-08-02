@@ -2,7 +2,7 @@
 	<div class="modal-dialog modal-lg" role="document" style="margin-top: 7rem;">
 		<div class="modal-content">
 			<div class="modal-header">
-				<i class="fa fa-paper-plane-o"></i>
+				<i class="fab fa-telegram-plane"></i>
 				<div class="modal-title">Ordered Materials for <span class="mAssign"></span></div>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&#10008;</span>
@@ -10,7 +10,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="container">
-					<form id="ordered_material" class="odrerMaterial row">
+					<form id="ordered_material" class="mats odrerMaterial row">
 						<input type="hidden" name="action" value="ordered_material">
 						<input type="hidden" name="iid" value="">
 						<input type="hidden" name="material_status" value="2">

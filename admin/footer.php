@@ -8,7 +8,7 @@
 	<div class="modal-dialog modal-lg" role="document" style="margin-top: 7rem;">
 		<div class="modal-content">
 			<div class="modal-header">
-				<i class="fa fa-paper-plane-o"></i>
+				<i class="fab fa-telegram-plane"></i>
 				<div class="modal-title">Select Material</div>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&#10008;</span>

@@ -618,6 +618,133 @@ if ($action=="mat_release") {
 	echo $status;
 }
 
+// LEE UPDATE
+
+// Material Sink
+if ($action=="sink_hold") {
+	$user = $_POST['user'];
+	$reason = $_POST['cmt_comment'];
+	$pid = $_POST['pid'];
+	$sink_id = $_POST['sink_id'];
+	unset($_POST['action']);
+	unset($_POST['cmt_comment']);
+	$status = '';
+	$repEmail = '';
+	$repFname = '';
+	$sinkEmail = '';
+	$sinkName = '';
+	$qNum = '';
+	$oNum = '';
+	$job = '';
+	$uid = '';
+	$change_sink_hold = new project_action;
+	foreach( $change_sink_hold -> get_sink_update($_POST) as $r ) {
+		$repEmail = $r['rep_email'];
+		$repName = $r['rep_name'];
+		$sinkEmail = $r['sink_email'];
+		$sinkName = $r['sink_name'];
+		$qNum = $r['quote_num'];
+		$oNum = $r['order_num'];
+		$job = $r['job_name'];
+		$uid = $r['uid'];
+	}
+	$_POST = array();
+	$_POST['cmt_ref_id'] = $pid;
+	$_POST['cmt_type'] = 'pjt';
+	$_POST['cmt_user'] = $_SESSION['id'];
+	$_POST['cmt_comment'] = 'Accessory Placed on Hold - ' . $reason;
+	$_POST['cmt_priority'] = 911;
+	$log_project = new log_action;
+	$log = $log_project -> pjt_changes($_POST);
+
+	echo $status;
+
+
+	$EmailTo = $repEmail;
+	$Subject = 'Accessory placed on Hold - Order: ' . $oNum . ' - ' . $job;
+	$Body = '<h2> <a target="_blank" href="mailto:' . $sinkEmail . '">' . $sinkName . ' - ' . $sinkEmail . '</a> placed <b>' . $job . '</b> job on hold because of accessory.</h2>';
+	$Body .= '<h3>The reason given was: ' . $reason . '</h3>';
+	$Body .= '<h2><a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">' . $job . '</a></h2>';
+	$Body .= '<h2><a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">Quote #: ' . $qNum . ' - Order #:' . $oNum . '</a></h2>';
+	$Body .= '<a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '"><button>View Project</button></a>';
+	$Body .= "<br><br><p>Alert Version 1.3-h</p>";
+
+	$headers = "From: Amanzi Portal <portal@amanziportal.com>\r\n";
+	$headers .= "MIME-Version: 1.0\r\n";
+	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+	$headers .= "X-Priority: 1 (Highest)\r\n";
+	$headers .= "X-MSMail-Priority: High\r\n";
+	$headers .= "Importance: High\r\n";
+
+	// send email
+	mail($EmailTo, $Subject, $Body, $headers);
+
+	echo $status;
+}
+
+// Sink Release
+if ($action=="sink_release") {
+	$user = $_POST['user'];
+	$reason = $_POST['cmt_comment'];
+	$pid = $_POST['pid'];
+	$sink_id = $_POST['sink_id'];
+	unset($_POST['action']);
+	unset($_POST['cmt_comment']);
+	$status = '';
+	$repEmail = '';
+	$repFname = '';
+	$sinkEmail = '';
+	$sinkName = '';
+	$qNum = '';
+	$oNum = '';
+	$job = '';
+	$uid = '';
+	$change_sink_hold = new project_action;
+	foreach( $change_sink_hold -> get_sink_release($_POST) as $r ) {
+		$repEmail = $r['rep_email'];
+		$repName = $r['rep_name'];
+		$sinkEmail = $r['sink_email'];
+		$sinkName = $r['sink_name'];
+		$qNum = $r['quote_num'];
+		$oNum = $r['order_num'];
+		$job = $r['job_name'];
+		$uid = $r['uid'];
+	}
+	$_POST = array();
+	$_POST['cmt_ref_id'] = $pid;
+	$_POST['cmt_type'] = 'pjt';
+	$_POST['cmt_user'] = $_SESSION['id'];
+	$_POST['cmt_comment'] = 'Accessory Released from Hold - ' . $reason;
+	$_POST['cmt_priority'] = 911;
+	$log_project = new log_action;
+	$log = $log_project -> pjt_changes($_POST);
+
+	echo $status;
+
+
+	$EmailTo = 'khuntington@amanzigranite.com';
+	$Subject = 'Accessory Released from Hold - Order: ' . $oNum . ' - ' . $job;
+	$Body = '<h2> <a target="_blank" href="mailto:' . $sinkEmail . '">' . $sinkName . ' - ' . $sinkEmail . '</a> Released <b>' . $job . '</b> job from hold.</h2>';
+	$Body .= '<h3>The reason given was: ' . $reason . '</h3>';
+	$Body .= '<h2><a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">' . $job . '</a></h2>';
+	$Body .= '<h2><a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">Quote #: ' . $qNum . ' - Order #:' . $oNum . '</a></h2>';
+	$Body .= '<a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '"><button>View Project</button></a>';
+	$Body .= "<br><br><p>Alert Version 1.3-h</p>";
+
+	$headers = "From: Amanzi Portal <portal@amanziportal.com>\r\n";
+	$headers .= "MIME-Version: 1.0\r\n";
+	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+	$headers .= "X-Priority: 1 (Highest)\r\n";
+	$headers .= "X-MSMail-Priority: High\r\n";
+	$headers .= "Importance: High\r\n";
+
+	// send email
+	mail($EmailTo, $Subject, $Body, $headers);
+
+	echo $status;
+}
+
+
 // ADMIN ADD USERS
 
 if ($action=="get_address_geo") {
@@ -890,14 +1017,14 @@ if ($action=="get_staff_list") {
 						if($row['material_status'] == 1) {
 ?>
 						<div class="col-6 text-danger"><b>Status: To be assigned/ordered.</b></div>
-						<div class="col-3 btn btn-sm btn-primary orderMaterials" onClick="matOrdered(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')" >Ordered</div>
-						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
+						<div class="col-3 btn btn-sm btn-primary orderMaterials" onClick="matOrdered(<?= $row['id'] ?>,'<?= htmlspecialchars($row['install_name']); ?>')" >Ordered</div>
+						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= htmlspecialchars($row['install_name']); ?>')">Have Materials</div>
 <?
 						} else if($row['material_status'] == 2) {
 ?>
 						<div class="col-6 text-success"><b>Status: Materials ordered. Est. delivery <?= date('Y-m-d', strtotime($row['material_date'])) ?></b></div>
 						<div class="col-3">Reference: <?= $row['assigned_material'] ?></div>
-						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= $row['install_name']; ?>')">Have Materials</div>
+						<div class="col-3 btn btn-sm btn-primary haveMaterials" onClick="matOnHand(<?= $row['id'] ?>,'<?= htmlspecialchars($row['install_name']); ?>')">Have Materials</div>
 <?
 						} else if($row['material_status'] == 3) {
 ?>
@@ -1000,6 +1127,26 @@ if ($action=="ordered_material") {
 	$run -> ordered_material($_POST);
 	echo $run;
 }
+if ($action=="ordered_sink") {
+	$pid = $_POST['pid'];
+	$sinkName = $_POST['sinkName'];
+	$sinkDate = $_POST['sink_date'];
+	unset($_POST['sinkName']);
+	unset($_POST['action']);
+	$run = new materials_action;
+	$run -> ordered_sink($_POST);
+
+	$_POST = array();
+	$_POST['cmt_ref_id'] = $pid;
+	$_POST['cmt_type'] = 'pjt';
+	$_POST['cmt_user'] = $_SESSION['id'];
+	$_POST['cmt_comment'] = 'Accs Ordered. Est. Delivery date: ' . $sinkDate . ' - ' . $sinkName;
+	$_POST['cmt_priority'] = 'log';
+	$log_project = new log_action;
+	$log = $log_project -> pjt_changes($_POST);
+
+	echo $log;
+}
 if ($action=="add_marble") {
 	unset($_POST['action']);
 	$add_marble = new materials_action;
@@ -1052,6 +1199,7 @@ if ($action=="update_accs") {
 	$update_accs = new materials_action;
 	$update_accs -> update_accs($_POST,$_POST['accs_id']);
 }
+
 if ($action=="assign_material") {
 	unset($_POST['action']);
 	$run = new materials_action;
@@ -1062,6 +1210,47 @@ if ($action=="no_material") {
 	$run = new materials_action;
 	$run -> no_material($_POST);
 }
+
+// LEE
+if ($action=="assign_sink") {
+	$pid = $_POST['pid'];
+	$sinkName = $_POST['sinkName'];
+	$assigned_sink = $_POST['assigned_sink'];
+	unset($_POST['sinkName']);
+	unset($_POST['pid']);
+	unset($_POST['action']);
+	$run = new materials_action;
+	$run -> assign_sink($_POST);
+	$run = new materials_action;
+	$run -> no_sink($_POST);
+	$_POST = array();
+	$_POST['cmt_ref_id'] = $pid;
+	$_POST['cmt_type'] = 'pjt';
+	$_POST['cmt_user'] = $_SESSION['id'];
+	$_POST['cmt_comment'] = 'On-hand ' . $sinkName . ' - ' . $assigned_sink;
+	$_POST['cmt_priority'] = 'log';
+	$log_project = new log_action;
+	$log = $log_project -> pjt_changes($_POST);
+}
+
+if ($action=="no_sink") {
+	$pid = $_POST['pid'];
+	$sinkName = $_POST['sinkName'];
+	unset($_POST['sinkName']);
+	unset($_POST['pid']);
+	unset($_POST['action']);
+	$run = new materials_action;
+	$run -> no_sink($_POST);
+	$_POST = array();
+	$_POST['cmt_ref_id'] = $pid;
+	$_POST['cmt_type'] = 'pjt';
+	$_POST['cmt_user'] = $_SESSION['id'];
+	$_POST['cmt_comment'] = 'No pull needed for ' . $sinkName;
+	$_POST['cmt_priority'] = 'log';
+	$log_project = new log_action;
+	$log = $log_project -> pjt_changes($_POST);
+}
+
 if ($action=="material_delivered") {
 	$pid = $_POST['pid'];
 	unset($_POST['action']);
@@ -1126,6 +1315,24 @@ if ($action=="material_reset") {
 	$log = $log_project -> pjt_changes($_POST);
 }
 
+if ($action=="sink_reset") {
+	$pid = $_POST['pid'];
+	$aname = $_POST['aname'];
+	unset($_POST['action']);
+	unset($_POST['pid']);
+	unset($_POST['iname']);
+	$run = new materials_action;
+	$run -> sink_reset($_POST);
+	$_POST = array();
+	$_POST['cmt_ref_id'] = $pid;
+	$_POST['cmt_type'] = 'pjt';
+	$_POST['cmt_user'] = $_SESSION['id'];
+	$_POST['cmt_comment'] = 'Accessory reset for ' . $aname;
+	$_POST['cmt_priority'] = 'log';
+	$log_project = new log_action;
+	$log = $log_project -> pjt_changes($_POST);
+}
+
 function format_date($date) {
 	$return;
 	if ($date == '2200-01-01') {
@@ -1157,24 +1364,6 @@ if ($action=="get_materials_needed") {
 		);
 	}
 
-	$pull_array = array();
-	$pull_list = $search->get_pull_list();
-	foreach($pull_list as $pjt) {
-		$pull_array[$pjt['job_name']][] = $pjt;
-// 		$pull_array[] = array(
-// 			'job_name' => $type,
-// 			'detail' => $labels
-// 		);
-	}
-	$pullbymaterialsbyname = array();
-	foreach($pull_array as $type => $labels) {
-		$pullbymaterialsbyname[] = array(
-			'job_name' => $type,
-			'detail' => $labels
-		);
-	}
-	//GROUP BY END
-	
 	function show_pjt_head($result) {
 		$head_arr = '
 		<hr class="blue-gradient" style="height:10px">
@@ -1251,10 +1440,10 @@ if ($action=="get_materials_needed") {
 						<div class="col-2 btn btn-sm btn-danger mr-2 float-right" onclick="mat_hold_modal(' . $_SESSION['id'] . ',' . $result['id'] . ',' . $result['pid'] . ')">
 							Material Hold <i class="fas fa-ban"></i>
 						</div>
-						<div class="btn btn-sm btn-primary haveMaterials float-right" onclick="matOnHand(' . $result['id'] . ',\'' . $result['install_name'] . '\')">
+						<div class="btn btn-sm btn-primary haveMaterials float-right" onclick="matOnHand(' . $result['id'] . ',\'' . htmlspecialchars($result['install_name']) . '\')">
 							Have Materials <i class="fas fa-check"></i>
 						</div>
-						<div class="btn btn-sm btn-success mr-2 orderMaterials float-right" onclick="matOrdered('. $result['id'] .',\''. $result['install_name'] .'\')">
+						<div class="btn btn-sm btn-success mr-2 orderMaterials float-right" onclick="matOrdered('. $result['id'] .',\''. htmlspecialchars($result['install_name']) .'\')">
 							Ordered <i class="far fa-calendar-check"></i>
 						</div>
 						<div class="btn btn-sm btn-danger mr-2 float-right" onclick="noMaterial(' . $result['id'] . ')">
@@ -1275,7 +1464,7 @@ if ($action=="get_materials_needed") {
 				</div>
 				<div class="container d-flex">
 					<div class="col-12">
-						<div class="btn btn-sm btn-primary haveMaterials float-right" onclick="matOnHand('. $result['id'] .',\''. $result['install_name'] .'\')">Have Materials</div>
+						<div class="btn btn-sm btn-primary haveMaterials float-right" onclick="matOnHand('. $result['id'] .',\''. htmlspecialchars($result['install_name']) .'\')">Have Materials</div>
 						<div class="btn btn-sm btn-warning resetMaterials float-right" onclick="matReset('. $result['id'] .','. $result['pid'] .',\''. $result['install_name'] .'\')"><i class="fas fa-undo"></i></div>
 						<div class="btn btn-sm btn-danger mr-2 float-right" onclick="mat_hold_modal(' . $_SESSION['id'] .',' . $result['id'] . ',' . $result['pid'] . ')">Material Hold <i class="fas fa-ban"></i></div>
 					</div>
@@ -1316,6 +1505,431 @@ if ($action=="get_materials_needed") {
 		return $tmp_arr;
 	}
 
+	$first_tab = '';
+	$second_tab = '';
+	$third_tab = '';
+	$fourth_tab = '';
+
+	foreach($materialsbyname as $results) {
+		$index1 = 0;
+		$index2 = 0;
+		$index3 = 0;
+
+		$statusMin = min(array_column($results['detail'], 'material_status'));
+		
+		foreach($results['detail'] as $result){
+			if ($result['job_status'] > 24 || ($result['job_status'] > 11 && $result['pre_order'] == 1)) {
+				if ($statusMin == 1) {
+					$status = 'Status: To be assigned/ordered.';
+					if($index1 == 0) {
+						if ($result['job_status'] > 31 && $result['job_status'] != 39 && $result['job_status'] < 50 && $result['job_status'] != 44 && $result['job_status'] != 40) {
+							$ud_status = new project_action;
+							$pid = $result['pid'];
+							$comment = "'Status All to be ordered.'";
+							//$ud_status->ud_status(40,$pid,1283,$comment);
+						}
+						$first_tab .= show_pjt_head($result);
+						$index1++;
+					}
+					$first_tab .= show_pjts($result,$status);
+				}
+				if ($statusMin == 2) {
+					$status = 'Status: Materials ordered. Est. delivery ';
+					if($index2 == 0) {
+						if ($result['job_status'] > 31 && $result['job_status'] != 39 && $result['job_status'] < 50 && $result['job_status'] != 44 && $result['job_status'] != 41) {
+							$ud_status = new project_action;
+							$pid = $result['pid'];
+							$comment = "'Status All Materials ordered.'";
+							//$ud_status->ud_status(41,$pid,1283,$comment);
+						}
+						$second_tab .= show_pjt_head($result);
+						$index2++;    
+					}
+					$second_tab .= show_pjts($result,$status);
+				}
+				if ($statusMin > 2) {
+					$status = 'Status: Materials On Hand';
+					if($index3 == 0) {
+						if ($result['job_status'] > 31 && $result['job_status'] != 39 && $result['job_status'] < 50 && $result['job_status'] != 44 && $result['job_status'] != 42) {
+							$ud_status = new project_action;
+							$pid = $result['pid'];
+							$comment = "'Status: All Materials On Hand.'";
+							//$ud_status->ud_status(42,$pid,1283,$comment);
+						}
+						$third_tab .= show_pjt_head($result);
+						$index3++;    
+					}
+					$third_tab .= show_pjts($result,$status);
+				}
+			}
+		}
+	}
+
+	echo $first_tab . ':::' . $second_tab . ':::' . $third_tab;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+if ($action=="get_accessories_needed") {
+	unset($_POST['action']);
+	$results = "";
+	$search = new materials_action;
+	$tmp = array();
+	//Get the projects between with job_status > 10 and job_status < 50
+	$pjts = $search->get_accessories();
+	
+	//GROUP THE $pjts BY JOB NAME
+	foreach($pjts as $pjt) {
+		$tmp[$pjt['job_name']][] = $pjt;
+	}
+	$materialsbyname = array();
+	foreach($tmp as $type => $labels) {
+		$materialsbyname[] = array(
+			'job_name' => $type,
+			'detail' => $labels
+		);
+	}
+
+	function show_pjt_head($result) {
+		$head_arr = '
+		<hr class="blue-gradient" style="height:10px">
+		<div class="w-100 d-flex">
+			<div class="col-2">';
+			if ($result['install_date'] != '2200-01-01'){
+				$head_arr .= '<h4>' . format_date($result['install_date']) . '</h4>';
+			} else {
+				$head_arr .= '<h4>T:' . format_date($result['template_date']) . '</h4>';
+			}
+			$head_arr .= '
+			</div>
+			<div class="col-9 col-md-8 text-primary">
+				<h3>' . $result['order_num'] . ' - ' . $result['job_name'] .'</h3>
+			</div>
+			<div class="col-3 col-md-2 text-right">
+				<div class="btn btn-sm btn-primary" id="' . $result['pid'] . '" onclick="$(\'#instDetails\').html(\'\');viewThisProject(this.id,'. $result['uid'] .');">
+					<span class="d-none d-lg-block">View</span> <i class="fas fa-eye"></i>
+				</div>
+			</div>
+		</div>';
+		return $head_arr;
+	}
+	
+	function show_pjts($result, $status) {
+		$accs_name = '';
+		if ($result['sink_name'] != "" ) {
+			$accs_name = htmlspecialchars($result['sink_name']);
+		} else {
+			$accs_name = htmlspecialchars($result['faucet_name']);
+		}
+		$tmp_arr = '
+		<hr>
+		<div class="container d-md-flex">
+			<div class="col-md-12">
+				<strong>' . $accs_name . '</strong>
+			</div>
+		</div>';
+		if ($result['sink_hold'] == 1) {
+			$tmp_arr .= '
+				<hr>
+				<div class="container d-flex">
+					<div class="col-12 text-danger">
+						<b>ACCESSORY ON HOLD</b>
+						<div class="btn btn-sm btn-danger mr-2 float-right" onclick="sink_release_modal(' . $_SESSION['id'] .',' . $result['sink_id'] . ',' . $result['pid'] . ')">
+							Release Hold <i class="fas fa-ban"></i>
+						</div>
+					</div>
+				</div>';
+		} else {
+			if ($result['sink_status'] < 2) {
+				$tmp_arr .= '
+				<hr>
+				<div class="container d-flex">
+					<div class="col-12 text-danger">
+						<b>'. $status . '</b>
+						<div class="col-2 btn btn-sm btn-danger mr-2 float-right" onclick="sink_hold_modal(' . $_SESSION['id'] . ',' . $result['sink_id'] . ',' . $result['pid'] . ')">
+							Accessory Hold <i class="fas fa-ban"></i>
+						</div>
+						<div class="btn btn-sm btn-primary haveMaterials float-right" onclick="sinkOnHand(' . $result['sink_id'] . ',' . $result['pid'] . ',\'' . $accs_name . '\')">
+							Have Accessory <i class="fas fa-check"></i>
+						</div>
+						<div class="btn btn-sm btn-success mr-2 orderMaterials float-right" onclick="sinkOrdered('. $result['sink_id'] . ',' . $result['pid'] .',\''. $accs_name .'\')">
+							Ordered <i class="far fa-calendar-check"></i>
+						</div>
+						<div class="btn btn-sm btn-danger mr-2 float-right" onclick="noSink(' . $result['sink_id'] . ',' . $result['pid'] . ',\'' . $accs_name . '\')">
+							N/A <i class="fas fa-ban"></i>
+						</div>
+					</div>
+				</div>';
+			} else if ($result['sink_status'] == 2) {
+				$tmp_arr .= '
+				<hr>
+				<div class="container d-flex">
+					<div class="col-5 text-success">
+						<b>'. $status .date("Y-m-d",strtotime($result['sink_date'])).'</b>
+					</div>
+					<div class="col-5">
+						Reference: '.$result['assigned_sink'].'
+					</div>
+				</div>
+				<div class="container d-flex">
+					<div class="col-12">
+						<div class="btn btn-sm btn-primary haveMaterials float-right" onclick="sinkOnHand('. $result['sink_id'] . ',' . $result['pid'] .',\''. $accs_name .'\')">Have Materials</div>
+						<div class="btn btn-sm btn-warning resetMaterials float-right" onclick="sinkReset('. $result['sink_id'] .','. $result['pid'] .',\''. $accs_name .'\')"><i class="fas fa-undo"></i></div>
+						<div class="btn btn-sm btn-danger mr-2 float-right" onclick="sink_hold_modal(' . $_SESSION['id'] .',' . $result['sink_id'] . ',' . $result['pid'] . ')">Accessory Hold <i class="fas fa-ban"></i></div>
+					</div>
+				</div>';
+			} else if ($result['sink_status'] == 3) {
+				$tmp_arr .= '
+				<hr>
+				<div class="container d-flex">
+					<div class="col-5 text-primary">
+						<b>Status: Accessory On Hand</b>
+					</div>
+					<div class="col-5">
+						Assigned: ';
+				if ($result['assigned_sink'] == "") {
+					$tmp_arr .= $result['assigned_sink'];
+				} else {
+					$tmp_arr .= $result['sink_location'];
+				}
+				$tmp_arr .= '
+					</div>
+				</div>
+				<div class="container d-flex">
+					<div class="col-12">
+						<div class="btn btn-sm btn-warning resetMaterials float-right" onclick="sinkReset('. $result['sink_id'] .','. $result['pid'] .',\''. $accs_name .'\')"><i class="fas fa-undo"></i></div>
+						<div class="btn btn-sm btn-danger mr-2 float-right" onclick="sink_hold_modal(' . $_SESSION['id'] .',' . $result['sink_id'] . ',' . $result['pid'] . ')">Accessory Hold <i class="fas fa-ban"></i></div>
+					</div>
+				</div>';
+			} else if ($result['sink_status'] == 4) {
+				$tmp_arr .= '
+				<hr>
+				<div class="container d-flex">
+					<div class="col-10 text-muted">
+						<b>Status: Accessory not needed.</b>
+					</div>
+				</div>
+				<div class="container d-flex">
+					<div class="col-12">
+						<div class="btn btn-sm btn-warning resetMaterials float-right" onclick="sinkReset('. $result['sink_id'] .','. $result['pid'] .',\''. $accs_name .'\')"><i class="fas fa-undo"></i></div>
+						<div class="btn btn-sm btn-danger mr-2 float-right" onclick="sink_hold_modal(' . $_SESSION['id'] .',' . $result['sink_id'] . ',' . $result['pid'] . ')">Accessory Hold <i class="fas fa-ban"></i></div>
+					</div>
+				</div>';
+			}
+		}
+		return $tmp_arr;
+	}
+
+	$first_tab = '';
+	$second_tab = '';
+	$third_tab = '';
+	$fourth_tab = '';
+
+	foreach($materialsbyname as $results) {
+		$index1 = 0;
+		$index2 = 0;
+		$index3 = 0;
+
+		$statusMin = min(array_column($results['detail'], 'sink_status'));
+		
+		foreach($results['detail'] as $result){
+			if ($result['job_status'] > 24 || ($result['job_status'] > 11 && $result['pre_order'] == 1)) {
+				if ($statusMin == 1) {
+					$status = 'Status: To be assigned/ordered.';
+					if($index1 == 0) {
+						if ($result['job_status'] > 31 && $result['job_status'] != 39 && $result['job_status'] < 50 && $result['job_status'] != 44 && $result['job_status'] != 40) {
+							$ud_status = new project_action;
+							$pid = $result['pid'];
+							$comment = "'All sinks to be ordered.'";
+							$ud_status->ud_status(40,$pid,1283,$comment);
+						}
+						$first_tab .= show_pjt_head($result);
+						$index1++;
+					}
+					$first_tab .= show_pjts($result,$status);
+				}
+				if ($statusMin == 2) {
+					$status = 'Status: accessory ordered. Est. delivery ';
+					if($index2 == 0) {
+						if ($result['job_status'] > 31 && $result['job_status'] != 39 && $result['job_status'] < 50 && $result['job_status'] != 44 && $result['job_status'] != 41) {
+							$ud_status = new project_action;
+							$pid = $result['pid'];
+							$comment = "'Status All accessories ordered.'";
+							$ud_status->ud_status(41,$pid,1283,$comment);
+						}
+						$second_tab .= show_pjt_head($result);
+						$index2++;    
+					}
+					$second_tab .= show_pjts($result,$status);
+				}
+				if ($statusMin > 2) {
+					$status = 'Status: Accessory On Hand';
+					if($index3 == 0) {
+						if ($result['job_status'] > 31 && $result['job_status'] != 39 && $result['job_status'] < 50 && $result['job_status'] != 44 && $result['job_status'] != 42) {
+							$ud_status = new project_action;
+							$pid = $result['pid'];
+							$comment = "'Status: All accessories On Hand.'";
+							$ud_status->ud_status(42,$pid,1283,$comment);
+						}
+						$third_tab .= show_pjt_head($result);
+						$index3++;    
+					}
+					$third_tab .= show_pjts($result,$status);
+				}
+			}
+		}
+	}
+
+	echo $first_tab . ':::' . $second_tab . ':::' . $third_tab;
+}
+
+
+
+
+if ($action=="get_materials_pull_list") {
+	unset($_POST['action']);
+	$results = "";
+	$search = new materials_action;
+
+	$pull_array = array();
+	$pull_list = $search->get_pull_list();
+	foreach($pull_list as $pjt) {
+		$pull_array[$pjt['job_name']][] = $pjt;
+// 		$pull_array[] = array(
+// 			'job_name' => $type,
+// 			'detail' => $labels
+// 		);
+	}
+	$pullbymaterialsbyname = array();
+	foreach($pull_array as $type => $labels) {
+		$pullbymaterialsbyname[] = array(
+			'job_name' => $type,
+			'detail' => $labels
+		);
+	}
+	//GROUP BY END
+	
+	function show_pull_head($result) {
+		$head_arr = '
+		<div class="container d-flex">
+			<div class="col-md-1"><h3>' . format_date($result['install_date']) . '</h3></div>
+			<div class="col-md-6 text-primary"><h3>' . $result['order_num'] . ' - ' . $result['job_name'] . '</h3></div>
+			<div class="col-md-5 text-right">
+				<div id="' . $result['pid'] . '" class="btn btn-sm btn-primary" onClick="$(\'#instDetails\').html(\'\');viewThisProject(' . $result['pid'] . ','. $result['uid'] .');"><span class="d-none d-lg-block">View </span><i class="fas fa-eye"></i></div>';
+		if ($result['mat_selected'] == 0) {
+			$head_arr .= '
+				<div id="' . $result['pid'] . '" class="btn btn-sm btn-warning" onClick="material_selected(' . $result['pid'] . ');"><span class="d-none d-lg-block">Selected </span><i class="fas fa-check-circle"></i></div>';
+		}
+		if ($result['prog_ready'] == 1) {
+			$head_arr .= '
+				<div id="' . $result['pid'] . '" class="btn btn-sm btn-success" onClick="material_delivered(' . $result['pid'] . ');"><span class="d-none d-lg-block">Delivered </span><i class="fas fa-truck"></i></div>';
+		} else {
+			$head_arr .= '
+				<div id="' . $result['pid'] . '" class="btn btn-sm btn-success" onClick="material_delivered_prog(' . $result['pid'] . ');"><span class="d-none d-lg-block">Delivered </span><i class="fas fa-truck"></i></div>';
+		}
+			$head_arr .= '
+			</div>
+		</div>';
+		return $head_arr;
+	}
+
+	function show_pull($result) {
+		$tmp_arr = '
+		<div class="container d-md-flex">
+			<div class="col-md-1">Slabs: <strong>' . $result['mat_slabs'] . '</strong></div>
+			<div class="col-md-3">Color: <strong>' . $result['color'] . '</strong></div>
+			<div class="col-md-4">Lot: <strong>' . $result['lot'] . '</strong></div>
+			<div class="col-md-4">Assigned Material: <strong>' . $result['assigned_material'] . '</strong></div>
+		</div>'; 
+		return $tmp_arr;
+	}
+
+	$fourth_tab = '';
+
+	foreach($pullbymaterialsbyname as $results) {
+		$mathold_Max = max(array_column($results['detail'], 'mat_hold'));
+		$matstatus_Min = min(array_column($results['detail'], 'material_status'));
+		$index = 0;
+		if($mathold_Max == 0 && $matstatus_Min > 2) {
+			foreach($results['detail'] as $result) {
+				if ($result['job_status'] > 24 && $result['job_status'] != 26) {
+					if ($result['mat_ready'] == 0) {
+						if ($result['mat_selected'] == 1) {
+							$fourth_tab .= '<div class="container light-green">';
+						} else {
+							$fourth_tab .= '<div class="container">';
+						}
+						if ( !($result['install_date'] == '2200-01-01') ) {
+							$job_status = $result['job_status'];
+							$lastDigit = substr($job_status, -1);
+							if($index == 0) {
+								$fourth_tab .= '<hr>';
+								$fourth_tab .= show_pull_head($result);
+								$index++;
+							}
+							$fourth_tab .= show_pull($result);
+						}
+						$fourth_tab .= '</div>';
+					}
+				}
+			}
+		}
+	}
+
+ 	echo $fourth_tab;
+}
+
+
+
+
+
+if ($action=="get_pull_list") {
+	unset($_POST['action']);
+//	$results = "";
+//	$search = new materials_action;
+//	$tmp = array();
+//	//Get the projects between with job_status > 10 and job_status < 50
+//	$pjts = $search->get_materials();
+//	
+//	//GROUP THE $pjts BY JOB NAME
+//	foreach($pjts as $pjt) {
+//		$tmp[$pjt['job_name']][] = $pjt;
+//	}
+//	$materialsbyname = array();
+//	foreach($tmp as $type => $labels) {
+//		$materialsbyname[] = array(
+//			'job_name' => $type,
+//			'detail' => $labels
+//		);
+//	}
+	$search = new materials_action;
+	$pull_array = array();
+	$pull_list = $search->get_pull_list();
+	foreach($pull_list as $pjt) {
+		$pull_array[$pjt['job_name']][] = $pjt;
+// 		$pull_array[] = array(
+// 			'job_name' => $type,
+// 			'detail' => $labels
+// 		);
+	}
+	$pullbymaterialsbyname = array();
+	foreach($pull_array as $type => $labels) {
+		$pullbymaterialsbyname[] = array(
+			'job_name' => $type,
+			'detail' => $labels
+		);
+	}
+	//GROUP BY END
+	
 	function show_pull_head($result) {
 		$head_arr = '
 		<div class="container d-flex">
@@ -1351,106 +1965,9 @@ if ($action=="get_materials_needed") {
 		return $tmp_arr;
 	}
 
-	function getminstatus($pjts, $field, $value) {
-		foreach($pjts as $key => $pjt) {
-			if ( $pjt[$field] === $value ) {
-				return $key;
-			}
-		}
-		return false;
-	}
-
 	$first_tab = '';
 	$second_tab = '';
-	$third_tab = '';
-	$fourth_tab = '';
-	$fifth_tab = '';
-	$sixth_tab = '';
 
-	foreach($materialsbyname as $results) {
-		$index1 = 0;
-		$index2 = 0;
-		$index3 = 0;
-
-		$statusMin = min(array_column($results['detail'], 'material_status'));
-		
-		foreach($results['detail'] as $result){
-			if ($result['job_status'] > 24 || ($result['job_status'] > 11 && $result['pre_order'] == 1)) {
-				if ($statusMin == 1) {
-					$status = 'Status: To be assigned/ordered.';
-					if($index1 == 0) {
-						if ($result['job_status'] > 31 && $result['job_status'] != 39 && $result['job_status'] < 50 && $result['job_status'] != 44 && $result['job_status'] != 40) {
-							$ud_status = new project_action;
-							$pid = $result['pid'];
-							$comment = "'Status All to be ordered.'";
-							$ud_status->ud_status(40,$pid,1283,$comment);
-						}
-						$first_tab .= show_pjt_head($result);
-						$index1++;
-					}
-					$first_tab .= show_pjts($result,$status);
-				}
-				if ($statusMin == 2) {
-					$status = 'Status: Materials ordered. Est. delivery ';
-					if($index2 == 0) {
-						if ($result['job_status'] > 31 && $result['job_status'] != 39 && $result['job_status'] < 50 && $result['job_status'] != 44 && $result['job_status'] != 41) {
-							$ud_status = new project_action;
-							$pid = $result['pid'];
-							$comment = "'Status All Materials ordered.'";
-							$ud_status->ud_status(41,$pid,1283,$comment);
-						}
-						$second_tab .= show_pjt_head($result);
-						$index2++;    
-					}
-					$second_tab .= show_pjts($result,$status);
-				}
-				if ($statusMin > 2) {
-					$status = 'Status: Materials On Hand';
-					if($index3 == 0) {
-						if ($result['job_status'] > 31 && $result['job_status'] != 39 && $result['job_status'] < 50 && $result['job_status'] != 44 && $result['job_status'] != 42) {
-							$ud_status = new project_action;
-							$pid = $result['pid'];
-							$comment = "'Status: All Materials On Hand.'";
-							$ud_status->ud_status(42,$pid,1283,$comment);
-						}
-						$third_tab .= show_pjt_head($result);
-						$index3++;    
-					}
-					$third_tab .= show_pjts($result,$status);
-				}
-			}
-		}
-	}
-
-	foreach($pullbymaterialsbyname as $results) {
-		$mathold_Max = max(array_column($results['detail'], 'mat_hold'));
-		$matstatus_Min = min(array_column($results['detail'], 'material_status'));
-		$index = 0;
-		if($mathold_Max == 0 && $matstatus_Min > 2) {
-			foreach($results['detail'] as $result) {
-				if ($result['job_status'] > 24 && $result['job_status'] != 26) {
-					if ($result['mat_ready'] == 0) {
-						if ($result['mat_selected'] == 1) {
-							$fourth_tab .= '<div class="light-green">';
-						} else {
-							$fourth_tab .= '<div>';
-						}
-						if ( !($result['install_date'] == '2200-01-01') ) {
-							$job_status = $result['job_status'];
-							$lastDigit = substr($job_status, -1);
-							if($index == 0) {
-								$fourth_tab .= '<hr>';
-								$fourth_tab .= show_pull_head($result);
-								$index++;
-							}
-							$fourth_tab .= show_pull($result,$status);
-						}
-						$fourth_tab .= '</div>';
-					}
-				}
-			}
-		}
-	}
 	//GET THE ACCESSORIES FOR TODAY AND TOMORROW
 	function get_sort_array($array, $label) {
 		$temp = array();
@@ -1469,71 +1986,71 @@ if ($action=="get_materials_needed") {
 	$sink_array = get_sort_array($search->get_accessories_ttday(), 'install_date');
 	foreach($sink_array as $results) {
 		$dateDay = $results['install_date'];
-		$fifth_tab .= ' <hr class="blue-gradient" style="height:10px">';
-		$fifth_tab .= '	<div id="byMat' . $dateDay . '">';
-		$fifth_tab .= '	<div class="w-100 d-flex">';
-		$fifth_tab .= '		<div class="col-12">';
-		$fifth_tab .= '		  <h3>' . $dateDay . ' <i class="fas fa-print text-success" onClick="CallPrint(' . "'byMat" . $dateDay . "'" . ')"></i> <span class="d-none d-print-block">Accessories Pull List - printed: ' . date("Y-m-d h:i:sa") . '</span></h3>';
-		$fifth_tab .= '		</div></div>';
+		$first_tab .= ' <hr class="blue-gradient" style="height:10px">';
+		$first_tab .= '	<div id="byMat' . $dateDay . '">';
+		$first_tab .= '	<div class="w-100 d-flex">';
+		$first_tab .= '		<div class="col-12">';
+		$first_tab .= '		  <h3>' . $dateDay . ' <i class="fas fa-print text-success" onClick="CallPrint(' . "'byMat" . $dateDay . "'" . ')"></i> <span class="d-none d-print-block">Accessories Pull List - printed: ' . date("Y-m-d h:i:sa") . '</span></h3>';
+		$first_tab .= '		</div></div>';
 		$sinks_array = get_sort_array($results['detail'], 'sink_name');
 		foreach($sinks_array as $result_sink) {
-			$fifth_tab .= '	<hr>';
-			$fifth_tab .= '	<div class="container d-md-flex">';
+			$first_tab .= '	<hr>';
+			$first_tab .= '	<div class="container d-md-flex">';
 			if($result_sink['sink_name'] == '' || $result_sink['sink_name'] == null) {
-				$fifth_tab .= '  <div class="col-11 pl-2 text-primary"><strong><span class="text-success">' .count($result_sink['detail']) . ' X </span></strong>' . $result_sink['detail'][0]['faucet_name'] . '</div>';
+				$first_tab .= '  <div class="col-11 pl-2 text-primary"><strong><span class="text-success">' .count($result_sink['detail']) . ' X </span></strong>' . $result_sink['detail'][0]['faucet_name'] . '</div>';
 			} else {
-				$fifth_tab .= '  <div class="col-11 pl-2 text-primary"><strong><span class="text-success">' .count($result_sink['detail']) . ' X </span></strong>' . $result_sink['sink_name'] . '</div>';
+				$first_tab .= '  <div class="col-11 pl-2 text-primary"><strong><span class="text-success">' .count($result_sink['detail']) . ' X </span></strong>' . $result_sink['sink_name'] . '</div>';
 			}
 			$sink_ids = '';
 			$order_nums = '';
 			foreach($result_sink['detail'] as $res){
 				$sink_ids .= $res['sink_id'].',  ';
-				$order_nums .= $res['order_num'].', ';
+				$order_nums .= '<a onClick="viewThisProject(' . $res['id'] . ',' . $res['uid'] . ')">' . $res['order_num'] . '</a>, ';
 			}
 			$order_num = trim($order_nums, ', ');
-			$fifth_tab .= '  <div class="col-1 pl-2"><div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')"><i class="fas fa-truck-container"></i></div></div>';
-			$fifth_tab .= ' </div>';
-			$fifth_tab .= '  <div class="col-11 pl-2 text-secondary"><strong><span class="text-success">  Jobs:  </span></strong>' . $order_num . '</div>';
+			$first_tab .= '  <div class="col-1 pl-2"><div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')"><i class="fas fa-truck-container"></i></div></div>';
+			$first_tab .= ' </div>';
+			$first_tab .= '  <div class="col-11 pl-2 text-secondary"><strong><span class="text-success">  Jobs:  </span></strong>' . $order_num . '</div>';
 		}
-		$fifth_tab .= ' </div>';
+		$first_tab .= ' </div>';
 	}
 	foreach($sink_array as $results) {
-		$sixth_tab .= ' <hr class="blue-gradient" style="height:10px">';
+		$second_tab .= ' <hr class="blue-gradient" style="height:10px">';
 		$dateDay = $results['install_date'];
-		$sixth_tab .= '	<div id="byJob' . $dateDay . '">';
-		$sixth_tab .= '	<div class="w-100 d-flex">';
-		$sixth_tab .= '		<div class="col-12">';
-		$sixth_tab .= '		  <h3>' . $dateDay . ' <i class="fas fa-print text-success" onClick="CallPrint(' . "'byJob" . $dateDay . "'" . ')"></i> <span class="d-none d-print-block">Accessories Pull List - printed: ' . date("Y-m-d h:i:sa") . '</span></h3>';
-		$sixth_tab .= '		</div></div>';
+		$second_tab .= '	<div id="byJob' . $dateDay . '">';
+		$second_tab .= '	<div class="w-100 d-flex">';
+		$second_tab .= '		<div class="col-12">';
+		$second_tab .= '		  <h3>' . $dateDay . ' <i class="fas fa-print text-success d-print-none" onClick="CallPrint(' . "'byJob" . $dateDay . "'" . ')"></i> <span class="d-none d-print-block">Accessories Pull List - printed: ' . date("Y-m-d h:i:sa") . '</span></h3>';
+		$second_tab .= '		</div></div>';
 		$jobs_array = get_sort_array($results['detail'], 'job_name');
 		foreach($jobs_array as $result_job) {
-			$sixth_tab .= '	<hr>';
-			$sixth_tab .= '	<div class="container d-md-flex">';
-			$sixth_tab .= '		<div class="col-12 pl-2 text-primary"><h3>' . $result_job['detail'][0]['order_num'] . ' - ' .$result_job['job_name'] . '</h3></div>';
-			$sixth_tab .= '	</div>';
+			$second_tab .= '	<hr>';
+			$second_tab .= '	<div class="container d-md-flex">';
+			$second_tab .= '		<div class="col-12 pl-2 text-primary"><h3 style="cursor:pointer" onClick="viewThisProject(' . $result_job['detail'][0]['id'] . ',' . $result_job['detail'][0]['uid'] . ')">' . $result_job['detail'][0]['order_num'] . ' - ' .$result_job['job_name'] . ' <i class="fas fa-eye d-print-none"></i></h3></div>';
+			$second_tab .= '	</div>';
 			$sinkname_array = get_sort_array($result_job['detail'], 'sink_name');
 			foreach($sinkname_array as $result_sink) {
-				$sixth_tab .= '		<div class="container d-md-flex">';
-				$sixth_tab .= '     <div class="col-11 pl-4">';
+				$second_tab .= '		<div class="container d-md-flex">';
+				$second_tab .= '     <div class="col-11 pl-4">';
 				if($result_sink['sink_name'] == '' || $result_sink['sink_name'] == null) {
-					$sixth_tab .= ' <strong><span class="text-success">'.count($result_sink['detail']) .' X</span></strong> ' . $result_sink['detail'][0]['faucet_name'] . '';
+					$second_tab .= ' <strong><span class="text-success">'.count($result_sink['detail']) .' X</span></strong> ' . $result_sink['detail'][0]['faucet_name'] . '';
 				} else {
-					$sixth_tab .= ' <strong><span class="text-success">'.count($result_sink['detail']) .' X</span></strong> ' . $result_sink['sink_name'] . '';
+					$second_tab .= ' <strong><span class="text-success">'.count($result_sink['detail']) .' X</span></strong> ' . $result_sink['sink_name'] . '';
 				}
-				$sixth_tab .= '     </div>';
+				$second_tab .= '     </div>';
 				$sink_ids = '';
 				foreach($result_sink['detail'] as $res){
 					$sink_ids .= $res['sink_id'].',';
 				}
-				$sixth_tab .= '     <div class="col-1 pl-4">';
-				$sixth_tab .= '       <div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')"><i class="fas fa-truck-container"></i></div>';
-				$sixth_tab .= '     </div>';
-				$sixth_tab .= '   </div>';  
+				$second_tab .= '     <div class="col-1 pl-4">';
+				$second_tab .= '       <div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')"><i class="fas fa-truck-container"></i></div>';
+				$second_tab .= '     </div>';
+				$second_tab .= '   </div>';  
 			} 
 		}
-		$sixth_tab .= '   </div>';  
+		$second_tab .= '   </div>';  
 	}
-	echo $first_tab . ':::' . $second_tab . ':::' . $third_tab . ':::' . $fourth_tab . ':::' . $fifth_tab . ':::' . $sixth_tab;
+	echo $first_tab . ':::' . $second_tab;
 }
 
 if($action=="update_pullstatus") {
@@ -1541,7 +2058,6 @@ if($action=="update_pullstatus") {
   $run = new materials_action;
 	$run -> update_pullstatus(trim($_POST['ids'],','));
 }
-
 
 // LOSS APPROVAL.
 if ($action=="loss_approval") {
@@ -4393,7 +4909,7 @@ if ($action=="user_search_list") {
 		}
 	} else {
 		foreach($search->user_data_search($_POST) as $results) {
-			if ($results['access_level'] < 11) {
+			// if ($results['access_level'] < 11) {
 				?>
 				<div class="row">
 					<div class="col-12 col-md-5 text-primary text-uppercase"><h5><?= $results['company']; ?></h5></div>
@@ -4408,7 +4924,7 @@ if ($action=="user_search_list") {
 				</div>
 				<hr>
 				<?
-			}
+			//}
 		}
 	}
 	echo "</div>";
@@ -5887,12 +6403,13 @@ if ($action=="view_selected_pjt") {
 		$html .= '703 Park Lawn Ct.<br>';
 		$html .= 'Kernersville, NC 27084';
 		$html .= '</div>';
-
 		$html .= '</div>';
+
 
 		$html .= '<div class="col-12 d-print-none"><div class="btn btn-warning float-right" onClick="pjtBack()" style="cursor:pointer"><i class="fas fa-reply"></i>&nbsp;&nbsp; Back</div></div>';
 		$printThis = "$('#pjtDetails').printThis()";
-		$html .= '<div class="col-12 d-print-none ' . $noProg . $noMoney. '"><div class="btn btn-primary float-right mr-3" onClick="' . $printThis . '" style="cursor:pointer"><i class="fas fa-print"></i>&nbsp;&nbsp; ';
+		$html .= '<div class="col-12 d-print-none ' . $noProg . $noMoney. '">';
+		$html .= '<div class="btn btn-primary float-right mr-3" onClick="' . $printThis . '" style="cursor:pointer"><i class="fas fa-print"></i>&nbsp;&nbsp; ';
 		if ($job_status < 22) {
 			$html .= 'ESTIMATE';
 		} elseif ($job_status < 85 && $job_status != 89) {
@@ -5901,12 +6418,7 @@ if ($action=="view_selected_pjt") {
 			$html .= 'INVOICE';
 		}
 		$html .= '</div></div>';
-		if ($_SESSION['access_level'] < 4) {
-			$accountModal = "$('#accounting').modal('show')";
-			$html .= '<i class="fas fa-file-invoice-dollar text-warning h2 d-inline d-print-none" onClick="'.$accountModal.'" style="cursor:pointer"></i>';
-		}
-		$html .= '<h2 class="d-print-none">Client:</h2>';
-		$html .= '<h2 id="clientName" class="d-inline d-print-none text-primary text-uppercase">' . $results['clientCompany'] . ' ' . $results['clientFname'] . ' ' . $results['clientLname'] . ' <em><sup class=" ' . $noProg . ' ' . $noMoney . '">(';
+		$html .= '<h2 class="float-right text-primary d-print-none"><em>' . $results['order_num'] . ' - ';
 		if ($results['repair'] == 1) {
 			$html .= '<span class="text-danger">Repair - </span>';
 		} else {
@@ -5921,7 +6433,64 @@ if ($action=="view_selected_pjt") {
 		} else {
 			$html .= '$' . $tax_print;
 		}
-		$html .= ')</sup></em></h2>';
+		$html .= '</em>&emsp;</h2>';
+
+		if ($_SESSION['access_level'] < 4) {
+			$accountModal = "$('#accounting').modal('show')";
+			$html .= '<i class="fas fa-file-invoice-dollar text-warning h2 d-inline d-print-none" onClick="'.$accountModal.'" style="cursor:pointer"></i>';
+		}
+		if ($results['clientAccessLevel'] < 11 || $results['uid'] == 1786 || $results['uid'] == 1678) {
+			$html .= '<h2 class="d-print-none">Internal Job:</h2>';
+		} else if ($results['clientAccessLevel'] == 11) {
+			$html .= '<h2 class="d-print-none">Retail Customer:</h2>';
+		} else if ($results['clientAccessLevel'] == 12) {
+			$html .= '<h2 class="d-print-none">Builder:</h2>';
+		} else if ($results['clientAccessLevel'] == 13) {
+			$html .= '<h2 class="d-print-none">Cabinet Company:</h2>';
+		} else if ($results['clientAccessLevel'] == 14) {
+			$html .= '<h2 class="d-print-none">Designer:</h2>';
+		}
+		$html .= '<h2 id="clientName" class="d-inline d-print-none text-primary text-uppercase"><u>' . $results['clientCompany'] . '</u> ' . $results['clientFname'] . ' ' . $results['clientLname'] . ' </h2>';
+
+
+		if ($_SESSION['access_level'] < 4) {
+			$html .= '<hr><div class="row d-print-none"><div class="col-6"><h6><b>Bill to: ';
+			if ($results['clientCompany'] != '') { 
+				$html .= $results['clientCompany'] . '</b></h6>';
+				if ($results['clientFname'] != '') {
+					$html .= '<h6> &emsp;&emsp;FAO: ' . $results['clientFname'] . ' ' . $results['clientLname'] . ',&ensp;</h6>';
+				}
+			} else {
+				$html .= $results['clientFname'] . ' ' . $results['clientLname'] . '</b>,&ensp;</h6>';
+			}
+			$html .= '<h6> &emsp;&emsp;' . $results['cAdd1'] . ',&ensp;</h6>';
+			if ($results['cAdd2'] != '') {
+				$html .= '<h6> &emsp;&emsp;' . $results['cAdd2'] . ',&ensp;</h6>';
+			}
+			$html .= '
+				<h6> &emsp;&emsp;' . $results['cCity'] . ',&ensp; ' . $results['cState'] . '&ensp; ' . $results['cZip'] . '</h6>';
+				if ($results['cEmail'] != '') {
+					$html .= '<h6> &emsp;&emsp;<a href="mailto:' . $results['cEmail'] . '">' . $results['cEmail'] . '</a></h6>';
+				}
+				if ($results['cPhone'] != '') {
+					$html .= '<h6> &emsp;&emsp;<a href="tel:' . $results['cPhone'] . '">' . $results['cPhone'] . '</a></h6>';
+				}
+			$html .= '</div>
+			<div class="col-6"><h6><b>Ship to: ' . $results['contact_name'] . '</b></h6>
+				<h6> &emsp;&emsp;' . $results['address_1'] . ',&ensp;</h6>';
+			if ($results['address_2'] != '') {
+				$html .= '<h6> &emsp;&emsp;' . $results['address_2'] . ',&ensp;</h6>';
+			}
+			$html .= '<h6> &emsp;&emsp;' . $results['city'] . ',&ensp; ' . $results['state'] . '&ensp; ' . $results['zip'] . '</h6>';
+			if ($results['contact_email'] != '') { 
+				$html .= '<h6> &emsp;&emsp;<a href="mailto:' . $results['contact_email'] . '">' . $results['contact_email'] . '</a></h6>';
+			}
+			if ($results['contact_number'] != '') { 
+				$html .= '<h6> &emsp;&emsp;<a href="tel:' . $results['contact_number'] . '">' . $results['contact_number'] . '</a></h6>';
+			}
+			$html .= '</div></div>';
+		}
+
 		$html .= '<hr class="d-print-none">';
 		if ($results['install_team'] > 0) {
 			$get_inst_team = new project_action;
@@ -6925,7 +7494,7 @@ if ($action=="view_selected_pjt") {
 			$instS = new project_action;
 			foreach( $instS->sink_data_fetch($_POST) as $r ) {
 				$sinkPrice = $r['sink_price'] + $r['faucet_price'];
-				$endSink = $r['sink_price'] + $r['cutout_price'];
+				$endSink = $sinkPrice + $r['cutout_price'];
 				$endSink = number_format($endSink, 2, '.', ',');
 				$sinkPricePrint = number_format($sinkPrice, 2, '.', ',');
 				$cutoutPricePrint = number_format($r['cutout_price'], 2, '.', ',');
@@ -7480,8 +8049,7 @@ if ($action=="view_selected_inst") {
 		} else {
 			$html .= '<span id="sink_' . $r['sink_id'] . '" class="text-primary">' . $r['faucet_name'] . '</span></h4>';
 			$clipboard .= ' - ' . $r['faucet_name'];
-			$programming .= 'Accessory: ' . $r['faucet_name'];
-			$programming .= 'Holes: ' . $r['hole_name'] . ' ' . $r['sink_holes_other'] . '<br>';
+			$programming .= 'Accessory: ' . $r['faucet_name'] . '<br>';
 		}
 
 		$html .= '		<div class="d-inline col-12 col-md-2">Customer Provided?<br class="d-none d-md-block"> <b>';
@@ -7506,6 +8074,15 @@ if ($action=="view_selected_inst") {
 			}
 
 			$programming .= 'Sink: ' . $r['sink_name'] . '<br>';
+			if ($r['sink_onsite'] == 1) {
+				$programming .= 'Sink at job site.<br>';
+			}
+			if ($r['sink_location'] != '') {
+				$programming .= 'Location: ' . $r['sink_location'] . '<br>';
+			}
+			if ($r['assigned_sink'] != '') {
+				$programming .= 'Assigned: ' . $r['assigned_sink'] . '<br>';
+			}
 			$programming .= 'Holes: ' . $r['hole_name'] . ' ' . $r['sink_holes_other'] . '<br>';
 			$programming .= 'Cutout: ' . $r['cutout_width'] . 'w ' . $r['cutout_depth'] . 'd<br>';
 

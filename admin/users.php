@@ -396,8 +396,8 @@ POPUP EDIT BOX CODE START
 								<div class="row">
 									<div class="col-12">
 										<div style="display:inline-block" class="input-control switch margin10" data-role="input-control">
-											<label for="sameAdd" style="display:inline-block">Same as User Account?</label>
 											<input class="filled-in" style="display:inline-block" id="sameAdd" name="sameAdd" type="checkbox" value="sameAs" data-transform="input-control" data-transform-type="switch" onChange="autoFillBilling()" >
+											<label for="sameAdd" style="display:inline-block">Same as User Account?</label>
 										</div>
 									</div>
 								</div>
@@ -609,7 +609,7 @@ POPUP EDIT BOX CODE START
 						<label class="form-label col-12 col-md-4">Comment: </label>
 						<textarea class="form-control" id="cmt_comment" name="cmt_comment" rows="5"></textarea>
 						<hr>
-						<div id="submitComments" class="btn btn-lg btn-primary col-12">Submit Comments <i class="fa fa-paper-plane-o"></i></div>
+						<div id="submitComments" class="btn btn-lg btn-primary col-12">Submit Comments <i class="fab fa-telegram-plane"></i></div>
 					</form>
 				</div>
 			</div>

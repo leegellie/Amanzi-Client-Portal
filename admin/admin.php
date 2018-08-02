@@ -151,6 +151,8 @@ if(isset($_GET['marble'])){
 	require_once ('admin_precall_temp.php');
 } elseif (isset($_GET['invoices'])) {
 	require_once ('admin_invoicing.php');
+} elseif (isset($_GET['pay'])) {
+	require_once ('admin_inst_pay.php');
 }
 ?>
 	</div>
@@ -535,7 +537,7 @@ var entityMap = {
 	'=': '&#x3D;'
 };
 
-function escapeHtml (string) {
+function escapeHtml(string) {
   return String(string).replace(/[&<>"'`=\/]/g, function (s) {
     return entityMap[s];
   });
@@ -670,25 +672,25 @@ function update_accs(){
 	});
 }
 
-$(document).ready(function(){
-	$("#searchBox").on("keyup", function() {
-		var value = $(this).val().toLowerCase();
-		$(".filter").filter(function() {
-			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-		});
-	});
-	$('.table').DataTable({
-		"pageLength": 50,
-		"aoColumnDefs" : [{
-			'bSortable' : false,
-			'aTargets' : [ -2, -1 ]
-		}]
-	});
-	$('.mdb-select').material_select('destroy'); 
-	$('select[name=DataTables_Table_0_length]').addClass('mdb-select'); 
-	$('.mdb-select').material_select(); 
-	$("#mdb-lightbox-ui").load("https://amanziportal.com/mdb-addons/mdb-lightbox-ui.html"); 
-});
+//$(document).ready(function(){
+//	$("#searchBox").on("keyup", function() {
+//		var value = $(this).val().toLowerCase();
+//		$(".filter").filter(function() {
+//			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+//		});
+//	});
+//	$('.table').DataTable({
+//		"pageLength": 50,
+//		"aoColumnDefs" : [{
+//			'bSortable' : false,
+//			'aTargets' : [ -2, -1 ]
+//		}]
+//	});
+//	$('.mdb-select').material_select('destroy'); 
+//	$('select[name=DataTables_Table_0_length]').addClass('mdb-select'); 
+//	$('.mdb-select').material_select(); 
+//	$("#mdb-lightbox-ui").load("https://amanziportal.com/mdb-addons/mdb-lightbox-ui.html"); 
+//});
 
 </script>
 </body>

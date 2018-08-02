@@ -173,7 +173,34 @@ class materials_action {
 		$q->execute();
 		return $row = $q->fetchAll();
 	}
-  
+
+	// SELECT PROJECT BY QUOTE NUMBER OR ORDER NUMBER FROM SEARCH CRITERIA 
+	public function get_accessories_needed() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("
+			SELECT *, 
+					 status.name AS status
+				FROM projects 
+				JOIN status ON status.id = projects.job_status 
+				JOIN installs ON installs.pid = projects.id 
+				JOIN install_sink ON install_sink.sink_iid = installs.id 
+			   WHERE ( (pre_order = 1
+				 AND projects.job_status < 50 
+				 AND projects.job_status <> 44 )
+			   OR
+			   (projects.job_status > 24 
+				 AND projects.job_status < 50 
+				 AND projects.job_status <> 44 
+				 AND !(install_date = '2200-01-01' AND template_date = '2200-01-01')))
+				 AND isActive = 1 
+			ORDER BY projects.install_date ASC
+		");
+		$q->execute();
+		return $row = $q->fetchAll();
+	}
+
+
   //SELECT ACCESSORIES BY "TODAY" AND "TOMORROW"(ACTUALLY, NEXT BUSINESS DAY)
   public function get_accessories_ttday() {
     $conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
@@ -229,17 +256,45 @@ class materials_action {
       FROM projects 
       JOIN status ON status.id = projects.job_status 
       JOIN installs ON installs.pid = projects.id
-      WHERE projects.job_status > 11 
+      WHERE ((pre_order = 1 
+        AND projects.job_status < 50 
+        AND projects.job_status <> 44)
+	  OR (projects.job_status > 23 
         AND projects.job_status < 50 
         AND projects.job_status <> 44 
-        AND !(install_date = '2200-01-01' AND template_date = '2200-01-01')
+        AND !(install_date = '2200-01-01' AND template_date = '2200-01-01')))
         AND isActive = 1 
       ORDER BY projects.install_date ASC
 		  ");
 		$q->execute();
 		return $row = $q->fetchAll();
 	}
-	
+
+	public function get_accessories() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("
+			SELECT *, 
+					 status.name AS status
+				FROM projects 
+				JOIN status ON status.id = projects.job_status 
+				JOIN installs ON installs.pid = projects.id 
+				JOIN install_sink ON install_sink.sink_iid = installs.id 
+			   WHERE ( (pre_order = 1
+				 AND projects.job_status < 50 
+				 AND projects.job_status <> 44 )
+			   OR
+			   (projects.job_status > 24 
+				 AND projects.job_status < 50 
+				 AND projects.job_status <> 44 
+				 AND !(install_date = '2200-01-01' AND template_date = '2200-01-01')))
+				 AND isActive = 1 
+			ORDER BY projects.install_date ASC
+		");
+		$q->execute();
+		return $row = $q->fetchAll();
+	}
+
 	public function get_pull_list() {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
@@ -337,6 +392,60 @@ class materials_action {
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 		$q = $conn->prepare("UPDATE installs SET material_status = 1 WHERE id = :id"); 
 		$q->bindParam(':id',$a['iid']); 
+		$q->execute(); 
+	}
+
+// SINKS
+
+	public function ordered_sink($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$q = $conn->prepare("UPDATE install_sink SET assigned_sink = :assigned_sink, sink_date = :sink_date, sink_status = :sink_status WHERE sink_id = :sink_id");
+			$q->bindParam(':sink_id', $a['sink_id']);
+			$q->bindParam(':assigned_sink', $a['assigned_sink']);
+			$q->bindParam(':sink_date', $a['sink_date']);
+			$q->bindParam(':sink_status', $a['sink_status']);
+			$q->execute();
+			$this->_message = $conn->lastInsertId();
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+		}
+		return $this->_message;
+	}
+
+	public function assign_sink($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("UPDATE install_sink SET assigned_sink = :assigned_sink, sink_status = :sink_status WHERE sink_id = :sink_id");
+		$q->bindParam(':sink_id',$a['sink_id']);
+		$q->bindParam(':assigned_sink',$a['assigned_sink']);
+		$q->bindParam(':sink_status',$a['sink_status']);
+		$q->execute();
+	}
+
+	public function no_sink($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("UPDATE install_sink SET sink_status = :sink_status WHERE sink_id = :sink_id");
+		$q->bindParam(':sink_id',$a['sink_id']);
+		$q->bindParam(':sink_status',$a['sink_status']);
+		$q->execute();
+	}
+
+	public function sink_selected($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("UPDATE install_sink SET sink_selected = 1 WHERE sink_id = :sink_id");
+		$q->bindParam(':sink_id',$a);
+		$q->execute();
+	}
+
+	public function sink_reset($a) { 
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+		$q = $conn->prepare("UPDATE install_sink SET sink_status = 1 WHERE sink_id = :sink_id"); 
+		$q->bindParam(':sink_id',$a['sink_id']); 
 		$q->execute(); 
 	}
 

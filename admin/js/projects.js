@@ -336,16 +336,20 @@ function proj_type($type) {
 		$('.servoption').hide();
 		$('#no_charge').prop('checked', false);
 		$('#call_out_fee').prop('checked', false);
+		$('#no_template').prop('checked', false);
 	} else if ($type === 'add') {
 		$('#addition').val(1);
 		$('#call_out_fee').prop('checked', true);
 		$('.servoption').hide();
 		$('.addoption').show();
+		$('#no_template').prop('checked', false);
 	} else {
 		if ($type === 'rew') {
 			$('#rework').val(1);
+			$('#no_template').prop('checked', false);
 		} else {
 			$('#repair').val(1);
+			$('#no_template').prop('checked', true);
 		}
 		$('#no_charge').prop('checked', false);
 		$('#call_out_fee').prop('checked', true);
@@ -693,6 +697,7 @@ function mat_hold_modal(uid,iid,pid) {
 	$('#mat_hold_modal').modal('show');
 }
 
+
 function mat_hold() {
 	if ($('#mh-hold_reason').val() == '') {
 		alert("You must enter a reason for placing the material on hold.");
@@ -793,6 +798,125 @@ function mat_release() {
 			$('#mr-iid').val('');
 			$('#mr-staff').val('');
 			$('#mr-release_reason').val('');
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
+// LEE UPDATE
+function sink_hold_modal(uid,sink_id,pid) {
+	$('#sh-pid').val('');
+	$('#sh-sink_id').val('');
+	$('#sh-staff').val('');
+	$('#sh-hold_reason').val('');
+	$('#sh-pid').val(pid);
+	$('#sh-sink_id').val(sink_id);
+	$('#sh-staff').val(uid);
+	$('#sink_hold_modal').modal('show');
+}
+
+function sink_hold() {
+	if ($('#sh-hold_reason').val() == '') {
+		alert("You must enter a reason for placing the accessory on hold.");
+		return;
+	}
+	var user = $('#sh-staff').val();
+	var pid = $('#sh-pid').val();
+	var sink_id = $('#sh-sink_id').val();
+	var cmt_comment = $('#sh-hold_reason').val();
+
+	var datastring = 'action=sink_hold&user=' + user + '&pid=' + pid + '&sink_id=' + sink_id + '&cmt_comment=' + cmt_comment;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log(data);
+			Command: toastr["error"]("Accessory placed on HOLD.", "Projects")
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": false,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": 300,
+				"hideDuration": 1000,
+				"timeOut": 5000,
+				"extendedTimeOut": 1000,
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			};
+			$('#sink_hold_modal').modal('hide');
+			// viewThisProject($pid, $uid);
+			$('#sh-pid').val('');
+			$('#sh-sink_id').val('');
+			$('#sh-staff').val('');
+			$('#sh-hold_reason').val('');
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
+function sink_release_modal(uid,sink_id,pid) {
+	$('#sr-pid').val('');
+	$('#sr-sink_id').val('');
+	$('#sr-staff').val('');
+	$('#sr-release_reason').val('');
+	$('#sr-pid').val(pid);
+	$('#sr-sink_id').val(sink_id);
+	$('#sr-staff').val(uid);
+	$('#sink_release_modal').modal('show');
+}
+
+
+function sink_release() {
+	if ($('#sr-release_reason').val() == '') {
+		alert("You must enter a reason for releasing the accessory from hold.");
+		return;
+	}
+	var user = $('#sr-staff').val();
+	var pid = $('#sr-pid').val();
+	var sink_id = $('#sr-sink_id').val();
+	var cmt_comment = $('#sr-release_reason').val();
+	var datastring = 'action=sink_release&user=' + user + '&pid=' + pid + '&sink_id=' + sink_id + '&cmt_comment=' + cmt_comment;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log(data);
+			Command: toastr["error"]("Accessory Released from HOLD.", "Projects")
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": false,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": 300,
+				"hideDuration": 1000,
+				"timeOut": 5000,
+				"extendedTimeOut": 1000,
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			};
+			$('#sink_release_modal').modal('hide');
+			// viewThisProject($pid, $uid);
+			$('#sr-pid').val('');
+			$('#sr-sink_id').val('');
+			$('#sr-staff').val('');
+			$('#sr-release_reason').val('');
 		},
 		error: function(data) {
 			console.log(data);
@@ -1350,9 +1474,26 @@ function add_sink(form) {
 	var $mount = $('#sink_mount').val();
 	var $holes = $('#sink_holes').val();
 	var $other = $('#sink_holes_other').val();
+	var $location = $('#sink_location').val();
 	var $soap = 0;
+	var $onsite = 0;
+	var $pickup = 0;
+	var $here = 0;
+	var $status = 1;
+	var $pull = 0;
 	if($( '#sink_soap' ).prop( "checked" ) == true) {
 		$soap = 1;
+	}
+	if($( '#sink_onsite' ).prop( "checked" ) == true) {
+		$onsite = 1;
+		$status = 4;
+		$pull = 2;
+	}
+	if($( '#sink_pickup' ).prop( "checked" ) == true) {
+		$pickup = 1;
+	}
+	if($( '#sink_here' ).prop( "checked" ) == true) {
+		$status = 3;
 	}
 	var $width = $('#cutout_width').val();
 	var $depth = $('#cutout_depth').val();
@@ -1376,10 +1517,12 @@ function add_sink(form) {
 		$sCost = 0;
 		$sPrice = 0;
 	}
-	if (($('#type_cost').text() * 1) == 1) {
-		$cPrice = 50;
-	} else if (($('#type_cost').text() * 1) == 2) {
-		$cPrice = 100;
+	if ($provided == 1) {
+		if (($('#type_cost').text() * 1) == 1) {
+			$cPrice = 50;
+		} else if (($('#type_cost').text() * 1) == 2) {
+			$cPrice = 100;
+		}
 	}
 	if ($('#sink_model').val() == "") {
 		alert("You must provide a Sink Model.");
@@ -1404,6 +1547,11 @@ function add_sink(form) {
 					 '&sink_price=' + $sPrice +
 					 '&cutout_price=' + $cPrice +
 					 '&sink_cost=' + $sCost +
+					 '&sink_onsite=' + $onsite +
+					 '&sink_pickup=' + $pickup +
+					 '&sink_status=' + $status +
+					 '&sink_location=' + $location +
+					 '&pull_status=' + $pull +
 					 '&sink_name=' + $sink_name;
 	//console.log(datastring);
 	$.ajax({
@@ -1411,17 +1559,20 @@ function add_sink(form) {
 		data: datastring,
 		type: 'POST',
 		success: function(data) {
-			//console.log(data);
+			console.log(data);
 			$('#sink_provided').val(0);
 			$('#sink_model').val('');
 			$('#sink_mount').val(0);
 			$('#sink_holes').val(0);
 			$('#sink_holes_other').val('');
-			$('#sink_soap').val(0);
+			$('#sink_soap').prop('checked',false);
 			$('#cutout_width').val(0);
 			$('#cutout_depth').val(0);
 			$('#sink_price').val('');
+			$('#sink_location').val('');
 			$('#cutout_price').val(0);
+			$('#sink_onsite').prop('checked',false)
+			$('#sink_pickup').prop('checked',false);
 			$('#addSinkBtn').show();
 			$('#add_sink').modal('hide');
 		},
@@ -2563,11 +2714,11 @@ function compilePjtEdit(data) {
 	if (obj.install_date != '2200-01-01') {
 		$('#p-install_date').val(obj.install_date);
 	}
-	if ( obj.job_status < 20 && obj.job_status != 17  &&  obj.order_num.indexOf('o') < 1  &&  obj.order_num.indexOf('r') < 1  && obj.order_num.indexOf('O') < 1  &&  obj.order_num.indexOf('R') < 1 ) {
+	if ( obj.job_status < 23 && obj.job_status != 17  &&  obj.order_num.indexOf('o') == 0  &&  obj.order_num.indexOf('r') == 0  && obj.order_num.indexOf('O') == 0 &&  obj.order_num.indexOf('R') == 0 ) {
 		$('#p-install_date').prop('readonly', 'readonly');
 		//console.log('killed');
 	} else {
-		if (obj.job_sqft > 1 || ( obj.order_num.indexOf('o') > 0  ||  obj.order_num.indexOf('r') > 0  ||  obj.order_num.indexOf('O') > 0  ||  obj.order_num.indexOf('R') > 0 ) ) {
+		if (obj.job_sqft > 1 || ( obj.order_num.indexOf('o') > 0 || obj.order_num.indexOf('r') > 0 || obj.order_num.indexOf('O') > 0 || obj.order_num.indexOf('R') > 0 ) ) {
 			$("#p-install_date").prop('readonly', false);
 			//console.log('true');
 		} else {

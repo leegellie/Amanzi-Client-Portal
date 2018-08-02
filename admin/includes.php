@@ -53,45 +53,42 @@
 
 <script src="js/clipboard.min.js"></script>
 <script src="js/price_materials.js"></script>
-<script src="js/bootstrap-datepicker.js"></script><script>
+<script src="js/bootstrap-datepicker.js"></script>
 
+<script>
+	var x = document.getElementById("location-div");
+	var isMobile = {
+		Android: function() {
+			return navigator.userAgent.match(/Android/i);
+		},
+		BlackBerry: function() {
+			return navigator.userAgent.match(/BlackBerry/i);
+		},
+		iOS: function() {
+			return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+		},
+		Opera: function() {
+			return navigator.userAgent.match(/Opera Mini/i);
+		},
+		Windows: function() {
+			return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
+		},
+		any: function() {
+			return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+		}
+	};
 
-var x = document.getElementById("location-div");
-
-var isMobile = {
-	Android: function() {
-		return navigator.userAgent.match(/Android/i);
-	},
-	BlackBerry: function() {
-		return navigator.userAgent.match(/BlackBerry/i);
-	},
-	iOS: function() {
-		return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-	},
-	Opera: function() {
-		return navigator.userAgent.match(/Opera Mini/i);
-	},
-	Windows: function() {
-		return navigator.userAgent.match(/IEMobile/i) || navigator.userAgent.match(/WPDesktop/i);
-	},
-	any: function() {
-		return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+	function getLocation() {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(showPosition, showError);
+		} else { 
+			x.innerHTML = "Geolocation is not supported by this browser.";
+		}
 	}
-};
 
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition, showError);
-    } else { 
-        x.innerHTML = "Geolocation is not supported by this browser.";
-    }
-	
-}
-
-function showPosition(position) {
+	function showPosition(position) {
 		var $lat = position.coords.latitude;
 		var $long = position.coords.longitude;
-
 		var datastring = 'action=location_log&latitude=' + $lat + '&longitude=' + $long;
 		$.ajax({
 			type: "POST",
@@ -109,26 +106,46 @@ function showPosition(position) {
 				document.getElementById('closeFocus').focus();
 			}
 		});
+	}
 
-}
+	function showError(error) {
+		switch(error.code) {
+			case error.PERMISSION_DENIED:
+				x.innerHTML = "User denied the request for Geolocation."
+				break;
+			case error.POSITION_UNAVAILABLE:
+				x.innerHTML = "Location information is unavailable."
+				break;
+			case error.TIMEOUT:
+				x.innerHTML = "The request to get user location timed out."
+				break;
+			case error.UNKNOWN_ERROR:
+				x.innerHTML = "An unknown error occurred."
+				break;
+		}
+	}
 
-function showError(error) {
-    switch(error.code) {
-        case error.PERMISSION_DENIED:
-            x.innerHTML = "User denied the request for Geolocation."
-            break;
-        case error.POSITION_UNAVAILABLE:
-            x.innerHTML = "Location information is unavailable."
-            break;
-        case error.TIMEOUT:
-            x.innerHTML = "The request to get user location timed out."
-            break;
-        case error.UNKNOWN_ERROR:
-            x.innerHTML = "An unknown error occurred."
-            break;
-    }
-}
 
+$(document).ready(function(){
+	$("#searchBox").on("keyup", function() {
+		var value = $(this).val().toLowerCase();
+		$(".filter").filter(function() {
+			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		});
+	});
+	$('.table').DataTable({
+		"pageLength": 100,
+		"aoColumnDefs" : [{
+			'bSortable' : false,
+			'aTargets' : [ -1 ]
+		}]
+	});
+	$('.mdb-select').material_select('destroy');
+	$('select').addClass('mdb-select');
+	$("#mdb-lightbox-ui").load("/mdb-addons/mdb-lightbox-ui.html");
+	$('select[name=DataTables_Table_0_length]').addClass('mdb-select');
+	$('.mdb-select').material_select();
+});
 
 
 	</script>

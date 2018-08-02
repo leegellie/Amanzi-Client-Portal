@@ -28,7 +28,7 @@
 						<label class="form-label col-12 col-md-4">Comment: </label>
 						<textarea class="form-control" id="cmt_comment" name="cmt_comment" rows="5"></textarea>
 						<hr>
-						<div id="submitComments" class="btn btn-lg btn-primary col-12">Submit Comments <i class="fa fa-paper-plane-o"></i></div>
+						<div id="submitComments" class="btn btn-lg btn-primary col-12">Submit Comments <i class="fab fa-telegram-plane"></i></div>
 					</form>
 				</div>
 			</div>

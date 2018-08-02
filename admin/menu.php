@@ -103,6 +103,9 @@ if ($access_level < 11) {
 					<a class="dropdown-toggle text-white" id="toolsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Materials</a>
 					<div class="dropdown-menu" aria-labelledby="toolsdropdown">
 						<a class="dropdown-item text-dark" href="/admin/materials.php">Material Needed</a>
+						<a class="dropdown-item text-dark" href="/admin/accessories.php">Accessories Needed</a>
+						<a class="dropdown-item text-dark" href="/admin/pull_list_mats.php">Pull Materials</a>
+						<a class="dropdown-item text-dark" href="/admin/pull_list.php">Pull Accessories</a>
 						<a class="dropdown-item text-dark" href="/admin/admin.php?marble">Marble/Granite</a>
 						<a class="dropdown-item text-dark" href="/admin/admin.php?quartz">Quartz</a>
 						<a class="dropdown-item text-dark" href="/admin/admin.php?accessories">Accessories</a>

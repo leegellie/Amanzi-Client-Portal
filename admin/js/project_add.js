@@ -296,7 +296,7 @@ $(document).ready(function() {
 				$('#reason').val('');
 			}
 		}
-		if ($('#pick_up').val() == 0) {
+		if ($('#pick_up').prop('checked') == true) {
 			$('#install_team').val(22);
 		}
 		if ($('#install_team').val() == 0) {

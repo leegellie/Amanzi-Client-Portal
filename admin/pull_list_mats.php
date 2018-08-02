@@ -21,7 +21,7 @@ USER'S EMAIL = <?= $user_email ?>
 <html>
 <head>
 <meta charset="utf-8">
-<title>ACP | Admin - Materials Needed</title>
+<title>ACP | Admin - Materials Pull List</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <?
 // INCLUDE THE JS and CSS files needed on all ADMIN PAGES
@@ -45,7 +45,7 @@ include('includes.php');
 <div id="loadOver"></div>
 <div class="container">
 	<div class="grid fluid">
-		<h1>Materials Needed</h1>
+		<h1>Materials Pull List</h1>
 	</div>
 </div>
 <!-- START BODY CONTENT AREA -->
@@ -55,23 +55,7 @@ include('includes.php');
             <div class="col-12" style="margin-left:0">
                 <div id="user-data" class="col-12">
                     <div id="user-block" class="content">
-						<div id="resultsTable1" class="row striped">
-							<ul class="nav nav-tabs nav-justified w-100 mb-3 d-print-none" id="myTab" role="tablist">
-								<li class="nav-item">
-									<a class="nav-link active" id="toOrder-tab" data-toggle="tab" href="#toOrder" role="tab" aria-controls="toOrder" aria-selected="true"><h5>To Order/Schedule</h5></a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" id="mOrdered-tab" data-toggle="tab" href="#mOrdered" role="tab" aria-controls="mOrdered" aria-selected="false"><h5>Materials Ordered</h5></a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" id="mOnHand-tab" data-toggle="tab" href="#mOnHand" role="tab" aria-controls="mOrdered" aria-selected="false"><h5>Materials Here</h5></a>
-								</li>
-							</ul>
-							<div class="tab-content w-100 pt-0" id="myTabContent">
-								<div id="toOrder" 	class="tab-pane fade show active" role="tabpanel" aria-labelledby="toOrder-tab"></div>
-								<div id="mOrdered" 	class="tab-pane fade" role="tabpanel" aria-labelledby="mOrdered-tab"></div>
-								<div id="mOnHand" 	class="tab-pane fade" role="tabpanel" aria-labelledby="mOnHand-tab"></div>
-							</div>
+						<div id="toDeliver" class="row striped">
 						</div>
 					</div>
 
@@ -112,13 +96,10 @@ include ('modal_mat_hold.php');
 include ('modal_release_hold.php');
 include ('modal_sink_order.php');
 include ('modal_accessory_assign.php');
-include ('modal_sink_hold.php');
-include ('modal_sink_release_hold.php');
-
 ?>
 <script>
 $(document).ready(function(){
-    mat_list_pull();
+    get_materials_pull_list();
 });
 </script>
 </body>

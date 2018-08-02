@@ -2,7 +2,7 @@
 		<div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="margin-top: 7rem;">
 			<div class="modal-content">
 				<div class="modal-header">
-					<i class="fa fa-paper-plane-o"></i>
+					<i class="fab fa-telegram-plane"></i>
 					<div class="modal-title">
 						User Location
 					</div>
