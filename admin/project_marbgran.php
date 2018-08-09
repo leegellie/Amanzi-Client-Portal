@@ -115,7 +115,10 @@ $level9c = '';
 												$price = $price + $results['price_7'];
 											}
 											$level = 0;
-											$cost =  ceil($price / $count);
+											$cost = 0;
+											if ($price > 0){ 
+												$cost =  ceil($price / $count);
+											}
 											$price = $cost * 6;
 											if ($price < 48.01) {
 												$price = 48;
@@ -260,7 +263,10 @@ $level9c = '';
 												$count = $count + 1;
 												$price = $price + $results['price_7'];
 											}
-											$cost =  ceil($price / $count);
+											$cost = 0;
+											if ($price > 0){ 
+												$cost =  ceil($price / $count);
+											}
 											$price = $cost * 6;
 											if ($price < 48.01) {
 												$price = 48;
@@ -314,7 +320,7 @@ $level9c = '';
 												$level8b .= '<p class="qItem">' . $results['name'] . '</p><div class="clearfix"></div>';
 											}
 											if ( $level === 9 ) {
-												$level9b .= '<p class="qItem">' . $results['name'] . ' <span class="float-right">$ ' . $newprice . '</span></p><div class="clearfix"></div>';
+												$level9b .= '<p class="qItem">' . $results['name'] . ' <span class="float-right">$ ' . $price . '</span></p><div class="clearfix"></div>';
 											}
 									?>
 									<tr class="filter">
@@ -402,7 +408,10 @@ $level9c = '';
 												$count = $count + 1;
 												$price = $price + $results['price_7'];
 											}
-											$cost =  ceil($price / $count);
+											$cost = 0;
+											if ($price > 0){ 
+												$cost =  ceil($price / $count);
+											}
 											$price = $cost * 6;
 											if ($price < 48.01) {
 												$price = 48;

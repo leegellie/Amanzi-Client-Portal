@@ -264,13 +264,15 @@ function update_quartz(e) {
 
 function matOrdered(iid,iName) {
 	$('.mAssign').text(iName);
-	$('input[name=iid]').val(iid);
+	$('input:visible').val('');
+	$('form#ordered_material input[name=iid]').val(iid);
 	$('#materialOrder').modal('show');
 }
 
 function matOnHand(iid,iName) {
 	$('.mAssign').text(iName);
-	$('input[name=iid]').val(iid);
+	$('input:visible').val('');
+	$('form#assign_material input[name=iid]').val(iid);
 	$('#materialAssign').modal('show');
 }
 
@@ -490,18 +492,20 @@ function set_pullstatus($a, $b) {
 }
 
 function sinkOrdered(sink_id,pid,aName) {
-	$('.aAssign').text(aName);
-	$('input[name=sinkName]').val(aName);
-	$('input[name=sink_id]').val(sink_id);
-	$('input[name=pid]').val(pid);
+	$('#sinkOrder .aAssign').text(aName);
+	$('input:visible').val('');
+	$('form#ordered_sink input[name=sinkName]').val(aName);
+	$('form#ordered_sink input[name=sink_id]').val(sink_id);
+	$('form#ordered_sink input[name=pid]').val(pid);
 	$('#sinkOrder').modal('show');
 }
 
 function sinkOnHand(sink_id,pid,aName) {
-	$('.aAssign').text(aName);
-	$('input[name=sinkName]').val(aName);
-	$('input[name=pid]').val(pid);
-	$('input[name=sink_id]').val(sink_id);
+	$('#sinkAssign .aAssign').text(aName);
+	$('input:visible').val('');
+	$('form#assign_sink input[name=sinkName]').val(aName);
+	$('form#assign_sink input[name=pid]').val(pid);
+	$('form#assign_sink input[name=sink_id]').val(sink_id);
 	$('#sinkAssign').modal('show');
 }
 

@@ -87,6 +87,12 @@ $level9c = '';
 										foreach($get_quartz->get_quartz() as $results) {
 											$slab = intval($results['slab_cost']);
 											$sqft = intval($results['slab_sqft']);
+											if ($slab == 0) {
+												$slab = 1;
+											}
+											if ($sqft == 0) {
+												$sqft = 1;
+											}
 											$from = $slab / $sqft;
 											$to = ceil((($slab / 30) + 20) * 1.45);
 											$price = ceil(($from + 20) * 1.45) ;
@@ -187,6 +193,12 @@ $level9c = '';
 										foreach($get_quartz->get_quartz() as $results) {
 											$slab = intval($results['slab_cost']);
 											$sqft = intval($results['slab_sqft']);
+											if ($slab == 0) {
+												$slab = 1;
+											}
+											if ($sqft == 0) {
+												$sqft = 1;
+											}
 											$from = $slab / $sqft;
 											$to = ceil((($slab / 30) + 20) * 1.45);
 											$price = ceil(($from + 20) * 1.45) ;
@@ -286,6 +298,12 @@ $level9c = '';
 										foreach($get_quartz->get_quartz() as $results) {
 											$slab = intval($results['slab_cost']);
 											$sqft = intval($results['slab_sqft']);
+											if ($slab == 0) {
+												$slab = 1;
+											}
+											if ($sqft == 0) {
+												$sqft = 1;
+											}
 											$from = $slab / $sqft;
 											$to = ceil((($slab / 30) + 20) * 1.45);
 											$price = ceil(($from + 20) * 1.45) ;

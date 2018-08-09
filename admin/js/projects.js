@@ -8,7 +8,6 @@ $pName = '';
 $iName = '';
 $qNum = '';
 $oNum = '';
-$uAccess = '';
 $uMultiplier = '';
 $level1 = '';
 $level2 = '';
@@ -146,6 +145,19 @@ function getJobsOn() {
 			console.log(data);
 		}
 	});
+//	var datastring = "action=progress_bars"
+//	$.ajax({
+//		type: "POST",
+//		url: "ajax.php",
+//		data: datastring,
+//		success: function(data) {
+//			$('#jobsOn').append(data);
+//		},
+//		error: function(data) {
+//			console.log(data);
+//		}
+//	});
+	
 	setTimeout(getJobsOn, 5000);
 }
 
@@ -375,7 +387,7 @@ function estApprove(user,pjt,status,po_cost,po_num,contact_name,contact_number,p
 }
 
 function checkQuote(user,pjt,status,po_cost,po_num,contact_name,contact_number,pick_up,address_verif,no_charge,repair) {
-	if (po_cost < 2 && po_num == '' && no_charge == 0) {
+	if ( po_cost < 2 && po_num == '' && no_charge == 0 ) {
 		alert("You must have a deposit or P.O. number for the job to proceed.");
 		return;
 	}
@@ -412,6 +424,7 @@ function checkQuote(user,pjt,status,po_cost,po_num,contact_name,contact_number,p
 }
 
 function statusChange(user,pjt,status) {
+	$(this).hide();
 	var datastring = 'action=change_status&staffid=' + user + '&pid=' + pjt + '&status=' + status;
 	$.ajax({
 		type: "POST",
@@ -437,7 +450,11 @@ function statusChange(user,pjt,status) {
 				"showMethod": "fadeIn",
 				"hideMethod": "fadeOut"
 			}
-			viewThisProject($pid, $uid);
+			var pageLink = window.location.href.split('?');
+			var page = pageLink[1];
+			if(page != "programming" && page != "saw" && page != "cnc" && page != "polishing") {
+				viewThisProject($pid, $uid);
+			}
 		},
 		error: function(data) {
 			console.log(data);
@@ -2650,6 +2667,7 @@ function compilePjtEdit(data) {
 		var split = res[i].split('::');
 		obj[split[0]] = split[1];
 	}
+	var $jobStatus = obj.job_status;
 	//console.log("obj_data = ", obj);
 	if (obj.in_house_template == 1) {
 		$('#p-in_house_template').prop("checked", true);
@@ -2667,6 +2685,9 @@ function compilePjtEdit(data) {
 	} else {
 		$('#p-no_charge').prop("checked", false);
 	}
+	if ($jobStatus > 24) {
+		$('#p-no_charge').prop("disabled", true);
+	}
 	if (obj.pick_up == 1) {
 		$('#p-pick_up').prop("checked", true);
 	} else {
@@ -2676,6 +2697,9 @@ function compilePjtEdit(data) {
 		$('#p-call_out_fee').prop("checked", true);
 	} else {
 		$('#p-call_out_fee').prop("checked", false);
+	}
+	if ($jobStatus > 24 && $uAccess != 1 && $uAccess != 3) {
+		$('#p-call_out_fee').prop("disabled", true);
 	}
 	$('#p-repair').val(obj.repair);
 	$('#p-rework').val(obj.rework);
@@ -2703,7 +2727,13 @@ function compilePjtEdit(data) {
 	uid = obj.uid;
 	$('#p-job_name').val(obj.job_name);
 	$('#p-job_tax').val(obj.job_tax);
+	if ($jobStatus > 24 && $uAccess != 1 && $uAccess != 3) {
+		$('#p-job_tax').prop("readonly", true);
+	}
 	$('#p-job_discount').val(obj.job_discount);
+	if ($jobStatus > 24 && $uAccess != 1 && $uAccess != 3) {
+		$('#p-job_discount').prop("readonly", true);
+	}
 	$('#p-discount_quartz').val(obj.discount_quartz);
 	$('#p-quote_num').val(obj.quote_num);
 	$('#p-order_num').val(obj.order_num);
@@ -2714,7 +2744,7 @@ function compilePjtEdit(data) {
 	if (obj.install_date != '2200-01-01') {
 		$('#p-install_date').val(obj.install_date);
 	}
-	if ( obj.job_status < 23 && obj.job_status != 17  &&  obj.order_num.indexOf('o') == 0  &&  obj.order_num.indexOf('r') == 0  && obj.order_num.indexOf('O') == 0 &&  obj.order_num.indexOf('R') == 0 ) {
+	if ( $jobStatus < 23 && $jobStatus != 17  &&  obj.order_num.indexOf('o') == 0  &&  obj.order_num.indexOf('r') == 0  && obj.order_num.indexOf('O') == 0 &&  obj.order_num.indexOf('R') == 0 ) {
 		$('#p-install_date').prop('readonly', 'readonly');
 		//console.log('killed');
 	} else {
@@ -2764,6 +2794,10 @@ function compilePjtEdit(data) {
 		$('#p-tax_free').prop("checked", true);
 	} else {
 		$('#p-tax_free').prop("checked", false);
+	}
+	
+	if ($jobStatus > 24 && $uAccess != 1 && $uAccess != 3) {
+		$('#p-tax_free').prop("disabled", true);
 	}
 	if (obj.am == 1) {
 		$('#p-am').prop("checked", true);

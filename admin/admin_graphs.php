@@ -59,7 +59,10 @@
 						<div class="tab-pane fade" id="panel_installs" role="tabpanel">
 							<ul class="nav nav-tabs nav-justified mdb-color darken-5" role="tablist">
 								<li class="nav-item">
-									<a class="nav-link active" data-toggle="tab" href="#tab_installs" role="tab">Installs</a>
+									<a class="nav-link active" data-toggle="tab" href="#tab_installs_week" role="tab">Installs/Week</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#tab_installs" role="tab">Installs/Day</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" href="#tab_instStart" role="tab">Late Starts</a>
@@ -70,7 +73,13 @@
 							</ul>
 							<div class="tab-content px-0">
 								<!--Panel 1-->
-								<div class="tab-pane fade in show active" id="tab_installs" role="tabpanel">
+								<div class="tab-pane fade in show active" id="tab_installs_week" role="tabpanel">
+									<div class="row">
+										<h2>Installs by Week</h2>
+										<canvas id="installsWeekGraph" class="col-12"></canvas>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="tab_installs" role="tabpanel">
 									<div class="row">
 										<h2>Installs by Day</h2>
 										<canvas id="installsGraph" class="col-12"></canvas>
@@ -117,8 +126,21 @@ var $lateStartTime = [];
 var $lateEndDate = [];
 var $lateEndTot = [];
 var $lateEndLate = [];
+var $weekInstDate = [];
+var $weekInstSqft = [];
 
-<?
+<? 
+
+	$get_inst_stats_week = new project_action;
+	foreach($get_inst_stats_week->get_inst_stats_week() as $results) {
+		?>
+		$weekInstDate.unshift ('<?= date("m/d/y", strtotime($results['statWeek'])) ?>');
+		
+		$weekInstSqft.unshift (<?= $results['sqft_count'] ?>);
+	console.log($weekInstDate,$weekInstSqft);
+		<?
+	}
+
 	$get_late_starts = new project_action;
 	foreach($get_late_starts->get_late_starts() as $results) {
 		?>
@@ -179,6 +201,8 @@ var $lateEndLate = [];
 		<?
 	}
 ?>
+
+var installsWeekGraph = document.getElementById("installsWeekGraph").getContext('2d');
 var installsGraph = document.getElementById("installsGraph").getContext('2d');
 var instStartGraph = document.getElementById("instStartGraph").getContext('2d');
 var instEndGraph = document.getElementById("instEndGraph").getContext('2d');
@@ -326,6 +350,31 @@ var installsChart = new Chart(installsGraph, {
     		}]
     	}
     }
+});
+
+var installsWeekChart = new Chart(installsWeekGraph, {
+	type: 'bar',
+	data: {
+		labels: $weekInstDate.slice(-18),
+		datasets: [
+			{
+				label: 'SqFt',
+				data: $weekInstSqft,
+				backgroundColor: 'rgba(80, 235, 80, 0.2)',
+				borderColor: 'rgba(80, 235, 80, 1)',
+				borderWidth: 1
+			}
+		]
+	},
+	options: {
+		scales: {
+			yAxes: [{
+				ticks: {
+					beginAtZero:true
+				}
+			}]
+		}
+	}
 });
 
 var entryChart = new Chart(ctx3, {

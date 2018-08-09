@@ -355,7 +355,7 @@
 						</fieldset>
 						<hr class="w-100">
 						<fieldset class="form-group col-12 d-inline">
-							<label for="sink_faucet"><u>Faucet</u>: </label>
+							<label for="sink_faucet"><u>Accessory</u>: </label>
 							<div class="input-group">
 								<input type="text" list="faucets" class="form-control" id="sink_faucet" name="sink_faucet" autocomplete="off">
 								<div class="input-group-append">

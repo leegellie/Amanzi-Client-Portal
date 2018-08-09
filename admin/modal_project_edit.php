@@ -139,9 +139,9 @@
 									<label for="po-cost">Deposit Paid:</label>
 									<input class="form-control currency" id="p-po_cost" name="po_cost" type="text"
 <? 
-													if ($_SESSION['access_level'] != 1 && $_SESSION['access_level'] != 3) {
-													    echo ' readonly data="' . $_SESSION['access_level'] . '"';
-													   }
+									if ($_SESSION['access_level'] != 1 && $_SESSION['access_level'] != 3) {
+									    echo ' readonly data="' . $_SESSION['access_level'] . '"';
+									}
 ?>
 													   >
 								</fieldset>

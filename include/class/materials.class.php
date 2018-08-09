@@ -214,7 +214,8 @@ class materials_action {
 		  WHERE install_date >= CURDATE() 
 			AND !(install_date = '2200-01-01')
 			AND job_status > 24
-      AND install_sink.pull_status = 0
+			AND install_sink.pull_status = 0
+			AND sink_onsite = 0 
 	   ORDER BY install_date ASC,
 	   			sink_name ASC,
 				faucet_name ASC

@@ -1,7 +1,7 @@
 <?PHP 
  // IF USER ACCESS  = 1 THEN USER IS AN ADMIN. SHOW ADMIN MENU
 if ($access_level < 11) {
-		if ($_SESSION['access_level'] == 1) {
+	if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14 || $_SESSION['id'] == 1444 || $_SESSION['id'] == 13) {
 ?>
 			<div id="jobsOn" class="m-0 p-0" style="position: fixed; width:100vw;z-index: 5;"></div>
 <?

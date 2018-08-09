@@ -46,6 +46,241 @@ class project_action {
 	// $dir = OPTIONAL SUBDIRECTORY NAME. 0 = NO SUBDIRECTORY
 	// $name = NAME TO GIVE THE IMAGE
 
+	public function prodLimit($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = '
+				 SELECT	' . $a . '
+				   FROM prod_limits
+				  WHERE 1';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$row = $q->fetch(PDO::FETCH_ASSOC);
+			$count = $row[$a];
+			return $count;
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+
+	public function prodLimits() {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = '
+				 SELECT	*
+				   FROM prod_limits
+				  WHERE 1';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetch(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+// LEE UPDATE
+	public function get_limit_achive($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = '
+				SELECT
+					SUM(CASE WHEN c.cmt_comment LIKE "Project Status set to Programming Complete" OR c.cmt_comment LIKE "Project Status set to Delivered to Saw" THEN p.job_sqft END) AS prog_sqft_count,
+					SUM(CASE WHEN c.cmt_comment LIKE "Project Status set to Cutting Completed" THEN p.job_sqft END) AS saw_sqft_count,
+					SUM(CASE WHEN c.cmt_comment LIKE "Project Status set to CNC Completed" THEN p.job_sqft END) AS cnc_sqft_count,
+					SUM(CASE WHEN c.cmt_comment LIKE "Project Status set to Polishing Delivered to Installers" THEN p.job_sqft END) AS polish_sqft_count,
+					SUM(CASE WHEN c.cmt_comment LIKE "Project Status set to Install Complete" THEN p.job_sqft END) AS install_sqft_count
+				FROM comments c
+				JOIN projects p ON p.id = c.cmt_ref_id
+				WHERE c.timestamp LIKE "%' . $a . '%"
+				';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetch(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+
+
+	public function get_prog_limits($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = '
+				 SELECT	SUM(p.job_sqft) AS sqft_count
+				   FROM comments c
+				   JOIN projects p ON p.id = c.cmt_ref_id
+				  WHERE (c.cmt_comment LIKE "Project Status set to Programming Complete"
+				  OR c.cmt_comment LIKE "Project Status set to Delivered to Saw")
+				  AND c.timestamp LIKE "%' . $a . '%"';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$row = $q->fetch(PDO::FETCH_ASSOC);
+			$count = $row['sqft_count'];
+			return $count;
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+
+	public function get_saw_limits($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = '
+				 SELECT	SUM(p.job_sqft) AS sqft_count
+				   FROM comments c
+				   JOIN projects p ON p.id = c.cmt_ref_id
+				  WHERE c.cmt_comment LIKE "Project Status set to Cutting Completed"
+				  AND c.timestamp LIKE "%' . $a . '%"';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$row = $q->fetch(PDO::FETCH_ASSOC);
+			$count = $row['sqft_count'];
+			return $count;
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+
+	public function get_cnc_limits($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = '
+				 SELECT	SUM(p.job_sqft) AS sqft_count
+				   FROM comments c
+				   JOIN projects p ON p.id = c.cmt_ref_id
+				  WHERE c.cmt_comment LIKE "Project Status set to CNC Completed"
+				  AND c.timestamp LIKE "%' . $a . '%"';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$row = $q->fetch(PDO::FETCH_ASSOC);
+			$count = $row['sqft_count'];
+			return $count;
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+
+	public function get_polish_limits($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = '
+				 SELECT	SUM(p.job_sqft) AS sqft_count
+				   FROM comments c
+				   JOIN projects p ON p.id = c.cmt_ref_id
+				  WHERE c.cmt_comment LIKE "Project Status set to Polishing Delivered to Installers"
+				  AND c.timestamp LIKE "%' . $a . '%"';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$row = $q->fetch(PDO::FETCH_ASSOC);
+			$count = $row['sqft_count'];
+			return $count;
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+
+	public function get_inst_totals($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = '
+				 SELECT	SUM(p.job_sqft) AS sqft_count
+				   FROM projects p 
+				  WHERE install_date = "' . $a . '"
+				    AND p.job_status > 24';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$row = $q->fetch(PDO::FETCH_ASSOC);
+			$count = $row['sqft_count'];
+			return $count;
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+
+	public function get_inst_done($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = '
+				 SELECT	SUM(p.job_sqft) AS sqft_count
+				   FROM projects p 
+				  WHERE install_date = "' . $a . '"
+				    AND (p.job_status = 85 OR p.job_status = 86)';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$row = $q->fetch(PDO::FETCH_ASSOC);
+			$count = $row['sqft_count'];
+			return $count;
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+
+	public function get_inst_week() {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = '
+				 SELECT	SUM(p.job_sqft) AS sqft_count
+				   FROM projects p 
+				  WHERE yearweek(p.install_date) = yearweek(curdate())
+				    AND p.job_status > 24';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$row = $q->fetch(PDO::FETCH_ASSOC);
+			$count = $row['sqft_count'];
+			return $count;
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+
+	public function get_inst_week_done() {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = '
+				 SELECT	SUM(p.job_sqft) AS sqft_count
+				   FROM projects p 
+				  WHERE yearweek(p.install_date) = yearweek(curdate())
+				    AND p.job_status > 84 
+					AND p.job_status <> 89';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$row = $q->fetch(PDO::FETCH_ASSOC);
+			$count = $row['sqft_count'];
+			return $count;
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+
+	public function get_next_week() {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = '
+				 SELECT  SUM(p.job_sqft) AS sqft_count, WEEKDAY(p.install_date) AS day
+                   FROM projects p 
+                  WHERE YEARWEEK(p.install_date,1)=YEARWEEK(NOW(),1)+1
+				  AND p.job_status > 24
+				  GROUP BY day
+			';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+
 	public function acct_rep_lookup($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -389,6 +624,7 @@ class project_action {
 		  AND install_date < NOW() + INTERVAL 30 DAY
 		  AND job_name NOT LIKE "%test %"
 		  AND job_name NOT LIKE "% test%"
+		  AND job_status > 24
 		  AND isActive = 1
 		GROUP BY idate
 		ORDER BY idate ASC');
@@ -396,6 +632,47 @@ class project_action {
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 	}
 
+	public function get_inst_stats_week() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = '
+			 SELECT	SUM(p.job_sqft) AS sqft_count, STR_TO_DATE(CONCAT(yearweek(p.install_date)," Monday"), "%X%V %W") AS statWeek
+			   FROM projects p 
+			  WHERE yearweek(p.install_date) <= yearweek(curdate())
+				AND p.job_status > 24
+				GROUP BY statWeek
+				ORDER BY statWeek DESC
+				LIMIT 18
+			';
+		$q = $conn->prepare($sql);
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+//
+//	public function companies_by_profit($a) {
+//		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+//		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//		$sql = '
+//			 SELECT SUM(profit) AS comp_profit, 
+//			 		COUNT(*) AS jobs, 
+//					c.company FROM `projects` 
+//			JOIN users c ON c.id = projects.uid 
+//			WHERE c.company <> "" 
+//			AND install_date > "2018-' . $a . '-01" 
+//			AND install_date < "2018-' . $a+1 . '-01" 
+//			AND job_status > 24 
+//			GROUP BY c.company
+//			ORDER BY comp_profit ASC
+//			';
+//		SELECT SUM(profit) AS comp_profit, COUNT(*) AS jobs, c.company FROM `projects` JOIN users c ON c.id = projects.uid WHERE c.company <> "" AND install_date > "2018-07-01" AND install_date < "2018-08-01" AND job_status > 24 GROUP BY c.company
+//		$q = $conn->prepare($sql);
+//		$q->execute();
+//		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+//	}
+//
+//
+	
 	public function get_jobs_inst_stats() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -2019,7 +2296,8 @@ class project_action {
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			$sql = "
 			SELECT projects.*, 
-				   status.name AS status
+				   status.name AS status,
+				IF( projects.zip > 27500 OR projects.zip < 27000, 'yes', 'no' ) AS outoftown
 			  FROM projects 
 			  JOIN status 
 				ON status.id = projects.job_status 
@@ -2031,6 +2309,7 @@ class project_action {
 			   AND projects.isActive = 1
 			 ORDER BY 
 				   install_date ASC, 
+				outoftown DESC,
 				   urgent DESC, 
 				   first_stop DESC, 
 				   am DESC, 
@@ -2044,30 +2323,32 @@ class project_action {
 		}
 	}
 
-
 	public function get_saw() {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			$sql = "
 			SELECT projects.*, 
-				   status.name AS status
+				   status.name AS status,
+				IF( projects.zip > 27500 OR projects.zip < 27000, 'yes', 'no' ) AS outoftown 
 			  FROM projects 
 			  JOIN status 
 				ON status.id = projects.job_status 
+			  JOIN users ON users.id = projects.uid 
 			 WHERE install_date < '2200-01-01' 
-			   AND job_status > 24
-			   AND job_status < 60
-			   AND job_status <> 26
-			   AND job_status <> 49
-			   AND job_status <> 39
-			   AND projects.isActive = 1
+			   AND job_status > 24 
+			   AND job_status < 60 
+			   AND job_status <> 26 
+			   AND projects.isActive = 1 
 			 ORDER BY 
 				   install_date ASC, 
+				outoftown DESC,
 				   urgent DESC, 
+				   users.access_level ASC, 
 				   first_stop DESC, 
-				   am DESC,
-				   pm ASC";
+				   am DESC, 
+				   pm ASC 
+			";
 			$q = $conn->prepare($sql);
 			$q->execute();
 			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
@@ -2083,21 +2364,27 @@ class project_action {
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			$sql = "
 			SELECT projects.*, 
-				   status.name AS status
+				   status.name AS status,
+				IF( projects.zip > 27500 OR projects.zip < 27000, 'yes', 'no' ) AS outoftown
 			  FROM projects 
 			  JOIN status 
 				ON status.id = projects.job_status 
+			  JOIN users
+				ON users.id = projects.uid
 			 WHERE install_date < '2200-01-01' 
-			   AND job_status > 51
+			   AND job_status > 23
 			   AND job_status < 70
 			   AND NOT job_status = 59
 			   AND projects.isActive = 1
 			 ORDER BY 
 				   install_date ASC, 
+				   outoftown DESC, 
 				   urgent DESC, 
+				   users.access_level ASC, 
 				   first_stop DESC, 
-				   am DESC,
-				   pm ASC";
+				   am DESC, 
+				   pm ASC
+			";
 			$q = $conn->prepare($sql);
 			$q->execute();
 			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
@@ -2113,18 +2400,23 @@ class project_action {
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			$sql = "
 			SELECT projects.*, 
-				   status.name AS status
+				   status.name AS status,
+				IF( projects.zip > 27500 OR projects.zip < 27000, 'yes', 'no' ) AS outoftown
 			  FROM projects 
 			  JOIN status 
 				ON status.id = projects.job_status 
+			  JOIN users
+				ON users.id = projects.uid
 			 WHERE install_date < '2200-01-01' 
-			   AND job_status > 62
+			   AND job_status > 23
 			   AND job_status < 80
 			   AND NOT job_status = 79
 			   AND projects.isActive = 1
 			 ORDER BY 
 				   install_date ASC, 
+				outoftown DESC,
 				   urgent DESC, 
+				   users.access_level ASC,
 				   first_stop DESC, 
 				   am DESC,
 				   pm ASC";
@@ -2149,7 +2441,8 @@ class project_action {
 				status.name AS status, 
 				install_teams.inst_team_name AS team,
 				install_teams.inst_lead_id,
-				users.access_level AS ual
+				users.access_level AS ual,
+				IF( projects.zip > 27500 OR projects.zip < 27000, 'yes', 'no' ) AS outoftown
 			FROM projects 
 			JOIN status 
 				ON status.id = projects.job_status 
@@ -2167,8 +2460,9 @@ class project_action {
 			}
 			$sql .= "
 			ORDER BY 
-				team ASC, 
-			   urgent DESC, 
+				projects.install_date ASC,
+				outoftown DESC,
+				urgent DESC, 
 				first_stop DESC, 
 				am DESC,
 				pm ASC,
@@ -2187,21 +2481,28 @@ class project_action {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$sql = "
-			SELECT projects.*, 
+			SELECT 
+				   ( SELECT COUNT(*) 
+				   		FROM projects p 
+						WHERE SUBSTRING(p.order_num, 1, 5) = SUBSTRING(projects.order_num, 1, 5) 
+						AND p.job_status < 84 
+				   ) AS ip_count,
+                   projects.*, 
 				   status.name AS status, 
 				   install_teams.inst_team_name AS team, 
 				   install_teams.inst_lead_id, 
-				   users.access_level AS ual 
-			  FROM projects 
+				   users.access_level AS ual
+              FROM projects 
 			  JOIN status 
 				ON status.id = projects.job_status 
 			  JOIN install_teams 
 				ON install_teams.inst_team_id = projects.install_team 
 			  JOIN users 
 			    ON users.id = projects.uid 
-			 WHERE install_date < CURDATE() 
-			   AND (job_status < 85 OR job_status = 89)
-			   AND projects.isActive = 1 ";
+			 WHERE projects.install_date < CURDATE() 
+			   AND (projects.job_status < 85 OR projects.job_status = 89)
+			   AND projects.isActive = 1
+			";
 			if ($a > 0) {
 				$sql .= "AND install_teams.inst_lead_id = " . $a;
 			}
@@ -2728,6 +3029,46 @@ class project_action {
 			echo "ERROR: " . $e->getMessage();
 		}
 	}
+  
+	public function get_inst_log($firstdate, $lastdate) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+			$sql = "
+			SELECT	installer_log.*,users.fname, users.lname, projects.id,projects.uid, projects.job_name,projects.order_num
+			FROM	installer_log
+			JOIN	projects ON	installer_log.inst_log_pid = projects.id
+			JOIN users ON installer_log.inst_log_inst_id = users.installer_id
+			WHERE installer_log.inst_log_inst_id > 0 
+			AND installer_log.inst_log_date >= '". $firstdate ."' 
+			AND installer_log.inst_log_date <= '". $lastdate . "' 
+			ORDER BY installer_log.inst_log_inst_id ASC, 
+			installer_log.inst_log_date ASC,
+			installer_log.inst_log_pid ASC";
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+  
+  public function update_payroll($id,$status) {
+      try {
+        $conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+        if($status === 'true'){
+          $q = $conn->prepare("UPDATE installer_log SET inst_log_payroll = 1, inst_log_total = IF(inst_log_sqft > 0,(inst_log_sqft*inst_log_rate), 0) WHERE inst_log_id = :id");
+        }
+        else{
+          $q = $conn->prepare("UPDATE installer_log SET inst_log_payroll = 0, inst_log_total = 0 WHERE inst_log_id = :id");
+        }
+        $q->bindParam('id',$id);
+        $q->execute();
+      } catch(PDOException $e) {
+        echo "ERROR: " . $e->getMessage();
+      }  
+  }
   
   public function mysql_escape($inp){ 
       if(is_array($inp)) return array_map(__METHOD__, $inp);

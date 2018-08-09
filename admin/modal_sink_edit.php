@@ -88,7 +88,7 @@
 								</fieldset>
 								<fieldset class="form-group col-4 d-inline">
 									<input type="checkbox" class="filled-in form-control" id="e-sink_pickup" name="sink_pickup" value="1">
-									<label for="e-sink_pickup"><u>Installer Pick-up?</u>?</label>
+									<label for="e-sink_pickup"><u>Templater Pick-up?</u>?</label>
 								</fieldset>
 								<fieldset class="form-group col-4 d-inline">
 									<label for="cutout_width"><u>Cutout Width</u>:</label>
