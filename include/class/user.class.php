@@ -199,7 +199,7 @@ class login {
 		if($data == $this->_token) {
 			return 1;
 		} else {
-			$this->_errors = "Token verification failed. Please contact support to log into your account.";
+			$this->_errors = "Token verification failed. Please contact support to log into your account. Or press Ctrl+F5 and try again.";
 			return false;
 		}
 	}

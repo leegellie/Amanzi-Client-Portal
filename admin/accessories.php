@@ -61,10 +61,10 @@ include('includes.php');
 									<a class="nav-link active" id="toOrder-tab" data-toggle="tab" href="#toOrder" role="tab" aria-controls="toOrder" aria-selected="true"><h5>To Order/Schedule</h5></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" id="mOrdered-tab" data-toggle="tab" href="#mOrdered" role="tab" aria-controls="mOrdered" aria-selected="false"><h5>Materials Ordered</h5></a>
+									<a class="nav-link" id="mOrdered-tab" data-toggle="tab" href="#mOrdered" role="tab" aria-controls="mOrdered" aria-selected="false"><h5>Accessories Ordered</h5></a>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link" id="mOnHand-tab" data-toggle="tab" href="#mOnHand" role="tab" aria-controls="mOrdered" aria-selected="false"><h5>Materials Here</h5></a>
+									<a class="nav-link" id="mOnHand-tab" data-toggle="tab" href="#mOnHand" role="tab" aria-controls="mOrdered" aria-selected="false"><h5>Accessories Here</h5></a>
 								</li>
 							</ul>
 							<div class="tab-content w-100 pt-0" id="myTabContent">

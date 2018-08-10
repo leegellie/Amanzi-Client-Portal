@@ -46,6 +46,24 @@ class project_action {
 	// $dir = OPTIONAL SUBDIRECTORY NAME. 0 = NO SUBDIRECTORY
 	// $name = NAME TO GIVE THE IMAGE
 
+	public function check_firsts($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = '
+				 SELECT	COUNT(*) AS ' . $a['toCheck'] . '_count
+				   FROM projects
+				  WHERE install_date = ' . $a['install_date'] . '
+				  AND ' . $a['toCheck'] . ' = 1
+			';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetch(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}
+	}
+
 	public function prodLimit($a) {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
@@ -79,20 +97,24 @@ class project_action {
 			echo "ERROR: " . $e->getMessage();
 		}
 	}
-// LEE UPDATE
+
+	// LEE UPDATE
 	public function get_limit_achive($a) {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$sql = '
-				SELECT
+			$sql = 'SELECT 
 					SUM(CASE WHEN c.cmt_comment LIKE "Project Status set to Programming Complete" OR c.cmt_comment LIKE "Project Status set to Delivered to Saw" THEN p.job_sqft END) AS prog_sqft_count,
 					SUM(CASE WHEN c.cmt_comment LIKE "Project Status set to Cutting Completed" THEN p.job_sqft END) AS saw_sqft_count,
 					SUM(CASE WHEN c.cmt_comment LIKE "Project Status set to CNC Completed" THEN p.job_sqft END) AS cnc_sqft_count,
 					SUM(CASE WHEN c.cmt_comment LIKE "Project Status set to Polishing Delivered to Installers" THEN p.job_sqft END) AS polish_sqft_count,
 					SUM(CASE WHEN c.cmt_comment LIKE "Project Status set to Install Complete" THEN p.job_sqft END) AS install_sqft_count
-				FROM comments c
-				JOIN projects p ON p.id = c.cmt_ref_id
+				FROM (
+					SELECT cmt_ref_id, cmt_comment, timestamp
+					FROM comments 
+					GROUP BY cmt_ref_id, cmt_comment, SUBSTR( timestamp, 1, 10 )
+					) c
+				LEFT JOIN projects p ON p.id = c.cmt_ref_id
 				WHERE c.timestamp LIKE "%' . $a . '%"
 				';
 			$q = $conn->prepare($sql);
@@ -308,9 +330,9 @@ class project_action {
 	public function ud_status($status,$pid,$uid,$comment) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$sql = "UPDATE projects SET job_status = " . $status . " WHERE id = " . $pid;
-		$q = $conn->prepare($sql);
-		$q->execute();
+//		$sql = "UPDATE projects SET job_status = " . $status . " WHERE id = " . $pid;
+//		$q = $conn->prepare($sql);
+//		$q->execute();
 		$sql2 = "INSERT INTO comments (cmt_ref_id, cmt_type, cmt_user, cmt_comment, cmt_priority) VALUES (".$pid.",'pjt',".$uid.",".$comment.",'log')";
 		$q2 = $conn->prepare($sql2);
 		$q2->execute();
@@ -1398,7 +1420,6 @@ class project_action {
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 	}
 
-// LEE UPDATE
 	public function get_sink_update($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -2057,23 +2078,6 @@ class project_action {
 		return $row = $q->fetchAll();
 	}
 
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-	/////////// LEE
-
 	public function get_approval() {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
@@ -2295,25 +2299,26 @@ class project_action {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			$sql = "
-			SELECT projects.*, 
-				   status.name AS status,
-				IF( projects.zip > 27500 OR projects.zip < 27000, 'yes', 'no' ) AS outoftown
-			  FROM projects 
-			  JOIN status 
-				ON status.id = projects.job_status 
-			 WHERE install_date < '2200-01-01' 
-			   AND job_status > 24
-			   AND job_status < 40
-			   AND NOT job_status = 26
-			   AND NOT job_status = 29
-			   AND projects.isActive = 1
-			 ORDER BY 
-				   install_date ASC, 
-				outoftown DESC,
-				   urgent DESC, 
-				   first_stop DESC, 
-				   am DESC, 
-				   pm ASC";
+				SELECT projects.*, 
+					   status.name AS status,
+					IF( projects.zip > 27500 OR projects.zip < 27000, 'yes', 'no' ) AS outoftown
+				  FROM projects 
+				  JOIN status 
+					ON status.id = projects.job_status 
+				 WHERE install_date < '2200-01-01' 
+				   AND job_status > 24
+				   AND job_status < 40
+				   AND NOT job_status = 26
+				   AND NOT job_status = 29
+				   AND projects.isActive = 1
+				 ORDER BY 
+					   install_date ASC, 
+					outoftown DESC,
+					   urgent DESC, 
+					   first_stop DESC, 
+					   am DESC, 
+					   pm ASC
+				";
 			$q = $conn->prepare($sql);
 			$q->execute();
 			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
@@ -2560,7 +2565,8 @@ class project_action {
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
       
 			$sql = "
-			SELECT 	*, projects.id AS pid, status.name, status.stage, status.short_name, status.name AS status_name, status.id AS status
+			SELECT 	*, projects.id AS pid, status.name, status.stage, status.short_name, status.name AS status_name, status.id AS status,
+					 IF( projects.zip > 27500 OR projects.zip < 27000, 'yes', 'no' ) AS outoftown
 				FROM projects 
 			  	JOIN status 
 				  ON status.id = projects.job_status 
@@ -2572,7 +2578,9 @@ class project_action {
 				$sql .= "AND acct_rep = " . $a;
 			}
 			$sql .= "
-			ORDER BY projects.install_date ASC,
+			ORDER BY projects.template_date ASC, 
+					 outoftown DESC, 
+					 urgent DESC, 
 					 projects.am DESC,
 					 projects.first_stop DESC,
 					 projects.pm ASC,
@@ -2596,7 +2604,8 @@ class project_action {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$sql = "
-			SELECT 	*, projects.id AS pid, status.name, status.stage, status.short_name, status.name AS status_name, status.id AS status
+			SELECT 	*, projects.id AS pid, status.name, status.stage, status.short_name, status.name AS status_name, status.id AS status,
+					 IF( projects.zip > 27500 OR projects.zip < 27000, 'yes', 'no' ) AS outoftown
 				FROM projects 
 			  	JOIN status 
 				  ON status.id = projects.job_status 
@@ -2609,6 +2618,8 @@ class project_action {
 			}
 			$sql .= "
 			ORDER BY projects.install_date ASC,
+					 outoftown DESC,
+					 urgent DESC, 
 					 projects.am DESC,
 					 projects.first_stop DESC,
 					 projects.pm ASC,
@@ -2673,7 +2684,8 @@ class project_action {
 					 status.stage, 
 					 status.short_name, 
 					 status.name AS status_name, 
-					 status.id AS status
+					 status.id AS status,
+					 IF( projects.zip > 27500 OR projects.zip < 27000, 'yes', 'no' ) AS outoftown
 				FROM projects 
 				JOIN status 
 				  ON status.id = projects.job_status 
@@ -2685,8 +2697,11 @@ class project_action {
 			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
 				$sql .= "AND acct_rep = " . $a;
 			}
+// LEE UPDATE
 			$sql .= "
 			ORDER BY projects.install_date ASC,
+					 outoftown DESC,
+					 urgent DESC, 
 					 projects.am DESC,
 					 projects.first_stop DESC,
 					 projects.pm ASC,
@@ -2696,6 +2711,7 @@ class project_action {
 					 projects.temp_pm ASC,
 					 projects.urgent DESC,
 					 projects.job_status";
+
 			$q = $conn->prepare($sql);
 			$q->execute();
 			$rows = $q->fetchAll(PDO::FETCH_ASSOC);

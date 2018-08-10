@@ -537,6 +537,72 @@ $(document).ready(function() {
 			var dateString = year + '-' + month + '-' + date;
 			$('input[name=template_date]').val(dateString);
 		}
+
+		var functFail = 0;
+		if ($('#p-am').prop('checked') == true || $('#p-pm').prop('checked') == true) {
+			var toCheck = 'pm';
+			if ($('#p-am').prop('checked') == true) {
+				toCheck = 'am';
+			}
+			var iDate = $('input[name=install_date]').val();
+			var datastring = "action=check_firsts&install_date='" + iDate + "'&toCheck=" + toCheck;
+			console.log(datastring);
+			$.ajax({
+				async: false,
+				type: "POST",
+				url: "ajax.php",
+				data: datastring,
+				success: function(data) {
+					if(data > 4) {
+						functFail = 1;
+						alert('There are too many ' + toCheck + ' installs for this day. Choose another day or remove "' + toCheck + '"');
+						$("#pjtUpdate").fadeIn(300);
+						return;
+						
+					} else {
+						console.log('Approved... I guess.')
+					}
+				},
+				error: function(data) {
+					console.log(data);
+				}
+			});
+		}
+		if ($('#p-temp_am').prop('checked') == true || $('#p-temp_pm').prop('checked') == true) {
+			var toCheck = 'temp_pm';
+			if ($('#p-temp_am').prop('checked') == true) {
+				toCheck = 'temp_am';
+			}
+			var iDate = $('input[name=install_date]').val();
+			var datastring = "action=check_firsts&install_date='" + iDate + "'&toCheck=" + toCheck;
+			console.log(datastring);
+			$.ajax({
+				async: false,
+				type: "POST",
+				url: "ajax.php",
+				data: datastring,
+				success: function(data) {
+					if(data > 4) {
+						functFail = 1;
+						alert('There are too many ' + toCheck + ' templates for this day. Choose another day or remove "' + toCheck + '"');
+						$("#pjtUpdate").fadeIn(300);
+						return;
+						
+					} else {
+						console.log('Approved... I guess.')
+					}
+				},
+				error: function(data) {
+					console.log(data);
+				}
+			});
+		}
+		console.log(functFail + ' functFail');
+		if (functFail == 1) {
+			return;
+		}
+
+
 		if ($('input[name=po_cost]').val() != '') {
 			var cost = $('input[name=po_cost]').val();
 			var newCost = Number(cost.replace(/[^0-9\.-]+/g, ""));
