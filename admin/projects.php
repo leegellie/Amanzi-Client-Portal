@@ -97,6 +97,9 @@ USER'S EMAIL = <?= $user_email ?>
 	// INCLUDE THE JS and CSS files needed on all ADMIN PAGES
 	include('includes.php');
 	?>
+	<script>
+		$uAccess = <?= $_SESSION['access_level'] ?>;
+	</script>
 	<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 	<link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 	<script src="/js/jquery.validate.js" type="text/javascript"></script>

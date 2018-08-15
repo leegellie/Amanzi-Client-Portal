@@ -269,11 +269,25 @@ function matOrdered(iid,iName) {
 	$('#materialOrder').modal('show');
 }
 
+function matOrderedBulk(pids,matName) {
+	$('input:visible').val('');
+	$('form#ordered_material_bulk input[name=pids]').val(pids);
+	$('form#ordered_material_bulk input[name=material_color]').val(matName);
+	$('#materialOrderBulk').modal('show');
+}
+
 function matOnHand(iid,iName) {
 	$('.mAssign').text(iName);
 	$('input:visible').val('');
 	$('form#assign_material input[name=iid]').val(iid);
 	$('#materialAssign').modal('show');
+}
+
+function matOnHandBulk(pids,matName) {
+	$('input:visible').val('');
+	$('form#assign_material_bulk input[name=pids]').val(pids);
+	$('form#assign_material_bulk input[name=material_color]').val(matName);
+	$('#materialAssignBulk').modal('show');
 }
 
 function noMaterial(iid) {
@@ -344,6 +358,7 @@ function assignMat(thisForm) {
         url: "ajax.php",
         data: thisForm,
         success: function(data) {
+			console.log(data);
             $('div').modal('hide');
             $("#materialBtn").click();
         },
@@ -563,6 +578,25 @@ $(document).ready(function() {
         event.preventDefault();
         var matAss = $(this).serialize();
         assignMat(matAss);
+    });
+// Lee
+    $("form.mats_bulk").on("submit", function(event) {
+        event.preventDefault();
+        var datastring = $(this).serialize();
+		console.log(datastring);
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				console.log(data);
+				$('div').modal('hide');
+				$("#materialBtn").click();
+			},
+			error: function(data) {
+				console.log('assignMat: ' + data);
+			}
+		});
     });
 
     $("#materialBtn").click(function() {

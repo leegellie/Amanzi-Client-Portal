@@ -141,6 +141,9 @@ if ($action=="jobson_list") {
 		$inst = $results['installs'];
 		$total = $prog + $mat + $saw + $cnc + $pol + $inst;
 		$pct = 100/$total;
+		if (is_nan($pct)){
+			$pct = 100;
+		}
 		$progPct = $prog * $pct;
 		$matPct = $mat * $pct;
 		$sawPct = $saw * $pct;
@@ -149,27 +152,14 @@ if ($action=="jobson_list") {
 		$instPct = $inst * $pct;
 		$html = '	<div id="progressStatus" class="w-100 mb-0">';
 		$html .= '		<div class="progress w-100 d-flex mb-0">';
-		$html .= '			<div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuenow="'.$progPct.'" aria-valuemin="0" aria-valuemax="100" style="width:'.$progPct.'%">';
-		$html .= '				'.$prog.' Programming';
-		$html .= '			</div>';
-		$html .= '			<div class="progress-bar progress-bar-striped bg-warning text-left text-nowrap" role="progressbar" aria-valuenow="'.$matPct.'" aria-valuemin="0" aria-valuemax="100" style="width:'.$matPct.'%; overflow:hidden">';
-		$html .= '				'.$mat.' Materials';
-		$html .= '			</div>';
-		$html .= '			<div class="progress-bar progress-bar-striped blue-gradient text-left text-nowrap" role="progressbar" aria-valuenow="'.$sawPct.'" aria-valuemin="0" aria-valuemax="100" style="width:'.$sawPct.'%; overflow:hidden">';
-		$html .= '				'.$saw.' Saw';
-		$html .= '			</div>';
-		$html .= '			<div class="progress-bar progress-bar-striped peach-gradient text-left text-nowrap" role="progressbar" aria-valuenow="'.$cncPct.'" aria-valuemin="0" aria-valuemax="100" style="width:'.$cncPct.'%; overflow:hidden">';
-		$html .= '				'.$cnc.' CNC';
-		$html .= '			</div>';
-		$html .= '			<div class="progress-bar progress-bar-striped purple-gradient text-left text-nowrap" role="progressbar" aria-valuenow="'.$polPct.'" aria-valuemin="0" aria-valuemax="100" style="width:'.$polPct.'%; overflow:hidden">';
-		$html .= '				'.$pol.' Polishing';
-		$html .= '			</div>';
-		$html .= '			<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="'.$instPct.'" aria-valuemin="0" aria-valuemax="100" style="width:'.$instPct.'%; overflow:hidden">';
-		$html .= '				'.$inst.' Installs';
-		$html .= '			</div>';
+		$html .= '			<div class="progress-bar progress-bar-striped bg-success" role="progressbar" aria-valuenow="'.$progPct.'" aria-valuemin="0" aria-valuemax="100" style="width:'.$progPct.'%">&ensp;' . $prog . ' Programming</div>';
+		$html .= '			<div class="progress-bar progress-bar-striped bg-warning text-left text-nowrap" role="progressbar" aria-valuenow="'.$matPct.'" aria-valuemin="0" aria-valuemax="100" style="width:'.$matPct.'%; overflow:hidden">&ensp;' . $mat . ' Materials</div>';
+		$html .= '			<div class="progress-bar progress-bar-striped blue-gradient text-left text-nowrap" role="progressbar" aria-valuenow="'.$sawPct.'" aria-valuemin="0" aria-valuemax="100" style="width:'.$sawPct.'%; overflow:hidden">&ensp;' . $saw . ' Saw</div>';
+		$html .= '			<div class="progress-bar progress-bar-striped peach-gradient text-left text-nowrap" role="progressbar" aria-valuenow="'.$cncPct.'" aria-valuemin="0" aria-valuemax="100" style="width:'.$cncPct.'%; overflow:hidden">&ensp;' . $cnc . ' CNC</div>';
+		$html .= '			<div class="progress-bar progress-bar-striped purple-gradient text-left text-nowrap" role="progressbar" aria-valuenow="'.$polPct.'" aria-valuemin="0" aria-valuemax="100" style="width:'.$polPct.'%; overflow:hidden">&ensp;' . $pol . ' Polishing</div>';
+		$html .= '			<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="'.$instPct.'" aria-valuemin="0" aria-valuemax="100" style="width:'.$instPct.'%; overflow:hidden">&ensp;' . $inst . ' Installs</div>';
 		$html .= '		</div>';
 		$html .= '	</div>';
-
 		$today = date('Y-m-d');
 		$get_limits = new project_action;
 
@@ -181,32 +171,36 @@ if ($action=="jobson_list") {
 			$cncPercent = number_format((100/$todayLimit['cnc_sqft'])*$counts['cnc_sqft_count'], 2, '.', ',');
 			$polishPercent = number_format((100/$todayLimit['polish_sqft'])*$counts['polish_sqft_count'], 2, '.', ',');
 			$todayInstall = $get_limits->get_inst_totals($today);
-			$installPercent = number_format((100/$todayInstall)*$counts['install_sqft_count'], 2, '.', ',');
+			if (is_nan($counts['install_sqft_count']) || $counts['install_sqft_count'] == 0) {
+				$installPercent = 0;
+			} else {
+				$installPercent = number_format((100/$todayInstall)*$counts['install_sqft_count'], 2, '.', ',');
+			}
 			$html .= '</div>';
 			$html .= '<div class="row m-0 p-0">';
 			$html .= '	<div class="col m-0 p-0">
-							<div class="progress w-100 d-print-none m-0 p-0" title="Percent of today\'s Programming Complete">
-								<div class="progress-bar purple-gradient" role="progressbar" aria-valuenow="' . $progPercent . '" aria-valuemin="0" aria-valuemax="100" style="cursor:context-menu; width:' . $progPercent . '%">' . $progPercent . '% - Programmed</div>
+							<div class="progress w-100 d-print-none m-0 p-0" title="' . $progPercent . '%  of today\'s Programming Complete">
+								<div class="progress-bar purple-gradient text-left text-nowrap" role="progressbar" aria-valuenow="' . $progPercent . '" aria-valuemin="0" aria-valuemax="100" style="cursor:context-menu; width:' . $progPercent . '%">&ensp;' . $progPercent . '% - Programmed</div>
 							</div>
 						</div>';
 			$html .= '	<div class="col m-0 p-0">
-							<div class="progress w-100 d-print-none m-0 p-0" title="Percent of today\'s Cutting Complete">
-								<div class="progress-bar aqua-gradient" role="progressbar" aria-valuenow="' . $sawPercent . '" aria-valuemin="0" aria-valuemax="100" style="cursor:context-menu; width:' . $sawPercent . '%">' . $sawPercent . '% - Saw</div>
+							<div class="progress w-100 d-print-none m-0 p-0" title="' . $sawPercent . '%  of today\'s Cutting Complete">
+								<div class="progress-bar aqua-gradient text-left text-nowrap" role="progressbar" aria-valuenow="' . $sawPercent . '" aria-valuemin="0" aria-valuemax="100" style="cursor:context-menu; width:' . $sawPercent . '%">&ensp;' . $sawPercent . '% - Saw</div>
 							</div>
 						</div>';
 			$html .= '	<div class="col m-0 p-0">
-							<div class="progress w-100 d-print-none m-0 p-0" title="Percent of today\'s CNC Complete">
-								<div class="progress-bar peach-gradient" role="progressbar" aria-valuenow="' . $cncPercent . '" aria-valuemin="0" aria-valuemax="100" style="cursor:context-menu; width:' . $cncPercent . '%">' . $cncPercent . '% - CNC</div>
+							<div class="progress w-100 d-print-none m-0 p-0" title="' . $cncPercent . '%  of today\'s CNC Complete">
+								<div class="progress-bar peach-gradient text-left text-nowrap" role="progressbar" aria-valuenow="' . $cncPercent . '" aria-valuemin="0" aria-valuemax="100" style="cursor:context-menu; width:' . $cncPercent . '%">&ensp;' . $cncPercent . '% - CNC</div>
 							</div>
 						</div>';
 			$html .= '	<div class="col m-0 p-0">
-							<div class="progress w-100 d-print-none m-0 p-0" title="Percent of today\'s Polishing Complete">
-								<div class="progress-bar blue-gradient" role="progressbar" aria-valuenow="' . $polishPercent . '" aria-valuemin="0" aria-valuemax="100" style="cursor:context-menu; width:' . $polishPercent . '%">' . $polishPercent . '% - Polished</div>
+							<div class="progress w-100 d-print-none m-0 p-0" title="' . $polishPercent . '%  of today\'s Polishing Complete">
+								<div class="progress-bar blue-gradient text-left text-nowrap" role="progressbar" aria-valuenow="' . $polishPercent . '" aria-valuemin="0" aria-valuemax="100" style="cursor:context-menu; width:' . $polishPercent . '%">&ensp;' . $polishPercent . '% - Polished</div>
 							</div>
 						</div>';
 			$html .= '	<div class="col m-0 p-0">
-							<div class="progress w-100 d-print-none m-0 p-0" title="Percent of today\'s Installs Complete">
-								<div class="progress-bar lee-made-gradient" role="progressbar" aria-valuenow="' . $installPercent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $installPercent . '%">' . $installPercent . '% - Installed</div>
+							<div class="progress w-100 d-print-none m-0 p-0" title="' . $installPercent . '%  of today\'s Installs Complete">
+								<div class="progress-bar lee-made-gradient text-left text-nowrap" role="progressbar" aria-valuenow="' . $installPercent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $installPercent . '%">&ensp;' . $installPercent . '% - Installed</div>
 							</div>
 						</div>';
 			$html .= '</div>';
@@ -275,28 +269,28 @@ if ($action=="jobson_list") {
 			}
 			$html .= '<div class="row m-0 p-0">';
 			$html .= '	<div class="col m-0 p-0">
-							<div class="progress w-100 d-print-none m-0 p-0" title="Percent of next Mondays Schedule Full">
-								<div class="progress-bar purple-gradient" role="progressbar" aria-valuenow="' . $monPercent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $monPercent . '%">' . $monPercent . '% Mon</div>
+							<div class="progress w-100 d-print-none m-0 p-0" title="' . $monPercent . '% of next Mondays Schedule Full">
+								<div class="progress-bar purple-gradient text-left text-nowrap" role="progressbar" aria-valuenow="' . $monPercent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $monPercent . '%">&ensp;' . $monPercent . '% Mon</div>
 							</div>
 						</div>';
 			$html .= '	<div class="col m-0 p-0">
-							<div class="progress w-100 d-print-none m-0 p-0" title="Percent of next Tuesday\'s Schedule Full">
-								<div class="progress-bar aqua-gradient" role="progressbar" aria-valuenow="' . $tuePercent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $tuePercent . '%">' . $tuePercent . '% Tue</div>
+							<div class="progress w-100 d-print-none m-0 p-0" title="&emsp;' . $tuePercent . '% of next Tuesday\'s Schedule Full">
+								<div class="progress-bar aqua-gradient text-left text-nowrap" role="progressbar" aria-valuenow="' . $tuePercent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $tuePercent . '%">&ensp;' . $tuePercent . '% Tue</div>
 							</div>
 						</div>';
 			$html .= '	<div class="col m-0 p-0">
-							<div class="progress w-100 d-print-none m-0 p-0" title="Percent of next Wednesday\'s Schedule Full">
-								<div class="progress-bar peach-gradient" role="progressbar" aria-valuenow="' . $wedPercent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $wedPercent . '%">' . $wedPercent . '% Wed</div>
+							<div class="progress w-100 d-print-none m-0 p-0" title="&emsp;' . $wedPercent . '% of next Wednesday\'s Schedule Full">
+								<div class="progress-bar peach-gradient text-left text-nowrap" role="progressbar" aria-valuenow="' . $wedPercent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $wedPercent . '%">&ensp;' . $wedPercent . '% Wed</div>
 							</div>
 						</div>';
 			$html .= '	<div class="col m-0 p-0">
-							<div class="progress w-100 d-print-none m-0 p-0" title="Percent of next Thursday\'s Schedule Full">
-								<div class="progress-bar blue-gradient" role="progressbar" aria-valuenow="' . $thuPercent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $thuPercent . '%">' . $thuPercent . '% Thur</div>
+							<div class="progress w-100 d-print-none m-0 p-0" title="&emsp;' . $thuPercent . '% of next Thursday\'s Schedule Full">
+								<div class="progress-bar blue-gradient text-left text-nowrap" role="progressbar" aria-valuenow="' . $thuPercent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $thuPercent . '%">&ensp;' . $thuPercent . '% Thur</div>
 							</div>
 						</div>';
 			$html .= '	<div class="col m-0 p-0">
-							<div class="progress w-100 d-print-none m-0 p-0" title="Percent of next Friday\'s Schedule Full">
-								<div class="progress-bar lee-made-gradient" role="progressbar" aria-valuenow="' . $friPercent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $friPercent . '%">' . $friPercent . '% Fri</div>
+							<div class="progress w-100 d-print-none m-0 p-0" title="&emsp;' . $friPercent . '% of next Friday\'s Schedule Full">
+								<div class="progress-bar lee-made-gradient text-left text-nowrap" role="progressbar" aria-valuenow="' . $friPercent . '" aria-valuemin="0" aria-valuemax="100" style="width:' . $friPercent . '%">&ensp;' . $friPercent . '% Fri</div>
 							</div>
 						</div>';
 			$html .= '</div>';
@@ -598,29 +592,27 @@ if ($action=="date_change") {
 	}
 	echo 'stage1';
 
-	//$EmailTo = $repEmail;
-	$EmailTo = 'lbeeson@amanzigranite.com';
-	$Subject = 'Install Date Changed - ' . $oNum . ' - ' . $job;
-
-	// prepare email body text
-	$Body = '<h2><a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">' . $job . '</a></h2>';
-	$Body .= '<h2><a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">Order #:' . $oNum . '</a></h2>';
-	$Body .= '<a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '"><button>View Project</button></a>';
-	$Body .= '<p><b>Reason: ' . $reason . '</b></p>';
-	$Body .= '<h2>Reason: PLEASE ENSURE THE CUSTOMER KNOWS THEIR NEW INSTALL DATE</h2>';
-	$Body .= "<br><br><p>Alert Version 1.3</p>";
-
-	$headers = "From: Amanzi Portal <portal@amanziportal.com>\r\n";
-	$headers .= "MIME-Version: 1.0\r\n";
-	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
-	$headers .= "X-Priority: 1 (Highest)\r\n";
-	$headers .= "X-MSMail-Priority: High\r\n";
-	$headers .= "Importance: High\r\n";
-
-	// send email
-	mail($EmailTo, $Subject, $Body, $headers);
-
-
+//	//$EmailTo = $repEmail;
+//	$EmailTo = 'lbeeson@amanzigranite.com';
+//	$Subject = 'Install Date Changed - ' . $oNum . ' - ' . $job;
+//
+//	// prepare email body text
+//	$Body = '<h2><a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">' . $job . '</a></h2>';
+//	$Body .= '<h2><a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '">Order #:' . $oNum . '</a></h2>';
+//	$Body .= '<a href="https://amanziportal.com/admin/projects.php?edit&pid=' . $pid . '&uid=' . $uid . '"><button>View Project</button></a>';
+//	$Body .= '<p><b>Reason: ' . $reason . '</b></p>';
+//	$Body .= '<h2>Reason: PLEASE ENSURE THE CUSTOMER KNOWS THEIR NEW INSTALL DATE</h2>';
+//	$Body .= "<br><br><p>Alert Version 1.3</p>";
+//
+//	$headers = "From: Amanzi Portal <portal@amanziportal.com>\r\n";
+//	$headers .= "MIME-Version: 1.0\r\n";
+//	$headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+//	$headers .= "X-Priority: 1 (Highest)\r\n";
+//	$headers .= "X-MSMail-Priority: High\r\n";
+//	$headers .= "Importance: High\r\n";
+//
+//	// send email
+//	mail($EmailTo, $Subject, $Body, $headers);
 
 	$_POST = array();
 	$_POST['cmt_ref_id'] = $pid;
@@ -632,8 +624,6 @@ if ($action=="date_change") {
 	$log = $log_project -> pjt_changes($_POST);
 	echo $status;
 }
-
-
 
 // Material Hold
 if ($action=="mat_hold") {
@@ -673,7 +663,6 @@ if ($action=="mat_hold") {
 	$log = $log_project -> pjt_changes($_POST);
 
 	echo $status;
-
 
 	$EmailTo = $repEmail;
 	$Subject = 'Materials placed on Hold - Order: ' . $oNum . ' - ' . $job;
@@ -1253,6 +1242,7 @@ if ($action=="get_staff_list") {
 	echo "</div>";
 	echo '<hr style="height:5px;margin-top:15px;background:magenta;">';
 }
+
 if ($action=="location_log") {
 	unset($_POST['action']);
 	$logUser = $_SESSION['id'];
@@ -1261,12 +1251,26 @@ if ($action=="location_log") {
 	$update_location = new log_action;
 	echo $update_location -> location_log($logUser,$lat,$long);
 }
+
 if ($action=="ordered_material") {
 	unset($_POST['action']);
 	$run = new materials_action;
 	$run -> ordered_material($_POST);
 	echo $run;
 }
+
+if ($action=="assign_material_bulk") {
+	unset($_POST['action']);
+	$run = new materials_action;
+	echo $run -> assign_material_bulk($_POST);
+}
+
+if ($action=="ordered_material_bulk") {
+	unset($_POST['action']);
+	$run = new materials_action;
+	echo $run -> ordered_material_bulk($_POST);
+}
+
 if ($action=="ordered_sink") {
 	$pid = $_POST['pid'];
 	$sinkName = $_POST['sinkName'];
@@ -1284,39 +1288,45 @@ if ($action=="ordered_sink") {
 	$_POST['cmt_priority'] = 'log';
 	$log_project = new log_action;
 	$log = $log_project -> pjt_changes($_POST);
-
 	echo $log;
 }
+
 if ($action=="add_marble") {
 	unset($_POST['action']);
 	$add_marble = new materials_action;
 	$add_marble -> add_marble($_POST);
 }
+
 if ($action=="delete_marble") {
 	unset($_POST['action']);
 	$delete_marble = new materials_action;
 	$delete_marble -> delete_marble($_POST);
 }
+
 if ($action=="update_marble") {
 	unset($_POST['action']);
 	$update_marble = new materials_action;
 	$update_marble -> update_marble($_POST);
 }
+
 if ($action=="add_quartz") {
 	unset($_POST['action']);
 	$add_quartz = new materials_action;
 	$add_quartz -> add_quartz($_POST);
 }
+
 if ($action=="delete_quartz") {
 	unset($_POST['action']);
 	$delete_quartz = new materials_action;
 	$delete_quartz -> delete_quartz($_POST);
 }
+
 if ($action=="update_quartz") {
 	unset($_POST['action']);
 	$update_quartz = new materials_action;
 	$update_quartz -> update_quartz($_POST);
 }
+
 if ($action=="add_accs") {
 	unset($_POST['action']);
 	unset($_POST['accs_id']);
@@ -1326,11 +1336,13 @@ if ($action=="add_accs") {
 	$add_accs = new materials_action;
 	$add_accs -> add_accs($_POST);
 }
+
 if ($action=="delete_accs") {
 	unset($_POST['action']);
 	$delete_accs = new materials_action;
 	$delete_accs -> delete_accs($_POST);
 }
+
 if ($action=="update_accs") {
 	unset($_POST['action']);
 	if (!isset($_POST['accs_status'])) {
@@ -1345,12 +1357,12 @@ if ($action=="assign_material") {
 	$run = new materials_action;
 	$run -> assign_material($_POST);
 }
+
 if ($action=="no_material") {
 	unset($_POST['action']);
 	$run = new materials_action;
 	$run -> no_material($_POST);
 }
-
 
 if ($action=="assign_sink") {
 	$pid = $_POST['pid'];
@@ -1406,6 +1418,7 @@ if ($action=="material_delivered") {
 	$log_project = new log_action;
 	$log = $log_project -> pjt_changes($_POST);
 }
+
 if ($action=="material_delivered_prog") {
 	$pid = $_POST['pid'];
 	unset($_POST['action']);
@@ -1421,6 +1434,7 @@ if ($action=="material_delivered_prog") {
 	$log_project = new log_action;
 	$log = $log_project -> pjt_changes($_POST);
 }
+
 if ($action=="material_selected") {
 	$pid = $_POST['pid'];
 	unset($_POST['action']);
@@ -1708,17 +1722,6 @@ if ($action=="get_materials_needed") {
 	echo $first_tab . ':::' . $second_tab . ':::' . $third_tab;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 if ($action=="get_accessories_needed") {
 	unset($_POST['action']);
 	$results = "";
@@ -1932,9 +1935,6 @@ if ($action=="get_accessories_needed") {
 	echo $first_tab . ':::' . $second_tab . ':::' . $third_tab;
 }
 
-
-
-
 if ($action=="get_materials_pull_list") {
 	unset($_POST['action']);
 	$results = "";
@@ -2027,10 +2027,6 @@ if ($action=="get_materials_pull_list") {
 
  	echo $fourth_tab;
 }
-
-
-
-
 
 if ($action=="get_pull_list") {
 	unset($_POST['action']);
@@ -2130,7 +2126,7 @@ if ($action=="get_pull_list") {
 		$first_tab .= '	<div id="byMat' . $dateDay . '">';
 		$first_tab .= '	<div class="w-100 d-flex">';
 		$first_tab .= '		<div class="col-12">';
-		$first_tab .= '		  <h3>' . $dateDay . ' <i class="fas fa-print text-success" onClick="CallPrint(' . "'byMat" . $dateDay . "'" . ')"></i> <span class="d-none d-print-block">Accessories Pull List - printed: ' . date("Y-m-d h:i:sa") . '</span></h3>';
+		$first_tab .= '		  <h3>' . $dateDay . ' <i class="fas fa-print text-success" style="cursor:pointer" onClick="CallPrint(' . "'byMat" . $dateDay . "'" . ')"></i> <span class="d-none d-print-block">Accessories Pull List - printed: ' . date("Y-m-d h:i:sa") . '</span></h3>';
 		$first_tab .= '		</div></div>';
 
 
@@ -2203,7 +2199,7 @@ if ($action=="get_pull_list") {
 		$second_tab .= '	<div id="byJob' . $dateDay . '">';
 		$second_tab .= '	<div class="w-100 d-flex">';
 		$second_tab .= '		<div class="col-12">';
-		$second_tab .= '		  <h3>' . $dateDay . ' <i class="fas fa-print text-success d-print-none" onClick="CallPrint(' . "'byJob" . $dateDay . "'" . ')"></i> <span class="d-none d-print-block">Accessories Pull List - printed: ' . date("Y-m-d h:i:sa") . '</span></h3>';
+		$second_tab .= '		  <h3>' . $dateDay . ' <i class="fas fa-print text-success d-print-none" style="cursor:pointer" onClick="CallPrint(' . "'byJob" . $dateDay . "'" . ')"></i> <span class="d-none d-print-block">Accessories Pull List - printed: ' . date("Y-m-d h:i:sa") . '</span></h3>';
 		$second_tab .= '		</div></div>';
 		$jobs_array = get_sort_array($results['detail'], 'job_name');
 		foreach($jobs_array as $result_job) {
@@ -2224,7 +2220,7 @@ if ($action=="get_pull_list") {
 						$sink_ids .= $res['sink_id'].',';
 					}
 					$second_tab .= '     <div class="col-1 pl-4">';
-					$second_tab .= '       <div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')"><i class="fas fa-truck-container"></i></div>';
+					$second_tab .= '       <div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')" style="cursor:pointer"><i class="fas fa-truck-container"></i></div>';
 					$second_tab .= '     </div>';
 					$second_tab .= '   </div>';  
 				}
@@ -2242,7 +2238,7 @@ if ($action=="get_pull_list") {
 						$sink_ids .= $res['sink_id'].',';
 					}
 					$second_tab .= '     <div class="col-1 pl-4">';
-					$second_tab .= '       <div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')"><i class="fas fa-truck-container"></i></div>';
+					$second_tab .= '       <div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')"><i class="fas fa-truck-container" style="cursor:pointer"></i></div>';
 					$second_tab .= '     </div>';
 					$second_tab .= '   </div>';  
 				}
@@ -2252,6 +2248,48 @@ if ($action=="get_pull_list") {
 	}
 	echo $first_tab . ':::' . $second_tab;
 }
+
+if ($action=="get_po_to_order") {
+	unset($_POST['action']);
+	$first_tab = '<div class="container">';
+	$search = new materials_action;
+	$mat_array = $search->get_po_mats_needed();
+	foreach($mat_array as $results) {
+		$jobs_array = $search->get_po_mats_jobs($results['color']);
+		$string_jobs = '';
+		$jobs_list = '';
+		foreach($jobs_array as $r) {
+			$jobs_list .= $r['pid'] . ',';
+			$string_jobs .= '<i class="far fa-hand-holding-box text-warning" title="Mark Materials as Here" style="cursor:pointer" onclick="matOnHand(' . $r['iid'] . ',\'' . $r['install_name'] . '\')"></i> <i class="fas fa-ban text-danger" style="cursor:pointer" title="Place Materials on Hold" onclick="mat_hold_modal(' . $_SESSION['id'] . ',' . $r['iid'] . ',' . $r['pid'] . ')"></i> <a class="';
+			if ($r['profit'] < 0 && $r['job_status'] < 25) {
+				$string_jobs .= 'text-danger';
+			} else {
+				$string_jobs .= 'text-primary';
+			}
+			$string_jobs .= '" style="cursor:pointer" onclick="viewThisProject('.$r['pid'].','.$r['uid'].')"><u>Job: ' . $r['order_num'] . '</u>';
+			if ($r['lot'] > '') { 
+				$string_jobs .= '<span class="text-muted"> - Lot: ' . $r['lot'] . '</span>';
+			}
+			$string_jobs .= '</a>, ';
+		}
+		$jobs_list = rtrim($jobs_list, ',');
+		$first_tab .= '<div class="col-12">';
+		$first_tab .= '<div class="btn btn-primary float-right" sty;e="cursor:pointer" onClick="matOnHandBulk(\'' . $jobs_list . '\',\'' . $results['color'] . '\')"><i class="far fa-hand-holding-box"></i></div>';
+		$first_tab .= '<div class="btn btn-success float-right" sty;e="cursor:pointer" onClick="matOrderedBulk(\'' . $jobs_list . '\',\'' . $results['color'] . '\')"><i class="far fa-calendar-alt"></i></div>';
+		$first_tab .= '<p class="text-primary">' . $results['slab_count'] . ' <span class="text-danger"> X </span> <span class="text-success">' . $results['color'] . '</span></div>';
+		$first_tab .= '<div class="col-12">';
+		$string_jobs = rtrim($string_jobs, ', ');
+		$first_tab .= $string_jobs;
+		$first_tab .= '</div>';
+		
+		$first_tab .= '<hr>';
+	}
+		$first_tab .= '</div>';
+	echo $first_tab;
+}
+
+
+
 
 if($action=="update_pullstatus") {
   unset($_POST['action']);
@@ -2672,7 +2710,7 @@ if ($action=="templates_list") {
 		$template_item .= '<a class="text-success" target="_blank" href="https://maps.google.com/?q=' . $address . '">' . $address . '</a>';
 		$template_item .= '</div>';
 		$template_item .= '<div  class="col-1">';
-		$template_item .= '<div id="' . $results['id'] . '" class="btn btn-sm btn-primary w-100" onClick="viewThisProject(' .  $results['id'] . ',' . $results['uid'] . ');"><i class="fas fa-eye"></i></div>';
+		$template_item .= '<div id="' . $results['id'] . '" class="btn btn-sm btn-primary w-100" style="cursor:pointer" onClick="viewThisProject(' .  $results['id'] . ',' . $results['uid'] . ');"><i class="fas fa-eye"></i></div>';
 		$template_item .= '</div>';
 		$template_item .= '</div>';
 		$template_item .= '<hr>';
@@ -2856,11 +2894,11 @@ if ($action=="approval_list") {
 					<?					
 					if ($results['request_approval'] == 1) {
 					?>
-						<div class="btn btn-sm btn-danger my-0" onClick="appReject(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>)"><i class="fas fa-times-octagon text-warning"></i></div>
+						<div class="btn btn-sm btn-danger my-0" style="cursor:pointer" onClick="appReject(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>)"><i class="fas fa-times-octagon text-warning"></i></div>
 					<?
 					}
 					?>
-					<div class="btn btn-sm btn-success" style="cursor: pointer" onClick="mngrApproveLoss(<?= $results['id']; ?>,1,<?= $price_tax ?>,<?= $_SESSION['id']; ?>)"><i class="fas fa-check"></i> Approve</div>
+					<div class="btn btn-sm btn-success" style="cursor:pointer" style="cursor: pointer" onClick="mngrApproveLoss(<?= $results['id']; ?>,1,<?= $price_tax ?>,<?= $_SESSION['id']; ?>)"><i class="fas fa-check"></i> Approve</div>
 				</div>
 			</div>
 		</div>
@@ -2898,13 +2936,13 @@ if ($action=="invoice_list") {
 		} else {
 			$price = $results['job_price'];
 		}
-		$invBtn = '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',91)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoiced"><i class="fas fa-file-export"></i></div>';
-		$uncolBtn = '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',98)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Uncollectable"><i class="fas fa-file-excel"></i></div>';
-		$legalBtn = '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',97)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Sent to Legal/collections"><i class="fas fa-balance-scale-right"></i></div>';
-		$dispBtn = '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',94)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice disputed"><i class="fas fa-question-circle"></i></div>';
-		$ppaidBtn = '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',93)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice partially paid"><i class="fas fa-star-half-alt"></i></div>';
-		$paidBtn = '<div class="btn btn-sm btn-primary float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',92)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice paid in full"><i class="fas fa-dollar-sign"></i></div>';
-		$holdBtn = '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',99)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice on Hold"><i class="fas fa-times-octagon"></i></div>';
+		$invBtn = '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',91)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoiced" style="cursor:pointer"><i class="fas fa-file-export"></i></div>';
+		$uncolBtn = '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',98)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Uncollectable" style="cursor:pointer"><i class="fas fa-file-excel"></i></div>';
+		$legalBtn = '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',97)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Sent to Legal/collections" style="cursor:pointer"><i class="fas fa-balance-scale-right"></i></div>';
+		$dispBtn = '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',94)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice disputed" style="cursor:pointer"><i class="fas fa-question-circle"></i></div>';
+		$ppaidBtn = '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',93)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice partially paid" style="cursor:pointer"><i class="fas fa-star-half-alt"></i></div>';
+		$paidBtn = '<div class="btn btn-sm btn-primary float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',92)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice paid in full" style="cursor:pointer"><i class="fas fa-dollar-sign"></i></div>';
+		$holdBtn = '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChangeInv('. $_SESSION['id'] . ',' . $results['id'] . ',99)" style="cursor:pointer" data-toggle="tooltip" data-placement="top" title="Invoice on Hold" style="cursor:pointer"><i class="fas fa-times-octagon"></i></div>';
 
 		$price_print = number_format($price, 2, '.', ','); 
 		$pjtString = '<hr><div class="w-100 btn btn-sm ';
@@ -3067,10 +3105,6 @@ if ($action=="hold_list") {
 	echo '</div></div>';
 }
 
-
-
-
-
 if ($action=="programming_list") {
 
 	$today = date('Y-m-d');
@@ -3089,7 +3123,13 @@ if ($action=="programming_list") {
 	<div class="progress w-100">
 		<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?= $compPercent ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $compPercent ?>%"><?= $compPercent ?>%</div>
 	</div>
-	<h3 class="text-primary"><?= $compPercent ?>% Complete for Today</h3>
+	<h3 class="text-primary">
+<?
+		if ($_SESSION['access_level'] == 1) {
+			echo $todayCount  . '<sup>SqFt</sup> of ' . $todayLimit . '<sup>SqFt</sup> - ';
+		}
+?>
+		<?= $compPercent ?>% Complete for Today</h3>
 </div>
 <?
 
@@ -3114,16 +3154,21 @@ if ($action=="programming_list") {
 				}
 				$date = new DateTime($results['install_date']);
 				$date = $date->format('m/d');
-				?>" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)">
+				?>" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)" style="cursor:pointer">
 					<div class="row">
-						<div class="col-md-1 h5">
+						<div class="col-md-2 h5">
 							<?
 				if((time()+(60*60*24*5)) > strtotime($results['install_date']) && ($results['job_status'] < 32 || $results['job_status'] == 39)) {
 					echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
+			}
+?>
+					<!--<?= $date ?>--> <?= $thisPercent ?>%
+<?
+				if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
+					echo ' ' . $results['zip'] . ' ' . $date;
 				}
-							?>
-						</div>
-						<div class="col-md-2 h5"><!--<?= $date ?>--> <?= $thisPercent ?>%</div>
+?>
+					</div>
 						<div class="col-md-5 h5 text-left"><?= $results['job_name']; ?></div>
 						<div class="col-md-2 h5"><?
 				if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
@@ -3207,16 +3252,23 @@ if ($action=="saw_list") {
 	<div class="progress w-100">
 		<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?= $compPercent ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $compPercent ?>%"><?= $compPercent ?>%</div>
 	</div>
-	<h3 class="text-primary"><?= $compPercent ?>% Complete for Today</h3>
+	<h3 class="text-primary">
+<?
+		if ($_SESSION['access_level'] == 1) {
+			echo $todayCount  . '<sup>SqFt</sup> of ' . $todayLimit . '<sup>SqFt</sup> - ';
+		}
+?>
+		<?= $compPercent ?>% Complete for Today</h3>
 </div>
 <?
-
 	$results = "";
 	unset($_POST['action']);
 	$get_entries = new project_action;
 	foreach($get_entries->get_saw($_SESSION['id']) as $results) {
-		if ($results['job_status'] != 52 && $results['job_status'] != 53 && ($results['prog_ready'] != 0 || $results['mat_ready'] != 0)) {
-			?>
+		if ($results['job_status'] == 51) {
+			if ($todayLeft > 0) {
+				 $thisPercent = number_format((100/$todayLimit)*$results['job_sqft'], 2, '.', ',');
+?>
 			<hr>
 			<div class="w-100 btn pb-0 <?
 			if ($results['job_status'] == 44 || $results['job_status'] == 50) {
@@ -3245,22 +3297,28 @@ if ($action=="saw_list") {
 				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 			}
 ?>
-					<?= $date ?></div>
+					<!--<?= $date ?>--> <?= $thisPercent ?>%
+<?
+				if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
+					echo ' ' . $results['zip'] . ' ' . $date;
+				}
+?>
+					</div>
 					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
 					<div class="col-md-5 h5">
 						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
 <?
 						if ($results['job_status'] < 51) {
 ?>
-							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,51)"><i class="fas fa-arrow-square-right"></i> Start</div>
+							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,51)"><i class="fas fa-arrow-square-right"></i> Start</div>
 <?
 						} elseif ($results['job_status'] == 51) {
 ?>
-							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,52)"><i class="fas fa-check"></i> Complete</div>
+							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,52)"><i class="fas fa-check"></i> Complete</div>
 <?
 						}
 ?>
-						<div class="btn btn-sm btn-primary my-0" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
 					</div>
 				</div>
 				<hr>
@@ -3282,6 +3340,86 @@ if ($action=="saw_list") {
 			</div>
 			<hr>
 <?
+				$todayLeft = $todayLeft - $results['job_sqft'];
+			}
+		}
+	}
+	foreach($get_entries->get_saw($_SESSION['id']) as $results) {
+		if ($results['job_status'] != 51 && $results['job_status'] != 52 && $results['job_status'] != 53 && ($results['prog_ready'] != 0 || $results['mat_ready'] != 0)) {
+			if ($todayLeft > 0) {
+				 $thisPercent = number_format((100/$todayLimit)*$results['job_sqft'], 2, '.', ',');
+?>
+			<hr>
+			<div class="w-100 btn pb-0 <?
+			if ($results['job_status'] == 44 || $results['job_status'] == 50) {
+				?>btn-muted mdb-color lighten-5 text-dark<?
+			} elseif ($results['job_status'] == 51) {
+				?>btn-success<?
+			} elseif ($results['job_status'] == 52) {
+				?>peach-gradient<?
+			} elseif ($results['job_status'] == 53) {
+				?>btn-success<?
+			} elseif ($results['job_status'] == 59) {
+				?>btn-danger<?
+			} else {
+?>
+						btn-muted mdb-color lighten-5 text-dark
+<?
+			}
+			$date = new DateTime($results['install_date']);
+			$date = $date->format('m/d');
+?>
+				">
+				<div class="row">
+					<div class="col-md-2 h5">
+<?
+			if((time()+(60*60*24*4)) > strtotime($results['install_date']) && ($results['job_status'] < 53 || $results['job_status'] != 59)) {
+				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
+			}
+?>
+					<!--<?= $date ?>--> <?= $thisPercent ?>%
+<?
+				if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
+					echo ' ' . $results['zip'] . ' ' . $date;
+				}
+?>
+					</div>
+					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
+					<div class="col-md-5 h5">
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
+<?
+						if ($results['job_status'] < 51) {
+?>
+							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,51)"><i class="fas fa-arrow-square-right"></i> Start</div>
+<?
+						} elseif ($results['job_status'] == 51) {
+?>
+							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,52)"><i class="fas fa-check"></i> Complete</div>
+<?
+						}
+?>
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+<?
+						if ($results['job_status'] != 44 && $results['job_status'] != 50 && $results['prog_ready'] == 0 && $results['mat_ready'] == 1) {
+							echo '<p>Status: ' . $results['status'] . ' - Waiting on programming</p>';
+						} elseif ($results['job_status'] != 44 && $results['job_status'] != 50 && $results['prog_ready'] == 1 && $results['mat_ready'] == 0) {
+							echo '<p>Status: ' . $results['status'] . ' - Waiting on Materials</p>';
+						} elseif ($results['job_status'] != 44 && $results['job_status'] != 50 && $results['prog_ready'] == 0 && $results['mat_ready'] == 0) {
+							echo '<p>Status: ' . $results['status'] . '</p>';
+						} else {
+							get_fab_files($results['uid'], $results['id']);
+						}
+?>
+				</div>
+			</div>
+			<hr>
+<?
+				$todayLeft = $todayLeft - $results['job_sqft'];
+			}
 		}
 	}
 	foreach($get_entries->get_saw($_SESSION['id']) as $results) {
@@ -3299,33 +3437,33 @@ if ($action=="saw_list") {
 			?>">
 				<div class="row">
 					<div class="col-md-2 h5">
-						<?
+<?
 			if((time()+(60*60*24*4)) > strtotime($results['install_date']) && ($results['job_status'] < 53 || $results['job_status'] != 59)) {
 				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 			}
-						?>
+?>
 					<?= $date ?></div>
 					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
 					<div class="col-md-5 h5">
 						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
-						<?
+<?
 						if ($results['job_status'] == 52) {
-							?>
-							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,53)"><i class="fas fa-truck"></i> To CNC</div>
-							<?	
+?>
+							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,53)"><i class="fas fa-truck"></i> To CNC</div>
+<?	
 						}
-						?>
-						<div class="btn btn-sm btn-primary my-0" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
+?>
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
 					</div>
 				</div>
 				<hr>
 				<div class="row">
-					<?
+<?
 						get_fab_files($results['uid'], $results['id'])
-					?>
+?>
 				</div>
 			</div>
-		<?
+<?
 		}
 	}
 }
@@ -3347,7 +3485,13 @@ if ($action=="cnc_list") {
 	<div class="progress w-100">
 		<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?= $compPercent ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $compPercent ?>%"><?= $compPercent ?>%</div>
 	</div>
-	<h3 class="text-primary"><?= $compPercent ?>% Complete for Today</h3>
+	<h3 class="text-primary">
+<?
+		if ($_SESSION['access_level'] == 1) {
+			echo $todayCount  . '<sup>SqFt</sup> of ' . $todayLimit . '<sup>SqFt</sup> - ';
+		}
+?>
+		<?= $compPercent ?>% Complete for Today</h3>
 </div>
 <?
 
@@ -3355,8 +3499,10 @@ if ($action=="cnc_list") {
 	unset($_POST['action']);
 	$get_entries = new project_action;
 	foreach($get_entries->get_cnc($_SESSION['id']) as $results) {
-		if ($results['job_status'] != 62 && $results['job_status'] != 63) {
-			?>
+		if ($results['job_status'] == 61) {
+			if ($todayLeft > 0) {
+				 $thisPercent = number_format((100/$todayLimit)*$results['job_sqft'], 2, '.', ',');
+?>
 			<hr>
 			<div class="w-100 btn pb-0 <?
 			if ($results['job_status'] == 53 || $results['job_status'] == 60) {
@@ -3377,45 +3523,124 @@ if ($action=="cnc_list") {
 			?>">
 				<div class="row">
 					<div class="col-md-2 h5">
-						<?
+<?
 			if((time()+(60*60*24*3)) > strtotime($results['install_date']) && ($results['job_status'] < 53 || $results['job_status'] != 59)) {
 				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 			}
-						?>
-					<?= $date ?></div>
+?>
+					<!--<?= $date ?>--> <?= $thisPercent ?>%
+<?
+				if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
+					echo ' ' . $results['zip'] . ' ' . $date;
+				}
+?>
+					</div>
 					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
 					<div class="col-md-5 h5">
 						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
-						<?
+<?
 						if ($results['job_status'] < 61) {
-							?>
-							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,61)"><i class="fas fa-arrow-square-right"></i> Start</div>
-							<?
+?>
+							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,61)"><i class="fas fa-arrow-square-right"></i> Start</div>
+<?
 						} elseif ($results['job_status'] == 61) {
-							?>
-							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,62)"><i class="fas fa-check"></i> Complete</div>
-							<?
+?>
+							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,62)"><i class="fas fa-check"></i> Complete</div>
+<?
 						}
-						?>
-						<div class="btn btn-sm btn-primary my-0" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
+?>
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
 					</div>
 				</div>
 				<hr>
 				<div class="row">
-					<?
+<?
 						get_fab_files($results['uid'], $results['id'])
-					?>
+?>
 				</div>
 			</div>
 			<hr>
-		<?
+<?
+				$todayLeft = $todayLeft - $results['job_sqft'];
+			}
+		}
+	}
+	foreach($get_entries->get_cnc($_SESSION['id']) as $results) {
+		if ($results['job_status'] != 61 && $results['job_status'] != 62 && $results['job_status'] != 63) {
+			if ($todayLeft > 0) {
+				 $thisPercent = number_format((100/$todayLimit)*$results['job_sqft'], 2, '.', ',');
+?>
+			<hr>
+			<div class="w-100 btn pb-0 <?
+			if ($results['job_status'] == 53 || $results['job_status'] == 60) {
+				?>btn-muted mdb-color lighten-5 text-dark<?
+			} elseif ($results['job_status'] == 61) {
+				?>btn-success<?
+			} elseif ($results['job_status'] == 62) {
+				?>peach-gradient<?
+			} elseif ($results['job_status'] == 63) {
+				?>btn-success<?
+			} elseif ($results['job_status'] == 69) {
+				?>btn-danger<?
+			} else {
+				?>btn-muted mdb-color lighten-5 text-dark<?
+			}
+			$date = new DateTime($results['install_date']);
+			$date = $date->format('m/d');
+			?>">
+				<div class="row">
+					<div class="col-md-2 h5">
+<?
+			if((time()+(60*60*24*3)) > strtotime($results['install_date']) && ($results['job_status'] < 53 || $results['job_status'] != 59)) {
+				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
+			}
+?>
+					<!--<?= $date ?>--> <?= $thisPercent ?>%
+<?
+				if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
+					echo ' ' . $results['zip'] . ' ' . $date;
+				}
+?>
+					</div>
+					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
+					<div class="col-md-5 h5">
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
+<?
+						if ($results['job_status'] < 61) {
+?>
+							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,61)"><i class="fas fa-arrow-square-right"></i> Start</div>
+<?
+						} elseif ($results['job_status'] == 61) {
+?>
+							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,62)"><i class="fas fa-check"></i> Complete</div>
+<?
+						}
+?>
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
+					</div>
+				</div>
+				<hr>
+				<div class="row">
+<?
+							if ($results['job_status'] == 53 || $results['job_status'] == 60 || $results['job_status'] == 69) {
+								get_fab_files($results['uid'], $results['id']);
+							} else {
+								echo $results['status'];
+							}
+?>
+				</div>
+			</div>
+			<hr>
+<?
+				$todayLeft = $todayLeft - $results['job_sqft'];
+			}
 		}
 	}
 	foreach($get_entries->get_cnc($_SESSION['id']) as $results) {
 		if ($results['job_status'] == 62 || $results['job_status'] == 63) {
 			$date = new DateTime($results['install_date']);
 			$date = $date->format('m/d');
-			?>
+?>
 			<hr>
 			<div class="w-100 btn pb-0 <?
 			if ($results['job_status'] == 62) {
@@ -3426,38 +3651,36 @@ if ($action=="cnc_list") {
 			?>">
 				<div class="row">
 					<div class="col-md-2 h5">
-						<?
+<?
 			if((time()+(60*60*24*3)) > strtotime($results['install_date']) && ($results['job_status'] < 63 || $results['job_status'] != 69)) {
 				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 			}
-						?>
+?>
 					<?= $date ?></div>
 					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
 					<div class="col-md-5 h5">
 						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
-						<?
+<?
 						if ($results['job_status'] == 62) {
-							?>
-							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,63)"><i class="fas fa-truck"></i> To Polishing</div>
-							<?	
+?>
+							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,63)"><i class="fas fa-truck"></i> To Polishing</div>
+<?	
 						}
-						?>
-						<div class="btn btn-sm btn-primary my-0" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
+?>
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
 					</div>
 				</div>
 				<hr>
 				<div class="row">
-					<?
+<?
 						get_fab_files($results['uid'], $results['id'])
-					?>
+?>
 				</div>
 			</div>
-		<?
+<?
 		}
 	}
 }
-
-
 
 if ($action=="polishing_list") {
 	$today = date('Y-m-d');
@@ -3476,20 +3699,23 @@ if ($action=="polishing_list") {
 	<div class="progress w-100">
 		<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?= $compPercent ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $compPercent ?>%"><?= $compPercent ?>%</div>
 	</div>
-	<h3 class="text-primary"><?= $compPercent ?>% Complete for Today</h3>
+	<h3 class="text-primary">
+<?
+		if ($_SESSION['access_level'] == 1) {
+			echo $todayCount  . '<sup>SqFt</sup> of ' . $todayLimit . '<sup>SqFt</sup> - ';
+		}
+?>
+		<?= $compPercent ?>% Complete for Today</h3>
 </div>
 <?
 	$results = "";
 	unset($_POST['action']);
 	$get_entries = new project_action;
-
-
-
 	foreach($get_entries->get_polishing($_SESSION['id']) as $results) {
 		if ($results['job_status'] == 71) {
 			if ($todayLeft > 0) {
 				 $thisPercent = number_format((100/$todayLimit)*$results['job_sqft'], 2, '.', ',');
-			?>
+?>
 			<hr>
 			<div class="w-100 btn pb-0 <?
 			if ($results['job_status'] == 63 || $results['job_status'] == 70) {
@@ -3510,54 +3736,53 @@ if ($action=="polishing_list") {
 			?>">
 				<div class="row">
 					<div class="col-md-2 h5">
-						<?
+<?
 			if((time()+(60*60*24*3)) > strtotime($results['install_date']) && ($results['job_status'] < 73 || $results['job_status'] != 79)) {
 				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 			}
-						?>
+?>
 					<!--<?= $date ?>--> <?= $thisPercent ?>%
-						<?
+<?
 				if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
 					echo ' ' . $results['zip'] . ' ' . $date;
 				}
-			?>
+?>
 					</div>
 					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
 					<div class="col-md-5 h5">
 						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
-						<?
+<?
 						if ($results['job_status'] < 71) {
-							?>
-							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,71)"><i class="fas fa-arrow-square-right"></i> Start</div>
-							<?
+?>
+							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,71)"><i class="fas fa-arrow-square-right"></i> Start</div>
+<?
 						} elseif ($results['job_status'] == 71) {
-							?>
-							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,72)"><i class="fas fa-check"></i> Complete</div>
-							<?
+?>
+							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,72)"><i class="fas fa-check"></i> Complete</div>
+<?
 						}
-						?>
-						<div class="btn btn-sm btn-primary my-0" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
+?>
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
 					</div>
 				</div>
 				<hr>
 				<div class="row">
-					<?
+<?
 						get_fab_files($results['uid'], $results['id'])
-					?>
+?>
 				</div>
 			</div>
 			<hr>
-		<?
+<?
 				$todayLeft = $todayLeft - $results['job_sqft'];
 			}
 		}
 	}
-
 	foreach($get_entries->get_polishing($_SESSION['id']) as $results) {
 		if ($results['job_status'] > 62 && $results['job_status'] != 71 && $results['job_status'] != 72 && $results['job_status'] != 73) {
 			if ($todayLeft > 0) {
 				 $thisPercent = number_format((100/$todayLimit)*$results['job_sqft'], 2, '.', ',');
-			?>
+?>
 			<hr>
 			<div class="w-100 btn pb-0 <?
 			if ($results['job_status'] == 63 || $results['job_status'] == 70) {
@@ -3578,44 +3803,44 @@ if ($action=="polishing_list") {
 			?>">
 				<div class="row">
 					<div class="col-md-2 h5">
-						<?
+<?
 			if((time()+(60*60*24*3)) > strtotime($results['install_date']) && ($results['job_status'] < 73 || $results['job_status'] != 79)) {
 				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 			}
-						?>
+?>
 					<!--<?= $date ?>--> <?= $thisPercent ?>%
-						<?
+<?
 				if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
 					echo ' ' . $results['zip'] . ' ' . $date;
 				}
-			?>
+?>
 					</div>
 					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
 					<div class="col-md-5 h5">
 						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
-						<?
+<?
 						if ($results['job_status'] < 71) {
-							?>
-							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,71)"><i class="fas fa-arrow-square-right"></i> Start</div>
-							<?
+?>
+							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,71)"><i class="fas fa-arrow-square-right"></i> Start</div>
+<?
 						} elseif ($results['job_status'] == 71) {
-							?>
-							<div class="btn btn-sm btn-primary my-0" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,72)"><i class="fas fa-check"></i> Complete</div>
-							<?
+?>
+							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,72)"><i class="fas fa-check"></i> Complete</div>
+<?
 						}
-						?>
-						<div class="btn btn-sm btn-primary my-0" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
+?>
+						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="jobHold(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,<?= $results['job_status'] ?>)"><i class="fas fa-hand-paper text-danger"></i> <span class="text-danger">Hold</span></div>
 					</div>
 				</div>
 				<hr>
 				<div class="row">
-					<?
+<?
 						get_fab_files($results['uid'], $results['id'])
-					?>
+?>
 				</div>
 			</div>
 			<hr>
-		<?
+<?
 				$todayLeft = $todayLeft - $results['job_sqft'];
 			}
 		}
@@ -3624,7 +3849,7 @@ if ($action=="polishing_list") {
 		if ($results['job_status'] < 63) {
 			if ($todayLeft > 0) {
 				 $thisPercent = number_format((100/$todayLimit)*$results['job_sqft'], 2, '.', ',');
-			?>
+?>
 			<hr>
 			<div class="w-100 btn pb-0 <?
 			if ($results['job_status'] == 63 || $results['job_status'] == 70) {
@@ -3645,17 +3870,17 @@ if ($action=="polishing_list") {
 			?>">
 				<div class="row">
 					<div class="col-md-2 h5">
-						<?
+<?
 			if((time()+(60*60*24*3)) > strtotime($results['install_date']) && ($results['job_status'] < 73 || $results['job_status'] != 79)) {
 				echo '<i class="fas fa-clock fa-pulse text-danger"></i>';
 			}
-						?>
+?>
 					<!--<?= $date ?>--> <?= $thisPercent ?>%
-						<?
+<?
 				if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
 					echo ' ' . $results['zip'] . ' ' . $date;
 				}
-			?>
+?>
 					</div>
 					<div class="col-md-5 h5 text-left"><?= $results['order_num']; ?> - <?= $results['job_name']; ?></div>
 					<div class="col-md-5 h5">
@@ -3668,12 +3893,13 @@ if ($action=="polishing_list") {
 				</div>
 			</div>
 			<hr>
-		<?
+<?
 				$todayLeft = $todayLeft - $results['job_sqft'];
 			}
 		}
 	}
 }
+
 if ($action=="assign_installer") {
 	unset($_POST['action']);
 	$assign_installer = new project_action;
@@ -3683,6 +3909,32 @@ if ($action=="assign_installer") {
 
 
 if ($action=="installs_list") {
+	$today = date('Y-m-d');
+	$get_limits = new project_action;
+
+	$todayLimits = $get_limits->prodLimits();
+	$counts = $get_limits->get_limit_achive($today);
+
+	$todayLimit = $get_limits->get_inst_totals($today);
+	$todayCount = $counts['install_sqft_count'];
+
+	$todayLeft = $todayLimit - $todayCount;
+	$compPercent = number_format((100/$todayLimit)*$todayCount, 2, '.', ',');
+
+?>	
+<div id="progressStatus" class="w-100">
+	<div class="progress w-100">
+		<div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="<?= $compPercent ?>" aria-valuemin="0" aria-valuemax="100" style="width:<?= $compPercent ?>%"><?= $compPercent ?>%</div>
+	</div>
+	<h3 class="text-primary">
+<?
+		if ($_SESSION['access_level'] == 1) {
+			echo $todayCount  . '<sup>SqFt</sup> of ' . $todayLimit . '<sup>SqFt</sup> - ';
+		}
+?>
+		<?= $compPercent ?>% Complete for Today</h3>
+</div>
+<?
 	$user_info = new userData;
 	$user_info->set_selection("*",$_SESSION['id']);
 	$department = $user_info->get_results("department");
@@ -5971,7 +6223,13 @@ if ($action == "update_install_data") {
 		echo "You must have an Install Name.";
 		exit;
 	}
-	
+	if (!isset($_POST['remnant'])) {
+		$_POST['remnant'] = "0";
+	}
+	if (!isset($_POST['no_mats'])) {
+		$_POST['no_mats'] = "0";
+	}
+
 	$iName = $_POST['install_name'];
 	$uid = $_POST['instUID'];
 	$iid = $_POST['id'];
@@ -6585,6 +6843,9 @@ if ($action=="get_inst_for_update") {
 		$return_string .= 'slabs::' . $result['slabs'] . '||';
 		$return_string .= 'cpSqFt_override::' . $result['cpSqFt_override'] . '||';
 		$return_string .= 'tearout_sqft::' . $result['tearout_sqft'] . '||';
+		$return_string .= 'remnant::' . $result['remnant'] . '||';
+		$return_string .= 'no_mats::' . $result['no_mats'] . '||';
+		$return_string .= 'client_level::' . $result['client_level'] . '||';
 		$return_string .= 'color_id::' . $result['color_id'];
 	}
 	echo rtrim($return_string, "||");
@@ -7218,7 +7479,7 @@ if ($action=="view_selected_pjt") {
 			if ($results['job_status'] == 83) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
 
-				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="select_installers_modal(' . $results['id'] . ',' . $results['job_sqft'] . ",'" . $results['install_date'] . "'" . ');" style="cursor:pointer"><i class="fas fa-check"></i> Install Complete</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="select_installers_modal(' . $results['id'] . ',' . $results['job_sqft'] . ",'" . $results['install_date'] . "'" . ',1);" style="cursor:pointer"><i class="fas fa-check"></i> Install Complete</div>';
 				$html .= '<div class="btn btn-sm btn-warning float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',84)" style="cursor:pointer"><i class="fas fa-check"></i> Install Incomplete</div>';
 			}
 			if ($results['job_status'] == 84) {
@@ -7299,7 +7560,7 @@ if ($action=="view_selected_pjt") {
 		$html .= '<h2 class="d-print-none">Project details for:</h2>';
 
 		if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
-			$html .= '<div id="asgn_inst" class="btn btn-sm btn-warning d-inline ml-2 float-right d-print-none" onClick="select_installers_modal(' . $results['id'] . ',' . $results['job_sqft'] . ",'" . $results['install_date'] . "'" . ');" style="cursor:pointer">Select Installers <i class="fas fa-users"></i></div>';
+			$html .= '<div id="asgn_inst" class="btn btn-sm btn-warning d-inline ml-2 float-right d-print-none" onClick="select_installers_modal(' . $results['id'] . ',' . $results['job_sqft'] . ",'" . $results['install_date'] . "'" . ',0);" style="cursor:pointer">Select Installers <i class="fas fa-users"></i></div>';
 		}
 
 		$html .= '<h2 class="d-none d-print-inline">Job: </h2>';
@@ -7598,6 +7859,24 @@ if ($action=="view_selected_pjt") {
 	$html .= '		</div>';
 	$html .= '	</div>';
 
+	$html .= '	<hr class="row d-print-none">';
+
+	$html .= '	<div class="row d-print-none">
+					<div class="file-field col-10 d-block">
+						<div class="btn btn-sm btn-success float-left">
+							<span>Upload Cut Sheet</span>
+							<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_fab">
+						</div>
+						<div class="file-path-wrapper float-right w-75 pt-1">
+							<input class="file-path validate" type="text" placeholder="Upload one or more files">
+						</div>
+					</div>
+					<div class="col-2">
+						<div id="uploadmulti" class="btn btn-sm btn-primary" onclick="upload_multi();" style="cursor:pointer">Upload</div>
+					</div>
+				</div>';
+
+	$html .= '	<hr class="row d-print-none">';
 
 	// Attachment Section
 	$folderPath = base_dir . "job-files/" . $_POST['userID'] . "/" . $_POST['pjtID'] . "/";
@@ -8156,6 +8435,7 @@ if ($action=="view_selected_inst") {
 
 		$html .= '<hr>';
 		$html .= '<div>';
+		$html .= '<div class="clearfix"></div>';
 		$html .= '<div class="row">';
 		$html .= '	<div class="d-none" id="type_cost">' . $results['type_cost'] . '</div>';
 		$html .= '	<div class="col-12 col-md-3">Install Type: <b>' . $results['type'] . '</b></div>';
@@ -8437,7 +8717,7 @@ if ($action=="view_selected_inst") {
 	$instS = new project_action;
 	foreach( $instS->sink_data_fetch($_POST) as $r ) {
 		$html .= '	<div class="row">';
-		$sink_pull = $r['sink_id'] . "," . $r['sink_iid'] . "," . $r['sink_part'] . "," . $r['sink_model'] . "," . $r['sink_mount'] . "," . $r['sink_provided'] . "," . $r['sink_holes'] . "," . $r['sink_soap'] . "," . $r['cutout_width'] . "," . $r['cutout_depth'] . "," . $r['sink_cost'] . "," . $r['sink_price'] . "," . $r['cutout_price'];
+		$sink_pull = $r['sink_id'] . "," . $r['sink_iid'] . "," . $r['sink_part'] . "," . $r['sink_model'] . "," . $r['sink_mount'] . "," . $r['sink_provided'] . "," . $r['sink_holes'] . "," . $r['sink_soap'] . "," . $r['cutout_width'] . "," . $r['cutout_depth'] . "," . $r['sink_cost'] . "," . $r['sink_price'] . "," . $r['cutout_price'] . "," . $r['delivery'];
 		$html .= '<div class="d-none" id="sho_' . $r['sink_id'] . '">' . $r['sink_holes_other'] . '</div>';
 		$html .= '		<h4 class="d-inline col-12 text-warning">';
 

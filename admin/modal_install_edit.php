@@ -88,23 +88,31 @@
 					</fieldset>
 					</div>
 					</div>
-
-
-
-
-
 					<div class="container pt-3 ">
 						<div class="row">
-
-							<fieldset class="form-group col-12 col-md-6">
-		
-								<label for="color">Color:</label>
-								<input class="form-control matControl" list="i-color" id="i-color-box" name="color" type="text" autocomplete="off">
-								<div class="btn btn-sm btn-danger input-group-addon float-right" onClick="$('#i-color-box').val('')"><i class="fas fa-times"></i></div>
-								<div class="btn btn-sm btn-primary input-group-addon float-right matPickerBtn" onClick="matModalOpen(this);"><i class="fa fa-eye"></i></div>
-								<datalist id="i-color" class="colorChoose">
-								</datalist>
-							</fieldset>
+							<div class="col-6">
+								<div class="row">
+									<fieldset class="form-group col-6 text-left">
+										<input class="filled-in mr-4" name="no_mats" id="i-no_mats" type="checkbox" value="1">
+										<label for="i-no_mats" class="text-left">No Materials</label>
+									</fieldset>
+									<fieldset class="form-group col-6 text-left">
+										<input id="i-remnant" class="form-check-input filled-in" name="remnant" type="checkbox" value="1">
+										<label for="i-remnant" class="w-100">Remnant</label>
+									</fieldset>
+									<fieldset class="form-group col-12">
+										<label for="color">Color:</label>
+										<div class="input-group">
+											<input class="form-control matControl" list="i-color" id="i-color-box" name="color" type="text" autocomplete="off">
+											<div class="input-group-append">
+												<span class="input-group-text text-danger" onClick="$('#i-color-box').val('')"><i class="fas fa-times"></i></span>
+												<span class="input-group-text text-primary" onClick="matModalOpen(this);"><i class="fa fa-eye"></i></span>
+											</div>
+											<datalist id="i-color" class="colorChoose"></datalist>
+										</div>
+									</fieldset>
+								</div>
+							</div>
 							<div class="col-3">
 								<div class="row">
 									<fieldset class="form-group col-4 col-md-12">

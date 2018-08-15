@@ -1,21 +1,3 @@
-//function getSalesReps($rep) {
-//	var datastring = "action=find_sales_reps&isSales=1&selectedRep=" + $rep;
-//	$.ajax({
-//		type: "POST",
-//		url: "ajax.php",
-//		data: datastring,
-//		success: function(data) {
-//			$("#acct_rep").append(data);
-//		},
-//		error: function(data) {
-//			console.log(data);
-//			
-//			
-//			
-//		}
-//	});
-//}
-
 function newInstall($install_room,$name) {
 	var datastring = 'action=newTemplateInstall&pid=' + $pid + '&install_name=' + $name + '&install_room=' + $install_room;
 	$.ajax({
@@ -35,16 +17,7 @@ function newInstall($install_room,$name) {
 			}, 1000);
 		}
 	});
-
-	//$('#addInstall').modal('show');
-	//addInstUpload();
 }
-
-//function newInstall() {
-//	$('#uploadInstall').empty();
-//	$('#addInstall').modal('show');
-//	addInstUpload();
-//}
 
 function newInstallSuccess() {
 	$('#addInstall').modal('hide');
@@ -53,8 +26,6 @@ function newInstallSuccess() {
 	$('form#add_new_step2')[0].reset();
 	$('#instDetails').html('');
 	$('#addInstNew').show();
-
-//	addInstUpload();
 }
 
 function addUpload($this) {
@@ -62,8 +33,6 @@ function addUpload($this) {
 	var uploadSection = $('#uploadContain');
 	$($this).parent().append(newSection);
 }
-
-
 
 function viewThisInstall($a,$b,$c) {
 	$iid = $a;
@@ -85,7 +54,6 @@ function viewThisInstall($a,$b,$c) {
 			console.log(data);
 		}
 	});
-	//setTimeout(function(){ getInstParticulars(); }, 500);
 }
 
 function viewThisProject($a,$b) {
@@ -110,11 +78,7 @@ function viewThisProject($a,$b) {
 	$('#materials-block').hide();
 	$('#user-block').hide();
 	$('#pjt-block').hide();
-	//setTimeout(function(){ getComments('pjt'); getSqFt()}, 500);
-	//setTimeout(function(){ getSqFt()}, 500);
 	get_price_mult();
-	//setTimeout(function(){ getStatuses(); }, 300);
-	//setTimeout(function(){ statusSet(); }, 300);
 	$("#mdb-lightbox-ui").load("/mdb-addons/mdb-lightbox-ui.html");
 }
 
@@ -296,18 +260,9 @@ function projectsForUser($a) {
 function addInstall() {
     $('#instUID').val($uid);
     $('#pid').val($pid);
-//    if ($('#SqFt').val() == "") {
-//        $('#SqFt').val(0)
-//    }
-
-
 	var $matName = $('#color-box').val();
 	var $matString = ".titleMat:contains('" +  $matName + "')";
 	var $price = $($matString).parent().parent().attr('price');
-//	if (!(Math.floor($price) == $price && $.isNumeric($price)))  {
-//		alert("You have entered a color that is not in the database. If it is a Remnant, you must enter the proper name for a marble or granite. If it is quartz, you will have to have the remnant added to the quartz database by Corry, Kate, Lee, Omar, Kayleigh, Anna or Zack.");
-//		return;
-//	}
 	if (!(Math.floor($price) == $price && $.isNumeric($price)))  {
 		if (window.confirm("You have entered a color that is not in the database. You will have to manually enter the price in 'Extra Costs' field. Are you sure you want to do this?")) {
 			$price = 0;
@@ -315,7 +270,6 @@ function addInstall() {
 			return;
 		}
 	}
-
 	if ($('#SqFt').val() == "" || $('#SqFt').val() < 1) {
 		$('#SqFt').val(0)
 	}
@@ -334,8 +288,6 @@ function addInstall() {
 	var $calc_price = (cpSqFt * SqFt);
 	// console.log($calc_price);
 	$('input[name=price_calc]').val($calc_price);
-
-
     var form = $('form#add_new_step2')
     var formdata = false;
     if (window.FormData) {
@@ -362,7 +314,6 @@ function addInstall() {
     });
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////                                   /////////////////////////
@@ -380,9 +331,7 @@ $(document).ready(function() {
 		$('fieldset').removeClass('form-error');
 		$('input').removeClass('is-invalid');
 		$('select').removeClass('is-invalid');
-
 	    $('#addInstNew').hide();
-
 		if ( $('#install_name').val() == '' ) {
 			alert('You must have an Install/Area Name.');
 			$('#install_name').addClass('is-invalid');
@@ -397,7 +346,6 @@ $(document).ready(function() {
 			$('#addInstNew').show();
 			return;
 		}
-
 		if ( $('#tear_outa').is(':checked') == false && $('#tear_outb').is(':checked') == false ) {
 			alert('You must specify if this is a Tear Out or not.');
 			$('#tear_outa').closest('fieldset').addClass('form-error');
@@ -405,15 +353,13 @@ $(document).ready(function() {
 			$('#addInstNew').show();
 			return;
 		}
-
 		if ( $('#selecteda').is(':checked') == false && $('#selectedb').is(':checked') == false ) {
 			alert('You must specify whether the the material is Customer Selected or not.');
 			$('#selecteda').closest('fieldset').addClass('form-error');
 			$('#selecteda').focus();
 			$('#addInstNew').show();
 			return;
-		}lot
-
+		}
 		if ( $('#selectedb').is(':checked') == true ) {
 			addInstall();
 		} else {
@@ -430,7 +376,6 @@ $(document).ready(function() {
 
 	});
 
-
 	$("#findPjtUser").submit(function(e) {
 		e.preventDefault();
 		var datastring = $("form#findPjtUser").serialize();
@@ -443,9 +388,6 @@ $(document).ready(function() {
 			},
 			error: function(data) {
 				console.log(data);
-				
-				
-				
 			}
 		});
 		e.preventDefault();
@@ -455,6 +397,7 @@ $(document).ready(function() {
 
 	$("#pjtUpdate").click(function(e) {
 		e.preventDefault();
+
 		$('.is-invalid').removeClass('is-invalid');
 		$("#pjtUpdate").fadeOut(300);
 		if ($('input[name=job_name]').val() == '') {
@@ -537,71 +480,31 @@ $(document).ready(function() {
 			var dateString = year + '-' + month + '-' + date;
 			$('input[name=template_date]').val(dateString);
 		}
-
-		var functFail = 0;
-		if ($('#p-am').prop('checked') == true || $('#p-pm').prop('checked') == true) {
+		$breakFunction = 0;
+		if ( $('#p-am').prop('checked') == true ) {
+			var toCheck = 'am';
+			var install_date = $('input[name=install_date]').val()
+			check_firsts(toCheck,install_date,$pid);
+		}
+		if($('#p-pm').prop('checked') == true) {
 			var toCheck = 'pm';
-			if ($('#p-am').prop('checked') == true) {
-				toCheck = 'am';
-			}
-			var iDate = $('input[name=install_date]').val();
-			var datastring = "action=check_firsts&install_date='" + iDate + "'&toCheck=" + toCheck;
-			console.log(datastring);
-			$.ajax({
-				async: false,
-				type: "POST",
-				url: "ajax.php",
-				data: datastring,
-				success: function(data) {
-					if(data > 4) {
-						functFail = 1;
-						alert('There are too many ' + toCheck + ' installs for this day. Choose another day or remove "' + toCheck + '"');
-						$("#pjtUpdate").fadeIn(300);
-						return;
-						
-					} else {
-						console.log('Approved... I guess.')
-					}
-				},
-				error: function(data) {
-					console.log(data);
-				}
-			});
+			var install_date = $('input[name=install_date]').val()
+			check_firsts(toCheck,install_date,$pid);
 		}
-		if ($('#p-temp_am').prop('checked') == true || $('#p-temp_pm').prop('checked') == true) {
+		if($('#p-temp_am').prop('checked') == true) {
+			var toCheck = 'temp_am';
+			var install_date = $('input[name=template_date]').val()
+			check_firsts(toCheck,install_date,$pid);
+		}
+		if($('#p-temp_pm').prop('checked') == true) {
 			var toCheck = 'temp_pm';
-			if ($('#p-temp_am').prop('checked') == true) {
-				toCheck = 'temp_am';
-			}
-			var iDate = $('input[name=install_date]').val();
-			var datastring = "action=check_firsts&install_date='" + iDate + "'&toCheck=" + toCheck;
-			console.log(datastring);
-			$.ajax({
-				async: false,
-				type: "POST",
-				url: "ajax.php",
-				data: datastring,
-				success: function(data) {
-					if(data > 4) {
-						functFail = 1;
-						alert('There are too many ' + toCheck + ' templates for this day. Choose another day or remove "' + toCheck + '"');
-						$("#pjtUpdate").fadeIn(300);
-						return;
-						
-					} else {
-						console.log('Approved... I guess.')
-					}
-				},
-				error: function(data) {
-					console.log(data);
-				}
-			});
+			var install_date = $('input[name=template_date]').val()
+			check_firsts(toCheck,install_date,$pid);
 		}
-		console.log(functFail + ' functFail');
-		if (functFail == 1) {
+		if ($breakFunction == 1) {
+			$("#pjtUpdate").fadeIn(300);
 			return;
 		}
-
 
 		if ($('input[name=po_cost]').val() != '') {
 			var cost = $('input[name=po_cost]').val();
@@ -651,20 +554,14 @@ $(document).ready(function() {
 						"showMethod": "fadeIn",
 						"hideMethod": "fadeOut"
 					}
-					//					$('input[type=file]').remove();
-					//					$('#p-uploadContain').append('<input class="col-lg-3 cloneUpload" onChange="addUpload();" name="imgUploads[]" type="file">');
 					$("form#editPjtOne").get(0).reset();
 					viewThisProject($pid, $uid);
 					$("#pjtUpdate").fadeIn(300);
-					//$('#addProjectStepper').stepper('next');
 				}
 				return false;
 			}
 		});
 		$("body").scrollTop(0, 0);
 	});
-
-
-
 
 });

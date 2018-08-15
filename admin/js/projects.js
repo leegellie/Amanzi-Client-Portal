@@ -1,3 +1,4 @@
+// // Lee
 matObj = [];
 $uid = '';
 $pid = '';
@@ -35,9 +36,69 @@ $defaultEdge = 0;
 $addChange = 0;
 $order_num = '';
 $job_name = '';
+$completed = 0;
+$breakFunction = 0;
 
-function select_installers_modal(pid,sqft,date) {
-	$('.installer').prop('checked',false);
+function check_firsts(toCheck,install_date,pid) {
+	var datastring = 'action=check_firsts&toCheck=' + toCheck + '&install_date=' + install_date + '&pid=' + pid;
+	var $ifText = '';
+	if (toCheck == 'am') {
+		$ifText = 'AM Installs';
+	} else if (toCheck == 'pm') {
+		$ifText = 'PM Installs';
+	} else if (toCheck == 'temp_am') {
+		$ifText = 'PM Templates';
+	} else if (toCheck == 'temp_pm') {
+		$ifText = 'PM Templates';
+	}
+	$.ajax({
+		type: "POST",
+		async: false,
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log('Count: ' + data);
+			if (data > 4) {
+				alert("There are too many " + $ifText + " for this day. Please choose another day or de-select AM.");
+				$breakFunction = 1;
+			}
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
+
+function get_po_mats_needed() {
+	var datastring = "action=get_po_to_order";
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			$('#toOrder').html(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+	setTimeout(get_po_mats_needed, 5000);
+}
+
+function CallPrint(strid) {
+    var prtContent = document.getElementById(strid);
+    var WinPrint = window.open('', '', 'left=0, top=0, width=1200, height=800, toolbar=0, scrollbars=0, status=0');
+    WinPrint.document.write(prtContent.innerHTML);
+    WinPrint.document.close();
+    WinPrint.focus();
+    WinPrint.print();
+    WinPrint.close();
+}
+
+function select_installers_modal(pid, sqft, date, completed) {
+	$completed = completed;
+	$('.installer').prop('checked', false);
 	$('#si-pid').val(pid);
 	$('#si-sqft').val(sqft);
 	$('#si-install_date').val(date);
@@ -53,6 +114,7 @@ function select_installers() {
 	var datastring = 'action=clear_installers&pid=' + inst_log_pid;
 	console.log(datastring);
 	$.ajax({
+		async: false,
 		type: "POST",
 		url: "ajax.php",
 		data: datastring,
@@ -63,13 +125,13 @@ function select_installers() {
 			console.log(data);
 		}
 	});
-
 	$('.installer').each(function() {
 		if ($(this).prop('checked') == true) {
 			var inst_log_installer = $(this).data('installer_name');
+			var inst_log_rate = $(this).data('installer_rate');
 			var inst_log_inst_id = this.id;
 			installer_string += ' -- ' + inst_log_inst_id + ' : ' + inst_log_installer;
-			var datastring = 'action=select_installers&inst_log_inst_id=' + inst_log_inst_id + '&inst_log_pid=' + inst_log_pid + '&inst_log_installer=' + inst_log_installer + '&inst_log_sqft=' + inst_log_sqft + '&inst_log_date=' + inst_log_date;
+			var datastring = 'action=select_installers&inst_log_inst_id=' + inst_log_inst_id + '&inst_log_pid=' + inst_log_pid + '&inst_log_installer=' + inst_log_installer + '&inst_log_sqft=' + inst_log_sqft + '&inst_log_date=' + inst_log_date + '&inst_log_rate=' + inst_log_rate;
 			console.log(datastring);
 			$.ajax({
 				async: false,
@@ -98,12 +160,14 @@ function select_installers() {
 			console.log(data);
 		}
 	});
-	statusChange(1,inst_log_pid,85);
+	if ($completed == 1){
+		statusChange(1, inst_log_pid, 85);
+	}
 	$('#select_installers').modal('hide');
-	viewThisProject($pid,$uid);
+	viewThisProject($pid, $uid);
 }
 
-function pre_order(user,pjt) {
+function pre_order(user, pjt) {
 	if (window.confirm("By continuing, you are accepting responsibility for materials ordered before an Approved Quote is accepted by the customer. Ensure you have enough data entered for the Materials Department to order your materials.")) {
 		var datastring = 'action=pre_order&staffid=' + user + '&pid=' + pjt;
 		$.ajax({
@@ -112,7 +176,7 @@ function pre_order(user,pjt) {
 			data: datastring,
 			success: function(data) {
 				console.log(data);
-				viewThisProject($pid,$uid);
+				viewThisProject($pid, $uid);
 			},
 			error: function(data) {
 				console.log(data);
@@ -121,7 +185,7 @@ function pre_order(user,pjt) {
 	} else {
 		return;
 	}
-} 
+}
 
 function getJobsOn() {
 	var datastring = "action=jobson_list"
@@ -222,29 +286,28 @@ function copyJob(pid) {
 		success: function(data) {
 			$('.mdb-select').material_select('destroy');
 			var res = data.split("::");
-			var  uid = res[0];
-			var  uCompany = res[1];
-			var  uFname = res[2];
-			var  uLname = res[3];
-				 $job_name = res[4];
-				 $order_num = res[5];
-			var  acct_rep = res[6];
-			var  builder = res[7];
-			var  address_1 = res[8];
-			var  address_2 = res[9];
-			var  city = res[10];
-			var  state = res[11];
-			var  zip = res[12];
-			var  contact_name = res[13];
-			var  contact_number = res[14];
-			var  contact_email = res[15];
-			var  alternate_name = res[16];
-			var  alternate_number = res[17];
-			var  alternate_email = res[18];
-			var  install_team = res[19];
-
+			var uid = res[0];
+			var uCompany = res[1];
+			var uFname = res[2];
+			var uLname = res[3];
+				$job_name = res[4];
+				$order_num = res[5];
+			var acct_rep = res[6];
+			var builder = res[7];
+			var address_1 = res[8];
+			var address_2 = res[9];
+			var city = res[10];
+			var state = res[11];
+			var zip = res[12];
+			var contact_name = res[13];
+			var contact_number = res[14];
+			var contact_email = res[15];
+			var alternate_name = res[16];
+			var alternate_number = res[17];
+			var alternate_email = res[18];
+			var install_team = res[19];
 			$('#uid').val(uid);
-			$('#user_info').val(uCompany + ' - ' + uFname + ' '+ uLname);
+			$('#user_info').val(uCompany + ' - ' + uFname + ' ' + uLname);
 			$('#acct_rep').val(acct_rep);
 			$('#builder').val(builder);
 			$('#address_1').val(address_1);
@@ -259,10 +322,8 @@ function copyJob(pid) {
 			$('#alternate_number').val(alternate_number);
 			$('#alternate_email').val(alternate_email);
 			$('#install_team').val(install_team);
-
 			$('#job_lookup_modal').modal('hide');
 			$('.mdb-select').material_select();
-
 		},
 		error: function(data) {
 			console.log(data);
@@ -297,7 +358,6 @@ function copyJob(pid) {
 					console.log(data);
 				}
 			});
-		
 		}
 	});
 }
@@ -344,7 +404,7 @@ function proj_type($type) {
 	}
 }
 
-function estApprove(user,pjt,status,po_cost,po_num,contact_name,contact_number,pick_up,address_verif) {
+function estApprove(user, pjt, status, po_cost, po_num, contact_name, contact_number, pick_up, address_verif) {
 	console.log('a');
 	if (contact_name == '') {
 		alert("You must have a contact name listed for this job.");
@@ -358,10 +418,10 @@ function estApprove(user,pjt,status,po_cost,po_num,contact_name,contact_number,p
 		alert("You must verify the site address. Edit the job, look up the address and ensure it is correct and save the job.");
 		return;
 	}
-	statusChange(user,pjt,status);
+	statusChange(user, pjt, status);
 }
 
-function checkQuote(user,pjt,status,po_cost,po_num,contact_name,contact_number,pick_up,address_verif,no_charge,repair) {
+function checkQuote(user, pjt, status, po_cost, po_num, contact_name, contact_number, pick_up, address_verif, no_charge, repair) {
 	if (po_cost < 2 && po_num == '' && no_charge == 0) {
 		alert("You must have a deposit or P.O. number for the job to proceed.");
 		return;
@@ -388,17 +448,16 @@ function checkQuote(user,pjt,status,po_cost,po_num,contact_name,contact_number,p
 				alert("Not all your pieces have an edge listed.");
 				return;
 			} else {
-				statusChange(user,pjt,status);
+				statusChange(user, pjt, status);
 			}
 		},
 		error: function(data) {
 			console.log(data);
 		}
 	});
-	
 }
 
-function statusChange(user,pjt,status) {
+function statusChange(user, pjt, status) {
 	var datastring = 'action=change_status&staffid=' + user + '&pid=' + pjt + '&status=' + status;
 	$.ajax({
 		type: "POST",
@@ -432,14 +491,13 @@ function statusChange(user,pjt,status) {
 	});
 }
 
-function instEnRoute(user,pjt,status,client_id,contact_name,contact_number,job_name,order_num,inst_team_name,pick_up) {
+function instEnRoute(user, pjt, status, client_id, contact_name, contact_number, job_name, order_num, inst_team_name, pick_up) {
 	var datastring = 'action=change_status&staffid=' + user + '&pid=' + pjt + '&status=' + status;
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			////console.log(data);
 			Command: toastr["success"]("Status Changed to " + JSON.stringify(data) + ".", "Projects")
 			toastr.options = {
 				"closeButton": true,
@@ -478,8 +536,7 @@ function instEnRoute(user,pjt,status,client_id,contact_name,contact_number,job_n
 	});
 }
 
-
-function prog_complete(user,pjt,status) {
+function prog_complete(user, pjt, status) {
 	var datastring = 'action=prog_complete&staffid=' + user + '&pid=' + pjt + '&status=' + status;
 	$.ajax({
 		type: "POST",
@@ -513,7 +570,7 @@ function prog_complete(user,pjt,status) {
 	});
 }
 
-function statusChangeInv(user,pjt,status) {
+function statusChangeInv(user, pjt, status) {
 	var datastring = 'action=change_status&staffid=' + user + '&pid=' + pjt + '&status=' + status;
 	$.ajax({
 		type: "POST",
@@ -546,14 +603,14 @@ function statusChangeInv(user,pjt,status) {
 	});
 }
 
-function jobHold(uid,pjt,status) {
-	var $tempArr = [12,13,14,15,16,17];
-	var $progArr = [25,30,31,32];
-	var $matArr = [32,40,41,42,43];
-	var $sawArr = [44,50,51,52];
-	var $cncArr = [53,60,61,62];
-	var $polArr = [63,70,71,72];
-	var $instArr = [73,80,81,82,83,84];
+function jobHold(uid, pjt, status) {
+	var $tempArr = [12, 13, 14, 15, 16, 17];
+	var $progArr = [25, 30, 31, 32];
+	var $matArr = [32, 40, 41, 42, 43];
+	var $sawArr = [44, 50, 51, 52];
+	var $cncArr = [53, 60, 61, 62];
+	var $polArr = [63, 70, 71, 72];
+	var $instArr = [73, 80, 81, 82, 83, 84];
 	var newStatus = 0;
 	if ($.inArray(status, $tempArr) > -1) {
 		newStatus = 19;
@@ -587,7 +644,6 @@ function job_hold() {
 	var pjt = $('#jh-pid').val();
 	var status = $('#jh-status').val();
 	var cmt_comment = $('#jh-hold_reason').val();
-
 	var datastring = 'action=job_hold&staffid=' + user + '&pid=' + pjt + '&status=' + status + '&cmt_comment=' + cmt_comment;
 	$.ajax({
 		type: "POST",
@@ -622,7 +678,7 @@ function job_hold() {
 	});
 }
 
-function appReject(uid,pjt) {
+function appReject(uid, pjt) {
 	$('#ar-pid').val(pjt);
 	$('#ar-staff').val(uid);
 	$('#approval_reject').modal('show');
@@ -636,7 +692,6 @@ function approval_reject() {
 	var user = $('#ar-staff').val();
 	var pjt = $('#ar-pid').val();
 	var cmt_comment = $('#ar-reject_reason').val();
-
 	var datastring = 'action=approval_reject&staffid=' + user + '&pid=' + pjt + '&cmt_comment=' + cmt_comment;
 	$.ajax({
 		type: "POST",
@@ -663,7 +718,7 @@ function approval_reject() {
 				"hideMethod": "fadeOut"
 			};
 			$('#approval_reject').modal('hide');
-			if ($('#clientName').is(":visible") == true ) {
+			if ($('#clientName').is(":visible") == true) {
 				viewThisProject($pid, $uid);
 			}
 		},
@@ -672,6 +727,8 @@ function approval_reject() {
 		}
 	});
 }
+
+// CLEANED TO HERE
 
 function mat_hold_modal(uid,iid,pid) {
 	$('#mh-pid').val('');
@@ -790,37 +847,6 @@ function mat_release() {
 		}
 	});
 }
-
-//function statusUpdate($statId) {
-//	$statName = $('#changeStatus option:selected').text();
-//	$percent = $statId + '%';
-//	var lastDigit = $statId%10;
-//	if (lastDigit == 9) {
-//		$('#progressStatus .progress-bar').addClass('bg-danger');
-//	} else {
-//		$('#progressStatus .progress-bar').removeClass('bg-danger');
-//	}
-//	$('#pjtDetails #progressStatus .progress-bar').width($percent);
-//	$('#pjtDetails #progressStatus .progress-bar').text($statName);
-//
-//	var statusdata = 'action=update_job_status&pid=' + $pid + '&status=' + $statId;
-//	$.ajax({
-//		type: "POST",
-//		url: "ajax.php",
-//		data: statusdata,
-//		success: function(data) {
-//			setTimeout(function(){ statusSet(); }, 300);
-//			viewThisProject($pid, $uid);
-//		},
-//		error: function(data) {
-//			console.log(data);
-//			successNote = "Error submitting form: "+xhr.responseText;
-//			
-//			
-//		}
-//	});
-//}
-
 
 function recalculate($cpSqFt) {
 	var datastring = 'action=recalculate&uid=' + $uid + '&cpSqFt=' + $cpSqFt;
@@ -1177,7 +1203,9 @@ function deletePiece(sid) {
 	}
 }
 
-function editSink(sink_id, sink_iid, sink_part, sink_model, sink_mount, sink_provided, sink_holes, sink_soap, cutout_width, cutout_depth, sink_cost, sink_price, cutout_price) {
+function editSink(sink_id, sink_iid, sink_part, sink_model, sink_mount, sink_provided, sink_holes, sink_soap, cutout_width, cutout_depth, sink_cost, sink_price, cutout_price, delivery) {
+	$('#e-sink_soap').prop('checked',false);
+	$('#e-delivery').prop('checked',false);
 	$('.mdb-select').material_select('destroy');
 	var sho = '#sho_' + sink_id;
 	var sho_data = $(sho).text();
@@ -1218,6 +1246,9 @@ function editSink(sink_id, sink_iid, sink_part, sink_model, sink_mount, sink_pro
 	$('#e-sink_mount').val(sink_mount);
 	if (sink_soap == 1) {
 		$('#e-sink_soap').prop('checked',true);
+	}
+	if (delivery == 1) {
+		$('#e-delivery').prop('checked',true);
 	}
 	$('.mdb-select').material_select();
 	$('#edit_sink').modal('show');
@@ -1342,6 +1373,7 @@ function add_sink(form) {
 	var $holes = $('#sink_holes').val();
 	var $other = $('#sink_holes_other').val();
 	var $soap = 0;
+	var $delivery = 0;
 	if($( '#sink_soap' ).prop( "checked" ) == true) {
 		$soap = 1;
 	}
@@ -1351,9 +1383,7 @@ function add_sink(form) {
 	var $cPrice = 0;
 
 	var $sSelected = '#add_sink option:contains(' + $model + ')';
-
 	var $sCost = $($sSelected).attr('cost');
-
 	if ($provided == 0) {
 		$sPrice = $($sSelected).attr('price');
 		if ($sPrice == 0) {
@@ -1367,10 +1397,12 @@ function add_sink(form) {
 		$sCost = 0;
 		$sPrice = 0;
 	}
-	if (($('#type_cost').text() * 1) == 1) {
-		$cPrice = 50;
-	} else if (($('#type_cost').text() * 1) == 2) {
-		$cPrice = 100;
+	if ($provided == 1) {
+		if (($('#type_cost').text() * 1) == 1) {
+			$cPrice = 50;
+		} else if (($('#type_cost').text() * 1) == 2) {
+			$cPrice = 100;
+		}
 	}
 	if ($('#sink_model').val() == "") {
 		alert("You must provide a Sink Model.");
@@ -1381,6 +1413,12 @@ function add_sink(form) {
 	if ($model < 1 || $model == null) {
 		$model = 0;
 	} 
+	if($( '#delivery' ).prop( "checked" ) == true) {
+		$delivery = 1;
+		$sCost = 0;
+		$sPrice = 0;
+		$cPrice = 0;
+	}
 	var datastring = 'action=add_sink' +
 					 '&sink_iid=' + $iid +
 					 '&sink_part=' + $part +
@@ -1395,6 +1433,7 @@ function add_sink(form) {
 					 '&sink_price=' + $sPrice +
 					 '&cutout_price=' + $cPrice +
 					 '&sink_cost=' + $sCost +
+					 '&delivery=' + $delivery +
 					 '&sink_name=' + $sink_name;
 	//console.log(datastring);
 	$.ajax({
@@ -1691,51 +1730,16 @@ function addPiece(form) {
 
 	}
 	var backsplash = 0;
-//		if (hBacksplash == 0 || wBacksplash == 0) {
-//			if (hBacksplash != 0 || wBacksplash != 0) {
-//				alert("You can not have a Backsplash height without a length, or visa versa.");
-//				$(pForm).find('#bs_height').addClass('is-invalid');
-//				$(pForm).find('#bs_length').addClass('is-invalid');
-//				if (hBacksplash == 0) {
-//					$(pForm).find('#bs_height').focus();
-//				} else {
-//					$(pForm).find('#bs_length').focus();
-//				}
-//				return;
-//			}
-//		}
 	backsplash = Math.ceil((hBacksplash*wBacksplash)/144);
-	//console.log(backsplash);
 	SqFt = parseInt(SqFt) + backsplash;
-	//console.log(SqFt);
 	var riser = 0;
-//		if (hRiser == 0 || wRiser == 0) {
-//			if (hRiser != 0 || wRiser != 0) {
-//				alert("You can not have a Riser height without a length, or visa versa.");
-//				$(pForm).find('#rs_height').addClass('is-invalid');
-//				$(pForm).find('#rs_length').addClass('is-invalid');
-//				if (hRiser == 0) {
-//					$(pForm).find('#rs_height').focus();
-//				} else {
-//					$(pForm).find('#rs_length').focus();
-//				}
-//				return;
-//			}
-//		}
 	riser = Math.ceil((hRiser*wRiser)/144);
-	//console.log(riser);
 	SqFt = parseInt(SqFt) + riser;
 	$(pForm).find('#SqFt').val(SqFt);
 	$(pForm).find('#iid').val(Math.ceil($iid));
 	$(pForm).find('#pid').val(Math.ceil($pid));
 	$(pForm).find('#pcPriceExtra').val(Math.ceil($('#pullPriceExtra').text()));
 	$(pForm).find('#pcSqFt').val(Math.ceil($('#pullCpSqFt').text()));
-//		form = "$('form#add_piece')";
-//		var formdata = false;
-//		if (window.FormData) {
-//			formdata = new FormData(form[0]);
-//		}
-
 	var size_x= $(pForm).find('#size_x').val();
 	var size_y= $(pForm).find('#size_y').val();
 	var size_a= $(pForm).find('#size_a').val();
@@ -2292,13 +2296,6 @@ function sendQuoteData() {
 	} else {
 		return;
 	}
-//	if (!($('#address_verify').text() == "")) {
-//		if (window.confirm('You do not have a valid address for this project. You should not send this to entry without full details for Templating or Installation. If you still wish to continue press "OK", otherwise, go back and fill in the address.')) {
-//		} else {
-//			return;
-//		}
-//	}
-
 	if ( $('#sendAnya').hasClass('disabled') ){
 		//console.log('Already Sent!');
 	} else {
@@ -2321,7 +2318,7 @@ function sendQuoteData() {
 	}
 }
 
-function makeComment(e,cmt_user) {
+function makeComment(e, cmt_user) {
 	var datastring = 'action=comments_user_name&id=' + cmt_user;
 	$.ajax({
 		type: "POST",
@@ -2335,9 +2332,7 @@ function makeComment(e,cmt_user) {
 			console.log(data);
 		}
 	});
-
 	var cmt_type = $(e).attr('cmt_type').toString();
-
 	if (cmt_type == 'pjt') {
 		$('#cmt_ref_id').val($pid);
 		$('#cmt_name').text($pName);
@@ -2348,12 +2343,9 @@ function makeComment(e,cmt_user) {
 		$('#cmt_ref_id').val($iid);
 		$('#cmt_name').text($iName);
 	}
-
 	$('#cmt_type').val(cmt_type);
 	$('#cmt_user').val(cmt_user);
-
 	$('#addComment').modal('show');
-
 }
 
 function addUpload() {
@@ -2436,6 +2428,16 @@ function compileInstEdit(data) {
 		obj[split[0]] = split[1];
 	}
 	$('#inst_name').text(obj.install_name);
+	if (obj.remnant == 1) {
+		$('#i-remnant').prop("checked", true);
+	} else {
+		$('#i-remnant').prop("checked", false);
+	}
+	if (obj.no_mats == 1) {
+		$('#i-no_mats').prop("checked", true);
+	} else {
+		$('#i-no_mats').prop("checked", false);
+	}
 
 	$('#i-iid').val(obj.id);
 	$('#i-pid').val(obj.pid);
@@ -2475,6 +2477,11 @@ function compileInstEdit(data) {
 	$('#i-install_notes').val(obj.install_notes);
 	$('#i-SqFt').val(obj.SqFt);
 	$('#i-cpSqFt_override').val(obj.cpSqFt_override);
+	if (obj.client_level == 11 && obj.remnant == 0) {
+		$('#i-cpSqFt_override').prop('readonly','readonly');
+	} else {
+		$('#i-cpSqFt_override').prop('readonly',false);
+	}
 	$('#i-price_calc').val(parseFloat(obj.price_calc));
 	$('#i-accs_prices').val(parseFloat(obj.accs_prices));
 	$('#i-price_extra').val(parseFloat(obj.price_extra));
@@ -2550,21 +2557,18 @@ function compilePjtEdit(data) {
 	if (obj.template_date != '2200-01-01') {
 		$('#p-template_date').val(obj.template_date);
 	}
-
 	if (obj.install_date != '2200-01-01') {
 		$('#p-install_date').val(obj.install_date);
 	}
-	if ( obj.job_status < 20 && obj.job_status != 17  &&  obj.order_num.indexOf('o') < 1  &&  obj.order_num.indexOf('r') < 1  && obj.order_num.indexOf('O') < 1  &&  obj.order_num.indexOf('R') < 1 ) {
-		$('#p-install_date').prop('readonly', 'readonly');
+	if (obj.job_status > 24) {
+		$("#p-install_date").prop('readonly', false);
+	} else if ( obj.job_status > 20 && obj.job_status != 17  &&  obj.order_num.indexOf('o') < 1  &&  obj.order_num.indexOf('r') < 1  && obj.order_num.indexOf('O') < 1  &&  obj.order_num.indexOf('R') < 1 ) {
+		$('#p-install_date').prop('readonly', false);
 		//console.log('killed');
+	} else if (obj.job_sqft < 1 || ( obj.order_num.indexOf('o') > 0  ||  obj.order_num.indexOf('r') > 0  ||  obj.order_num.indexOf('O') > 0  ||  obj.order_num.indexOf('R') > 0 ) ) {
+		$("#p-install_date").prop('readonly', false);
 	} else {
-		if (obj.job_sqft > 1 || ( obj.order_num.indexOf('o') > 0  ||  obj.order_num.indexOf('r') > 0  ||  obj.order_num.indexOf('O') > 0  ||  obj.order_num.indexOf('R') > 0 ) ) {
-			$("#p-install_date").prop('readonly', false);
-			//console.log('true');
-		} else {
-			$("#p-install_date").prop('readonly', 'readonly');
-			//console.log('false');
-		}
+		$("#p-install_date").prop('readonly', true);
 	}
 	$('#p-po_cost').val('$ ' + obj.po_cost);
 	$('#p-po_num').val(obj.po_num);
@@ -2650,6 +2654,7 @@ function pullEditPjt(pjtToEdit) {
 	var datastring = 'action=get_pjt_for_update&id=' + pjtToEdit;
 	$.ajax({
 		type: "POST",
+		async: false,
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
@@ -2738,7 +2743,7 @@ function updateInstall() {
 	if ($('#i-cpSqFt_override').val() == "") {
 		$('#i-cpSqFt_override').val(0)
 	}
-	if ($('#i-price_extra').val() == "") {
+	if ($('#i-price_extra').val() == "" || $('#i-price_extra').val() < 0) {
 		$('#i-price_extra').val(0)
 	}
 
@@ -2962,6 +2967,7 @@ $(document).ready(function() {
 		var $matString = "#updateInstall .titleMat:contains('" +  $matName + "')";
 		var $price = $($matString).parent().parent().attr('price');
 		var $cost = $($matString).parent().parent().attr('cost');
+
 		matObj = [];
 		$("datalist#i-color option").each(function() {
 			matObj.push({
@@ -2983,48 +2989,45 @@ $(document).ready(function() {
 		if (typeof $cost == 'undefined'){
 			$cost = 0;
 		}
-
-//LEEEEEE
-//		if (!(Math.floor($price) == $price && $.isNumeric($price)))  {
-//			alert("You have entered a color that is not in the database. If it is a Remnant, you must enter the proper name for a marble or granite. If it is quartz, you will have to have the remnant added to the quartz database by Corry, Kate, Lee, Omar, Kayleigh, Anna or Zack.");
-//			return;
-//		}
-
-		if (!(Math.floor($price) == $price && $.isNumeric($price)))  {
-			if (window.confirm("You have entered a color that is not in the database. You will have to manually enter the price in 'Extra Costs' field. Are you sure you want to do this?")) {
-				$price = 0;
+		if ($('#i-no_mats').prop('checked') == false) {
+			if (!(Math.floor($price) == $price && $.isNumeric($price)))  {
+				if (window.confirm("You have entered a color that is not in the database. You will have to manually enter the price in 'Extra Costs' field. Are you sure you want to do this?")) {
+					$price = 0;
+				} else {
+					return;
+				}
+			}
+			if ($material == 'marbgran') {
+				marbcalc($matName, $price);
+				var costing = parseFloat($SqFt) * parseFloat($cost);
+				$($form).find('input[name=materials_cost]').val(costing);
+				//console.log('Costing: ' + costing);
+			} else if ($material == 'quartz') {
+				quartzcalc($matName, $cost);
+				//console.log('3: ' + $slabs + ' ' + $price + ' ' + $cost + ' ' + $curCost + ' ' + $curPrice);
+				var costing = parseFloat($slabs) * parseFloat($cost);
+				$($form).find('input[name=materials_cost]').val(costing);
+				//console.log('Costing: ' + costing);
 			} else {
+				alert('You must specifiy Marble/Granite or Quartz');
 				return;
 			}
-		}
-		if ($material == 'marbgran') {
-			marbcalc($matName, $price);
-			var costing = parseFloat($SqFt) * parseFloat($cost);
-			$($form).find('input[name=materials_cost]').val(costing);
-			//console.log('Costing: ' + costing);
-		} else if ($material == 'quartz') {
-			quartzcalc($matName, $cost);
-			//console.log('3: ' + $slabs + ' ' + $price + ' ' + $cost + ' ' + $curCost + ' ' + $curPrice);
-			var costing = parseFloat($slabs) * parseFloat($cost);
-			$($form).find('input[name=materials_cost]').val(costing);
-			//console.log('Costing: ' + costing);
+			if ($("#updateInstall input[name=selected]").length > 0) {
+				if ($("#updateInstall input[id='i-selectedb']:checked").length > 0) {
+					updateInstall();
+				} else {
+					if ($('#i-lot').val() != '') {
+						updateInstall()
+					} else {
+						alert("If Customer Selected you must enter a lot.");
+					}
+				}
+			} else {
+				alert("You must state if the material is customer selected.");
+			}
 		} else {
-			alert('You must specifiy Marble/Granite or Quartz');
-			return;
+			updateInstall();
 		}
-	    if ($("#updateInstall input[name=selected]").length > 0) {
-	        if ($("#updateInstall input[id='i-selectedb']:checked").length > 0) {
-	            updateInstall();
-	        } else {
-	            if ($('#i-lot').val() != '') {
-	                updateInstall()
-	            } else {
-	                alert("If Customer Selected you must enter a lot.");
-	            }
-	        }
-	    } else {
-	        alert("You must state if the material is customer selected.");
-	    }
 	    $("body").scrollTop(0, 0);
 	});
 
@@ -3232,6 +3235,7 @@ $(document).ready(function() {
         	}
     	});
 	});
+	
 	getLocation();
 
 	$('#p-install_date').focus(function(e){
@@ -3244,6 +3248,7 @@ $(document).ready(function() {
 			}
 		}
 	});
+	
 	$('#install_date').focus(function(e){
 		e.preventDefault();
 		e.stopPropagation();
@@ -3264,6 +3269,7 @@ $(document).ready(function() {
 			}
 		}
 	})
+	
 	$('input[name=temp_pm]').change(function(){
 		if( $('input[name=temp_pm]').is(':checked')) {
 			$('input[name=temp_am]').prop('checked',false);
@@ -3273,6 +3279,7 @@ $(document).ready(function() {
 			}
 		}
 	})
+	
 	$('input[name=temp_first_stop]').change(function(){
 		if ($('input[name=temp_first_stop]').is(':checked')) {
 			if ($('input[name=temp_pm]').is(':checked') ) {
@@ -3291,6 +3298,7 @@ $(document).ready(function() {
 			}
 		}
 	})
+	
 	$('input[name=pm]').change(function(){
 		if( $('input[name=pm]').is(':checked')) {
 			$('input[name=am]').prop('checked',false);
@@ -3300,6 +3308,7 @@ $(document).ready(function() {
 			}
 		}
 	})
+	
 	$('input[name=first_stop]').change(function(){
 		if ($('input[name=first_stop]').is(':checked')) {
 			if ($('input[name=pm]').is(':checked') ) {
@@ -3308,6 +3317,7 @@ $(document).ready(function() {
 			}
 		}
 	})
+	
 	$('.servoption').hide();
 
 	$('#job_lookup').keypress(function(e) {
@@ -3324,13 +3334,15 @@ $(document).ready(function() {
 			$('.reason').hide();
 		}
 	});
+	
 	$('#p-no_charge').change(function() {
 		if ($('#p-no_charge').prop('checked') == true) {
-			$('.reason').show();
+			$('.reprew').show();
 		} else if ($('#p-repair').val() == 0 && $('#p-rework').val() == 0) {
-			$('.reason').hide();
+			$('.reprew').hide();
 		}
 	});
+
 	$('#no_template').change(function() {
 		if ($('#no_template').prop('checked') == true) {
 			$('input[name=install_date]').prop('readonly',false);
@@ -3338,7 +3350,20 @@ $(document).ready(function() {
 			$('input[name=install_date]').prop('readonly',true);
 		}
 	});
+
+	$('#i-remnant').change(function() {
+		if ($('#i-remnant').prop('checked') == true) {
+			$('#i-cpSqFt_override').prop('readonly',false);
+		} else {
+			$('#i-cpSqFt_override').prop('readonly',true);
+		}
+	});
+
+	$('#i-remnant').prop("checked", true);
+
 	getJobsOn();
+	
 	var headHeight = $('.navbar.navbar-expand-md').outerHeight() + 'px';
+	
 	$('#jobsOn').css('top',headHeight)
 });

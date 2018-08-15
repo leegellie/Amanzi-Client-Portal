@@ -53,9 +53,11 @@ class project_action {
 			$sql = '
 				 SELECT	COUNT(*) AS ' . $a['toCheck'] . '_count
 				   FROM projects
-				  WHERE install_date = ' . $a['install_date'] . '
-				  AND ' . $a['toCheck'] . ' = 1
-			';
+				  WHERE install_date = "' . $a['install_date'] . '"
+				  AND ' . $a['toCheck'] . ' = 1 ';
+			if($a['pid'] > 0) {
+				$sql .= 'AND id <> ' . $a['pid'];
+			}
 			$q = $conn->prepare($sql);
 			$q->execute();
 			return $row = $q->fetch(PDO::FETCH_ASSOC);
@@ -379,7 +381,8 @@ class project_action {
 			SELECT id, 
 				   fname, 
 				   lname, 
-				   installer_id 
+				   installer_id, 
+				   installer_rate
 			  FROM users 
 			 WHERE installer_id > 0 
 			   AND isActive = 1
@@ -2379,7 +2382,6 @@ class project_action {
 			 WHERE install_date < '2200-01-01' 
 			   AND job_status > 23
 			   AND job_status < 70
-			   AND NOT job_status = 59
 			   AND projects.isActive = 1
 			 ORDER BY 
 				   install_date ASC, 
@@ -3036,7 +3038,7 @@ class project_action {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-			$q = $conn->prepare("SELECT * FROM installs WHERE id = :id");
+			$q = $conn->prepare("SELECT installs.*, c.access_level AS client_level FROM installs JOIN projects p ON p.id = installs.pid JOIN users c ON c.id = p.uid WHERE installs.id = :id");
 			$q->bindParam(':id',$id);
 			$q->execute();
 			return $this->_uid = $q -> fetchAll();

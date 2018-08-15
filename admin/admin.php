@@ -155,6 +155,8 @@ if(isset($_GET['marble'])){
 	require_once ('admin_invoicing.php');
 } elseif (isset($_GET['pay'])) {
 	require_once ('admin_inst_pay.php');
+} elseif (isset($_GET['order'])) {
+	require_once ('admin_order_station.php');
 }
 ?>
 	</div>
@@ -178,8 +180,18 @@ if(isset($_GET['marble'])){
 	include ('modal_job_lookup.php');
 	include ('modal_approval_reject.php');
 	include ('modal_select_installers.php');
+	include ('modal_material_select.php');
+	include ('modal_material_assign.php');
+	include ('modal_material_assign_bulk.php');
+	include ('modal_material_order_bulk.php');
+	include ('modal_material_order.php');
+	include ('modal_mat_hold.php');
+	include ('modal_sink_order.php');
+	include ('modal_accessory_assign.php');
+	include ('modal_sink_hold.php');
+	include ('modal_sink_release_hold.php');
 	include ('footer.php'); 
-// echo $access_level 
+	// echo $access_level 
 ?>
 	<script src="js/pikaday.js"></script>
 	<script src="js/pikaday.jquery.js"></script>

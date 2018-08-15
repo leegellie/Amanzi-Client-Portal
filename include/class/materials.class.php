@@ -199,13 +199,12 @@ class materials_action {
 		return $row = $q->fetchAll();
 	}
 
-
-  //SELECT ACCESSORIES BY "TODAY" AND "TOMORROW"(ACTUALLY, NEXT BUSINESS DAY)
-  public function get_accessories_ttday() {
-    $conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+	//SELECT ACCESSORIES BY "TODAY" AND "TOMORROW"(ACTUALLY, NEXT BUSINESS DAY)
+	public function get_accessories_ttday() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
-    $q = $conn->prepare("
-		 SELECT install_sink.*, 
+		$q = $conn->prepare("
+	  	 SELECT install_sink.*, 
 				projects.* 
 		   FROM projects
 		   JOIN installs ON projects.id = installs.pid
@@ -218,24 +217,68 @@ class materials_action {
 	   ORDER BY install_date ASC,
 	   			sink_name ASC,
 				faucet_name ASC
-    ");
-    $q->execute();
-    return $row = $q->fetchAll();
-  }
-  
-  public function update_pullstatus($a){
-    try {
-      $conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-      $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-      $q = $conn->prepare("UPDATE install_sink SET pull_status = 2 WHERE sink_id IN (".$a.")");
-//       $q->bindParam(':iid', $a);
-      $q->execute();
-      $this->_message = "SUCCESS";
-    } catch(PDOException $e) {
-      $this->_message = "ERROR: " . $e->getMessage();
-    }
-    return $this->_message;
-  }
+		 ");
+		$q->execute();
+		return $row = $q->fetchAll();
+	}
+
+	//SELECT MATERIAL FOR PURCHASE
+	public function get_po_mats_needed() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
+		$q = $conn->prepare("
+	  	 SELECT SUM(slabs) AS slab_count, color, job_status
+		   FROM installs
+		   JOIN projects ON projects.id = installs.pid
+		  WHERE install_date >= CURDATE() 
+			AND ((!(install_date = '2200-01-01') AND job_status > 24) OR pre_order = 1)
+			AND installs.material_status < 2
+			AND installs.color > ''
+			AND remnant = 0
+			AND mat_hold = 0
+            GROUP BY color
+	   ORDER BY slab_count DESC, color 
+		 ");
+		$q->execute();
+		return $row = $q->fetchAll();
+	}
+
+	//SELECT MATERIAL FOR PURCHASE
+	public function get_po_mats_jobs($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
+		$sql = '
+	  	 SELECT lot, order_num, pid, projects.uid, profit, installs.id AS iid, install_name, job_status
+		   FROM installs
+		   JOIN projects ON projects.id = installs.pid
+		  WHERE color LIKE "' . $a . '"
+			AND install_date >= CURDATE() 
+			AND ((!(install_date = "2200-01-01") AND job_status > 24) OR pre_order = 1)
+			AND installs.material_status < 2
+			AND installs.color > ""
+			AND remnant = 0
+			AND mat_hold = 0
+       GROUP BY order_num, lot 
+	   ORDER BY installs.color, order_num, lot, profit
+		 ';
+		$q = $conn->prepare($sql);
+		$q->execute();
+		return $row = $q->fetchAll();
+	}
+
+	public function update_pullstatus($a){
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$q = $conn->prepare("UPDATE install_sink SET pull_status = 2 WHERE sink_id IN (".$a.")");
+			//       $q->bindParam(':iid', $a);
+			$q->execute();
+			$this->_message = "SUCCESS";
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+		}
+		return $this->_message;
+	}
   
 	// SELECT PROJECT BY QUOTE NUMBER OR ORDER NUMBER FROM SEARCH CRITERIA 
 	public function get_install_materials($a) {
@@ -246,8 +289,8 @@ class materials_action {
 		$q->execute();
 		return $row = $q->fetchAll();
 	}
-  
-  public function get_materials() {
+
+	public function get_materials() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		$q = $conn->prepare("
@@ -352,6 +395,35 @@ class materials_action {
 		$q->bindParam(':assigned_material',$a['assigned_material']);
 		$q->bindParam(':material_status',$a['material_status']);
 		$q->execute();
+	}
+
+	public function ordered_material_bulk($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = "UPDATE installs SET assigned_material = '" . $a['assigned_material'] . "', material_date = '" . $a['material_date'] . "', material_status = " . $a['material_status'] . " WHERE pid IN (" . $a['pids'] . ') AND color LIKE "' . $a['material_color'] . '" AND remnant = 0';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$this->_message = "SUCCESS";
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+		}
+		return $this->_message;
+	}
+
+	public function assign_material_bulk($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = "UPDATE installs SET assigned_material = '" . $a['assigned_material'] . "', material_status = " . $a['material_status'] . " WHERE pid IN (" . $a['pids'] . ') AND color LIKE "' . $a['material_color'] . '" AND remnant = 0';
+      var_dump($sql);
+			$q = $conn->prepare($sql);
+			$q->execute();
+			$this->_message = "SUCCESS";
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+		}
+		return $this->_message;
 	}
 
 	public function no_material($a) {

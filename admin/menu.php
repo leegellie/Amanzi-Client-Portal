@@ -58,6 +58,14 @@ if ($access_level < 11) {
 ?>
 						<a class="dropdown-item text-dark" href="admin.php?stats">Stats</a>
 						<a class="dropdown-item text-dark" href="admin.php?invoices">Invoicing</a>
+						<a class="dropdown-item text-dark" href="admin.php?pay">Installer Pay</a>
+<?
+			if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14 || $_SESSION['id'] == 1283) {
+?>
+						<a class="dropdown-item text-dark" href="admin.php?order">Ordering</a>
+<?
+			}
+?>
 					</div>
 				</li>
 <?
@@ -109,6 +117,13 @@ if ($access_level < 11) {
 						<a class="dropdown-item text-dark" href="/admin/admin.php?marble">Marble/Granite</a>
 						<a class="dropdown-item text-dark" href="/admin/admin.php?quartz">Quartz</a>
 						<a class="dropdown-item text-dark" href="/admin/admin.php?accessories">Accessories</a>
+<?
+			if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14 || $_SESSION['id'] == 1283) {
+?>
+						<a class="dropdown-item text-dark" href="admin.php?order">Ordering</a>
+<?
+			}
+?>
 					</div>
 				</li>
 <?

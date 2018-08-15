@@ -371,6 +371,33 @@ $(document).ready(function() {
 			var dateString = tYear + '-' + tMonth + '-' + date;
 			$('input[name=template_date]').val(dateString);
 		}
+
+		$breakFunction = 0;
+		if ($('#am').prop('checked') == true) {
+			var toCheck = 'am';
+			var install_date = $('input[name=install_date]').val()
+			check_firsts(toCheck,install_date,0);
+		}
+		if($('#pm').prop('checked') == true) {
+			var toCheck = 'pm';
+			var install_date = $('input[name=install_date]').val()
+			check_firsts(toCheck,install_date,0);
+		}
+		if($('#temp_am').prop('checked') == true) {
+			var toCheck = 'temp_am';
+			var install_date = $('input[name=template_date]').val()
+			check_firsts(toCheck,install_date,0);
+		}
+		if($('#temp_pm').prop('checked') == true) {
+			var toCheck = 'temp_pm';
+			var install_date = $('input[name=template_date]').val()
+			check_firsts(toCheck,install_date,0);
+		}
+		if ($breakFunction == 1) {
+			$("#pjtUpdate").fadeIn(300);
+			return;
+		}
+
 		if ($('input[name=po_cost]').val() != '') {
 			var cost = $('input[name=po_cost]').val();
 			var newCost = Number(cost.replace(/[^0-9\.-]+/g, ""));
