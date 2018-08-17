@@ -39,18 +39,50 @@ $job_name = '';
 $completed = 0;
 $breakFunction = 0;
 
+function filterJobs($date) {
+	$('.job').hide();
+	var dataString = '[data-install_date="' + $date + '"]';
+	$('.job').filter(dataString).show();
+}
+
+
+function change_limit($a) {
+	var toChange = $($a).data('control');
+	var changeTo = $($a).val();
+	var datastring = 'action=change_limit&toChange=' + toChange + '&changeTo=' + changeTo;
+	console.log(datastring);
+	$.ajax({
+		type: "POST",
+		async: false,
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
 function check_firsts(toCheck,install_date,pid) {
-	var datastring = 'action=check_firsts&toCheck=' + toCheck + '&install_date=' + install_date + '&pid=' + pid;
-	var $ifText = '';
+	var datetype = '';
 	if (toCheck == 'am') {
 		$ifText = 'AM Installs';
+		datetype = 'install_date';
 	} else if (toCheck == 'pm') {
 		$ifText = 'PM Installs';
+		datetype = 'install_date';
 	} else if (toCheck == 'temp_am') {
-		$ifText = 'PM Templates';
+		$ifText = 'AM Templates';
+		datetype = 'template_date';
 	} else if (toCheck == 'temp_pm') {
 		$ifText = 'PM Templates';
+		datetype = 'template_date';
 	}
+	var datastring = 'action=check_firsts&toCheck=' + toCheck + '&' + datetype + '=' + install_date + '&pid=' + pid;
+	console.log(datastring);
+	var $ifText = '';
 	$.ajax({
 		type: "POST",
 		async: false,
@@ -1203,9 +1235,11 @@ function deletePiece(sid) {
 	}
 }
 
-function editSink(sink_id, sink_iid, sink_part, sink_model, sink_mount, sink_provided, sink_holes, sink_soap, cutout_width, cutout_depth, sink_cost, sink_price, cutout_price, delivery) {
+function editSink(sink_id, sink_iid, sink_part, sink_model, sink_mount, sink_provided, sink_holes, sink_soap, cutout_width, cutout_depth, sink_cost, sink_price, cutout_price, sink_location, sink_onsite, sink_pickup, delivery) {
 	$('#e-sink_soap').prop('checked',false);
 	$('#e-delivery').prop('checked',false);
+	$('#e-sink_onsite').prop('checked',false);
+	$('#e-sink_pickup').prop('checked',false);
 	$('.mdb-select').material_select('destroy');
 	var sho = '#sho_' + sink_id;
 	var sho_data = $(sho).text();
@@ -1244,8 +1278,15 @@ function editSink(sink_id, sink_iid, sink_part, sink_model, sink_mount, sink_pro
 	$('#e-sink_provided').val(sink_provided);
 	$('#e-sink_provided').val(sink_provided);
 	$('#e-sink_mount').val(sink_mount);
+	$('#e-sink_location').val(sink_location);
+	if (sink_pickup == 1) {
+		$('#e-sink_pickup').prop('checked',true);
+	}
 	if (sink_soap == 1) {
 		$('#e-sink_soap').prop('checked',true);
+	}
+	if (sink_onsite == 1) {
+		$('#e-sink_onsite').prop('checked',true);
 	}
 	if (delivery == 1) {
 		$('#e-delivery').prop('checked',true);
@@ -1314,7 +1355,6 @@ function pieceAdder() {
 	$('.mdb-select').material_select();
 }
 
-
 // Default Edge not working yet.
 function sinkAdder() {
 	$('.mdb-select').material_select('destroy');
@@ -1322,10 +1362,10 @@ function sinkAdder() {
 	var datastring = "action=get_pieces&iid=" + $iid;
 	$.ajax({
 		url: 'ajax.php',
+		async: false,
 		data: datastring,
 		cache: false,
 		type: 'POST',
-
 		success: function(data) {
 			$('.mdb-select').material_select('destroy');
 			$('#sink_part').append('<option value="0">Unassigned</option>');
@@ -1337,6 +1377,9 @@ function sinkAdder() {
 			console.log(data);
 		}
 	});
+	$(':checkbox','#add_sink').prop('checked', false);
+	$('#sink_location').val('');
+	$('#sink_holes_other').val('');
 }
 
 // Default Edge not working yet.
@@ -1372,10 +1415,20 @@ function add_sink(form) {
 	var $mount = $('#sink_mount').val();
 	var $holes = $('#sink_holes').val();
 	var $other = $('#sink_holes_other').val();
+	var $sink_location = $('#sink_location').val();
+
 	var $soap = 0;
+	var $sink_pickup = 0;
+	var $sink_onsite = 0;
 	var $delivery = 0;
 	if($( '#sink_soap' ).prop( "checked" ) == true) {
 		$soap = 1;
+	}
+	if($( '#sink_pickup' ).prop( "checked" ) == true) {
+		$sink_pickup = 1;
+	}
+	if($( '#sink_onsite' ).prop( "checked" ) == true) {
+		$sink_onsite = 1;
 	}
 	var $width = $('#cutout_width').val();
 	var $depth = $('#cutout_depth').val();
@@ -1433,9 +1486,12 @@ function add_sink(form) {
 					 '&sink_price=' + $sPrice +
 					 '&cutout_price=' + $cPrice +
 					 '&sink_cost=' + $sCost +
+					 '&sink_location=' + $sink_location +
+					 '&sink_pickup=' + $sink_pickup +
+					 '&sink_onsite=' + $sink_onsite +
 					 '&delivery=' + $delivery +
 					 '&sink_name=' + $sink_name;
-	//console.log(datastring);
+	console.log(datastring);
 	$.ajax({
 		url: 'ajax.php',
 		data: datastring,
@@ -1544,6 +1600,19 @@ function update_sink(form) {
 	var $mount = $('#e-sink_mount').val();
 	var $holes = $('#e-sink_holes').val();
 	var $other = $('#e-sink_holes_other').val();
+	var $sink_location = $('#e-sink_location').val();
+
+	var $sink_pickup = 0;
+	var $sink_onsite = 0;
+	var $delivery = 0;
+	if($( '#e-sink_pickup' ).prop( "checked" ) == true) {
+		$sink_pickup = 1;
+	}
+	if($( '#e-sink_onsite' ).prop( "checked" ) == true) {
+		$sink_onsite = 1;
+	}
+
+
 	var $soap = 0;
 	if($( '#e-sink_soap' ).prop( "checked" ) == true) {
 		$soap = 1;
@@ -1579,7 +1648,12 @@ function update_sink(form) {
 	if ($model < 1 || $model == null) {
 		$model = 0;
 	} 
-	//console.log($model);
+	if($( '#e-delivery' ).prop( "checked" ) == true) {
+		$delivery = 1;
+		$sCost = 0;
+		$sPrice = 0;
+		$cPrice = 0;
+	}
 	var datastring = 'action=update_sink' +
 					 '&sink_id=' + $sink_id +
 					 '&sink_iid=' + $iid +
@@ -1595,6 +1669,10 @@ function update_sink(form) {
 					 '&sink_price=' + $sPrice +
 					 '&cutout_price=' + $cPrice +
 					 '&sink_cost=' + $sCost +
+					 '&sink_location=' + $sink_location +
+					 '&sink_pickup=' + $sink_pickup +
+					 '&sink_onsite=' + $sink_onsite +
+					 '&delivery=' + $delivery +
 					 '&sink_name=' + $sink_name;
 	//console.log(datastring);
 	$.ajax({
@@ -2524,6 +2602,7 @@ function compilePjtEdit(data) {
 	} else {
 		$('#p-call_out_fee').prop("checked", false);
 	}
+	$('#p-install_team').val(obj.install_team);
 	$('#p-repair').val(obj.repair);
 	$('#p-rework').val(obj.rework);
 	$('#p-addition').val(obj.addition);
@@ -3365,5 +3444,8 @@ $(document).ready(function() {
 	
 	var headHeight = $('.navbar.navbar-expand-md').outerHeight() + 'px';
 	
-	$('#jobsOn').css('top',headHeight)
+	$('#jobsOn').css('top',headHeight);
+
+
+	
 });

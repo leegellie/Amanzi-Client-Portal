@@ -1548,6 +1548,10 @@ modalPull += '</div>';
 
 </head>
 <body style="margin: 0; padding: 0; overflow-x: hidden; background:none !important">
+	<?
+	// INCLUDE THE JS and CSS files needed on all ADMIN PAGES
+	include('header.php');
+	?>
 	<div class="loading hidden h-100 w-100 m-0 position-absolute" style="z-index: 3; touch-action: pan-x pan-y;background: #0000004a url(../images/icon.gif) no-repeat fixed center;"></div>
 
 	<div class="row">

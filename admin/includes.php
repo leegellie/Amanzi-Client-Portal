@@ -28,7 +28,7 @@
 <script src="../js/modules/dropdown.js"></script>
 <script src="../js/modules/enhanced-modals.js"></script>
 <script src="../js/modules/file-input.js"></script>
-<!--<script src="../js/modules/forms-free.js"></script>-->
+<script src="../js/modules/forms-free.js"></script>
 <script src="../js/modules/hammer.js"></script>
 <script src="../js/modules/jarallax-video.js"></script>
 <script src="../js/modules/jarallax.js"></script>

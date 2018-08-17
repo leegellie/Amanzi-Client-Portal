@@ -1,4 +1,4 @@
-<div class="modal fade" id="editPjt">
+i<div class="modal fade" id="editPjt">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -45,6 +45,7 @@
 						</div>
 
 						<hr>
+						<input type="hidden" id="p-install_team" name="install_team" value="0">
 						<input type="hidden" id="p-repair" name="repair" value="0">
 						<input type="hidden" id="p-rework" name="rework" value="0">
 						<input type="hidden" id="p-addition" name="addition" value="0">
@@ -229,9 +230,13 @@
 								<fieldset class="form-group col-12 col-md-4">
 									<div class="container">
 										<div class="row">
-											<label class="col-md-6" for="template-date">Template Date:</label>
-											<!--<input class="col-md-7 form-control" id="p-template_date" name="template_date" type="date">-->
-											<input class="col-md-6 form-control datepicker" type="text" id="p-template_date" name="template_date" autocomplete="off">
+											<label class="col-md-4" for="template-date">Template Date:</label>											
+											<div class="input-group mb-3 col-md-8">
+												<input class=" form-control datepicker" type="text" id="p-template_date" name="template_date" autocomplete="off">
+												<div class="input-group-append" onClick="$('#p-template_date').val('')" style="cursor: pointer; height:38px">
+													<span class="input-group-text text-danger"><i class="fas fa-times"></i></span>
+												</div>
+											</div>
 										</div>
 									</div>
 								</fieldset>
@@ -262,9 +267,13 @@
 								<fieldset class="form-group col-12 col-md-4">
 									<div class="container">
 										<div class="row">
-											<label class="col-md-6" for="install-date">Install Date:</label>
-											<input class="col-md-6 form-control datepicker1" type="text" id="p-install_date" name="install_date" autocomplete="off">
-											<!--<input class="col-md-7 form-control" id="p-install_date" name="install_date" type="date">-->
+											<label class="col-md-4" for="install-date">Install Date:</label>
+											<div class="input-group mb-3 col-md-8">
+												<input class=" form-control datepicker" type="text" id="p-install_date" name="install_date" autocomplete="off">
+												<div class="input-group-append" onClick="$('#p-install_date').val('')" style="cursor: pointer; height:38px">
+													<span class="input-group-text text-danger"><i class="fas fa-times"></i></span>
+												</div>
+											</div>
 										</div>
 									</div>
 								</fieldset>

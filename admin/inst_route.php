@@ -1876,8 +1876,9 @@ left:-140px!important; */
   <?PHP 
 	include ('modal_date_change.php');
 
-  // INCLUDE THE footer.php FILE. THIS FILE IS USED TO DISPLAYS EVERYTHING UNDER THE MAIN CONTENT AREA (IE. COPYRIGHT INFO)
-  ?>
+	// INCLUDE THE JS and CSS files needed on all ADMIN PAGES
+	include('header.php');
+	?>
 	<div class="loading hidden h-100 w-100 m-0 position-absolute" style="z-index: 3; touch-action: pan-x pan-y;background: #0000004a url(../images/icon.gif) no-repeat fixed center;"></div>
     <header>
         <!-- Sidebar navigation -->

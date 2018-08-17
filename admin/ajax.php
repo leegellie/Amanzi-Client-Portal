@@ -113,9 +113,7 @@ function get_holidays() {
 if ($action=="check_firsts") {
 	unset($_POST['action']);
 	$check_firsts = new project_action;
-	foreach( $check_firsts -> check_firsts($_POST) as $r ) {
-		echo $r;
-	}
+	echo $check_firsts -> check_firsts($_POST);
 }
 
 if ($action=="clear_installers") {
@@ -128,6 +126,12 @@ if ($action=="select_installers") {
 	unset($_POST['action']);
 	$select_installers = new project_action;
 	$select_installers -> select_installers($_POST);
+}
+
+if ($action=="change_limit") {
+	unset($_POST['action']);
+	$change_limit = new project_action;
+	$change_limit -> change_limit($_POST);
 }
 
 if ($action=="jobson_list") {
@@ -3126,7 +3130,7 @@ if ($action=="programming_list") {
 	<h3 class="text-primary">
 <?
 		if ($_SESSION['access_level'] == 1) {
-			echo $todayCount  . '<sup>SqFt</sup> of ' . $todayLimit . '<sup>SqFt</sup> - ';
+			echo $todayCount  . '<sup>SqFt</sup> of <input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="program_sqft" value="' . $todayLimit . '"><sup>SqFt</sup> - ';
 		}
 ?>
 		<?= $compPercent ?>% Complete for Today</h3>
@@ -3255,7 +3259,7 @@ if ($action=="saw_list") {
 	<h3 class="text-primary">
 <?
 		if ($_SESSION['access_level'] == 1) {
-			echo $todayCount  . '<sup>SqFt</sup> of ' . $todayLimit . '<sup>SqFt</sup> - ';
+			echo $todayCount  . '<sup>SqFt</sup> of <input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="saw_sqft" value="' . $todayLimit . '"><sup>SqFt</sup> - ';
 		}
 ?>
 		<?= $compPercent ?>% Complete for Today</h3>
@@ -3388,13 +3392,9 @@ if ($action=="saw_list") {
 					<div class="col-md-5 h5">
 						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
 <?
-						if ($results['job_status'] < 51) {
+						if ($results['job_status'] < 51 && $results['job_status'] > 31 && $results['job_status'] != 39 && $results['prog_ready'] != 0 && $results['mat_ready'] != 0) {
 ?>
 							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,51)"><i class="fas fa-arrow-square-right"></i> Start</div>
-<?
-						} elseif ($results['job_status'] == 51) {
-?>
-							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,52)"><i class="fas fa-check"></i> Complete</div>
 <?
 						}
 ?>
@@ -3488,7 +3488,7 @@ if ($action=="cnc_list") {
 	<h3 class="text-primary">
 <?
 		if ($_SESSION['access_level'] == 1) {
-			echo $todayCount  . '<sup>SqFt</sup> of ' . $todayLimit . '<sup>SqFt</sup> - ';
+			echo $todayCount  . '<sup>SqFt</sup> of <input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="cnc_sqft" value="' . $todayLimit . '"><sup>SqFt</sup> - ';
 		}
 ?>
 		<?= $compPercent ?>% Complete for Today</h3>
@@ -3606,7 +3606,7 @@ if ($action=="cnc_list") {
 					<div class="col-md-5 h5">
 						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
 <?
-						if ($results['job_status'] < 61) {
+						if ($results['job_status'] < 61 && $results['job_status'] > 51 && $results['job_status'] != 59) {
 ?>
 							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,61)"><i class="fas fa-arrow-square-right"></i> Start</div>
 <?
@@ -3702,7 +3702,7 @@ if ($action=="polishing_list") {
 	<h3 class="text-primary">
 <?
 		if ($_SESSION['access_level'] == 1) {
-			echo $todayCount  . '<sup>SqFt</sup> of ' . $todayLimit . '<sup>SqFt</sup> - ';
+			echo $todayCount  . '<sup>SqFt</sup> of <input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="polish_sqft" value="' . $todayLimit . '"><sup>SqFt</sup> - ';
 		}
 ?>
 		<?= $compPercent ?>% Complete for Today</h3>
@@ -3819,13 +3819,9 @@ if ($action=="polishing_list") {
 					<div class="col-md-5 h5">
 						<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="viewThisProject(<?= $results['id']; ?>,<?= $results['uid']; ?>)"><i class="fas fa-eye"></i> View</div>
 <?
-						if ($results['job_status'] < 71) {
+						if ($results['job_status'] < 71 && $results['job_status'] > 61 && $results['job_status'] != 69) {
 ?>
 							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,71)"><i class="fas fa-arrow-square-right"></i> Start</div>
-<?
-						} elseif ($results['job_status'] == 71) {
-?>
-							<div class="btn btn-sm btn-primary my-0" style="cursor:pointer" onClick="statusChange(<?= $_SESSION['id'] ?>,<?= $results['id'] ?>,72)"><i class="fas fa-check"></i> Complete</div>
 <?
 						}
 ?>
@@ -3929,7 +3925,7 @@ if ($action=="installs_list") {
 	<h3 class="text-primary">
 <?
 		if ($_SESSION['access_level'] == 1) {
-			echo $todayCount  . '<sup>SqFt</sup> of ' . $todayLimit . '<sup>SqFt</sup> - ';
+			echo $todayCount  . '<sup>SqFt</sup> of <input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="install_sqft" value="' . $todayLimit . '"><sup>SqFt</sup> - ';
 		}
 ?>
 		<?= $compPercent ?>% Complete for Today</h3>
@@ -4590,145 +4586,150 @@ if ($action=="precall_list") {
 }
 
 
-	function tempStatus($stat) {
-		if ($stat == 12) {
-			return " btn-muted text-dark";
-		} elseif ($stat == 13) {
-			return " lee-made-gradient";
-		} elseif ($stat == 14) {
-			return " btn-primary";
-		} elseif ($stat == 15) {
-			return " btn-success";
-		} elseif ($stat == 16 || $stat == 19) {
-			return " btn-danger";
-		} elseif ($stat == 17) {
-			return " btn-warning";
-		}
+function tempStatus($stat) {
+	if ($stat == 12) {
+		return " btn-info text-dark estapproved";
+	} elseif ($stat == 13) {
+		return " lee-made-gradient tempsched";
+	} elseif ($stat == 14) {
+		return " btn-primary tempinroute";
+	} elseif ($stat == 15) {
+		return " btn-success tempstart";
+	} elseif ($stat == 16) {
+		return " btn-danger tempincomp";
+	} elseif ($stat == 19) {
+		return " btn-danger temphold";
+	} elseif ($stat == 17) {
+		return " peach-gradient tempcomp";
 	}
-	function salesStatus($stat) {
-		if ($stat == 17) {
-			return " btn-muted text-dark";
-		} elseif ($stat == 21 || $stat == 24) {
-			return " btn-primary";
-		} elseif ($stat == 22) {
-			return " lee-made-gradient";
-		} elseif ($stat == 23) {
-			return " btn-success";
-		} elseif ($stat == 26) {
-			return " btn-danger";
-		} elseif ($stat == 25) {
-			return " btn-warning";
-		}
+}
+function salesStatus($stat) {
+	if ($stat == 17) {
+		return " btn-info tempcomp";
+	} elseif ($stat == 21) {
+		return " btn-primary quoteprep";
+	} elseif ($stat == 24) {
+		return " btn-info quotealter";
+	} elseif ($stat == 22) {
+		return " lee-made-gradient quotecheck"; // NEED ADD
+	} elseif ($stat == 23) {
+		return " btn-success quoted";
+	} elseif ($stat == 26) {
+		return " btn-danger quotereject";
+	} elseif ($stat == 25) {
+		return " peach-gradient quoteaccept";
 	}
-	function materialsStatus($stat) {
-		if ($stat < 33) {
-			return " btn-muted text-dark";
-		} elseif ($stat == 40) {
-			return " lee-made-gradient";
-		} elseif ($stat == 41) {
-			return " btn-primary";
-		} elseif ($stat == 42) {
-			return " btn-success";
-		} elseif ($stat == 49) {
-			return " btn-danger";
-		} elseif ($stat == 43) {
-			return " btn-warning";
-		}
+}
+function progStatus($stat) {
+	if ($stat == 25) {
+		return " btn-info prog";
+	} elseif ($stat == 30) {
+		return " btn-primary prog";
+	} elseif ($stat == 31) {
+		return " btn-success prog";
+	} elseif ($stat == 32) {
+		return " peach-gradient prog";
+	} elseif ($stat == 39) {
+		return " btn-danger prog";
 	}
-	function progStatus($stat) {
-		if ($stat == 30) {
-			return " btn-muted text-dark";
-		} elseif ($stat == 31) {
-			return " btn-success";
-		} elseif ($stat == 32) {
-			return " btn-primary";
-		} elseif ($stat == 39) {
-			return " btn-danger";
-		}
+}
+function materialsStatus($stat) {
+	if ($stat < 33) {
+		return " btn-muted text-dark matr";
+	} elseif ($stat == 40) {
+		return " lee-made-gradient matr";
+	} elseif ($stat == 41) {
+		return " btn-primary matr";
+	} elseif ($stat == 42) {
+		return " btn-success matr";
+	} elseif ($stat == 49) {
+		return " btn-danger matr";
+	} elseif ($stat == 43) {
+		return " btn-warning matr";
 	}
+}
+function matStatus($stat) {
+	if ($stat == 32) {
+		return " btn-info matr";
+	} elseif ($stat == 41) {
+		return " btn-success matr";
+	} elseif ($stat == 42) {
+		return " btn-primary matr";
+	} elseif ($stat == 49) {
+		return " btn-danger matr";
+	}
+}
+function sawStatus($stat) {
+	if ($stat == 44) {
+		return " btn-info saw";
+	} elseif ($stat == 50) {
+		return " btn-primary saw";
+	} elseif ($stat == 51) {
+		return " btn-success saw";
+	} elseif ($stat == 52) {
+		return " peach-gradient saw";
+	} elseif ($stat == 59) {
+		return " btn-danger saw";
+	}
+}
 
-	function matStatus($stat) {
-		if ($stat < 41) {
-			return " btn-muted text-dark";
-		} elseif ($stat == 42) {
-			return " btn-primary";
-		} elseif ($stat == 41) {
-			return " btn-success";
-		} elseif ($stat == 49) {
-			return " btn-danger";
-		}
+function cncStatus($stat) {
+	if ($stat == 53) {
+		return " btn-info cnc";
+	} elseif ($stat == 62) {
+		return " btn-primary cnc";
+	} elseif ($stat == 61) {
+		return " btn-success cnc";
+	} elseif ($stat == 69) {
+		return " btn-danger cnc";
 	}
-	function sawStatus($stat) {
-		if ($stat < 50) {
-			return " btn-muted text-dark";
-		} elseif ($stat == 50) {
-			return " btn-primary";
-		} elseif ($stat == 51) {
-			return " btn-success";
-		} elseif ($stat == 52) {
-			return " peach-gradient";
-		} elseif ($stat == 59) {
-			return " btn-danger";
-		}
-	}
+}
 
-	function cncStatus($stat) {
-		if ($stat < 61) {
-			return " btn-muted text-dark";
-		} elseif ($stat == 62) {
-			return " btn-primary";
-		} elseif ($stat == 61) {
-			return " btn-success";
-		} elseif ($stat == 69) {
-			return " btn-danger";
-		}
+function polStatus($stat) {
+	if ($stat < 71) {
+		return " btn-info polish";
+	} elseif ($stat == 72) {
+		return " btn-primary polish";
+	} elseif ($stat == 71) {
+		return " btn-success polish";
+	} elseif ($stat == 79) {
+		return " btn-danger polish";
 	}
+}
 
-	function polStatus($stat) {
-		if ($stat < 71) {
-			return " btn-muted text-dark";
-		} elseif ($stat == 72) {
-			return " btn-primary";
-		} elseif ($stat == 71) {
-			return " btn-success";
-		} elseif ($stat == 79) {
-			return " btn-danger";
-		}
+function fabStatus($stat) {
+	if ($stat < 44) {
+		return " btn-info";
+	} elseif ($stat == 50 || $stat == 60 ||$stat == 70) {
+		return " btn-primary";
+	} elseif ($stat == 51 || $stat == 61 ||$stat == 71) {
+		return " btn-success";
+	} elseif ($stat == 59 || $stat == 49 || $stat == 69 ||$stat == 79) {
+		return " btn-danger";
+	} elseif ($stat == 52 || $stat == 62 ||$stat == 72) {
+		return " btn-warning";
 	}
+}
 
-	function fabStatus($stat) {
-		if ($stat < 44) {
-			return " btn-muted text-dark";
-		} elseif ($stat == 50 || $stat == 60 ||$stat == 70) {
-			return " btn-primary";
-		} elseif ($stat == 51 || $stat == 61 ||$stat == 71) {
-			return " btn-success";
-		} elseif ($stat == 59 || $stat == 49 || $stat == 69 ||$stat == 79) {
-			return " btn-danger";
-		} elseif ($stat == 52 || $stat == 62 ||$stat == 72) {
-			return " btn-warning";
-		}
+function instStatus($stat) {
+	if ($stat == 73) {
+		return " btn-info polishdeliv";
+	} elseif ($stat == 80) {
+		return " btn-primary instsched";
+	} elseif ($stat == 81) {
+		return " btn-success insttruck";
+	} elseif ($stat == 82) {
+		return " btn-warning instinroute";
+	} elseif ($stat == 83) {
+		return " lee-made-gradient inststart";
+	} elseif ($stat == 84) {
+		return " btn-danger instincomp";
+	} elseif ($stat == 85) {
+		return " peach-gradient instcomp";
+	} elseif ($stat == 89) {
+		return " btn-danger insthold";
 	}
-
-	function instStatus($stat) {
-		if ($stat == 73) {
-			return " btn-muted text-dark";
-		} elseif ($stat == 80) {
-			return " btn-primary";
-		} elseif ($stat == 81) {
-			return " btn-muted text-primary";
-		} elseif ($stat == 82) {
-			return " lee-made-gradient";
-		} elseif ($stat == 83) {
-			return " btn-success";
-		} elseif ($stat == 84) {
-			return " btn-warning";
-		} elseif ($stat == 85) {
-			return " peach-gradient";
-		} elseif ($stat == 89) {
-			return " btn-danger";
-		}
-	}
+}
 
 if ($action=="timelines_list") {
 	$results = "";
@@ -4772,11 +4773,11 @@ if ($action=="timelines_list") {
 		$date = $date->format('m/d');
 		$compile =  '		<div class="row">';
 		$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-		$compile .= '			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>' . $t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+		$compile .= '			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-tmplate_date="' . $t['template_date'] . '" data-title="<b>' . $t['job_name']."</b><br>".$t['status_name'].'" data-content="';
 		if (htmlentities($t['job_notes']) != '') {
 			$compile .= '	Notes: ' . htmlentities($t['job_notes']);
 		}
-		$compile .= ' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '. $status .'" style="width:100%; cursor:pointer">' . $date . ' - ';
+		$compile .= ' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left job '. $status .'" style="width:100%; cursor:pointer">' . $date . ' - ';
 		if ($t['order_num'] > 0) {
 			$compile .= 'O-'.$t['order_num'].' - ';
 		} elseif ($t['quote_num'] > 0) {
@@ -4789,23 +4790,24 @@ if ($action=="timelines_list") {
 		$compile .=  '		</div>';
 		echo $compile;
 	}
+
 	function sales_button($t,$status) {
 		$compile =  '		<div class="row">';
 		$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-		$compile .= '			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+		$compile .= '			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-tmplate_date="' . $t['template_date'] . '" data-install_date="' . $t['install_date'] . '" data-title="<b>'.$t['job_name']."</b><br>".$t['status_name'].'" data-content="';
 		if (htmlentities($t['job_notes']) != '') {
 			$compile .= '	Notes: ' . htmlentities($t['job_notes']);
 		}
-		$compile .= ' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '. $status .'" style="width:100%; cursor:pointer">';
+		$compile .= ' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left job '. $status .'" style="width:100%; cursor:pointer">';
 		if ($t['order_num'] > 0) {
-			$compile .= 'O-'.$t['order_num'].' - ';
+			$compile .= 'O-' . $t['order_num'] . ' - ';
 		} elseif ($t['quote_num'] > 0) {
-			$compile .= 'q-'.$t['quote_num'].' - ';
+			$compile .= 'q-' . $t['quote_num'] . ' - ';
 		}
 		if ($t['job_sqft'] > 0) {
-			$compile .= ''.$t['job_sqft'].'<sup>sf</sup> - ';
+			$compile .= '' . $t['job_sqft'] . '<sup>sf</sup> - ';
 		}
-		$compile .= $t['job_name'].'</button>';
+		$compile .= $t['job_name'] . '</button>';
 		$compile .=  '		</div>';
 		echo $compile;
 	}
@@ -4814,11 +4816,11 @@ if ($action=="timelines_list") {
 		$date = $date->format('m/d');
 		$compile =  '		<div class="row">';
 		$link = "'/admin/projects.php?edit&pid=".$t['pid']."&uid=".$t['uid']."'";
-		$compile .= '			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-title="<b>' . $t['job_name']."</b><br>".$t['status_name'].'" data-content="';
+		$compile .= '			<button data-placement="top" data-trigger="hover" data-html="true" data-toggle="popover" data-install_date="' . $t['install_date'] . '" data-title="<b>' . $t['job_name']."</b><br>".$t['status_name'].'" data-content="';
 		if (htmlentities($t['job_notes']) != '') {
 			$compile .= '	Notes: ' . htmlentities($t['job_notes']);
 		}
-		$compile .= ' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left '. $status .'" style="width:100%; cursor:pointer">' . $date . ' - ';
+		$compile .= ' 	" onClick="window.open('.$link.')" class="btn btn-sm text-left job '. $status .'" style="width:100%; cursor:pointer">' . $date . ' - ';
 		if ($t['order_num'] > 0) {
 			$compile .= 'O-'.$t['order_num'].' - ';
 		} elseif ($t['quote_num'] > 0) {
@@ -4853,28 +4855,28 @@ if ($action=="timelines_list") {
 	echo 		'<div class="tab-content px-0">';
 	echo 		'<div class="tab-pane fade in show active" id="panel_overview" role="tabpanel">';
 	echo 		'	<div class="row d-flex">';
-	echo    	'	<div id="resultsTable1" class="col-md-3 striped">';
-	echo       	'		<h3>Templating</h3>';
-	echo 		'		<div class="row d-flex justify-content-between">';
+	echo    	'		<div id="resultsTable1" class="col-md-3 striped">';
+	echo       	'			<h3>Templating</h3>';
+	echo 		'			<div class="row">';
 	$thisBtn = "'.estapproved'";
-	echo 		'			<div class="btn btn-info px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Estimate Approved" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-file-check"></i></div>';
+	echo 		'				<div class="btn btn-info col btn-sm px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Estimate Approved" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-file-check"></i></div>';
 	$thisBtn = "'.tempsched'";
-	echo 		'			<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Scheduled" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-calendar-alt"></i></div>';
+	echo 		'				<div class="btn lee-made-gradient col btn-sm px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Scheduled" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-calendar-alt"></i></div>';
 	$thisBtn = "'.tempinroute'";
-	echo 		'			<div class="btn lee-made-gradient px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Templaters in Route" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-car"></i></div>';
+	echo 		'				<div class="btn btn-warning col btn-sm px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Templaters in Route" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-car"></i></div>';
 	$thisBtn = "'.tempstart'";
-	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Started" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-ruler"></i></div>';
+	echo 		'				<div class="btn btn-success col btn-sm px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Started" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-ruler"></i></div>';
 	$thisBtn = "'.tempincomp'";
-	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Incomplete" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-exclamation-triangle"></i></div>';
+	echo 		'				<div class="btn btn-danger col btn-sm px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Incomplete" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-exclamation-triangle"></i></div>';
 	$thisBtn = "'.temphold'";
-	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template on Hold" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.'); " style="cursor:pointer"><i class="fas fa-times-octagon"></i></div>';
-	echo 		'		</div><hr>';
+	echo 		'				<div class="btn btn-danger col btn-sm px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template on Hold" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.'); " style="cursor:pointer"><i class="fas fa-times-octagon"></i></div>';
+	echo 		'			</div><hr>';
 
 
 
 	foreach($template_pro as $t) {
 		$stat = $t['job_status'];
-		if ($stat > 11 && $stat < 20) {
+		if ($stat > 11 && $stat < 20 && $stat != 17) {
 			$status = tempStatus($stat);
 			template_button($t,$status);
 		}
@@ -4882,28 +4884,28 @@ if ($action=="timelines_list") {
 
 	echo    	'	</div>';
 
-
-
 	echo    	'	<div id="resultsTable2" class="col-sm-3 striped">';
 	echo        '		<h3>In Sales</h3>';
-	echo 		'		<div class="row d-flex justify-content-between">';
+	echo 		'		<div class="row">';
+	$thisBtn = "'.tempcomp'";
+	echo 		'			<div class="btn btn-info col btn-sm px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Template Complete" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-file-check"></i></div>';
 	$thisBtn = "'.quoteprep'";
-	echo 		'			<div class="btn btn-primary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Preparing Quote" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-pencil-alt"></i></div>';
+	echo 		'			<div class="btn btn-primary px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Preparing Quote" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-pencil-alt"></i></div>';
 	$thisBtn = "'.quotecheck'";
-	echo 		'			<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quote Check" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-check"></i></div>';
+	echo 		'			<div class="btn lee-made-gradient px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quote Check" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-check"></i></div>';
 	$thisBtn = "'.quoted'";
-	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quoted" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fab fa-telegram-plane"></i></div>';
+	echo 		'			<div class="btn btn-success px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quoted" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fab fa-telegram-plane"></i></div>';
 	$thisBtn = "'.quotealter'";
-	echo 		'			<div class="btn btn-info px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Altering Quote" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-ruler-combined"></i></div>';
+	echo 		'			<div class="btn btn-info px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Altering Quote" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-ruler-combined"></i></div>';
 	$thisBtn = "'.quotereject'";
-	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quote Rejected" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><span class="fa-layers fa-fw"><i class="fas fa-dollar-sign" data-fa-transform="grow-2"></i><span class="fa-layers-text fa-inverse" data-fa-transform="shrink-5 rotate--30" style="font-weight:900">Reject</span></span></div>';
+	echo 		'			<div class="btn btn-danger px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Quote Rejected" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><span class="fa-layers fa-fw"><i class="fas fa-times-octagon"></i></div>';
 	echo 		'		</div><hr>';
 
 
 
 	foreach($sales_pro as $t) {
 		$stat = $t['job_status'];
-		if ($stat > 16 && $stat < 30 && $stat != 26) {
+		if ($stat > 16 && $stat < 30 && $stat != 19 && $stat != 25 && $stat != 26) {
 			$status = salesStatus($stat);
 			sales_button($t,$status);
 		}
@@ -4912,17 +4914,17 @@ if ($action=="timelines_list") {
 
 	echo		'	<div id="resultsTable3" class="col-sm-3 striped">';
 	echo		'		<h3>Fabrication</h3>';
-	echo 		'		<div class="row d-flex justify-content-between">';
+	echo 		'		<div class="row">';
 	$thisBtn = "'.prog'";
-	echo 		'			<div class="btn btn-primary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Programming" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-file-check"></i></div>';
+	echo 		'			<div class="btn btn-primary px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Programming" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-file-check"></i></div>';
 	$thisBtn = "'.matr'";
-	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Materials Staging" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-container-storage"></i></div>';
+	echo 		'			<div class="btn btn-success px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Materials Staging" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-container-storage"></i></div>';
 	$thisBtn = "'.saw'";
-	echo 		'			<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Saw" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-sun"></i></div>';
+	echo 		'			<div class="btn btn-warning px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Saw" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-sun"></i></div>';
 	$thisBtn = "'.cnc'";
-	echo 		'			<div class="btn lee-made-gradient px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="CNC" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><span class="fa-layers fa-fw"><i class="fas fa-certificate"></i><span class="fa-layers-text fa-inverse" data-fa-transform="shrink-1 rotate--30" style="font-weight:900; color:black">CNC</span></span></div>';
+	echo 		'			<div class="btn lee-made-gradient px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="CNC" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><span class="fa-layers fa-fw"><i class="fas fa-certificate"></i><span class="fa-layers-text fa-inverse" data-fa-transform="shrink-1 rotate--30" style="font-weight:900; color:black">CNC</span></span></div>';
 	$thisBtn = "'.polish'";
-	echo 		'			<div class="btn btn-info px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Polishing" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-shield-alt"></i></div>';
+	echo 		'			<div class="btn btn-info px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Polishing" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-shield-alt"></i></div>';
 	echo 		'		</div><hr>';
 
 	echo		'		<div class="row">';
@@ -4933,7 +4935,7 @@ if ($action=="timelines_list") {
 
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
-		if (($stat > 29 && $stat < 40) || $stat == 25) {
+		if ((($stat > 29 && $stat < 40) || $stat == 25) && $stat != 32) {
 			$status = progStatus($stat);
 			production_button($t,$status);
 		}
@@ -4947,7 +4949,7 @@ if ($action=="timelines_list") {
 
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
-		if (($stat > 39 && $stat < 50) || $stat == 32 && $stat != 44) {
+		if ((($stat > 39 && $stat < 50) || $stat == 32) && $stat != 44) {
 			$status = matStatus($stat);
 			production_button($t,$status);
 		}
@@ -4960,22 +4962,20 @@ if ($action=="timelines_list") {
 	echo		'			<h4>Saw</h4>';
 	echo		'		</div>';
 
-
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
-		if (($stat > 49 && $stat < 60) || $stat == 44 && $stat != 53) {
+		if ((($stat > 49 && $stat < 60) || $stat == 44) && $stat != 53) {
 			$status = sawStatus($stat);
 			production_button($t,$status);
 		}
 	}
-
 
 	echo		'		<div class="row">';
 	echo		'			<h4>CNC</h4>';
 	echo		'		</div>';
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
-		if (($stat > 59 && $stat < 70) || $stat == 53 && $stat != 63) {
+		if ((($stat > 59 && $stat < 70) || $stat == 53) && $stat != 63) {
 			$status = cncStatus($stat);
 			production_button($t,$status);
 		}
@@ -4988,7 +4988,7 @@ if ($action=="timelines_list") {
 
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
-		if (($stat > 69 && $stat < 80) || $stat == 63 && $stat != 73) {
+		if ((($stat > 69 && $stat < 80) || $stat == 63) && $stat != 73) {
 			$status = polStatus($stat);
 			production_button($t,$status);
 		}
@@ -5001,26 +5001,26 @@ if ($action=="timelines_list") {
 
 	echo		'	<div id="resultsTable4" class="col-sm-3 striped">';
 	echo		'		<h3>Installs</h3>';
-	echo 		'		<div class="row d-flex justify-content-between">';
+	echo 		'		<div class="row">';
 	$thisBtn = "'.polishdeliv'";
-	echo 		'			<div class="btn btn-primary px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Ready to Install" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-container-storage"></i></div>';
+	echo 		'			<div class="btn btn-info px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Ready to Install" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classInfo.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-container-storage"></i></div>';
 	$thisBtn = "'.instsched'";
-	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Scheduled" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-calendar-alt"></i></div>';
+	echo 		'			<div class="btn btn-primary px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Scheduled" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classPrimary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="far fa-calendar-alt"></i></div>';
 	$thisBtn = "'.insttruck'";
-	echo 		'			<div class="btn btn-success px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install In Truck" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-truck-container"></i></div>';
+	echo 		'			<div class="btn btn-success px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install In Truck" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSuccess.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-truck-container"></i></div>';
 	$thisBtn = "'.instinroute'";
-	echo 		'			<div class="btn btn-warning px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install in Route" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-truck"></i></div>';
+	echo 		'			<div class="btn btn-warning px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install in Route" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classWarning.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-truck"></i></div>';
 	$thisBtn = "'.inststart'";
-	echo 		'			<div class="btn lee-made-gradient px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Started" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-chess-clock-alt"></i></div>';
+	echo 		'			<div class="btn lee-made-gradient px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Started" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classSecondary.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-chess-clock-alt"></i></div>';
 	$thisBtn = "'.instincomp'";
-	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Incomplete" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-exclamation-triangle"></i></div>';
+	echo 		'			<div class="btn btn-danger px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install Incomplete" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-exclamation-triangle"></i></div>';
 	$thisBtn = "'.insthold'";
-	echo 		'			<div class="btn btn-danger px-3" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install On Hold" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-times-octagon"></i></div>';
+	echo 		'			<div class="btn btn-danger px-3 col btn-sm" data-placement="top" data-trigger="hover" data-toggle="popover" data-content="Install On Hold" onClick="$('.$thisBtn.').toggle(); $(this).toggleClass('.$classDanger.'); $(this).toggleClass('.$classLight.');" style="cursor:pointer"><i class="fas fa-times-octagon"></i></div>';
 	echo 		'		</div><hr>';
 
 	foreach($installs_pro as $t) {
 		$stat = $t['job_status'];
-		if (($stat > 79 && $stat < 90) || $stat == 73) {
+		if ((($stat > 79 && $stat < 90) || $stat == 73) && $stat != 85) {
 			$status = instStatus($stat);
 			production_button($t,$status);
 		}
@@ -5029,7 +5029,6 @@ if ($action=="timelines_list") {
 	echo	'		</div>';
 	echo 	'	</div>';
 	echo 	'</div>';
-
 
 	echo	'<div class="tab-pane fade" id="panel_templates" role="tabpanel">';
 	echo 	'	<div class="row">';
@@ -5051,10 +5050,10 @@ if ($action=="timelines_list") {
 		}
 	}
 	echo 	'		</div>';
-	echo 	'		<div class="col-12 col-md-3"><h3>Templates Complete/Incomplete</h3>';
+	echo 	'		<div class="col-12 col-md-3"><h3>Template Progress</h3>';
 	foreach($template_pro as $t) {
 		$stat = $t['job_status'];
-		if ($stat > 13 && $stat == 17) {
+		if ($stat > 13 && $stat < 18) {
 			$status = tempStatus($stat);
 			template_button($t,$status);
 		}
@@ -5208,10 +5207,6 @@ if ($action=="timelines_list") {
 			$status = instStatus($stat);
 			production_button($t,$status);
 		}
-//		if ((time()+(60*60*24*4)) > strtotime($t['install_date']) && ($stat < 80 || $stat != 73)) {
-//			$status = instStatus($stat);
-//			production_button($t,$status);
-//		}
 	}
 	echo 	'		</div>';
 	echo 	'		<div class="col-12 col-md-3"><h3>Install Scheduled</h3>';
@@ -6732,6 +6727,7 @@ if ($action=="get_pjt_for_update") {
 
 	$array = $pjt_data->project_edit_data($_POST['id']);
 	foreach($array as $result) {
+		$return_string .= 'install_team::' . $result['install_team'] . '||';
 		$return_string .= 'repair::' . $result['repair'] . '||';
 		$return_string .= 'rework::' . $result['rework'] . '||';
 		$return_string .= 'no_charge::' . $result['no_charge'] . '||';
@@ -7537,7 +7533,7 @@ if ($action=="view_selected_pjt") {
 			}
 		}
 
-		if ($_SESSION['access_level'] == 1 && $_SESSION['id'] != 2224 && $_SESSION['id'] != 1283 && $_SESSION['id'] != 1451 && $_SESSION['id'] != 1469) {
+		if ($_SESSION['access_level'] == 1 && $_SESSION['id'] != 2224 && $_SESSION['id'] != 1283 && $_SESSION['id'] != 1451 && $_SESSION['id'] != 1452 && $_SESSION['id'] != 1469) {
 			$html .= '<select id="changeStatus" onChange="statusChange('. $_SESSION['id'] . ',' . $results['id'] .',this.value)" class="mdb-select float-right d-print-none col-12 col-md-4 col-lg-2 d-print-none">';
 			$html .= $statList;
 			$html .= '</select>';
@@ -7744,7 +7740,7 @@ if ($action=="view_selected_pjt") {
 		$html .= '		<div class="col-6 col-md-2 ' . $noCharge . ' ' . $noProg . ' text-right">Total: <br><b class="text-success">$' . $tax_print . '</b></div>'; 
 		$html .= '		<div id="repID" class="d-none">'. $results['acct_rep'] . '</div>'; 
 		
-		$html .= '		<div class="col-6 col-md-2 ' . $noCharge . ' ' . $noProg . ' text-right">Deposit Paid: <br><b class="text-primary">$' . $dp . '</b></div>'; 
+		$html .= '		<div class="col-6 col-md-2 ' . $noCharge . ' ' . $noProg . ' text-right">Paid: <br><b class="text-primary">$' . $dp . '</b></div>'; 
 		$html .= '		<div class="col-6 col-md-2 ' . $noCharge . ' ' . $noProg . ' text-right">Balance Due: <br><b class="text-danger">$' . $remaining_print . '</b></div>'; 
 		$html .= '	</div>'; 
 		$html .= '	<hr>'; 
@@ -7767,7 +7763,7 @@ if ($action=="view_selected_pjt") {
 		}
 		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Tax: <b>$' . $tax . ' @ ' . $tax_rate . '%</b></div>'; 
 		$html .= '		<div class="col-3 ' . $noCharge . ' col-md-2">Total: <b>$' . $tax_print . '</b></div>'; 
-		$html .= '		<div class="col-3 col-md-2">Deposit Paid: <b>$ ' . $dp . '</b></div>'; 
+		$html .= '		<div class="col-3 col-md-2">Paid: <b>$ ' . $dp . '</b></div>'; 
 		$html .= '		<div class="col-3 col-md-2">Balance Due: <b>$ ' . $remaining_print . '</b></div>'; 
 		$html .= '		<div class="col-3 col-md-2">PO #: <b>' . $results['po_num'] . '</b></div>'; 
 		$html .= '		<div class="col-3 col-md-2">Account Rep: <b>'. $results['repFname'] . ' ' . $results['repLname'] .'</b></div>'; 
@@ -8703,7 +8699,6 @@ if ($action=="view_selected_inst") {
 	$html .= '	</div>';
 	$html .= '</div>';
 
-
 	// ADD SINKS AND FAUCETS TO VIEW
 
 	$html .= '<div class="d-print-none w-100">';
@@ -8717,10 +8712,9 @@ if ($action=="view_selected_inst") {
 	$instS = new project_action;
 	foreach( $instS->sink_data_fetch($_POST) as $r ) {
 		$html .= '	<div class="row">';
-		$sink_pull = $r['sink_id'] . "," . $r['sink_iid'] . "," . $r['sink_part'] . "," . $r['sink_model'] . "," . $r['sink_mount'] . "," . $r['sink_provided'] . "," . $r['sink_holes'] . "," . $r['sink_soap'] . "," . $r['cutout_width'] . "," . $r['cutout_depth'] . "," . $r['sink_cost'] . "," . $r['sink_price'] . "," . $r['cutout_price'] . "," . $r['delivery'];
+		$sink_pull = $r['sink_id'] . "," . $r['sink_iid'] . "," . $r['sink_part'] . "," . $r['sink_model'] . "," . $r['sink_mount'] . "," . $r['sink_provided'] . "," . $r['sink_holes'] . "," . $r['sink_soap'] . "," . $r['cutout_width'] . "," . $r['cutout_depth'] . "," . $r['sink_cost'] . "," . $r['sink_price'] . "," . $r['cutout_price'] . ",'" . $r['sink_location'] . "'," . $r['sink_onsite'] . "," . $r['sink_pickup'] . "," . $r['delivery'];
 		$html .= '<div class="d-none" id="sho_' . $r['sink_id'] . '">' . $r['sink_holes_other'] . '</div>';
 		$html .= '		<h4 class="d-inline col-12 text-warning">';
-
 		if (($job_status < 32 || $job_status == 39) || $_SESSION['access_level'] == 1) {
 			$html .= '		<i class="fas fa-trash-alt text-danger h6" onClick="deleteSink(' . $r['sink_id'] . ')" style="cursor:pointer"></i> ';
 			$html .= '		<i class="fas fa-wrench text-primary h6" onClick="editSink(' . $sink_pull . ')" style="cursor:pointer"></i> ';

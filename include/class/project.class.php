@@ -51,20 +51,27 @@ class project_action {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$sql = '
-				 SELECT	COUNT(*) AS ' . $a['toCheck'] . '_count
-				   FROM projects
-				  WHERE install_date = "' . $a['install_date'] . '"
-				  AND ' . $a['toCheck'] . ' = 1 ';
-			if($a['pid'] > 0) {
-				$sql .= 'AND id <> ' . $a['pid'];
+				 SELECT	COUNT(*) AS counts 
+				   FROM projects 
+				  WHERE ' . $a['toCheck'] . ' = 1 ';
+			if (isset($a['install_date'])) {
+				$sql.= ' AND install_date = "' . $a['install_date'] . '" ';
 			}
-			$q = $conn->prepare($sql);
-			$q->execute();
-			return $row = $q->fetch(PDO::FETCH_ASSOC);
-		} catch(PDOException $e) {
-			echo "ERROR: " . $e->getMessage();
-		}
-	}
+			if (isset($a['template_date'])) {
+				$sql.= ' AND template_date = "' . $a['template_date'] . '" ';
+			}
+			if (isset($a['pid']) && $a['pid'] > 0) { 
+				$sql .= ' AND id != ' . $a['pid']; 
+			} 
+			$q = $conn->prepare($sql); 
+			$q->execute(); 
+			$row = $q->fetch(PDO::FETCH_ASSOC);
+			$count = $row['counts'];
+			return $count;
+		} catch(PDOException $e) { 
+			echo "ERROR: " . $e->getMessage(); 
+		} 
+	} 
 
 	public function prodLimit($a) {
 		try {
@@ -112,9 +119,9 @@ class project_action {
 					SUM(CASE WHEN c.cmt_comment LIKE "Project Status set to Polishing Delivered to Installers" THEN p.job_sqft END) AS polish_sqft_count,
 					SUM(CASE WHEN c.cmt_comment LIKE "Project Status set to Install Complete" THEN p.job_sqft END) AS install_sqft_count
 				FROM (
-					SELECT cmt_ref_id, cmt_comment, timestamp
+					SELECT cmt_ref_id, cmt_comment, SUBSTR( timestamp, 1, 10 ) AS timestamp
 					FROM comments 
-					GROUP BY cmt_ref_id, cmt_comment, SUBSTR( timestamp, 1, 10 )
+					GROUP BY cmt_ref_id, cmt_comment, timestamp
 					) c
 				LEFT JOIN projects p ON p.id = c.cmt_ref_id
 				WHERE c.timestamp LIKE "%' . $a . '%"
@@ -127,6 +134,20 @@ class project_action {
 		}
 	}
 
+	public function change_limit($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = "UPDATE prod_limits SET " . $a['toChange'] . " = " . $a['changeTo'] . " WHERE 1";
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+			return $this->_message;
+		}
+	}
+	
 
 	public function get_prog_limits($a) {
 		try {
@@ -1860,9 +1881,14 @@ class project_action {
 
 		$search_string = "SELECT projects.id, projects.job_name, projects.quote_num, projects.order_num, projects.uid, projects.job_status, projects.entry, status.name AS status FROM projects JOIN status ON projects.job_status = status.id WHERE projects." . $a['user_find'] . " LIKE :search AND projects.isActive = :isActive";
 
-
 		if ($a['mine'] > 0) {
-			$search_string .= " AND acct_rep = :acct_rep";
+			if ($a['mine'] == 985) {
+				$search_string .= " AND acct_rep = 14";
+			} elseif ($a['mine'] == 10) {
+				$search_string .= " AND acct_rep = 13";
+			} else {
+				$search_string .= " AND acct_rep = :acct_rep";
+			}
 		}
 
 		$search_string .= " ORDER BY projects.last_modified DESC LIMIT 40";
@@ -2576,8 +2602,15 @@ class project_action {
 			   	 AND projects.template_date >= CURDATE()
 				 AND projects.isActive = 1
 				 ";
-			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
+			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13 || $a == 985 || $a == 10)) {
 				$sql .= "AND acct_rep = " . $a;
+			}
+			if ($a == 10) {
+				$sql .= "AND acct_rep = 13 ";
+			}
+			
+			if ($a == 985) {
+				$sql .= "AND acct_rep = 14 ";
 			}
 			$sql .= "
 			ORDER BY projects.template_date ASC, 
@@ -2692,8 +2725,9 @@ class project_action {
 				JOIN status 
 				  ON status.id = projects.job_status 
 			   WHERE projects.install_date < '2200-01-01' 
+			     AND projects.install_date > '2018-06-01' 
 			     AND projects.job_status > 24
-				 AND projects.job_status < 84
+				 AND projects.job_status < 90
 				 AND projects.isActive = 1
 				 ";
 			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
@@ -2755,7 +2789,7 @@ class project_action {
 	public function project_data_fetch($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-
+// LEE UPATE ,	   ( SELECT payments_pid, SUM(payment_amount) as paid FROM payments WHERE payments_pid = projects.id GROUP BY pid) as paid
 		$q = $conn->prepare("
 			SELECT projects.*, 
 				   rep.fname AS repFname, 

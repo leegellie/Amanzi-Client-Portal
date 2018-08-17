@@ -397,6 +397,11 @@ $(document).ready(function() {
 
 	$("#pjtUpdate").click(function(e) {
 		e.preventDefault();
+		var template_date = '';
+		var install_date = '';
+		if ($('#p-pick_up').prop('checked') == true) {
+			$('#p-install_team').val(22);
+		}
 
 		$('.is-invalid').removeClass('is-invalid');
 		$("#pjtUpdate").fadeOut(300);
@@ -460,6 +465,7 @@ $(document).ready(function() {
 			$("#pjtUpdate").fadeIn(300);
 			return;
 		}
+		$breakFunction = 0;
 		if ($('input[name=install_date]').val() == '') {
 			$('input[name=install_date]').val('2200-01-01');
 		} else if ($('input[name=install_date]').val().match("^2018")) {} else {
@@ -469,7 +475,17 @@ $(document).ready(function() {
 			var date = ("0" + iDate.getDate()).slice(-2);
 			var dateString = year + '-' + month + '-' + date;
 			$('input[name=install_date]').val(dateString);
+			var install_date = dateString;
+			if ($('#p-am').prop('checked') == true ) {
+				var toCheck = 'am';
+				check_firsts(toCheck,install_date,$pid);
+			}
+			if($('#p-pm').prop('checked') == true) {
+				var toCheck = 'pm';
+				check_firsts(toCheck,install_date,$pid);
+			}
 		}
+
 		if ($('input[name=template_date]').val() == '') {
 			$('input[name=template_date]').val('2200-01-01');
 		} else if ($('input[name=template_date]').val().match("^2018")) {} else {
@@ -479,27 +495,15 @@ $(document).ready(function() {
 			var date = ("0" + tDate.getDate()).slice(-2);
 			var dateString = year + '-' + month + '-' + date;
 			$('input[name=template_date]').val(dateString);
-		}
-		$breakFunction = 0;
-		if ( $('#p-am').prop('checked') == true ) {
-			var toCheck = 'am';
-			var install_date = $('input[name=install_date]').val()
-			check_firsts(toCheck,install_date,$pid);
-		}
-		if($('#p-pm').prop('checked') == true) {
-			var toCheck = 'pm';
-			var install_date = $('input[name=install_date]').val()
-			check_firsts(toCheck,install_date,$pid);
-		}
-		if($('#p-temp_am').prop('checked') == true) {
-			var toCheck = 'temp_am';
-			var install_date = $('input[name=template_date]').val()
-			check_firsts(toCheck,install_date,$pid);
-		}
-		if($('#p-temp_pm').prop('checked') == true) {
-			var toCheck = 'temp_pm';
-			var install_date = $('input[name=template_date]').val()
-			check_firsts(toCheck,install_date,$pid);
+			var install_date = dateString;
+			if($('#p-temp_am').prop('checked') == true) {
+				var toCheck = 'temp_am';
+				check_firsts(toCheck,template_date,$pid);
+			}
+			if($('#p-temp_pm').prop('checked') == true) {
+				var toCheck = 'temp_pm';
+				check_firsts(toCheck,template_date,$pid);
+			}
 		}
 		if ($breakFunction == 1) {
 			$("#pjtUpdate").fadeIn(300);
