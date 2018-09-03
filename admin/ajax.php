@@ -1,4 +1,5 @@
 <?PHP
+
 if(!session_id()) session_start();
 date_default_timezone_set('US/Eastern');
 require_once (__DIR__ . '/../include/class/user.class.php');
