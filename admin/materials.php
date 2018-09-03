@@ -56,7 +56,7 @@ include('includes.php');
                 <div id="user-data" class="col-12">
                     <div id="user-block" class="content">
 						<div id="resultsTable1" class="row striped">
-							<ul class="nav nav-tabs nav-justified w-100 mb-3 d-print-none" id="myTab" role="tablist">
+							<ul class="nav nav-tabs nav-justified blue md-tabs w-100 mb-3 d-print-none" id="myTab" role="tablist">
 								<li class="nav-item">
 									<a class="nav-link active" id="toOrder-tab" data-toggle="tab" href="#toOrder" role="tab" aria-controls="toOrder" aria-selected="true"><h5>To Order/Schedule</h5></a>
 								</li>

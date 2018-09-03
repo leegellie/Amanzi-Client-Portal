@@ -365,7 +365,7 @@ POPUP EDIT BOX CODE START
 							<div class="col-12 col-md-6">
 								<div class="row">
 									<div class="col-12">
-										<input class="filled-in" id="e-isActive" name="isActive" type="checkbox" value="">
+										<input class="filled-in form-check-input" id="e-isActive" name="isActive" type="checkbox" value="">
 										<label for="e-isActive">User is active:</label>
 									</div>
 								</div>
@@ -396,7 +396,7 @@ POPUP EDIT BOX CODE START
 								<div class="row">
 									<div class="col-12">
 										<div style="display:inline-block" class="input-control switch margin10" data-role="input-control">
-											<input class="filled-in" style="display:inline-block" id="sameAdd" name="sameAdd" type="checkbox" value="sameAs" data-transform="input-control" data-transform-type="switch" onChange="autoFillBilling()" >
+											<input class="filled-in form-check-input" style="display:inline-block" id="sameAdd" name="sameAdd" type="checkbox" value="sameAs" data-transform="input-control" data-transform-type="switch" onChange="autoFillBilling()" >
 											<label for="sameAdd" style="display:inline-block">Same as User Account?</label>
 										</div>
 									</div>

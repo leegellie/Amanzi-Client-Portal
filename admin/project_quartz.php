@@ -43,7 +43,7 @@ $level9c = '';
 
 
 						<!-- Nav tabs -->
-						<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">
+						<ul class="nav nav-tabs md-tabs nav-justified mdb-color darken-3" role="tablist">
 							<li class="nav-item">
 								<a class="nav-link active" data-toggle="tab" href="#panel_retail" role="tab">Retail</a>
 							</li>

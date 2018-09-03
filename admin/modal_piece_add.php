@@ -283,7 +283,7 @@
 									<input type="text" class="form-control" id="sink_holes_other" name="sink_holes_other">
 								</fieldset>
 								<fieldset class="form-group col-2 d-inline">
-									<input type="checkbox" class="filled-in form-control" id="sink_soap" name="sink_soap" value="1">
+									<input type="checkbox" class="filled-in form-check-input form-control" id="sink_soap" name="sink_soap" value="1">
 									<label for="sink_soap"><u>Soap Hole</u>?</label>
 								</fieldset>
 								<fieldset class="form-group col-2 d-inline">
@@ -297,15 +297,15 @@
 								<div class="col-12">
 									<div class="row text-center border border-light">
 										<fieldset class="form-group col-4 d-inline">
-											<input type="checkbox" class="filled-in form-control" id="sink_onsite" name="sink_onsite" value="1">
+											<input type="checkbox" class="filled-in form-check-input form-control" id="sink_onsite" name="sink_onsite" value="1">
 											<label for="sink_onsite" class="w-100"><u>Stays on Location</u>?</label>
-											<input type="checkbox" class="filled-in form-control" id="sink_pickup" name="sink_pickup" value="1">
+											<input type="checkbox" class="filled-in form-check-input form-control" id="sink_pickup" name="sink_pickup" value="1">
 											<label for="sink_pickup" class="w-100"><u>Templater Pick-up</u>?</label>
 										</fieldset>
 										<fieldset class="form-group col-4 d-inline">
-											<input type="checkbox" class="filled-in form-control" id="sink_here" name="sink_here" value="1">
+											<input type="checkbox" class="filled-in form-check-input form-control" id="sink_here" name="sink_here" value="1">
 											<label for="sink_here" class="w-100"><u>Here</u>?</label>
-											<input type="checkbox" class="filled-in form-control" id="delivery" name="delivery" value="1">
+											<input type="checkbox" class="filled-in form-check-input form-control" id="delivery" name="delivery" value="1">
 											<label for="delivery" class="w-100"><u>Delivery Only</u></label>
 										</fieldset>
 										<fieldset class="form-group col-4 d-inline">

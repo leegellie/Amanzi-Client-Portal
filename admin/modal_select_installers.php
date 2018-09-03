@@ -15,11 +15,11 @@
 						<input type="hidden" id="si-sqft" name="sqft" value="">
 						<input type="hidden" id="si-install_date" name="install_date" value="">
 						<fieldset class="form-group col-md-4 text-left">
-							<input class="filled-in mr-4 installer" name="000" type="checkbox" data-id="22" data-installer_name="Customer Pick Up" id="Customer" value="0">
+							<input class="filled-in form-check-input mr-4 installer" name="000" type="checkbox" data-id="22" data-installer_name="Customer Pick Up" id="Customer" value="0">
 							<label for="Customer" class="text-left">Customer Pick Up</label>
 						</fieldset>
 						<fieldset class="form-group col-md-4 text-left">
-							<input class="filled-in mr-4 installer" name="999" type="checkbox" data-id="0" data-installer_name="Manager Install"  id="Manager" value="0">
+							<input class="filled-in form-check-input mr-4 installer" name="999" type="checkbox" data-id="0" data-installer_name="Manager Install"  id="Manager" value="0">
 							<label for="Manager" class="text-left">Manager Installed</label>
 						</fieldset>
 <?
@@ -28,7 +28,7 @@
 	foreach($salesReps->get_installers() as $results) {
 		$installer_string = "'" . $results['lname'] . ', ' . $results['fname'] . "'";
 		$uOptions .= '	<fieldset class="form-group col-md-4 text-left">';
-		$uOptions .= '		<input class="filled-in mr-4 installer" name="inst_id_' . $results['id'] . '" type="checkbox" data-id="' . $results['id'] . '" data-installer_name="' . $installer_string . '" data-installer_rate="' . $results['installer_rate'] . '" id="' . $results['installer_id'] . '" value="0">';
+		$uOptions .= '		<input class="filled-in form-check-input mr-4 installer" name="inst_id_' . $results['id'] . '" type="checkbox" data-id="' . $results['id'] . '" data-installer_name="' . $installer_string . '" data-installer_rate="' . $results['installer_rate'] . '" id="' . $results['installer_id'] . '" value="0">';
 		$uOptions .= '		<label for="' . $results['installer_id'] . '" class="text-left">' . $results['installer_id'] . ' - ' . $results['lname'] . ', ' . $results['fname'] . '</label>';
 		$uOptions .= '	</fieldset>';
 	}

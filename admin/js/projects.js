@@ -39,6 +39,45 @@ $job_name = '';
 $completed = 0;
 $breakFunction = 0;
 
+function change_job(pid) {
+	if (window.confirm('Making this job editable again will bring it back to "Preparing Quote" stage. Are you sure you want to edit?')) {
+		var datastring = "action=change_job&pid=" + pid;
+		console.log('Datastring: ' + datastring);
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				console.log('Success: ' + data);
+				viewThisProject($pid,$uid);
+				Command: toastr["success"]("Job had been made editable.")
+				toastr.options = {
+					"closeButton": true,
+					"debug": false,
+					"newestOnTop": false,
+					"progressBar": false,
+					"positionClass": "toast-bottom-right",
+					"preventDuplicates": false,
+					"onclick": null,
+					"showDuration": 300,
+					"hideDuration": 1000,
+					"timeOut": 5000,
+					"extendedTimeOut": 1000,
+					"showEasing": "swing",
+					"hideEasing": "linear",
+					"showMethod": "fadeIn",
+					"hideMethod": "fadeOut"
+				}
+			},
+			error: function(data) {
+				console.log('Fail: ' + data);
+			}
+		});
+	} else {
+		return;
+	}
+}
+
 function filterJobs($date) {
 	$('.job').hide();
 	var dataString = '[data-install_date="' + $date + '"]';
@@ -58,6 +97,28 @@ function change_limit($a) {
 		data: datastring,
 		success: function(data) {
 			console.log(data);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
+function check_repairs(install_date,pid) {
+	var datetype = '';
+	var datastring = 'action=check_repairs&install_date=' + install_date + '&pid=' + pid;
+	console.log(datastring);
+	$.ajax({
+		type: "POST",
+		async: false,
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log('Count: ' + data);
+			if (data > 4) {
+				alert("There are too repairs for this day.");
+				$breakFunction = 1;
+			}
 		},
 		error: function(data) {
 			console.log(data);
@@ -101,6 +162,23 @@ function check_firsts(toCheck,install_date,pid) {
 	});
 }
 
+
+function marNoTemp(pid) {
+	var datastring = "action=no_template&id=" + pid;
+	console.log(datastring);
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			viewThisProject($pid, $uid);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+	setTimeout(get_po_mats_needed, 5000);
+}
 
 function get_po_mats_needed() {
 	var datastring = "action=get_po_to_order";
@@ -292,6 +370,11 @@ function copyJob(pid) {
 	$('#city').val('');
 	$('#state').val('');
 	$('#zip').val('');
+
+	$('#job_lat').val('');
+	$('#job_long').val('');
+	$('#address_verif').val('');
+
 	$('#contact_name').val('');
 	$('#contact_number').val('');
 	$('#contact_email').val('');
@@ -338,6 +421,9 @@ function copyJob(pid) {
 			var alternate_number = res[17];
 			var alternate_email = res[18];
 			var install_team = res[19];
+			var job_lat = res[20];
+			var job_long = res[21];
+			var address_verif = res[22];
 			$('#uid').val(uid);
 			$('#user_info').val(uCompany + ' - ' + uFname + ' ' + uLname);
 			$('#acct_rep').val(acct_rep);
@@ -355,6 +441,9 @@ function copyJob(pid) {
 			$('#alternate_email').val(alternate_email);
 			$('#install_team').val(install_team);
 			$('#job_lookup_modal').modal('hide');
+			$('#job_lat').val(job_lat);
+			$('#job_long').val(job_long);
+			$('#address_verif').val(address_verif);
 			$('.mdb-select').material_select();
 		},
 		error: function(data) {
@@ -412,6 +501,7 @@ function job_lookup(order_num) {
 }
 
 function proj_type($type) {
+	$('input[name=install_date]').prop('readonly','readonly');
 	$('#repair').val(0);
 	$('#rework').val(0);
 	$('#addition').val(0);
@@ -429,6 +519,7 @@ function proj_type($type) {
 			$('#rework').val(1);
 		} else {
 			$('#repair').val(1);
+			$('input[name=install_date]').prop('readonly',false)
 		}
 		$('#no_charge').prop('checked', false);
 		$('#call_out_fee').prop('checked', true);
@@ -1236,6 +1327,7 @@ function deletePiece(sid) {
 }
 
 function editSink(sink_id, sink_iid, sink_part, sink_model, sink_mount, sink_provided, sink_holes, sink_soap, cutout_width, cutout_depth, sink_cost, sink_price, cutout_price, sink_location, sink_onsite, sink_pickup, delivery) {
+	console.log("Hello");
 	$('#e-sink_soap').prop('checked',false);
 	$('#e-delivery').prop('checked',false);
 	$('#e-sink_onsite').prop('checked',false);
@@ -2020,7 +2112,6 @@ function entered_anya(pid) {
 	});
 }
 
-
 function entry_reject(pid) {
 	var datastring = "action=entry_reject&pid=" + pid;
 	$.ajax({
@@ -2085,10 +2176,8 @@ function loadHolds() {
 			console.log(data);
 		}
 	});
-	setTimeout(loadHolds, 10000);
+	setTimeout(loadHolds, 5000);
 }
-
-
 
 function loadTemplates() {
 	var datastring = "action=templates_list"
@@ -2639,15 +2728,10 @@ function compilePjtEdit(data) {
 	if (obj.install_date != '2200-01-01') {
 		$('#p-install_date').val(obj.install_date);
 	}
-	if (obj.job_status > 24) {
-		$("#p-install_date").prop('readonly', false);
-	} else if ( obj.job_status > 20 && obj.job_status != 17  &&  obj.order_num.indexOf('o') < 1  &&  obj.order_num.indexOf('r') < 1  && obj.order_num.indexOf('O') < 1  &&  obj.order_num.indexOf('R') < 1 ) {
-		$('#p-install_date').prop('readonly', false);
-		//console.log('killed');
-	} else if (obj.job_sqft < 1 || ( obj.order_num.indexOf('o') > 0  ||  obj.order_num.indexOf('r') > 0  ||  obj.order_num.indexOf('O') > 0  ||  obj.order_num.indexOf('R') > 0 ) ) {
+	if (obj.job_status > 24 || obj.repair == 1) {
 		$("#p-install_date").prop('readonly', false);
 	} else {
-		$("#p-install_date").prop('readonly', true);
+		$("#p-install_date").prop('readonly', 'readonly');
 	}
 	$('#p-po_cost').val('$ ' + obj.po_cost);
 	$('#p-po_num').val(obj.po_num);
@@ -2753,9 +2837,12 @@ function pullEditPjt(pjtToEdit) {
 function upload_multi(){
 	var fileSelect_temp = $('#multi_upload_input_temp')[0];
 	var fileSelect_fab = $('#multi_upload_input_fab')[0];
+	var fileSelect_cut = $('#multi_upload_input_cut')[0];
 	var fileSelect_inst = $('#multi_upload_input_inst')[0];
+
 	var files_temp = fileSelect_temp.files;
 	var files_fab = fileSelect_fab.files;
+	var files_cut = fileSelect_cut.files;
 	var files_inst = fileSelect_inst.files;
 	var myFormData = new FormData();
 
@@ -2766,6 +2853,10 @@ function upload_multi(){
 	for (var i = 0; i < files_fab.length; i++){
 		var file = files_fab[i];
 		myFormData.append('multiFile_fab[]', file, file.name);  
+	}
+	for (var i = 0; i < files_cut.length; i++){
+		var file = files_cut[i];
+		myFormData.append('multiFile_cut[]', file, file.name);  
 	}
 	for (var i = 0; i < files_inst.length; i++){
 		var file = files_inst[i];
@@ -3323,7 +3414,7 @@ $(document).ready(function() {
 		if( $al > 1 ){
 			if ($('#p-install_date').prop('readonly') == true) {
 				$('#p-contact_name').focus();
-				alert("You can not yet enter an install date. Project must be templated and have SqFt calculated.");
+				alert("You can not enter an install date until the job is approved.");
 			}
 		}
 	});
@@ -3334,7 +3425,7 @@ $(document).ready(function() {
 		if( $al > 1 ){
 			if ($('#install_date').prop('readonly') == true) {
 				$('#contact_name').focus();
-				alert("You can not yet enter an install date. Project must be templated and have SqFt calculated.");
+				alert("You can not enter an install date until the job is approved.");
 			}
 		}
 	});

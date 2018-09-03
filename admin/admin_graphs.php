@@ -5,16 +5,13 @@
 					</div>
 					<hr>
 					<!-- Nav tabs -->
-					<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">
+					<ul class="nav nav-tabs md-tabs nav-justified mdb-color darken-3" role="tablist">
 						<li class="nav-item">
-							<a class="nav-link active" data-toggle="tab" href="#panel_admin" role="tab">Admin</a>
+							<a class="nav-link active" data-toggle="tab" href="#panel_sales" role="tab">Sales</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" data-toggle="tab" href="#panel_sales" role="tab">Sales</a>
-						</li>
-						<!-- <li class="nav-item">
 							<a class="nav-link" data-toggle="tab" href="#panel_production" role="tab">Production</a>
-						</li>-->
+						</li>
 						<li class="nav-item">
 							<a class="nav-link" data-toggle="tab" href="#panel_installs" role="tab">Installs</a>
 						</li>
@@ -22,16 +19,13 @@
 					<!-- Tab panels -->
 					<div class="tab-content px-0">
 						<!--Panel 1-->
-						<div class="tab-pane fade in show active" id="panel_admin" role="tabpanel">
-							<div class="row">
-								<h2>Entry</h2>
-								<canvas id="entryGraph" class="col-12"></canvas>
-							</div>
-						</div>
-						<div class="tab-pane fade" id="panel_sales" role="tabpanel">
-							<ul class="nav nav-tabs nav-justified mdb-color darken-5" role="tablist">
+						<div class="tab-pane fade in show active" id="panel_sales" role="tabpanel">
+							<ul class="nav nav-tabs md-tabs nav-justified mdb-color darken-5" role="tablist">
 								<li class="nav-item">
-									<a class="nav-link active" data-toggle="tab" href="#tab_income" role="tab">Value Installed</a>
+									<a class="nav-link active" data-toggle="tab" href="#tab_salesWeekly" role="tab">Weekly Sales</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#tab_income" role="tab">Value Installed</a>
 								</li>
 								<li class="nav-item">
 									<a class="nav-link" data-toggle="tab" href="#tab_entry" role="tab">Walk-Ins</a>
@@ -39,7 +33,13 @@
 							</ul>
 							<div class="tab-content px-0">
 								<!--Panel 1-->
-								<div class="tab-pane fade in show active" id="tab_income" role="tabpanel">
+								<div class="tab-pane fade in show active" id="tab_salesWeekly" role="tabpanel">
+									<div class="row">
+										<h2>Install Value</h2>
+										<canvas id="salesWeeklyGraph" class="col-12"></canvas>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="tab_income" role="tabpanel">
 									<div class="row">
 										<h2>Install Value</h2>
 										<canvas id="incomeGraph" class="col-12"></canvas>
@@ -53,11 +53,33 @@
 								</div>
 							</div>
 						</div>
-						<!-- <div class="tab-pane fade" id="panel_production" role="tabpanel">
-
-						</div>-->
+						<div class="tab-pane fade" id="panel_production" role="tabpanel">
+							<ul class="nav nav-tabs md-tabs nav-justified mdb-color darken-5" role="tablist">
+								<li class="nav-item">
+									<a class="nav-link active" data-toggle="tab" href="#tab_prodWeekly" role="tab">Weekly Production</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" data-toggle="tab" href="#tab_prodDaily" role="tab">Daily Production</a>
+								</li>
+							</ul>
+							<div class="tab-content px-0">
+								<!--Panel 1-->
+								<div class="tab-pane fade in show active" id="tab_prodWeekly" role="tabpanel">
+									<div class="row">
+										<h2>Weekly Production</h2>
+										<canvas id="prodWeeklyGraph" class="col-12"></canvas>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="tab_prodDaily" role="tabpanel">
+									<div class="row">
+										<h2>Daily Production</h2>
+										<canvas id="prodDailyGraph" class="col-12"></canvas>
+									</div>
+								</div>
+							</div>
+						</div>
 						<div class="tab-pane fade" id="panel_installs" role="tabpanel">
-							<ul class="nav nav-tabs nav-justified mdb-color darken-5" role="tablist">
+							<ul class="nav nav-tabs md-tabs nav-justified mdb-color darken-5" role="tablist">
 								<li class="nav-item">
 									<a class="nav-link active" data-toggle="tab" href="#tab_installs_week" role="tab">Installs/Week</a>
 								</li>
@@ -111,11 +133,6 @@ var $profit = [];
 var $profitPerc = [];
 var $walkins = [0,0];
 var $converted = [0,0];
-var $eDate = [];
-var $eAnya = [];
-var $rAnya = [];
-var $eAlex = [];
-var $rAlex = [];
 var $idate = [];
 var $sqft = [];
 var $jobs = [];
@@ -128,14 +145,62 @@ var $lateEndTot = [];
 var $lateEndLate = [];
 var $weekInstDate = [];
 var $weekInstSqft = [];
+var $salesWeeklyAmount = [];
+var $salesWeeklyProfPot = [];
+var $salesWeeklyProfit = [];
+var $salesWeeklyErrors = [];
+var $salesWeeklyWeek = [];
+var $prodWeeklyWeek = [];
+var $prodWeeklyProg = [];
+var $prodWeeklySaw = [];
+var $prodWeeklyCNC = [];
+var $prodWeeklyPolish = [];
+var $prodDailyDay = [];
+var $prodDailyProg = [];
+var $prodDailySaw = [];
+var $prodDailyCNC = [];
+var $prodDailyPolish = [];
 
 <? 
+	$get_prod_daily_stats = new project_action;
+	foreach($get_prod_daily_stats->get_prod_daily_stats() as $results) {
+		?>
+		$prodDailyDay.push ('<?= date("m/d/y", strtotime($results['day'])) ?>');
+		$prodDailyProg.push (<?= $results['prod_prog'] ?>);
+		$prodDailySaw.push (<?= $results['prod_saw'] ?>);
+		$prodDailyCNC.push (<?= $results['prod_cnc'] ?>);
+		$prodDailyPolish.push (<?= $results['prod_polish'] ?>);
+		<?
+	}
+
+	$get_prod_weekly_stats = new project_action;
+	foreach($get_prod_weekly_stats->get_prod_weekly_stats() as $results) {
+		?>
+		$prodWeeklyWeek.push ('<?= date("m/d/y", strtotime($results['week_beginning'])) ?>');
+		$prodWeeklyProg.push (<?= $results['prod_prog'] ?>);
+		$prodWeeklySaw.push (<?= $results['prod_saw'] ?>);
+		$prodWeeklyCNC.push (<?= $results['prod_cnc'] ?>);
+		$prodWeeklyPolish.push (<?= $results['prod_polish'] ?>);
+		<?
+	}
+
+	$get_sales_weekly_stats = new project_action;
+	foreach($get_sales_weekly_stats->get_sales_weekly_stats() as $results) {
+		$repCost = $results['sales_weekly_repair'] + $results['sales_weekly_rework'];
+		$potentialProfit = $results['sales_weekly_profit'] - $repCost;
+		?>
+		$salesWeeklyWeek.push ('<?= date("m/d/y", strtotime($results['week_beginning'])) ?>');
+		$salesWeeklyAmount.push (<?= $results['sales_weekly_ammount'] ?>);
+		$salesWeeklyProfPot.push (<?= $results['sales_weekly_profit'] ?>);
+		$salesWeeklyProfit.push (<?= $potentialProfit ?>);
+		$salesWeeklyErrors.push (<?= $repCost ?>);
+		<?
+	}
 
 	$get_inst_stats_week = new project_action;
 	foreach($get_inst_stats_week->get_inst_stats_week() as $results) {
 		?>
 		$weekInstDate.unshift ('<?= date("m/d/y", strtotime($results['statWeek'])) ?>');
-		
 		$weekInstSqft.unshift (<?= $results['sqft_count'] ?>);
 	console.log($weekInstDate,$weekInstSqft);
 		<?
@@ -158,17 +223,6 @@ var $weekInstSqft = [];
 		$lateEndDate.push ('<?= date("m/d/y", strtotime($results['startdate'])) ?>');
 		$lateEndTot.push (<?= $results['totalpjt'] ?>);
 		$lateEndLate.push (<?= $results['overpjt'] ?>);
-		<?
-	}
-
-	$get_entry_stats = new project_action;
-	foreach($get_entry_stats->get_entry_stats() as $results) {
-		?>
-		$eDate.push ('<?= date("m/d/y", strtotime($results['week_beginning'])) ?>');
-		$eAnya.push (<?= $results['anya_entered'] ?>);
-		$rAnya.push (<?= $results['anya_rejected'] ?>);
-		$eAlex.push (<?= $results['alex_entered'] ?>);
-		$rAlex.push (<?= $results['alex_rejected'] ?>);
 		<?
 	}
 
@@ -202,14 +256,164 @@ var $weekInstSqft = [];
 	}
 ?>
 
+var prodDailyGraph = document.getElementById("prodDailyGraph").getContext('2d');
+var prodWeeklyGraph = document.getElementById("prodWeeklyGraph").getContext('2d');
+var salesWeeklyGraph = document.getElementById("salesWeeklyGraph").getContext('2d');
 var installsWeekGraph = document.getElementById("installsWeekGraph").getContext('2d');
 var installsGraph = document.getElementById("installsGraph").getContext('2d');
 var instStartGraph = document.getElementById("instStartGraph").getContext('2d');
 var instEndGraph = document.getElementById("instEndGraph").getContext('2d');
-var ctx3 = document.getElementById("entryGraph").getContext('2d');
 var ctx2 = document.getElementById("walkinsGraph").getContext('2d');
 var ctx = document.getElementById("incomeGraph").getContext('2d');
 console.log('middle');
+
+
+var prodDailyChart = new Chart(prodDailyGraph, {
+    type: 'bar',
+    data: {
+        labels: $prodDailyDay.slice(-30),
+        datasets: [
+			{
+				label: 'Programming',
+				data: $prodDailyProg.slice(-30),
+				backgroundColor: 'rgba(40, 167, 69, 0.2)',
+				borderColor: 'rgba(40, 167, 69, 1)',
+				borderWidth: 1
+			},
+			{
+				label: 'Saw',
+				data: $prodDailySaw.slice(-30),
+				backgroundColor: 'rgba(0, 123, 255, 0.2)',
+				borderColor: 'rgba(0, 123, 255,1)',
+				borderWidth: 1
+			},
+			{
+				label: 'CNC',
+				data: $prodDailyCNC.slice(-30),
+				backgroundColor: 'rgba(255,193,7, 0.2)',
+				borderColor: 'rgba(255,193,7,1)',
+				borderWidth: 1
+			},
+			{
+				label: 'Polishing',
+				data: $prodDailyPolish.slice(-30),
+				backgroundColor: 'rgba(220, 53, 69, 0.2)',
+				borderColor: 'rgba(220, 53, 69,1)',
+				borderWidth: 1
+			}
+		]
+    },
+	options: {
+		scales: {
+			yAxes: [{
+				ticks: {
+					beginAtZero:false
+				}
+			}]
+		}
+	}
+});
+	
+var prodWeeklyChart = new Chart(prodWeeklyGraph, {
+    type: 'bar',
+    data: {
+        labels: $prodWeeklyWeek.slice(-12),
+        datasets: [
+			{
+				label: 'Programming',
+				data: $prodWeeklyProg.slice(-12),
+				backgroundColor: 'rgba(40, 167, 69, 0.2)',
+				borderColor: 'rgba(40, 167, 69, 1)',
+				borderWidth: 1
+			},
+			{
+				label: 'Saw',
+				data: $prodWeeklySaw.slice(-12),
+				backgroundColor: 'rgba(0, 123, 255, 0.2)',
+				borderColor: 'rgba(0, 123, 255,1)',
+				borderWidth: 1
+			},
+			{
+				label: 'CNC',
+				data: $prodWeeklyCNC.slice(-12),
+				backgroundColor: 'rgba(255,193,7, 0.2)',
+				borderColor: 'rgba(255,193,7,1)',
+				borderWidth: 1
+			},
+			{
+				label: 'Polishing',
+				data: $prodWeeklyPolish.slice(-12),
+				backgroundColor: 'rgba(220, 53, 69, 0.2)',
+				borderColor: 'rgba(220, 53, 69,1)',
+				borderWidth: 1
+			}
+		]
+    },
+	options: {
+		scales: {
+			yAxes: [{
+				ticks: {
+					beginAtZero:false
+				}
+			}]
+		}
+	}
+});
+	
+var salesWeeklyChart = new Chart(salesWeeklyGraph, {
+    type: 'line',
+    data: {
+        labels: $salesWeeklyWeek.slice(-18),
+        datasets: [
+			{
+				label: 'Weekly Sales',
+				data: $salesWeeklyAmount.slice(-18),
+				backgroundColor: 'rgba(40, 167, 69, 0.2)',
+				borderColor: 'rgba(40, 167, 69, 1)',
+				borderWidth: 1
+			},
+			{
+				label: 'Potential Profit',
+				data: $salesWeeklyProfPot.slice(-18),
+				backgroundColor: 'rgba(255, 193, 7, 0.2)',
+				borderColor: 'rgba(255, 193, 7, 1)',
+				borderWidth: 1
+			},
+			{
+				label: 'Actual Profit',
+				data: $salesWeeklyProfit.slice(-18),
+				backgroundColor: 'rgba(54, 162, 235, 0.2)',
+				borderColor: 'rgba(54, 162, 235, 1)',
+				borderWidth: 1
+			},
+			{
+				label: 'Errors Cost',
+				data: $salesWeeklyErrors.slice(-18),
+				backgroundColor: 'rgba(220, 53, 69, 0.2)',
+				borderColor: 'rgba(220, 53, 69, 1)',
+				borderWidth: 1
+			}
+		]
+    },
+    options: {
+    	scales: {
+    		yAxes: [{
+    			type: 'linear',
+    			position: 'left',
+                ticks: {
+                    beginAtZero:true
+				}
+			}]
+		},
+		elements: {
+			line: {
+				tension: 0
+			}
+		}
+	}
+});
+
+
 
 var instEndChart = new Chart(instEndGraph, {
     type: 'line',
@@ -377,51 +581,6 @@ var installsWeekChart = new Chart(installsWeekGraph, {
 	}
 });
 
-var entryChart = new Chart(ctx3, {
-    type: 'bar',
-    data: {
-        labels: $eDate.slice(-15),
-        datasets: [
-			{
-				label: 'Entered by Anya',
-				data: $eAnya.slice(-15),
-				backgroundColor: 'rgba(54, 162, 235, 0.2)',
-				borderColor: 'rgba(54, 162, 235, 1)',
-				borderWidth: 1
-			},
-			{
-				label: 'Rejected by Anya',
-				data: $rAnya.slice(-15),
-				backgroundColor: 'rgba(54, 162, 235, 0.2)',
-				borderColor: 'rgba(255,99,132,1)',
-				borderWidth: 1
-			},
-			{
-				label: 'Entered by Alex',
-				data: $eAlex.slice(-15),
-				backgroundColor: 'rgba(100, 255, 100, 0.2)',
-				borderColor: 'rgba(54, 162, 235, 1)',
-				borderWidth: 1
-			},
-			{
-				label: 'Rejected by Alex',
-				data: $rAlex.slice(-15),
-				backgroundColor: 'rgba(255, 99, 132, 0.2)',
-				borderColor: 'rgba(255,99,132,1)',
-				borderWidth: 1
-			}
-		]
-    },
-    options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
-                }
-            }]
-        }
-    }
-});
 
 var walkinChart = new Chart(ctx2, {
     type: 'bar',

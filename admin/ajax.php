@@ -10,7 +10,6 @@ USER AJAX REQUESTS
 $action = trim(htmlspecialchars($_POST['action']));
 $to_cost = 7.5;
 $marbgran_rate = 6;
-
 function sanitize($string, $force_lowercase = true, $anal = false) {
     $strip = array("~", "`", "!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "=", "+", "[", "{", "]",
                    "}", "\\", "|", ";", ":", "\"", "'", "&#8216;", "&#8217;", "&#8220;", "&#8221;", "&#8211;", "&#8212;",
@@ -95,7 +94,6 @@ function createDateRangeArray($strDateFrom,$strDateTo) {
     return $aryRange;
 }
 
-
 function get_holidays() {
     // arrays
     $days_array = array();
@@ -110,10 +108,38 @@ function get_holidays() {
     return $days_array;
 }
 
+if ($action=="change_job") {
+	$pid = $_POST['pid'];
+	unset($_POST['action']);
+	$change_job = new project_action;
+	echo $change_job -> change_job($pid);
+
+	$_POST = array();
+	$_POST['cmt_ref_id'] = $pid;
+	$_POST['cmt_type'] = 'pjt';
+	$_POST['cmt_user'] = $_SESSION['id'];
+	$_POST['cmt_comment'] = 'Project made editable. Now in "Preparing Quote" stage.';
+	$_POST['cmt_priority'] = 'log';
+	$log_project = new log_action;
+	$log = $log_project -> pjt_changes($_POST);
+}
+
+if ($action=="no_template") {
+	unset($_POST['action']);
+	$no_template = new project_action;
+	echo $no_template -> no_template($_POST['id']);
+}
+
 if ($action=="check_firsts") {
 	unset($_POST['action']);
 	$check_firsts = new project_action;
 	echo $check_firsts -> check_firsts($_POST);
+}
+
+if ($action=="check_repairs") {
+	unset($_POST['action']);
+	$check_repairs = new project_action;
+	echo $check_repairs -> check_repairs($_POST);
 }
 
 if ($action=="clear_installers") {
@@ -317,7 +343,29 @@ if ($action=="job_duplicate") {
 	$get_copy_job = new project_action;
 	$job = '';
 	foreach($get_copy_job -> get_copy_job($_POST) as $results) {
-		$job .= $results['uid'] . '::' . $results['uCompany'] . '::' . $results['uFname'] . '::' . $results['uLname'] . '::' . $results['job_name'] . '::' . $results['order_num'] . '::' . $results['acct_rep'] . '::' . $results['builder'] . '::' . $results['address_1'] . '::' . $results['address_2'] . '::' . $results['city'] . '::' . $results['state'] . '::' . $results['zip'] . '::' . $results['contact_name'] . '::' . $results['contact_number'] . '::' . $results['contact_email'] . '::' . $results['alternate_name'] . '::' . $results['alternate_number'] . '::' . $results['alternate_email'] . '::' . $results['install_team'];
+		$job .= $results['uid'] . '::' . 
+			$results['uCompany'] . '::' . 
+			$results['uFname'] . '::' . 
+			$results['uLname'] . '::' . 
+			$results['job_name'] . '::' . 
+			$results['order_num'] . '::' . 
+			$results['acct_rep'] . '::' . 
+			$results['builder'] . '::' . 
+			$results['address_1'] . '::' . 
+			$results['address_2'] . '::' . 
+			$results['city'] . '::' . 
+			$results['state'] . '::' . 
+			$results['zip'] . '::' . 
+			$results['contact_name'] . '::' . 
+			$results['contact_number'] . '::' . 
+			$results['contact_email'] . '::' . 
+			$results['alternate_name'] . '::' . 
+			$results['alternate_number'] . '::' . 
+			$results['alternate_email'] . '::' . 
+			$results['install_team'] . '::' . 
+			$results['job_lat'] . '::' . 
+			$results['job_long'] . '::' . 
+			$results['address_verif'];
 	}
 	echo $job;
 }
@@ -1897,7 +1945,7 @@ if ($action=="get_accessories_needed") {
 							$ud_status = new project_action;
 							$pid = $result['pid'];
 							$comment = "'All sinks to be ordered.'";
-							$ud_status->ud_status(40,$pid,1283,$comment);
+							//$ud_status->ud_status(40,$pid,1283,$comment);
 						}
 						$first_tab .= show_pjt_head($result);
 						$index1++;
@@ -1911,7 +1959,7 @@ if ($action=="get_accessories_needed") {
 							$ud_status = new project_action;
 							$pid = $result['pid'];
 							$comment = "'Status All accessories ordered.'";
-							$ud_status->ud_status(41,$pid,1283,$comment);
+							//$ud_status->ud_status(41,$pid,1283,$comment);
 						}
 						$second_tab .= show_pjt_head($result);
 						$index2++;    
@@ -1925,7 +1973,7 @@ if ($action=="get_accessories_needed") {
 							$ud_status = new project_action;
 							$pid = $result['pid'];
 							$comment = "'Status: All accessories On Hand.'";
-							$ud_status->ud_status(42,$pid,1283,$comment);
+							//$ud_status->ud_status(42,$pid,1283,$comment);
 						}
 						$third_tab .= show_pjt_head($result);
 						$index3++;    
@@ -2109,20 +2157,20 @@ if ($action=="get_pull_list") {
 	$second_tab = '';
 
 	//GET THE ACCESSORIES FOR TODAY AND TOMORROW
-	function get_sort_array($array, $label) {
-		$temp = array();
-		foreach($array as $tmp) {
-			$temp[$tmp[$label]][] = $tmp;
-		}
+	function get_sort_array($array, $label) { 
+		$temp = array(); 
+		foreach($array as $tmp) { 
+			$temp[$tmp[$label]][] = $tmp; 
+		} 
 		$result = array();
-		foreach($temp as $type => $labels) {
-			$result[] = array(
-				$label => $type,
-				'detail' => $labels
-			);
-		}
-		return $result;
-	}
+		foreach($temp as $type => $labels) { 
+			$result[] = array( 
+				$label => $type, 
+				'detail' => $labels 
+			); 
+		} 
+		return $result; 
+	} 
 	$sink_array = get_sort_array($search->get_accessories_ttday(), 'install_date');
 	foreach($sink_array as $results) {
 		$dateDay = $results['install_date'];
@@ -2157,19 +2205,33 @@ if ($action=="get_pull_list") {
 		$first_tab .= '<hr>';
 		$first_tab .= '<h4>Sinks</h4>';
 		$sinks_array = get_sort_array($results['detail'], 'sink_name');
+		
+		$jobNums = array();
 		foreach($sinks_array as $result_sink) {
-			if($result_sink['sink_name'] != '' || $result_sink['sink_name'] != null) {
+			if ($result_sink['sink_name'] != '' || $result_sink['sink_name'] != null) {
 				$first_tab .= '	<hr>';
 				$first_tab .= '	<div class="container d-md-flex">';
 				$first_tab .= '  <div class="col-11 pl-2 text-primary"><strong><span class="text-success">' .count($result_sink['detail']) . ' X </span></strong>' . $result_sink['detail'][0]['sink_name'] . '</div>';
 				$sink_ids = '';
 				$order_nums = '';
 				foreach($result_sink['detail'] as $res) {
-					$sink_ids .= $res['sink_id'].',  ';
-					$order_nums .= '<a onClick="viewThisProject(' . $res['id'] . ',' . $res['uid'] . ')">' . $res['order_num'] . '</a>, ';
+					$sink_ids .= $res['sink_id'].',';
+					if (!in_array(strval($res['order_num']), $jobNums)) {
+						$order_nums .= '<a onClick="viewThisProject(' . $res['id'] . ',' . $res['uid'] . ')">' . $res['order_num'];
+						if ( $res['sink_provided'] == 1 ) {
+							if ( isset($res['sink_location'])) {
+								$order_nums .= ' - <span class="text-muted">' . $res['sink_location'] . '</span>';
+							}
+							if ( $res['assigned_sink'] > '') {
+								$order_nums .= ' - <span class="text-muted">' . $res['assigned_sink'] . '</span>';
+							}
+						}
+						$order_nums .= '</a>, ';
+					}
+					array_push($jobNums, strval($res['order_num']));
 				}
 				$order_num = trim($order_nums, ', ');
-				$first_tab .= '  <div class="col-1 pl-2"><div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')"><i class="fas fa-truck-container"></i></div></div>';
+				$first_tab .= '  <div class="col-1 pl-2"><div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\'' . $results['install_date'] . '\',\'' . $sink_ids . '\')"><i class="fas fa-truck-container"></i></div></div>';
 				$first_tab .= ' </div>';
 				$first_tab .= '  <div class="col-11 pl-2 text-secondary"><strong><span class="text-success">  Jobs:  </span></strong>' . $order_num . '</div>';
 			}
@@ -2178,6 +2240,7 @@ if ($action=="get_pull_list") {
 		$first_tab .= '<hr>';
 		$first_tab .= '<h4>Accessories</h4>';
 		$accs_array = get_sort_array($results['detail'], 'faucet_name');
+		$jobNums = array();
 		foreach($accs_array as $result_sink) {
 			if($result_sink['faucet_name'] != '' || $result_sink['faucet_name'] != null) {
 				$first_tab .= '	<hr>';
@@ -2186,11 +2249,14 @@ if ($action=="get_pull_list") {
 				$sink_ids = '';
 				$order_nums = '';
 				foreach($result_sink['detail'] as $res) {
-					$sink_ids .= $res['sink_id'].',  ';
-					$order_nums .= '<a onClick="viewThisProject(' . $res['id'] . ',' . $res['uid'] . ')">' . $res['order_num'] . '</a>, ';
+					if (!in_array(strval($res['order_num']), $jobNums)) {
+						$sink_ids .= $res['sink_id'].',';
+						$order_nums .= '<a onClick="viewThisProject(' . $res['id'] . ',' . $res['uid'] . ')">' . $res['order_num'] . '</a>, ';
+					}
+					array_push($jobNums, strval($res['order_num']));
 				}
 				$order_num = trim($order_nums, ', ');
-				$first_tab .= '  <div class="col-1 pl-2"><div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')"><i class="fas fa-truck-container"></i></div></div>';
+				$first_tab .= '  <div class="col-1 pl-2"><div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\'' . $results['install_date'] . '\',\'' . $sink_ids . '\')"><i class="fas fa-truck-container"></i></div></div>';
 				$first_tab .= ' </div>';
 				$first_tab .= '  <div class="col-11 pl-2 text-secondary"><strong><span class="text-success">  Jobs:  </span></strong>' . $order_num . '</div>';
 			}
@@ -2221,10 +2287,10 @@ if ($action=="get_pull_list") {
 					$second_tab .= '     </div>';
 					$sink_ids = '';
 					foreach($result_sink['detail'] as $res){
-						$sink_ids .= $res['sink_id'].',';
+						$sink_ids .= $res['sink_id'] . ',';
 					}
 					$second_tab .= '     <div class="col-1 pl-4">';
-					$second_tab .= '       <div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')" style="cursor:pointer"><i class="fas fa-truck-container"></i></div>';
+					$second_tab .= '       <div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date']  . '\',\'' . $sink_ids . '\')" style="cursor:pointer"><i class="fas fa-truck-container"></i></div>';
 					$second_tab .= '     </div>';
 					$second_tab .= '   </div>';  
 				}
@@ -2242,7 +2308,7 @@ if ($action=="get_pull_list") {
 						$sink_ids .= $res['sink_id'].',';
 					}
 					$second_tab .= '     <div class="col-1 pl-4">';
-					$second_tab .= '       <div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\''. $results['install_date'] .'\',\''.$sink_ids.'\')"><i class="fas fa-truck-container" style="cursor:pointer"></i></div>';
+					$second_tab .= '       <div class="btn btn-sm btn-success d-print-none" data-toggle="tooltip" data-placement="top" title="Delivered" onclick="set_pullstatus(\'' . $results['install_date'] . '\',\'' . $sink_ids . '\')"><i class="fas fa-truck-container" style="cursor:pointer"></i></div>';
 					$second_tab .= '     </div>';
 					$second_tab .= '   </div>';  
 				}
@@ -2264,25 +2330,44 @@ if ($action=="get_po_to_order") {
 		$jobs_list = '';
 		foreach($jobs_array as $r) {
 			$jobs_list .= $r['pid'] . ',';
-			$string_jobs .= '<i class="far fa-hand-holding-box text-warning" title="Mark Materials as Here" style="cursor:pointer" onclick="matOnHand(' . $r['iid'] . ',\'' . $r['install_name'] . '\')"></i> <i class="fas fa-ban text-danger" style="cursor:pointer" title="Place Materials on Hold" onclick="mat_hold_modal(' . $_SESSION['id'] . ',' . $r['iid'] . ',' . $r['pid'] . ')"></i> <a class="';
+			$string_jobs .= '<i class="pl-5 pr-1 far fa-calendar-alt text-success" onClick="matOrderedBulk(\'' . $r['iid'] . '\',\'' . $results['color'] . '\')"></i><i class="far fa-hand-holding-box text-warning" title="Mark Materials as Here" style="cursor:pointer" onclick="matOnHand(' . $r['iid'] . ',\'' . addslashes($r['install_name']) . '\')"></i> <i class="fas fa-ban text-danger" style="cursor:pointer" title="Place Materials on Hold" onclick="mat_hold_modal(' . $_SESSION['id'] . ',' . $r['iid'] . ',' . $r['pid'] . ')"></i> - <a class="';
 			if ($r['profit'] < 0 && $r['job_status'] < 25) {
 				$string_jobs .= 'text-danger';
 			} else {
 				$string_jobs .= 'text-primary';
 			}
-			$string_jobs .= '" style="cursor:pointer" onclick="viewThisProject('.$r['pid'].','.$r['uid'].')"><u>Job: ' . $r['order_num'] . '</u>';
+			$slabs_count = $r['slab_ct'];
+			$string_jobs .= '" style="cursor:pointer" onclick="viewThisProject('.$r['pid'].','.$r['uid'].')"><u>' . $slabs_count . ' X ' . $r['order_num'] . '</u>';
+			$iDate = new DateTime($r['install_date']);
+			$iDate = $iDate->format('m/d');
+			$tDate = new DateTime($r['template_date']);
+			$tDate = $tDate->format('m/d');
+
+			if ($r['install_date'] != "2200-01-01") {
+				$string_jobs .= '<span class="text-success"> - I: ' . $iDate . '</span>';
+			} else if ($r['template_date'] != "2200-01-01") {
+				$string_jobs .= '<span class="text-warning"> - T:' . $tDate . '</span>';
+			} else {
+				$string_jobs .= '<span class="text-muted"> - No date set.</span>';
+			}
 			if ($r['lot'] > '') { 
 				$string_jobs .= '<span class="text-muted"> - Lot: ' . $r['lot'] . '</span>';
 			}
-			$string_jobs .= '</a>, ';
+			$string_jobs .= '</a><br>';
 		}
 		$jobs_list = rtrim($jobs_list, ',');
 		$first_tab .= '<div class="col-12">';
 		$first_tab .= '<div class="btn btn-primary float-right" sty;e="cursor:pointer" onClick="matOnHandBulk(\'' . $jobs_list . '\',\'' . $results['color'] . '\')"><i class="far fa-hand-holding-box"></i></div>';
 		$first_tab .= '<div class="btn btn-success float-right" sty;e="cursor:pointer" onClick="matOrderedBulk(\'' . $jobs_list . '\',\'' . $results['color'] . '\')"><i class="far fa-calendar-alt"></i></div>';
-		$first_tab .= '<p class="text-primary">' . $results['slab_count'] . ' <span class="text-danger"> X </span> <span class="text-success">' . $results['color'] . '</span></div>';
+		$first_tab .= '<p class="text-primary h4">' . $results['slab_count'] . ' <span class="text-danger"> X </span> <span class="text-success">' . $results['color'];
+		if ($results['matType'] == 'quartz') {
+			foreach($search->get_vendor($results['color']) as $r) {
+				$first_tab .= ' - ' . $r['matBrand'];
+			}
+		}
+		$first_tab .= '</span></div>';
 		$first_tab .= '<div class="col-12">';
-		$string_jobs = rtrim($string_jobs, ', ');
+		//$string_jobs = rtrim($string_jobs, '<br>');
 		$first_tab .= $string_jobs;
 		$first_tab .= '</div>';
 		
@@ -2296,9 +2381,11 @@ if ($action=="get_po_to_order") {
 
 
 if($action=="update_pullstatus") {
-  unset($_POST['action']);
-  $run = new materials_action;
-	$run -> update_pullstatus(trim($_POST['ids'],','));
+	unset($_POST['action']);
+	$run = new materials_action;
+	$a = trim($_POST['ids'],', ');
+	$a = trim($a,',');
+	echo $run -> update_pullstatus($a);
 }
 
 // LOSS APPROVAL.
@@ -3055,7 +3142,7 @@ if ($action=="hold_list") {
 		echo '<hr>';
 		echo '<div class="w-100 btn btn-sm btn-danger">';
 			echo '<div class="row">';
-				echo '<div class="col-md-2 h6"><?= $date ?></div>';
+				echo '<div class="col-md-2 h6">' . $date . '</div>';
 				echo '<div class="col-md-7 h6 text-left">';
 					if ($results['order_num'] == '') {
 						echo 'Q-' . $results['quote_num'] . ' - ';	
@@ -3122,6 +3209,9 @@ if ($action=="programming_list") {
 
 	$todayLeft = $todayLimit - $todayCount;
 	$compPercent = number_format((100/$todayLimit)*$todayCount, 2, '.', ',');
+	if ($todayCount < 1) {
+		$todayCount = 0;
+	}
 ?>	
 <div id="progressStatus" class="w-100">
 	<div class="progress w-100">
@@ -3129,8 +3219,14 @@ if ($action=="programming_list") {
 	</div>
 	<h3 class="text-primary">
 <?
-		if ($_SESSION['access_level'] == 1) {
-			echo $todayCount  . '<sup>SqFt</sup> of <input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="program_sqft" value="' . $todayLimit . '"><sup>SqFt</sup> - ';
+		if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 2224) {
+			echo $todayCount  . '<sup>SqFt</sup> of ';
+			if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
+				echo '<input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="program_sqft" value="' . $todayLimit . '">';
+			} else {
+				echo $todayLimit;
+			}
+			echo '<sup>SqFt</sup> - ';
 		}
 ?>
 		<?= $compPercent ?>% Complete for Today</h3>
@@ -3251,6 +3347,9 @@ if ($action=="saw_list") {
 
 	$todayLeft = $todayLimit - $todayCount;
 	$compPercent = number_format((100/$todayLimit)*$todayCount, 2, '.', ',');
+	if ($todayCount < 1) {
+		$todayCount = 0;
+	}
 ?>	
 <div id="progressStatus" class="w-100">
 	<div class="progress w-100">
@@ -3258,8 +3357,14 @@ if ($action=="saw_list") {
 	</div>
 	<h3 class="text-primary">
 <?
-		if ($_SESSION['access_level'] == 1) {
-			echo $todayCount  . '<sup>SqFt</sup> of <input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="saw_sqft" value="' . $todayLimit . '"><sup>SqFt</sup> - ';
+		if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 2224) {
+			echo $todayCount  . '<sup>SqFt</sup> of ';
+			if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
+				echo '<input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="saw_sqft" value="' . $todayLimit . '">';
+			} else {
+				echo $todayLimit;
+			}
+			echo '<sup>SqFt</sup> - ';
 		}
 ?>
 		<?= $compPercent ?>% Complete for Today</h3>
@@ -3480,6 +3585,9 @@ if ($action=="cnc_list") {
 
 	$todayLeft = $todayLimit - $todayCount;
 	$compPercent = number_format((100/$todayLimit)*$todayCount, 2, '.', ',');
+	if ($todayCount < 1) {
+		$todayCount = 0;
+	}
 ?>	
 <div id="progressStatus" class="w-100">
 	<div class="progress w-100">
@@ -3487,8 +3595,14 @@ if ($action=="cnc_list") {
 	</div>
 	<h3 class="text-primary">
 <?
-		if ($_SESSION['access_level'] == 1) {
-			echo $todayCount  . '<sup>SqFt</sup> of <input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="cnc_sqft" value="' . $todayLimit . '"><sup>SqFt</sup> - ';
+		if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 2224) {
+			echo $todayCount  . '<sup>SqFt</sup> of ';
+			if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
+				echo '<input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="cnc_sqft" value="' . $todayLimit . '">';
+			} else {
+				echo $todayLimit;
+			}
+			echo '<sup>SqFt</sup> - ';
 		}
 ?>
 		<?= $compPercent ?>% Complete for Today</h3>
@@ -3694,6 +3808,9 @@ if ($action=="polishing_list") {
 
 	$todayLeft = $todayLimit - $todayCount;
 	$compPercent = number_format((100/$todayLimit)*$todayCount, 2, '.', ',');
+	if ($todayCount < 1) {
+		$todayCount = 0;
+	}
 ?>	
 <div id="progressStatus" class="w-100">
 	<div class="progress w-100">
@@ -3701,8 +3818,14 @@ if ($action=="polishing_list") {
 	</div>
 	<h3 class="text-primary">
 <?
-		if ($_SESSION['access_level'] == 1) {
-			echo $todayCount  . '<sup>SqFt</sup> of <input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="polish_sqft" value="' . $todayLimit . '"><sup>SqFt</sup> - ';
+		if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 2224) {
+			echo $todayCount  . '<sup>SqFt</sup> of ';
+			if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
+				echo '<input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="polish_sqft" value="' . $todayLimit . '">';
+			} else {
+				echo $todayLimit;
+			}
+			echo '<sup>SqFt</sup> - ';
 		}
 ?>
 		<?= $compPercent ?>% Complete for Today</h3>
@@ -3911,11 +4034,22 @@ if ($action=="installs_list") {
 	$todayLimits = $get_limits->prodLimits();
 	$counts = $get_limits->get_limit_achive($today);
 
+	$todayQuota = $todayLimits['install_sqft'];
 	$todayLimit = $get_limits->get_inst_totals($today);
 	$todayCount = $counts['install_sqft_count'];
 
 	$todayLeft = $todayLimit - $todayCount;
-	$compPercent = number_format((100/$todayLimit)*$todayCount, 2, '.', ',');
+	if ($todayLimit > 0) {
+		$compPercent = number_format((100/$todayLimit)*$todayCount, 2, '.', ',');
+	} else {
+		$compPercent = 0;
+	}
+	if ($todayCount < 1) {
+		$todayCount = 0;
+	}
+	if ($todayLimit < 1) {
+		$todayLimit = 0;
+	}
 
 ?>	
 <div id="progressStatus" class="w-100">
@@ -3924,11 +4058,18 @@ if ($action=="installs_list") {
 	</div>
 	<h3 class="text-primary">
 <?
-		if ($_SESSION['access_level'] == 1) {
-			echo $todayCount  . '<sup>SqFt</sup> of <input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="install_sqft" value="' . $todayLimit . '"><sup>SqFt</sup> - ';
+		if ($_SESSION['access_level'] == 1 || $_SESSION['id'] == 2224) {
+			echo $todayCount  . '<sup>SqFt</sup> of ' . $todayLimit . '<sup>SqFt</sup> - ';
 		}
 ?>
-		<?= $compPercent ?>% Complete for Today</h3>
+		<?= $compPercent ?>% Complete for Today
+<?
+		if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14) {
+?>
+		- Quota: <input type="number" step="50" class="input-lg text-right limitControl" onClick="change_limit(this)" style="width:100px" data-control="install_sqft" value="<?= $todayQuota ?>"></h3>
+<?
+		}
+?>
 </div>
 <?
 	$user_info = new userData;
@@ -4834,7 +4975,7 @@ if ($action=="timelines_list") {
 		echo $compile;
 	}
 
-	echo 		'<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">';
+	echo 		'<ul class="nav nav-tabs md-tabs nav-justified purple-gradient darken-3" role="tablist">';
 	echo 		'	<li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#panel_overview" role="tab">Overview</a></li>';
 	if ($_SESSION['access_level'] < 5) {
 		echo 	'	<li class="nav-item"><a class="nav-link" data-toggle="tab" href="#panel_templates" role="tab">Templates</a></li>';
@@ -6146,7 +6287,7 @@ if ($action == "update_project_data") {
 	for($i=0; $i<$total; $i++) {
 		//Get the temp file path
 		$tmpFilePath = $_FILES['imgUploads']['tmp_name'][$i];
-		
+		$tmpFilePath = str_replace('#','%23',$tmpFilePath);
 		//Make sure we have a filepath
 		if ($tmpFilePath != ""){
 			//Setup our new file path
@@ -6272,6 +6413,7 @@ if ($action == "update_install_data") {
 	for($i=0; $i<$total; $i++) {
 		//Get the temp file path
 		$tmpFilePath = $_FILES['imgUploads']['tmp_name'][$i];
+		$tmpFilePath = str_replace('#','%23',$tmpFilePath);
 		
 		//Make sure we have a filepath
 		if (file_exists($path)) {
@@ -6473,7 +6615,7 @@ if ($action == "add_project_step1") {
 		for($i=0; $i<$total; $i++) {
 			//Get the temp file path
 			$tmpFilePath = $_FILES['imgUploads']['tmp_name'][$i];
-			
+			$tmpFilePath = str_replace('#','%23',$tmpFilePath);
 			//Make sure we have a filepath
 			if ($tmpFilePath != ""){
 				//Setup our new file path
@@ -6547,6 +6689,7 @@ if ($action == "add_install_step2") {
 		for($i=0; $i<$total; $i++) {
 			//Get the temp file path
 			$tmpFilePath = $_FILES['imgUploads']['tmp_name'][$i];
+			$tmpFilePath = str_replace('#','%23',$tmpFilePath);
 			//Make sure we have a filepath
 			if ($tmpFilePath != ""){
 				//Setup our new file path
@@ -7061,7 +7204,7 @@ if ($action=="view_selected_pjt") {
 
 
 		$html .= '<div class="col-12 d-print-none"><div class="btn btn-warning float-right" onClick="pjtBack()" style="cursor:pointer"><i class="fas fa-reply"></i>&nbsp;&nbsp; Back</div></div>';
-		$printThis = "$('#pjtDetails').printThis()";
+		$printThis = "instBack(); $('#pjtDetails').printThis()";
 		$html .= '<div class="col-12 d-print-none ' . $noProg . $noMoney. '">';
 		$html .= '<div class="btn btn-primary float-right mr-3" onClick="' . $printThis . '" style="cursor:pointer"><i class="fas fa-print"></i>&nbsp;&nbsp; ';
 		if ($job_status < 22) {
@@ -7098,9 +7241,9 @@ if ($action=="view_selected_pjt") {
 		} else if ($results['clientAccessLevel'] == 11) {
 			$html .= '<h2 class="d-print-none">Retail Customer:</h2>';
 		} else if ($results['clientAccessLevel'] == 12) {
-			$html .= '<h2 class="d-print-none">Builder:</h2>';
-		} else if ($results['clientAccessLevel'] == 13) {
 			$html .= '<h2 class="d-print-none">Cabinet Company:</h2>';
+		} else if ($results['clientAccessLevel'] == 13) {
+			$html .= '<h2 class="d-print-none">Builder:</h2>';
 		} else if ($results['clientAccessLevel'] == 14) {
 			$html .= '<h2 class="d-print-none">Designer:</h2>';
 		}
@@ -7240,14 +7383,20 @@ if ($action=="view_selected_pjt") {
 
 
 		$approval = 0;
-		if (($results['mngr_approved'] == 1 && round($results['mngr_approved_price'],2) != round($price_tax,2)) || ($results['mngr_approved'] == 0 && $profit < 100)) {
-			$approval = 1;
+		if ($results['repair'] == 0) {
+			if (($results['mngr_approved'] == 1 && round($results['mngr_approved_price'],2) != round($price_tax,2)) || ($results['mngr_approved'] == 0 && $profit < 75)) {
+				$approval = 1;
+			}			
 		}
 
 		$rejectSale = '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',26)" style="cursor:pointer"><i class="fas fa-times"></i> Customer Declined</div>';
 		$jobHold = '<div class="btn btn-sm btn-danger float-right d-print-none" onClick="jobHold('. $_SESSION['id'] . ',' . $results['id'] . ',' . $results['job_status'] . ')" style="cursor:pointer"><i class="fas fa-times"></i> Job Hold</div>';
+		$change_job = '<div class="btn btn-sm btn-warning float-right d-print-none" title="Use this only if the job needs changes that will affect it\'s pricing." onClick="change_job(' . $results['id'] . ')" style="cursor:pointer"><i class="fas fa-wrench"></i> Changes</div>';
 
-		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 2) {
+		if ($results['job_status'] > 25 && $results['job_status'] < 90 && $results['job_status'] != 85 && $results['job_status'] != 86) {
+			$html .= $change_job;
+		}
+		if ($_SESSION['access_level'] < 4) {
 			if ($results['pre_order'] == 1) {
 				$html .= '<span class="text-warning d-print-none">Materials Requested</span>';
 			} else {
@@ -7269,26 +7418,28 @@ if ($action=="view_selected_pjt") {
 			if ($results['job_status'] == 11) {
 				$html .= $rejectSale;
 				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="estApprove(' . $_SESSION['id'] . ',' . $results['id'] . ',';
-				if ($results['no_template']) {
+				if ($results['no_template'] == 1 || $results['repair'] == 1) {
 					$html .= 21;
 				} else {
 					$html .= 12;
 				}
 				$html .= ',' . $results['po_cost'] . ",'". $results['po_num'] . "','". $results['contact_name'] . "','". $results['contact_number'] . "',". $results['pick_up'] . ',' . $results['address_verif'] . ')" style="cursor:pointer"><i class="fas fa-check"></i> Estimate Approved</div>';
 			}
+			if ($results['job_status'] == 12) {
+				$html .= $rejectSale;
+				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',21);marNoTemp(' . $results['id'] . ');" style="cursor:pointer"><i class="fas fa-check"></i> No Template Needed</div>';
+			}
 			if ($results['job_status'] == 17) {
 				$html .= $rejectSale;
 				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',21)" style="cursor:pointer"><i class="fas fa-check"></i> Preparing Quote</div>';
 			}
-//////////////
 			if ($results['job_status'] == 21) {
 				$html .= $rejectSale;
 				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="checkQuote('. $_SESSION['id'] . ',' . $results['id'] . ',22,'. $results['po_cost'] . ",'". $results['po_num'] . "','" . $results['contact_name'] . "','". $results['contact_number'] . "',". $results['pick_up'] . ','. $results['address_verif'] . ','. $results['no_charge'] . ','. $results['repair'] . ')" style="cursor:pointer"><i class="fas fa-check"></i> Quote Checked</div>';
 			}
-
 			if ($results['job_status'] == 22) {
 				$html .= $rejectSale;
-				if ($approval == 0) {
+				if ($approval == 0 || $results['repair'] == 1) {
 					$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',23)" style="cursor:pointer"><i class="fas fa-check"></i> Quote Submitted</div>';
 				} else {
 					if ($results['request_approval'] == 0) {
@@ -7481,7 +7632,7 @@ if ($action=="view_selected_pjt") {
 			if ($results['job_status'] == 84) {
 				if ($_SESSION['access_level'] != 1) {$html .= $jobHold;}
 				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',80)" style="cursor:pointer"><i class="fas fa-check"></i> Install Rescheduled</div>';
-				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',85)" style="cursor:pointer"><i class="fas fa-check"></i> Close Job</div>';
+				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="select_installers_modal(' . $results['id'] . ',' . $results['job_sqft'] . ",'" . $results['install_date'] . "'" . ',1);" style="cursor:pointer"><i class="fas fa-check"></i> Close Job</div>';
 			}
 			if ($results['job_status'] == 89) {
 				$html .= '<div class="btn btn-sm btn-success float-right d-print-none" onClick="statusChange('. $_SESSION['id'] . ',' . $results['id'] . ',83)" style="cursor:pointer"><i class="fas fa-check"></i> Install Started</div>';
@@ -7616,7 +7767,7 @@ if ($action=="view_selected_pjt") {
 		} 
 	
 		$html .= '<hr>'; 
-		if ($profit < 75) {
+		if ($profit < 75 && $results['repair'] == 0) {
 			$html .= '<div class="row">'; 
 			if ($results['mngr_approved'] == 0) {
 				$html .= '	<div class="col-9 text-center ';
@@ -7646,7 +7797,7 @@ if ($action=="view_selected_pjt") {
 			$html .= '</div>'; 
 			$html .= '<div class="clearfix"></div>'; 
 		}
-		if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14 || $_SESSION['id'] == 1444) { 
+		if ($_SESSION['id'] == 1 || $_SESSION['id'] == 13 || $_SESSION['id'] == 14 || $_SESSION['id'] == 1444) { 
 
 			$format_costs = number_format($project_costs, 2, '.', ','); 
 			$format_profit = number_format($profit, 2, '.', ','); 
@@ -7837,7 +7988,7 @@ if ($action=="view_selected_pjt") {
 	$html .= '	<div class="d-print-none">';
 	$html .= '		<div id="makeCommentBtn" class="btn btn-primary d-inline ml-2 float-md-right" cmt_type="pjt" onClick="makeComment(this,' . $cmt_user . ');"><i class="fas fa-comment" style="cursor:pointer"></i></div>';
 
-	$html .= '		<ul class="nav nav-tabs nav-justified aqua-gradient" role="tablist">';
+	$html .= '		<ul class="nav nav-tabs nav-justified md-tabs aqua-gradient" role="tablist">';
 	$html .= '			<li class="nav-item"><a class="text-dark nav-link active" style="font-size: 24px;" data-toggle="tab" href="#panel_comments" role="tab">Comments</a></li>';
 	$html .= '			<li class="nav-item"><a class="text-dark nav-link" style="font-size: 24px;" data-toggle="tab" href="#panel_log" role="tab">Log</a></li>';
 	$html .= '		</ul>';
@@ -7861,7 +8012,7 @@ if ($action=="view_selected_pjt") {
 					<div class="file-field col-10 d-block">
 						<div class="btn btn-sm btn-success float-left">
 							<span>Upload Cut Sheet</span>
-							<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_fab">
+							<input name="multi_upload[]" type="file" multiple="multiple" id="multi_upload_input_cut">
 						</div>
 						<div class="file-path-wrapper float-right w-75 pt-1">
 							<input class="file-path validate" type="text" placeholder="Upload one or more files">
@@ -8083,7 +8234,7 @@ if ($action=="view_selected_pjt") {
 	$get_rooms = new project_action;
 	$rows = $get_rooms->get_rooms();
 
-	if (($job_status < 32 || $job_status == 39) || $_SESSION['access_level'] == 1) {
+	if (($job_status < 30) || $_SESSION['access_level'] == 1) {
 		echo '<div class="col-12 d-print-none">';
 		foreach ($rows as $row) {
 			$iName = "'".$row['type_name']."'";
@@ -8091,7 +8242,6 @@ if ($action=="view_selected_pjt") {
 		}
 		echo '</div>';
 	}
-
 	echo '		<hr class="d-print-none">';
 	echo '		<div class="col-9 col-md-10 thead d-print-none">Install</div><div class="col-3 col-md-2 thead text-right d-print-none">View</div>';
 
@@ -8101,9 +8251,9 @@ if ($action=="view_selected_pjt") {
 			<div class="row w-100 d-flex d-print-flex">
 	        	<div class="col-4 d-none d-print-block text-primary">
 <?
-		if (($job_status < 32 || $job_status == 39) || $_SESSION['access_level'] == 1) {
+		if (($job_status < 30) || $_SESSION['access_level'] == 1) {
 ?>
-					<div class="d-inline d-print-none" onClick="delete_install(<?= $results['id']; ?>,<?= $results['pid']; ?>,'<?= $results['install_name']; ?>')" style="cursor:pointer"> <i class="fas fa-trash text-danger"></i></div>
+					<div class="d-inline d-print-none" onClick="delete_install(<?= $results['id']; ?>,<?= $results['pid']; ?>,'<?= addslashes($results['install_name']); ?>')" style="cursor:pointer"> <i class="fas fa-trash text-danger"></i></div>
 <?
 		}
 ?>
@@ -8111,9 +8261,9 @@ if ($action=="view_selected_pjt") {
 				</div>
 	        	<div class="col-md-4 d-print-none text-primary">
 <?
-		if (($job_status < 32 || $job_status == 39) || $_SESSION['access_level'] == 1) {
+		if (($job_status < 30) || $_SESSION['access_level'] == 1) {
 ?>
-					<div class="d-inline d-print-none" onClick="delete_install(<?= $results['id']; ?>,<?= $results['pid']; ?>,'<?= $results['install_name']; ?>')" style="cursor:pointer"> <i class="fas fa-trash text-danger"></i></div>
+					<div class="d-inline d-print-none" onClick="delete_install(<?= $results['id']; ?>,<?= $results['pid']; ?>,'<?= addslashes($results['install_name']); ?>')" style="cursor:pointer"> <i class="fas fa-trash text-danger"></i></div>
 <?
 		}
 ?>
@@ -8425,7 +8575,7 @@ if ($action=="view_selected_inst") {
 		if ($_SESSION['access_level'] == 1 || $_SESSION['access_level'] == 3) {
 			$html .= '<div class="btn btn-success btnCopy float-right" onClick="' . $copyModal . '" style="cursor:pointer"><i class="fas fa-copy"></i></div>';
 		}
-		if (($job_status < 32 || $job_status == 39) || $_SESSION['access_level'] == 1) {
+		if (($job_status < 30) || $_SESSION['access_level'] == 1) {
 			$html .= '<div id="editInstBtn" class="btn btn-primary d-inline ml-2 float-right" onClick="pullEditInst(' . $results['id'] . ');" style="cursor:pointer">Edit <i class="fas fa-wrench"></i></div>';
 		}
 
@@ -8514,11 +8664,11 @@ if ($action=="view_selected_inst") {
 		$clipboard .= " - Customer Selected: " . $results['selected'];
 		if ($results['lot'] != '') {
 			$clipboard .= " - Lot: " . $results['lot'];
-			$programming .= " - Lot: " . $results['lot'];
+			$programming .= " - Lot: " . $results['lot'] . "<br>";
 		}
 		if ($results['lot'] != '') {
 			$clipboard .= " - Slabs: " . $results['slabs'];
-			$programming .= " - Slabs: " . $results['slabs'];
+			$programming .= " - Slabs: " . $results['slabs'] . "<br>";
 		}
 		if ($results['edge'] != 0) {
 			$clipboard .= " - Default Edge: " . $results['edge_name'];
@@ -8577,7 +8727,7 @@ if ($action=="view_selected_inst") {
 	$html .= '<div class="d-print-none w-100">';
 	$html .= '	<h3 class="d-inline text-primary">Pieces </h3>';
 
-	if (($job_status < 32 || $job_status == 39) || $_SESSION['access_level'] == 1) {
+	if (($job_status < 30) || $_SESSION['access_level'] == 1) {
 		$html .= '	<div class="btn-floating btn-sm btn-warning text-center" onClick="$(' . $modalName . ').modal(' . $modalAction . ')" style="cursor:pointer"><i class="fas fa-info p-absolute" style="position: absolute; margin-left: -18px;"></i></div>';
 		$html .= '	<div class="btn btn-success ml-2" onClick="pieceAdder()" style="cursor:pointer">Add <i class="fas fa-plus"></i></div>';
 	}
@@ -8589,7 +8739,7 @@ if ($action=="view_selected_inst") {
 	foreach( $instR->pieces_data_fetch($_POST) as $r ) {
 		$html .= '	<div class="row">';
 		$html .= '		<h4 class="d-inline col-12 col-md-2 text-warning text-uppercase">';
-		if (($job_status < 32 || $job_status == 39) || $_SESSION['access_level'] == 1) {
+		if (($job_status < 30) || $_SESSION['access_level'] == 1) {
 			$html .= '		<i class="fas fa-trash-alt text-danger h6" style="cursor:pointer" onClick="deletePiece(' . $r['piece_id'] . ')" ></i> ';
 			$html .= '		<i class="fas fa-wrench text-primary h6" onClick="edit_piece(' . $r['piece_id'] . ')" style="cursor:pointer"></i> ';
 		}
@@ -8703,7 +8853,7 @@ if ($action=="view_selected_inst") {
 
 	$html .= '<div class="d-print-none w-100">';
 	$html .= '	<h3 class="d-inline text-primary">Accessories </h3>';
-	if (($job_status < 32 || $job_status == 39) || $_SESSION['access_level'] == 1) {
+	if (($job_status < 30) || $_SESSION['access_level'] == 1) {
 		$html .= '	<div class="btn btn-success ml-2" onClick="sinkAdder()" style="cursor:pointer">Sink <i class="fas fa-plus"></i></div>';
 		$html .= '	<div class="btn btn-success ml-2" onClick="accsAdder()" style="cursor:pointer">Other <i class="fas fa-plus"></i></div>';
 	}
@@ -8712,10 +8862,10 @@ if ($action=="view_selected_inst") {
 	$instS = new project_action;
 	foreach( $instS->sink_data_fetch($_POST) as $r ) {
 		$html .= '	<div class="row">';
-		$sink_pull = $r['sink_id'] . "," . $r['sink_iid'] . "," . $r['sink_part'] . "," . $r['sink_model'] . "," . $r['sink_mount'] . "," . $r['sink_provided'] . "," . $r['sink_holes'] . "," . $r['sink_soap'] . "," . $r['cutout_width'] . "," . $r['cutout_depth'] . "," . $r['sink_cost'] . "," . $r['sink_price'] . "," . $r['cutout_price'] . ",'" . $r['sink_location'] . "'," . $r['sink_onsite'] . "," . $r['sink_pickup'] . "," . $r['delivery'];
+		$sink_pull = $r['sink_id'] . "," . $r['sink_iid'] . "," . $r['sink_part'] . "," . $r['sink_model'] . "," . $r['sink_mount'] . "," . $r['sink_provided'] . "," . $r['sink_holes'] . "," . $r['sink_soap'] . ",'" . $r['cutout_width'] . "','" . $r['cutout_depth'] . "'," . $r['sink_cost'] . "," . $r['sink_price'] . "," . $r['cutout_price'] . ",'" . $r['sink_location'] . "'," . $r['sink_onsite'] . "," . $r['sink_pickup'] . "," . $r['delivery'];
 		$html .= '<div class="d-none" id="sho_' . $r['sink_id'] . '">' . $r['sink_holes_other'] . '</div>';
 		$html .= '		<h4 class="d-inline col-12 text-warning">';
-		if (($job_status < 32 || $job_status == 39) || $_SESSION['access_level'] == 1) {
+		if (($job_status < 30) || $_SESSION['access_level'] == 1) {
 			$html .= '		<i class="fas fa-trash-alt text-danger h6" onClick="deleteSink(' . $r['sink_id'] . ')" style="cursor:pointer"></i> ';
 			$html .= '		<i class="fas fa-wrench text-primary h6" onClick="editSink(' . $sink_pull . ')" style="cursor:pointer"></i> ';
 		}
@@ -8877,6 +9027,7 @@ if(isset($_FILES['multiFile_temp'])) {
 		if ($tmpFilePath != "") {
 			//Setup our new file path
 			$newFilePath = $dirpath . "/job-files/" . $_POST['uid'] . "/" . $_POST['id'] . "/template/";
+			$tmpFilePath = str_replace('#','%23',$tmpFilePath);
 			if( is_dir($newFilePath) === false ) {
 				mkdir($newFilePath);
 			}
@@ -8898,10 +9049,33 @@ if(isset($_FILES['multiFile_fab'])) {
 		if ($tmpFilePath != "") {
 			//Setup our new file path
 			$newFilePath = $dirpath . "/job-files/" . $_POST['uid'] . "/" . $_POST['id'] . "/fab/";
+			$tmpFilePath = str_replace('#','%23',$tmpFilePath);
 			if( is_dir($newFilePath) === false ) {
 				mkdir($newFilePath);
 			}
 			$newFilePath = $dirpath . "/job-files/" . $_POST['uid'] . "/" . $_POST['id'] . "/fab/" . $_FILES['multiFile_fab']['name'][$i];
+			//Upload the file into the temp dir
+			if(move_uploaded_file($tmpFilePath, $newFilePath)) {
+				//Handle other code here
+			}
+		}
+	}
+}
+if(isset($_FILES['multiFile_cut'])) {
+	$total_cut = count($_FILES['multiFile_cut']['name']);
+	$dirpath = dirname(getcwd());
+	for($i=0; $i<$total_cut; $i++) {
+		//Get the fab file path
+		$tmpFilePath = $_FILES['multiFile_cut']['tmp_name'][$i];
+		$tmpFilePath = str_replace('#','%23',$tmpFilePath);
+		//Make sure we have a filepath
+		if ($tmpFilePath != "") {
+			//Setup our new file path
+			$newFilePath = $dirpath . "/job-files/" . $_POST['uid'] . "/" . $_POST['id'] . "/fab/";
+			if( is_dir($newFilePath) === false ) {
+				mkdir($newFilePath);
+			}
+			$newFilePath = $dirpath . "/job-files/" . $_POST['uid'] . "/" . $_POST['id'] . "/fab/" . $_FILES['multiFile_cut']['name'][$i];
 			//Upload the file into the temp dir
 			if(move_uploaded_file($tmpFilePath, $newFilePath)) {
 				//Handle other code here
@@ -8915,6 +9089,7 @@ if(isset($_FILES['multiFile_inst'])) {
 	for($i=0; $i<$total_inst; $i++) {
 		//Get the inst file path
 		$tmpFilePath = $_FILES['multiFile_inst']['tmp_name'][$i];
+		$tmpFilePath = str_replace('#','%23',$tmpFilePath);
 		//Make sure we have a filepath
 		if ($tmpFilePath != "") {
 			//Setup our new file path
@@ -8970,10 +9145,15 @@ if ($action=="inst_pay") {
 		foreach($res['detail'] as $row){
 			$html .= '    <tr>';
 			if($row['inst_log_payroll'] == 1){
-				$html .= '      <td style="position:unset;"><input type="checkbox" id="my_checkbox'.$row['inst_log_id'].'" value="" onclick="updatePay('.$row['inst_log_id'].')" checked="checked"/></td>' ;
+				$html .= '      <td style="position:unset;"><div class="custom-control custom-checkbox custom-control-inline"><input type="checkbox" class="custom-control-input" id="my_checkbox'.$row['inst_log_id'].'" value="" onclick="updatePay('.$row['inst_log_id'].')" checked="checked"><label class="custom-control-label" for="my_checkbox'.$row['inst_log_id'].'"> -</label></div></td>' ;
 			}else{
-				$html .= '      <td style="position:unset;"><input type="checkbox" id="my_checkbox'.$row['inst_log_id'].'" value="" onclick="updatePay('.$row['inst_log_id'].')" /></td>' ;
+				$html .= '      <td style="position:unset;"><div class="custom-control custom-checkbox custom-control-inline"><input type="checkbox" class="custom-control-input" id="my_checkbox'.$row['inst_log_id'].'" value="" onclick="updatePay('.$row['inst_log_id'].')"><label class="custom-control-label" for="my_checkbox'.$row['inst_log_id'].'"> -</label></div></td>' ;
 			}
+//			if($row['inst_log_payroll'] == 1){
+//				$html .= '      <td style="position:unset;"><input type="checkbox" id="my_checkbox'.$row['inst_log_id'].'" value="" onclick="updatePay('.$row['inst_log_id'].')" checked="checked"/></td>' ;
+//			}else{
+//				$html .= '      <td style="position:unset;"><input type="checkbox" id="my_checkbox'.$row['inst_log_id'].'" value="" onclick="updatePay('.$row['inst_log_id'].')" /></td>' ;
+//			}
 			$html .= '      <th style="cursor:pointer" ';
 			if($row['inst_log_payroll'] == 1){
 				$html .= ' class="text-success" ';

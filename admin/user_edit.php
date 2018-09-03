@@ -32,9 +32,9 @@
 						</div>
 						<div class="col-3 col-lg-2 pt-2">
 							<div id="isActiveDIV" class="input_control checkbox fg-white container" data-role="input-control">
-								<input class="filled-in" name="isActive" id="isActive" type="checkbox" value="1" checked>
+								<input class="filled-in form-check-input" name="isActive" id="isActive" type="checkbox" value="1" checked>
 								<label class="form-check-label" for="isActive"><p>Active?</p></label>
-								<input class="filled-in" name="mine" id="mine" type="checkbox" value="1" 
+								<input class="filled-in form-check-input" name="mine" id="mine" type="checkbox" value="1" 
 									   <? 
 									   if (!in_array($_SESSION['id'],array('1','14','985'),true)) {
 										   echo 'checked';

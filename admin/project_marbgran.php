@@ -31,16 +31,16 @@ $level9c = '';
 <div class="container pageLook">
 	<div class="row">
 			<div class="col-12 px-0 d-print-none" style="margin-left:0">
-                <div id="marbgran-data" class="col-12 px-0">
+				<div id="marbgran-data" class="col-12 px-0">
 					<div class="row mb-3 pt-3" style="position: sticky; top: 0">
 						<h1 class="text-primary col-10 pl-5">Marble &amp; Granite Pricing</h1>
 					</div>
 					<hr>
-                    <div id="user-block" class="content">
+					<div id="user-block" class="content">
 						<div class="col-12 table-responsive px-0" id="tableResults">
 						<div id="mdb-lightbox-ui"></div>
 						<!-- Nav tabs -->
-						<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">
+						<ul class="nav nav-tabs md-tabs nav-justified mdb-color darken-3" role="tablist">
 							<li class="nav-item">
 								<a class="nav-link active" data-toggle="tab" href="#panel_retail" role="tab">Retail</a>
 							</li>
@@ -493,7 +493,7 @@ $level9c = '';
 								</table>
 							</div>
 						</div>
-           			</div>
+						</div>
 
 				</div>
 			</div>

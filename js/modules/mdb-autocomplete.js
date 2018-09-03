@@ -1,10 +1,5 @@
 'use strict';
 
-/* 
- * Material Design for Bootstrap 
- * MDB Autocomplete Plugin
- */
-
 $.fn.mdb_autocomplete = function (options) {
 
   // Default options
@@ -29,9 +24,8 @@ $.fn.mdb_autocomplete = function (options) {
     if (Object.keys(data).length) {
 
       $autocomplete = $('<ul class="mdb-autocomplete-wrap"></ul>');
-
       $autocomplete.insertAfter($(this));
-    };
+    }
 
     // Listen if key was pressed
     $input.on('keyup', function (e) {
@@ -48,6 +42,7 @@ $.fn.mdb_autocomplete = function (options) {
 
           // check if item contains value that we're looking for
           if (data[item].toLowerCase().indexOf(q.toLowerCase()) !== -1) {
+
             var option = $('<li>' + data[item] + '</li>');
 
             $autocomplete.append(option);
@@ -56,13 +51,16 @@ $.fn.mdb_autocomplete = function (options) {
       }
 
       if (e.which === ENTER_CHAR_CODE) {
-        $autocomplete.children(":first").trigger('click');
+
+        $autocomplete.children(':first').trigger('click');
         $autocomplete.empty();
       }
 
       if (q.length === 0) {
+
         $('.mdb-autocomplete-clear').css('visibility', 'hidden');
       } else {
+
         $('.mdb-autocomplete-clear').css('visibility', 'visible');
       }
     });
@@ -77,7 +75,9 @@ $.fn.mdb_autocomplete = function (options) {
     });
 
     $('.mdb-autocomplete-clear').on('click', function (e) {
+
       e.preventDefault();
+
       $input.val('');
       $(this).css('visibility', 'hidden');
       $autocomplete.empty();

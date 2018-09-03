@@ -29,13 +29,13 @@
 						</fieldset>
 						<fieldset class="col-3 col-md-2">
 							<div id="user_infoDIV" class="form-check mt-3" data-role="input-control">
-								<input class="filled-in" type="checkbox" name="isActive" id="s-isActive" value="1" checked >
+								<input class="filled-in form-check-input" type="checkbox" name="isActive" id="s-isActive" value="1" checked >
 								<label style="padding-bottom:9px;" for="s-isActive">Active?</label>
 							</div>
 						</fieldset>
 						<fieldset class="col-3 col-md-2">
 							<div id="user_infoDIV" class="form-check mt-3" data-role="input-control">
-								<input class="filled-in" type="checkbox" name="mine" id="mine" value="1" <? if (!in_array($_SESSION['id'],array('1','13','14','985'),true)) {echo 'checked';}; ?> >
+								<input class="filled-in form-check-input" type="checkbox" name="mine" id="mine" value="1" <? if (!in_array($_SESSION['id'],array('1','13','14','985'),true)) {echo 'checked';}; ?> >
 								<label style="padding-bottom:9px;" for="mine">My Clients</label>
 							</div>
 						</fieldset>

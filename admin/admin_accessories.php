@@ -113,7 +113,7 @@
 						<label class="col-12 mb-3" for="accs_name">Accessory Name:</label>
 						<input class="col-12 mb-3 form-control" type="text" id="accs_name" name="accs_name">
 						<fieldset class="form-group col-4 col-md-2">
-							<input class="filled-in" id="accs_status" name="accs_status" type="checkbox" value="1">
+							<input class="filled-in form-check-input" id="accs_status" name="accs_status" type="checkbox" value="1">
 							<label for="accs_status">Available?</label>
 						</fieldset>
 						<fieldset class="form-group col-2">

@@ -342,7 +342,7 @@
 			bearing.setAttribute('r', 2);
 			var hand = createSvgElement('line');
 			hand.setAttribute('x1', 0);
-			hand.setAttribute('y1', 0);
+      hand.setAttribute('y1', 0);
 			var bg = createSvgElement('circle');
 			bg.setAttribute('class', 'clockpicker-canvas-bg');
 			bg.setAttribute('r', tickRadius);

@@ -373,6 +373,10 @@ $(document).ready(function() {
 		}
 
 		$breakFunction = 0;
+		if($('input[name=repair]').val() == 1) {
+			var install_date = $('input[name=install_date]').val()
+			check_repairs(toCheck,install_date,0);
+		}
 		if ($('#am').prop('checked') == true) {
 			var toCheck = 'am';
 			var install_date = $('input[name=install_date]').val()

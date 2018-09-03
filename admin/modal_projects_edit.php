@@ -49,7 +49,7 @@
 									<input class="form-control text-center" id="p-order_num" name="order_num" type="text">
 								</fieldset>
 								<fieldset class="form-check col-4 col-md-1">
-									<input id="p-isActive" class="form-check-input filled-in" name="isActive" type="checkbox" value="1">
+									<input id="p-isActive" class="form-check-input filled-in form-check-input" name="isActive" type="checkbox" value="1">
 									<label for="p-isActive" class="w-100">Active?</label>
 								</fieldset>
 
@@ -62,9 +62,9 @@
 						<div class="container pt-3 mb-3">
 							<div class="row">
 								<fieldset class="form-group col-4 col-md-2 ">
-									<input class="filled-in mr-4" name="urgent" id="p-urgent" type="checkbox" value="1">
+									<input class="filled-in form-check-input mr-4" name="urgent" id="p-urgent" type="checkbox" value="1">
 									<label for="p-urgent" class="w-100 ">911?:</label>
-									<input class="filled-in mr-4" name="tax_free" id="p-tax_free" type="checkbox" value="1">
+									<input class="filled-in form-check-input mr-4" name="tax_free" id="p-tax_free" type="checkbox" value="1">
 									<label for="p-tax_free" class="w-100 ">No Tax:</label>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
@@ -188,16 +188,16 @@
 									</div>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
-									<input class="filled-in" id="p-temp_am" name="temp_am" type="checkbox" value="1">
+									<input class="filled-in form-check-input" id="p-temp_am" name="temp_am" type="checkbox" value="1">
 									<label for="p-temp_am">AM?:</label>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
-									<input class="filled-in" id="p-temp_first_stop" name="temp_first_stop" type="checkbox" value="1">
+									<input class="filled-in form-check-input" id="p-temp_first_stop" name="temp_first_stop" type="checkbox" value="1">
 									<label for="p-temp_first_stop">1st Stop?:</label>
 								</fieldset>
 		
 								<fieldset class="form-group col-4 col-md-2">
-									<input class="filled-in" id="p-temp_pm" name="temp_pm" type="checkbox" value="1">
+									<input class="filled-in form-check-input" id="p-temp_pm" name="temp_pm" type="checkbox" value="1">
 									<label for="p-temp_pm">PM?:</label>
 								</fieldset>
 								<hr>
@@ -211,15 +211,15 @@
 									</div>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
-									<input class="filled-in" name="am" id="p-am" type="checkbox" value="1">
+									<input class="filled-in form-check-input" name="am" id="p-am" type="checkbox" value="1">
 									<label for="p-am">AM?:</label>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
-									<input class="filled-in" name="first_stop" id="p-first_stop" type="checkbox" value="1">
+									<input class="filled-in form-check-input" name="first_stop" id="p-first_stop" type="checkbox" value="1">
 									<label for="p-first_stop">1st Stop?:</label>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
-									<input class="filled-in" name="pm" id="p-pm" type="checkbox" value="1">
+									<input class="filled-in form-check-input" name="pm" id="p-pm" type="checkbox" value="1">
 									<label for="p-pm">PM?:</label>
 								</fieldset>
 							</div>

@@ -6,7 +6,7 @@
 					</div>
                     <div id="user-block" class="content">
 					<!-- Nav tabs -->
-					<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">
+					<ul class="nav nav-tabs nav-justified  md-tabs blue-gradient" role="tablist">
 						<li class="nav-item">
 							<a class="nav-link active" data-toggle="tab" href="#panel_to_invoice" role="tab">To Invoice</a>
 						</li>

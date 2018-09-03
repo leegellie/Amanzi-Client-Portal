@@ -56,7 +56,7 @@ include('includes.php');
                 <div id="user-data" class="col-12">
                     <div id="user-block" class="content">
 						<div id="resultsTable1" class="row striped">
-							<ul class="nav nav-tabs nav-justified green w-100 mb-3 mx-0 d-print-none" id="myTab2" role="tablist">
+							<ul class="nav nav-tabs nav-justified green md-tabs w-100 mb-3 mx-0 d-print-none" id="myTab2" role="tablist">
 								<li class="nav-item">
 									<a class="nav-link active" id="sAccsMat-tab" data-toggle="tab" href="#sAccsMat" role="tab" aria-controls="sAccsMat" aria-selected="true"><h5>Accessories by Material</h5></a>
 								</li>

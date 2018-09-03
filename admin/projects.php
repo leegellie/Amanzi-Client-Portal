@@ -100,8 +100,8 @@ USER'S EMAIL = <?= $user_email ?>
 	<script>
 		$uAccess = <?= $_SESSION['access_level'] ?>;
 	</script>
-	<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-	<link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+	<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 	<script src="/js/jquery.validate.js" type="text/javascript"></script>
 	<script src="js/projects.js"></script>
 	<script src="js/printThis.js"></script>
@@ -348,6 +348,7 @@ USER'S EMAIL = <?= $user_email ?>
 			if(jday == 0 || jday == 6) flag = true;
 	console.log("today: ", _cur_day, "currently month = ", _cur_mon);
 			//           if((access_level != 1 || access_level != 14 ) && st_d < _cur_day + 7 ) flag = true;
+			var $repair = $('input[name=repair]').val();
 			if(!(session_id == 1 || session_id == 13 || session_id == 14 || session_id == 985 || session_id == 1444 || session_id == 1448 || session_id == 1452) && (st_m == _cur_mon && st_d < _cur_day + 7 )) flag = true;
 			$.each(resforinstall, function(key, value){
 				if(value['install_date'] == curdate){
@@ -363,7 +364,7 @@ USER'S EMAIL = <?= $user_email ?>
 					console.log('cur_sqft=' + cur_sqft);
 					console.log('currently_limit_sqft', currently_sqft);
 					console.log('current_day',curdate);
-					if (sum_sqft > currently_sqft){
+					if (sum_sqft > currently_sqft) {
 						flag = true;
 					}else{  
 						var lat1 = 36.1181642;
@@ -400,7 +401,7 @@ USER'S EMAIL = <?= $user_email ?>
 					flag = true;
 				}
 			});
-			if(session_id == 1 || session_id == 13  || session_id == 14  || session_id == 985 || session_id == 1444 || session_id == 1448 || session_id == 1452)  flag = false;
+			if(session_id == 1 || session_id == 13  || session_id == 14  || session_id == 985 || session_id == 1444 || session_id == 1448 || session_id == 1452 || $repair == 1)  flag = false;
 			return flag;
 		},
 		onDraw() {

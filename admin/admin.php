@@ -98,8 +98,8 @@ include('includes.php');
 
 ?>
 
-    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 	<script src="/js/jquery.validate.js" type="text/javascript"></script>
 <!--    <script src="js/admin.js"></script>-->
     <script src="js/printThis.js"></script>
@@ -157,7 +157,7 @@ if(isset($_GET['marble'])){
 	require_once ('admin_inst_pay.php');
 } elseif (isset($_GET['order'])) {
 	require_once ('admin_order_station.php');
-}
+} 
 ?>
 	</div>
 </div>

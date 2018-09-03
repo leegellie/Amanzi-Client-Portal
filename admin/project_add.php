@@ -11,7 +11,7 @@
                         <div id="project-block" class="content">
                             <form id="add_project" enctype="multipart/form-data">
 								<div class="container pb-3">
-									<ul class="nav nav-tabs nav-justified mdb-color darken-3" role="tablist">
+									<ul class="nav nav-tabs md-tabs nav-justified blue-gradient darken-3" role="tablist">
 										<li class="nav-item"><a onClick="proj_type('new');" class="nav-link active text-white" data-toggle="tab" href="#panel_new" role="tab">New Project</a></li>
 										<li class="nav-item"><a onClick="proj_type('add');" class="nav-link text-white" data-toggle="tab" href="#panel_addition" role="tab">Addition</a></li>
 										<li class="nav-item"><a onClick="proj_type('rew');" class="nav-link text-white" data-toggle="tab" href="#panel_rework" role="tab">Rework</a></li>
@@ -25,15 +25,11 @@
 									</div>
 									<div class="row">
 										<fieldset class="form-group col-4 col-md-3 text-left">
-											<input class="filled-in mr-4" name="no_template" id="no_template" type="checkbox" value="1">
-											<label for="no_template" class="text-left">No Template Needed</label>
-										</fieldset>
-										<fieldset class="form-group col-4 col-md-3 text-left">
-											<input class="filled-in mr-4" name="no_charge" id="no_charge" type="checkbox" value="1">
+											<input class="filled-in form-check-input mr-4" name="no_charge" id="no_charge" type="checkbox" value="1">
 											<label for="no_charge" class="text-left">No Charge</label>
 										</fieldset>
 										<fieldset class="form-group col-4 col-md-2 text-left servoption reoption">
-											<input class="filled-in mr-4" name="call_out_fee" id="call_out_fee" type="checkbox" value="1">
+											<input class="filled-in form-check-input mr-4" name="call_out_fee" id="call_out_fee" type="checkbox" value="1">
 											<label for="call_out_fee" class="text-left">Call Out Fee</label>
 										</fieldset>
 										<fieldset class="input-group col-md-2 servoption reoption addoption">
@@ -66,7 +62,7 @@
 										</fieldset>
 										<fieldset class="form-group col-12 col-md-6 text-left servoption reoption reason">
 											<label for="reason" class="text-left w-100">Please detail the reason for Repair/Rework/No-Charge</label>
-											<textarea class="filled-in rounded mr-4 w-100" name="reason" id="reason"></textarea>
+											<textarea class="filled-in form-check-input rounded mr-4 w-100" name="reason" id="reason"></textarea>
 										</fieldset>
 									</div>
 
@@ -85,6 +81,7 @@
 												<input type="hidden" id="addition" name="addition" value="0">
 												<input type="hidden" id="job_lat" name="job_lat">
 												<input type="hidden" id="job_long" name="job_long">
+												<input type="hidden" id="address_verif" name="address_verif" value="0">
 												<input type="hidden" id="install_team" name="install_team" value="0">
 											</div>
 										</div>
@@ -138,9 +135,9 @@
 										</div>
 									</div>
 									<fieldset class="form-group col-4 col-md-2 text-center">
-										<input class="filled-in mr-4" name="urgent" id="urgent" type="checkbox" value="1">
+										<input class="filled-in form-check-input mr-4" name="urgent" id="urgent" type="checkbox" value="1">
 										<label for="urgent" class="w-100 text-center">911?:</label>
-										<input class="filled-in mr-4" name="tax_free" id="tax_free" type="checkbox" value="1">
+										<input class="filled-in form-check-input mr-4" name="tax_free" id="tax_free" type="checkbox" value="1">
 										<label class="w-100 text-center" for="tax_free">No Tax:</label>
 									</fieldset>
 
@@ -246,67 +243,70 @@
 											</fieldset>
 										</div>
 									</div>
-									<fieldset class="form-group col-6 col-md-6">
+									<fieldset class="form-group col-12 col-md-4">
 										<div class="container">
 											<div class="row">
-												<label class="col-5" for="template_date">Template Date:</label>
-												<input class="col-md-7 form-control datepicker" type="text" id="template_date" name="template_date" autocomplete="off">
-												<!--<input class="col-7 form-control" id="template_date" name="template_date" type="date">-->
+												<label class="col-md-4" for="template-date">Template Date:</label>											
+												<div class="input-group mb-3 col-md-8">
+													<input class=" form-control datepicker" type="text" id="template_date" name="template_date" autocomplete="off">
+													<div class="input-group-append" onClick="$('#template_date').val('')" style="cursor: pointer; height:38px">
+														<span class="input-group-text text-danger"><i class="fas fa-times"></i></span>
+													</div>
+												</div>
 											</div>
 										</div>
 									</fieldset>
-									<div class="col-6">
-										<div class="row">
-											<fieldset class="form-group col-6 col-md-3">
-												<input class="filled-in" id="temp_am" name="temp_am" type="checkbox" value="1">
-												<label for="temp_am">AM</label>
-											</fieldset>
-											<fieldset class="form-group col-6 col-md-3">
-												<input class="filled-in" id="temp_first_stop" name="temp_first_stop" type="checkbox" value="1">
-												<label for="temp_first_stop">1<sup>st</sup> Stop</label>
-											</fieldset>
-											<fieldset class="form-group col-6 col-md-3">
-												<input class="filled-in" id="temp_pm" name="temp_pm" type="checkbox" value="1">
-												<label for="temp_pm">PM?</label>
-											</fieldset>
-											<fieldset class="form-group col-6 col-md-3 text-left">
-												<input class="filled-in mr-4" name="in_house_template" id="in_house_template" type="checkbox" value="1">
-												<label for="in_house_template" class="text-left">In-House</label>
-											</fieldset>
-										</div>
-									</div>
+									<fieldset class="form-group col">
+										<input class="filled-in form-check-input" id="temp_am" name="temp_am" type="checkbox" value="1">
+										<label for="temp_am">AM</label>
+									</fieldset>
+									<fieldset class="form-group col">
+										<input class="filled-in form-check-input" id="temp_first_stop" name="temp_first_stop" type="checkbox" value="1">
+										<label for="temp_first_stop">1<sup>st</sup> Stop</label>
+									</fieldset>
+									<fieldset class="form-group col">
+										<input class="filled-in form-check-input" id="temp_pm" name="temp_pm" type="checkbox" value="1">
+										<label for="temp_pm">PM?</label>
+									</fieldset>
+									<fieldset class="form-group col text-left">
+										<input class="filled-in form-check-input mr-4" name="in_house_template" id="in_house_template" type="checkbox" value="1">
+										<label for="in_house_template" class="text-left">In-House</label>
+									</fieldset>
+									<fieldset class="form-group col text-left">
+										<input class="filled-in form-check-input mr-4" name="no_template" id="no_template" type="checkbox" value="1">
+										<label for="no_template" class="text-left">No Templ.</label>
+									</fieldset>
 									<hr>
 
-									<fieldset class="form-group col-6 col-md-6">
+									<fieldset class="form-group col-12 col-md-4">
 										<div class="container">
 											<div class="row">
-												<label class="col-5" for="install_date">Install Date:</label>
-												<input class="col-md-7 form-control datepicker1" type="text" id="install_date" name="install_date" readonly="readonly" autocomplete="off">
-												<!--<input class="col-7 form-control" id="install_date" name="install_date" type="date">-->
+												<label class="col-md-4" for="install-date">Install Date:</label>
+												<div class="input-group mb-3 col-md-8">
+													<input class=" form-control datepicker" type="text" id="install_date" name="install_date" autocomplete="off">
+													<div class="input-group-append" onClick="$('#install_date').val('')" style="cursor: pointer; height:38px">
+														<span class="input-group-text text-danger"><i class="fas fa-times"></i></span>
+													</div>
+												</div>
 											</div>
 										</div>
 									</fieldset>
-
-									<div class="col-6">
-										<div class="row">
-											<fieldset class="form-group col-6 col-md-3">
-												<input class="filled-in" name="am" id="am" type="checkbox" value="1">
-												<label for="am">AM</label>
-											</fieldset>
-											<fieldset class="form-group col-6 col-md-3">
-												<input class="filled-in" name="first_stop" id="first_stop" type="checkbox" value="1">
-												<label for="first_stop">1<sup>st</sup> Stop</label>
-											</fieldset>
-											<fieldset class="form-group col-6 col-md-3">
-												<input class="filled-in" name="pm" id="pm" type="checkbox" value="1">
-												<label for="pm">PM</label>
-											</fieldset>
-											<fieldset class="form-group col-6 col-md-3 text-left">
-												<input class="filled-in mr-4" name="pick_up" id="pick_up" type="checkbox" value="1">
-												<label for="pick_up" class="text-left">Pick Up</label>
-											</fieldset>
-										</div>
-									</div>
+									<fieldset class="form-group col">
+										<input class="filled-in form-check-input" name="am" id="am" type="checkbox" value="1">
+										<label for="am">AM</label>
+									</fieldset>
+									<fieldset class="form-group col">
+										<input class="filled-in form-check-input" name="first_stop" id="first_stop" type="checkbox" value="1">
+										<label for="first_stop">1<sup>st</sup> Stop</label>
+									</fieldset>
+									<fieldset class="form-group col">
+										<input class="filled-in form-check-input" name="pm" id="pm" type="checkbox" value="1">
+										<label for="pm">PM</label>
+									</fieldset>
+									<fieldset class="form-group col text-left">
+										<input class="filled-in form-check-input mr-4" name="pick_up" id="pick_up" type="checkbox" value="1">
+										<label for="pick_up" class="text-left">Pick Up</label>
+									</fieldset>
 	
 									
 									<div class="container pt-3 mb-3 border border-light border-right-0 border-left-0 blue lighten-5">

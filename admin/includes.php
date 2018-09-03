@@ -1,7 +1,8 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+<link rel="stylesheet" type="text/css" href="/css2/bootstrap.min.css">
 
 <link href="/styles/bootstrap/docs/css/iconFont.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/css2/styles.css">
@@ -11,9 +12,15 @@
 <link rel="stylesheet" type="text/css" href="/css2/font-awesome-animation.min.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<!--
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-87DrmpqHRiY8hPLIr7ByqhPIywuSsjuQAfMXAE0sMUpY3BM7nXjf+mLIUSvhDArs" crossorigin="anonymous">
+-->
+
+<script src="../js/popper.min.js"></script>
+<script src="../js/bootstrap.min.js"></script>
+
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-TXfwrfuHVznxCssTxWoPZjhcss/hp38gEOH8UPZG/JcXonvBQ6SlsIF49wUzsGno" crossorigin="anonymous">
 
 
 
@@ -28,7 +35,7 @@
 <script src="../js/modules/dropdown.js"></script>
 <script src="../js/modules/enhanced-modals.js"></script>
 <script src="../js/modules/file-input.js"></script>
-<script src="../js/modules/forms-free.js"></script>
+<!--<script src="../js/modules/forms-free.js"></script>-->
 <script src="../js/modules/hammer.js"></script>
 <script src="../js/modules/jarallax-video.js"></script>
 <script src="../js/modules/jarallax.js"></script>
@@ -39,7 +46,7 @@
 <script src="../js/modules/lightbox.js"></script>
 <script src="../js/modules/material-select.js"></script>
 <script src="../js/modules/mdb-autocomplete.js"></script>
-<script src="../js/modules/picker-date.js"></script>
+<!--<script src="../js/modules/picker-date.js"></script>-->
 <script src="../js/modules/picker-time.js"></script>
 <script src="../js/modules/picker.js"></script>
 <script src="../js/modules/preloading.js"></script>
@@ -48,13 +55,26 @@
 <script src="../js/modules/scrolling-navbar.js"></script>
 <script src="../js/modules/sidenav.js"></script>
 <script src="../js/modules/smooth-scroll.js"></script>
-<script src="../js/modules/waves.js"></script>
+<!--<script src="../js/modules/waves.js"></script>-->
 <script src="../js/modules/wow.js"></script>
 
 <script src="js/clipboard.min.js"></script>
 <script src="js/price_materials.js"></script>
 <script src="js/bootstrap-datepicker.js"></script>
+<script>
+(function(){
 
+    //var scripts = ["/static/general/bf-core.min.js", "/static/containers/OWI536.js"];
+	var scripts = ["/static/general/bf-core.min.js", "/static/containers/OWI536.js", "/static/general/push-init-code.js"]
+
+    for(var i = 0; i < scripts.length; i++) {
+        var script   = document.createElement("script");
+        script.src   = "//brandflow.net" + scripts[i] + "?ts=" + Date.now() + "#";
+        script.async = false;
+        document.head.appendChild(script);
+    }
+})();
+</script>
 <script>
 	var x = document.getElementById("location-div");
 	var isMobile = {

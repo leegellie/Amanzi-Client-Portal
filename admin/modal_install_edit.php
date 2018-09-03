@@ -93,11 +93,11 @@
 							<div class="col-6">
 								<div class="row">
 									<fieldset class="form-group col-6 text-left">
-										<input class="filled-in mr-4" name="no_mats" id="i-no_mats" type="checkbox" value="1">
+										<input class="filled-in form-check-input mr-4" name="no_mats" id="i-no_mats" type="checkbox" value="1">
 										<label for="i-no_mats" class="text-left">No Materials</label>
 									</fieldset>
 									<fieldset class="form-group col-6 text-left">
-										<input id="i-remnant" class="form-check-input filled-in" name="remnant" type="checkbox" value="1">
+										<input id="i-remnant" class="form-check-input filled-in form-check-input" name="remnant" type="checkbox" value="1">
 										<label for="i-remnant" class="w-100">Remnant</label>
 									</fieldset>
 									<fieldset class="form-group col-12">

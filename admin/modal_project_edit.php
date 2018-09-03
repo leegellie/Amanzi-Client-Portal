@@ -1,4 +1,4 @@
-i<div class="modal fade" id="editPjt">
+<div class="modal fade" id="editPjt">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -12,11 +12,11 @@ i<div class="modal fade" id="editPjt">
 							<div class="container">
 								<div class="row mx-0">
 									<fieldset class="form-group col text-left">
-										<input class="filled-in mr-4" name="no_charge" id="p-no_charge" type="checkbox" value="1">
+										<input class="filled-in form-check-input mr-4" name="no_charge" id="p-no_charge" type="checkbox" value="1">
 										<label for="p-no_charge" class="text-left">No Charge</label><br>
-										<input class="filled-in mr-4" name="call_out_fee" id="p-call_out_fee" type="checkbox" value="1">
+										<input class="filled-in form-check-input mr-4" name="call_out_fee" id="p-call_out_fee" type="checkbox" value="1">
 										<label for="p-call_out_fee" class="text-left">Call Out Fee</label><br>
-										<input id="p-isActive" class="form-check-input filled-in" name="isActive" type="checkbox" value="1">
+										<input id="p-isActive" class="form-check-input filled-in form-check-input" name="isActive" type="checkbox" value="1">
 										<label for="p-isActive" class="w-100">Active?</label>
 									</fieldset>
 									<fieldset class="form-group col text-left reprew" style="display: none">
@@ -38,7 +38,7 @@ i<div class="modal fade" id="editPjt">
 									</fieldset>
 									<fieldset class="form-group col-12 col-md-6 text-left reprew" style="display: none">
 										<label for="p-reason" class="text-left w-100">Please detail the reason for Repair/Rework/No-Charge</label>
-										<textarea class="filled-in rounded mr-4 w-100" name="reason" id="p-reason"></textarea>
+										<textarea class="filled-in form-check-input rounded mr-4 w-100" name="reason" id="p-reason"></textarea>
 									</fieldset>
 								</div>
 							</div>
@@ -105,9 +105,9 @@ i<div class="modal fade" id="editPjt">
 						<div class="container pt-3 mb-3">
 							<div class="row">
 								<fieldset class="form-group col-4 col-md-2 ">
-									<input class="filled-in mr-4" name="urgent" id="p-urgent" type="checkbox" value="1">
+									<input class="filled-in form-check-input mr-4" name="urgent" id="p-urgent" type="checkbox" value="1">
 									<label for="p-urgent" class="w-100 ">911?:</label>
-									<input class="filled-in mr-4" name="tax_free" id="p-tax_free" type="checkbox" value="1">
+									<input class="filled-in form-check-input mr-4" name="tax_free" id="p-tax_free" type="checkbox" value="1">
 									<label for="p-tax_free" class="w-100 ">No Tax:</label>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
@@ -241,24 +241,24 @@ i<div class="modal fade" id="editPjt">
 									</div>
 								</fieldset>
 								<fieldset class="form-group col">
-									<input class="filled-in" id="p-temp_am" name="temp_am" type="checkbox" value="1">
+									<input class="filled-in form-check-input" id="p-temp_am" name="temp_am" type="checkbox" value="1">
 									<label for="p-temp_am">AM?:</label>
 								</fieldset>
 								<fieldset class="form-group col">
-									<input class="filled-in" id="p-temp_first_stop" name="temp_first_stop" type="checkbox" value="1">
+									<input class="filled-in form-check-input" id="p-temp_first_stop" name="temp_first_stop" type="checkbox" value="1">
 									<label for="p-temp_first_stop">1st Stop?:</label>
 								</fieldset>
 		
 								<fieldset class="form-group col">
-									<input class="filled-in" id="p-temp_pm" name="temp_pm" type="checkbox" value="1">
+									<input class="filled-in form-check-input" id="p-temp_pm" name="temp_pm" type="checkbox" value="1">
 									<label for="p-temp_pm">PM?:</label>
 								</fieldset>
 								<fieldset class="form-group col text-left">
-									<input class="filled-in mr-4" name="in_house_template" id="p-in_house_template" type="checkbox" value="1">
+									<input class="filled-in form-check-input mr-4" name="in_house_template" id="p-in_house_template" type="checkbox" value="1">
 									<label for="p-in_house_template" class="text-left">In-House</label>
 								</fieldset>
 								<fieldset class="form-group col text-left">
-									<input class="filled-in mr-4" name="no_template" id="p-no_template" type="checkbox" value="1">
+									<input class="filled-in form-check-input mr-4" name="no_template" id="p-no_template" type="checkbox" value="1">
 									<label for="p-no_template" class="text-left">No Template</label>
 								</fieldset>
 
@@ -278,19 +278,19 @@ i<div class="modal fade" id="editPjt">
 									</div>
 								</fieldset>
 								<fieldset class="form-group col">
-									<input class="filled-in" name="am" id="p-am" type="checkbox" value="1">
+									<input class="filled-in form-check-input" name="am" id="p-am" type="checkbox" value="1">
 									<label for="p-am">AM?:</label>
 								</fieldset>
 								<fieldset class="form-group col">
-									<input class="filled-in" name="first_stop" id="p-first_stop" type="checkbox" value="1">
+									<input class="filled-in form-check-input" name="first_stop" id="p-first_stop" type="checkbox" value="1">
 									<label for="p-first_stop">1st Stop?:</label>
 								</fieldset>
 								<fieldset class="form-group col">
-									<input class="filled-in" name="pm" id="p-pm" type="checkbox" value="1">
+									<input class="filled-in form-check-input" name="pm" id="p-pm" type="checkbox" value="1">
 									<label for="p-pm">PM?:</label>
 								</fieldset>
 								<fieldset class="form-group col text-left">
-									<input class="filled-in mr-4" name="pick_up" id="p-pick_up" type="checkbox" value="1">
+									<input class="filled-in form-check-input mr-4" name="pick_up" id="p-pick_up" type="checkbox" value="1">
 									<label for="p-pick_up" class="text-left">Pick Up</label>
 								</fieldset>
 							</div>

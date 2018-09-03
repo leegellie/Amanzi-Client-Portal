@@ -3,7 +3,6 @@ if(!session_id()) session_start();
 require_once(__DIR__ . '/../config.php');
 
 class log_action {
-
 	public function pjt_changes($a) {
 		try {
 			date_default_timezone_set('America/New_York');
@@ -19,7 +18,6 @@ class log_action {
 			return $this->_message;
 		}
 	}
-
 	public function location_log($uid,$lat,$long) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
@@ -31,7 +29,6 @@ class log_action {
 		$q->execute();
 	}
 }
-
 
 class project_action {
 	private $_error;
@@ -54,6 +51,33 @@ class project_action {
 				 SELECT	COUNT(*) AS counts 
 				   FROM projects 
 				  WHERE ' . $a['toCheck'] . ' = 1 ';
+			if (isset($a['install_date'])) {
+				$sql.= ' AND install_date = "' . $a['install_date'] . '" ';
+			}
+			if (isset($a['template_date'])) {
+				$sql.= ' AND template_date = "' . $a['template_date'] . '" ';
+			}
+			if (isset($a['pid']) && $a['pid'] > 0) { 
+				$sql .= ' AND id != ' . $a['pid']; 
+			} 
+			$q = $conn->prepare($sql); 
+			$q->execute(); 
+			$row = $q->fetch(PDO::FETCH_ASSOC);
+			$count = $row['counts'];
+			return $count;
+		} catch(PDOException $e) { 
+			echo "ERROR: " . $e->getMessage(); 
+		} 
+	} 
+
+	public function check_repairs($a) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = '
+				 SELECT	COUNT(*) AS counts 
+				   FROM projects 
+				  WHERE repair = 1 ';
 			if (isset($a['install_date'])) {
 				$sql.= ' AND install_date = "' . $a['install_date'] . '" ';
 			}
@@ -134,6 +158,22 @@ class project_action {
 		}
 	}
 
+	public function no_template($pid) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = 'UPDATE projects SET no_template = 1 WHERE id = ' . $pid;
+		$q = $conn->prepare($sql);
+		$q->execute();
+	}
+	
+	public function change_job($pid) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = 'UPDATE projects SET job_status = 21, entry = 0, install_date = "2200-01-01" WHERE id = ' . $pid;
+		$q = $conn->prepare($sql);
+		$q->execute();
+	}
+	
 	public function change_limit($a) {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
@@ -148,7 +188,6 @@ class project_action {
 		}
 	}
 	
-
 	public function get_prog_limits($a) {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
@@ -718,7 +757,25 @@ class project_action {
 //	}
 //
 //
-	
+
+
+	public function get_repairs_reworks() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare('
+							SELECT install_date AS day, 
+								COUNT(*) AS prod_prog,
+								COUNT(p.job_name)
+							FROM projects p 
+							WHERE 1
+							AND install_date < "2199-01-01"
+							GROUP BY day  
+							ORDER BY day DESC LIMIT 30
+						');
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+	}
+
 	public function get_jobs_inst_stats() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -754,41 +811,72 @@ class project_action {
 		$q = $conn->prepare('SELECT * FROM late_work WHERE 1');
 		$q->execute();
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
-
 	}
 
-
-
-	public function get_entry_stats() {
+	public function get_prod_daily_stats() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		$q = $conn->prepare('SELECT FROM_DAYS(TO_DAYS(timestamp) -MOD(TO_DAYS(timestamp) -1, 7)) AS week_beginning, 
-			COUNT(CASE WHEN cmt_user = 10 AND cmt_comment LIKE "%Entered in%" THEN 1 ELSE NULL END) AS alex_entered,
-			COUNT(CASE WHEN cmt_user = 10 AND cmt_comment LIKE "%Rejected%" THEN 1 ELSE NULL END) AS alex_rejected,
-			COUNT(CASE WHEN cmt_user = 985 AND cmt_comment LIKE "%Entered in%" THEN 1 ELSE NULL END) AS anya_entered,
-			COUNT(CASE WHEN cmt_user = 985 AND cmt_comment LIKE "%Rejected%" THEN 1 ELSE NULL END) AS anya_rejected
-		FROM comments
-		GROUP BY FROM_DAYS(TO_DAYS(timestamp) -MOD(TO_DAYS(timestamp) -1, 7))
-		ORDER BY FROM_DAYS(TO_DAYS(timestamp) -MOD(TO_DAYS(timestamp) -1, 7))');
+		$q = $conn->prepare('
+			SELECT SUBSTR( timestamp, 1, 10 ) AS day, 
+                   SUM(CASE WHEN (c.cmt_comment LIKE "Project Status set to Programming Complete" OR c.cmt_comment LIKE "Project Status set to Delivered to Saw") THEN job_sqft ELSE 0 END) AS prod_prog,
+                   SUM(CASE WHEN (c.cmt_comment LIKE "Project Status set to Cutting Completed" OR "Project Status set to Delivered to Edging") THEN job_sqft ELSE 0 END) AS prod_saw,
+                   SUM(CASE WHEN (c.cmt_comment LIKE "Project Status set to CNC Delivered to Polishing" OR "Project Status set to CNC Completed") THEN job_sqft ELSE 0 END) AS prod_cnc,
+                   SUM(CASE WHEN (c.cmt_comment LIKE "Project Status set to Polishing Delivered to Installers" OR "Project Status set to Polishing Completed") THEN job_sqft ELSE 0 END) AS prod_polish
+			  FROM projects p 
+			  JOIN comments c ON c.cmt_ref_id = p.id
+             WHERE (c.cmt_comment LIKE "Project Status set to Polishing Delivered to Installers" OR "Project Status set to Polishing Completed")
+			 	OR (c.cmt_comment LIKE "Project Status set to CNC Delivered to Polishing" OR "Project Status set to Polishing Completed")
+			 	OR (c.cmt_comment LIKE "Project Status set to Cutting Completed" OR "Project Status set to Delivered to Edging")
+			 	OR (c.cmt_comment LIKE "Project Status set to Programming Complete" OR c.cmt_comment LIKE "Project Status set to Delivered to Saw")
+				
+          GROUP BY day
+          ORDER BY day ASC');
 		$q->execute();
 		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
 
 	}
 
-//	public function get_entry_stats() {
-//		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-//		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-//		$q = $conn->prepare("SELECT CONCAT(YEAR(timestamp), '/', WEEK(timestamp)) AS week_beginning, YEAR(timestamp), WEEK(timestamp),
-//			COUNT(CASE WHEN cmt_user = 10 AND cmt_comment LIKE '%Entered in%' THEN 1 ELSE NULL END) AS alex_entered,
-//			COUNT(CASE WHEN cmt_user = 10 AND cmt_comment LIKE '%Rejected%' THEN 1 ELSE NULL END) AS alex_rejected,
-//			COUNT(CASE WHEN cmt_user = 985 AND cmt_comment LIKE '%Entered in%' THEN 1 ELSE NULL END) AS anya_entered,
-//			COUNT(CASE WHEN cmt_user = 985 AND cmt_comment LIKE '%Rejected%' THEN 1 ELSE NULL END) AS anya_rejected
-//		FROM comments
-//		GROUP BY week_beginning
-//		ORDER BY YEAR(timestamp) ASC, WEEK(timestamp) ASC");
-//		$q->execute();
-//		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
-//	}
+	public function get_sales_weekly_stats() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare('
+			SELECT FROM_DAYS(TO_DAYS(c.timestamp) -MOD(TO_DAYS(c.timestamp) -1, 7)) AS week_beginning, 
+			       SUM(CASE WHEN p.no_charge = 0 THEN p.job_price ELSE 0 END) AS sales_weekly_ammount,
+			       SUM(CASE WHEN p.no_charge = 0 THEN p.profit ELSE 0 END) AS sales_weekly_profit,
+                   SUM(CASE WHEN p.repair = 1 AND p.no_charge = 1 THEN 250 ELSE 0 END) AS sales_weekly_repair,
+                   SUM(CASE WHEN p.rework = 1 AND p.no_charge = 1 THEN costs_job ELSE 0 END) AS sales_weekly_rework
+			  FROM projects p 
+			  JOIN comments c ON c.cmt_ref_id = p.id
+             WHERE c.cmt_comment LIKE "Project Status set to Quote Approved" OR c.cmt_comment LIKE "$0 approved."
+          GROUP BY week_beginning
+          ORDER BY week_beginning ASC');
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	}
+
+	public function get_prod_weekly_stats() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare('
+			SELECT FROM_DAYS(TO_DAYS(c.timestamp) -MOD(TO_DAYS(c.timestamp) -1, 7)) AS week_beginning, 
+                   SUM(CASE WHEN (c.cmt_comment LIKE "Project Status set to Programming Complete" OR c.cmt_comment LIKE "Project Status set to Delivered to Saw") THEN job_sqft ELSE 0 END) AS prod_prog,
+                   SUM(CASE WHEN (c.cmt_comment LIKE "Project Status set to Cutting Completed" OR "Project Status set to Delivered to Edging") THEN job_sqft ELSE 0 END) AS prod_saw,
+                   SUM(CASE WHEN (c.cmt_comment LIKE "Project Status set to CNC Delivered to Polishing" OR "Project Status set to CNC Completed") THEN job_sqft ELSE 0 END) AS prod_cnc,
+                   SUM(CASE WHEN (c.cmt_comment LIKE "Project Status set to Polishing Delivered to Installers" OR "Project Status set to Polishing Completed") THEN job_sqft ELSE 0 END) AS prod_polish
+			  FROM projects p 
+			  JOIN comments c ON c.cmt_ref_id = p.id
+             WHERE (c.cmt_comment LIKE "Project Status set to Polishing Delivered to Installers" OR "Project Status set to Polishing Completed")
+			 	OR (c.cmt_comment LIKE "Project Status set to CNC Delivered to Polishing" OR "Project Status set to Polishing Completed")
+			 	OR (c.cmt_comment LIKE "Project Status set to Cutting Completed" OR "Project Status set to Delivered to Edging")
+			 	OR (c.cmt_comment LIKE "Project Status set to Programming Complete" OR c.cmt_comment LIKE "Project Status set to Delivered to Saw")
+				
+          GROUP BY week_beginning
+          ORDER BY week_beginning ASC');
+		$q->execute();
+		return $row = $q->fetchAll(PDO::FETCH_ASSOC);
+
+	}
 
 	public function get_walkin_stats() {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
@@ -977,6 +1065,112 @@ class project_action {
 
 	}
 
+//	public function compile_install_price($a) {
+//		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+//		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+//
+//		$details = $conn->prepare("SELECT u.id AS puid, p.pick_up, p.in_house_template AS in_house, p.no_template, i.remnant FROM installs i JOIN projects p ON p.id = i.pid JOIN users u ON u.id = p.uid  WHERE i.id = :iid");
+//		$details->bindParam('iid',$a['iid']);
+//		$details->execute();
+//		$detailsList = $details->fetch();
+//		$puid = $detailsList['puid'];
+//		$pick_up = $detailsList['pick_up'];
+//		$in_house = $detailsList['in_house'];
+//		$no_template = $detailsList['no_template'];
+//		$remnant = $detailsList['remnant'];
+//
+//		$sqFt = $conn->prepare("SELECT SUM(SqFt) AS sumSqFt FROM install_pieces WHERE iid = :iid AND piece_active = 1");
+//		$sqFt->bindParam('iid',$a['iid']);
+//		$sqFt->execute();
+//		$sumSqFt = $sqFt->fetch();
+//		$sumSqFt = $sumSqFt[0];
+//		if (!(is_numeric($sumSqFt))) {
+//			$sumSqFt = 0;
+//		}
+//		if ($sumSqFt < 1) {
+//			$sumSqFt = 0;
+//		}
+//
+//		$sink = $conn->prepare("SELECT (SUM(cutout_price) + SUM(faucet_price) + SUM(sink_price)) as sinkTotal FROM install_sink WHERE sink_iid = :iid");
+//		$sink->bindParam('iid',$a['iid']);
+//		$sink->execute();
+//		$sinkPrice = $sink->fetch();
+//		$sinkPrice = $sinkPrice['sinkTotal'];
+//		if (!(is_numeric($sinkPrice))) {
+//			$sinkPrice = 0;
+//		}
+//		if ($sinkPrice < 1) {
+//			$sinkPrice = 0.00;
+//		}
+//
+//		$price_extra = 0;
+//		$matPrice = 0;
+//		$install_discount = 0.00;
+//		$price_tearout = 0.00;
+//
+//		$q = $conn->prepare("SELECT price_extra, cpSqFt, SqFt, install_discount, tear_out, tearout_sqft, materials_cost FROM installs WHERE id = :iid");
+//		$q->bindParam('iid',$a['iid']);
+//		$q->execute();
+//		$row = $q->fetchAll(PDO::FETCH_ASSOC);
+//		$cpSqFt = 0;
+//		foreach($row as $r) {
+//			$cpSqFt = $r['materials_cost'];
+//			if ($remnant == 1) {
+//				if ($cpSqFt > 0 && $sumSqFt > 0) {
+//					$cpSqFt = $cpSqFt / $sumSqFt;
+//					$cpSqFt = $cpSqFt - 21.5;
+//					$cpSqFt = $cpSqFt / 2;
+//					$cpSqFt = $cpSqFt + 21.5;
+//					$cpSqFt = $cpSqFt * $sumSqFt;
+//				}
+//			}
+//			$matPrice = $r['cpSqFt'] * $sumSqFt;
+//			if ($matPrice < 1) {
+//				$matPrice = 0;
+//			}
+//			$price_extra = $r['price_extra'];
+//			$install_discount = $r['install_discount'];
+//			if ($r['tear_out'] == "Yes") {
+//				$price_tearout = $r['tearout_sqft'] * 7.5;
+//			}
+//		}
+//	
+//		if ($puid == 424) {
+//			$discPulte = $sumSqFt * 3;
+//			$cpSqFt = $cpSqFt - $discPulte;
+//		}
+//
+//		if ($pick_up == 1) {
+//			$discPickup = $sumSqFt * 5;
+//			$cpSqFt = $cpSqFt - $discPickup;
+//		}
+//
+//		if ($in_house == 1) {
+//			$discInHouse = $sumSqFt * 1.5;
+//			$cpSqFt = $cpSqFt - $discInHouse;
+//		}
+//
+//		if ($no_template == 1) {
+//			$discNoTemp = $sumSqFt * 2.5;
+//			$cpSqFt = $cpSqFt - $discNoTemp;
+//		}
+
+//		$finalPrice = ($matPrice + $price_extra + $sinkPrice + $price_tearout) - $install_discount;
+//
+//		if ($finalPrice < 1) {
+//			$finalPrice = 0.00;
+//		}
+//
+//		$f = $conn->prepare("UPDATE installs SET install_price = :install_price, accs_prices = :accs_prices, SqFt = :SqFt, price_calc = :price_calc, tearout_cost = :tearout_cost, materials_cost = :materials_cost WHERE id = :id");
+//		$f->bindParam('id',$a['iid']);
+//		$f->bindParam('price_calc',$matPrice);
+//		$f->bindParam('accs_prices',$sinkPrice);
+//		$f->bindParam('SqFt',$sumSqFt);
+//		$f->bindParam('install_price',$finalPrice);
+//		$f->bindParam('tearout_cost',$price_tearout);
+//		$f->bindParam('materials_cost',$cpSqFt);
+//		$f->execute();
+//	}
 
 	public function compile_install_price($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
@@ -1522,10 +1716,10 @@ class project_action {
 				   mat.fname AS mat_name,
 				   mat.email AS mat_email
 			  FROM projects
-			  JOIN users rep
-				ON rep.id = :user
 			  JOIN users mat
-				ON mat.id = projects.acct_rep
+				ON mat.id = :user
+			  JOIN users rep
+				ON rep.id = projects.acct_rep
 			 WHERE projects.id = :pid");
 		$q->bindParam('pid',$a['pid']);
 		$q->bindParam('user',$a['user']);
@@ -1880,12 +2074,9 @@ class project_action {
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		$search_string = "SELECT projects.id, projects.job_name, projects.quote_num, projects.order_num, projects.uid, projects.job_status, projects.entry, status.name AS status FROM projects JOIN status ON projects.job_status = status.id WHERE projects." . $a['user_find'] . " LIKE :search AND projects.isActive = :isActive";
-
 		if ($a['mine'] > 0) {
-			if ($a['mine'] == 985) {
-				$search_string .= " AND acct_rep = 14";
-			} elseif ($a['mine'] == 10) {
-				$search_string .= " AND acct_rep = 13";
+			if ($a['mine'] == 10 || $a['mine'] == 985) {
+				$search_string .= " AND (acct_rep = 13 || acct_rep = 14) ";
 			} else {
 				$search_string .= " AND acct_rep = :acct_rep";
 			}
@@ -2134,14 +2325,16 @@ class project_action {
 		}
 	}
 
-		public function get_hold() {
+	public function get_hold() {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password); 
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			$sql = "
 			SELECT *
-			  FROM hold_list
-			 WHERE 1
+			  FROM projects
+			 WHERE (job_status = 19 OR job_status = 39 OR job_status = 49 OR job_status = 59 OR job_status = 69 OR job_status = 79 OR job_status = 89 OR job_status = 99)
+			   AND isActive = 1
+		  ORDER BY job_status ASC, install_date ASC
 				";
 			$q = $conn->prepare($sql);
 			$q->execute();
@@ -2605,12 +2798,8 @@ class project_action {
 			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13 || $a == 985 || $a == 10)) {
 				$sql .= "AND acct_rep = " . $a;
 			}
-			if ($a == 10) {
-				$sql .= "AND acct_rep = 13 ";
-			}
-			
-			if ($a == 985) {
-				$sql .= "AND acct_rep = 14 ";
+			if ($a == 10 || $a == 985) {
+				$sql .= "AND (acct_rep = 13 OR  acct_rep = 14) ";
 			}
 			$sql .= "
 			ORDER BY projects.template_date ASC, 

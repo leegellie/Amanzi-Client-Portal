@@ -466,6 +466,10 @@ $(document).ready(function() {
 			return;
 		}
 		$breakFunction = 0;
+		if($('input[name=repair]').val() == 1) {
+			var install_date = $('input[name=install_date]').val()
+			check_repairs(toCheck,install_date,$pid);
+		}
 		if ($('input[name=install_date]').val() == '') {
 			$('input[name=install_date]').val('2200-01-01');
 		} else if ($('input[name=install_date]').val().match("^2018")) {} else {

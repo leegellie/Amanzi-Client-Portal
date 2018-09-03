@@ -1,21 +1,8 @@
 <?
 if(!session_id()) session_start();
-//ini_set('session.gc_maxlifetime', 0);
-//ini_set('cookie_secure','1');
-//session_set_cookie_params(0,'/','',true,true);
 require_once (__DIR__ . '/../include/class/user.class.php');
 require_once (__DIR__ . '/../include/class/project.class.php');
 require_once ('head_php.php');
-
-/*
-HERE ARE THE CODE SNIPPETS TO DISPLAY USER INFO.
-WHAT TO DISPLAY = CODE TO INSERT THE VALUE
-USERNAME = <?= $username ?>
-ACCESS LEVEL (NUMERIC VALUE) = <?= $access_level ?>
-FIRST NAME = <?= $first_name ?>
-LAST NAME = <?= $last_name ?>
-USER'S EMAIL = <?= $user_email ?>
-*/
 ?>
 <!doctype html>
 <html>
@@ -24,19 +11,14 @@ USER'S EMAIL = <?= $user_email ?>
 <title>ACP | Admin - Accessories Needed</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <?
-// INCLUDE THE JS and CSS files needed on all ADMIN PAGES
 include('includes.php');
-
 ?>
-
-    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
-	<script src="/js/jquery.validate.js" type="text/javascript"></script>
-    <script src="js/projects.js"></script>
-    <script src="js/project_edit.js"></script>
-    <script src="js/materials.js"></script>
-
-
+<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<script src="/js/jquery.validate.js" type="text/javascript"></script>
+<script src="js/projects.js"></script>
+<script src="js/project_edit.js"></script>
+<script src="js/materials.js"></script>
 <?PHP include ('javascript.php'); ?>
 </head>
 <body class="metro" style="background-color: rgb(239, 234, 227);" >
@@ -56,7 +38,7 @@ include('includes.php');
                 <div id="user-data" class="col-12">
                     <div id="user-block" class="content">
 						<div id="resultsTable1" class="row striped">
-							<ul class="nav nav-tabs nav-justified w-100 mb-3 d-print-none" id="myTab" role="tablist">
+							<ul class="nav nav-tabs md-tabs orange nav-justified w-100 mb-3 d-print-none" id="myTab" role="tablist">
 								<li class="nav-item">
 									<a class="nav-link active" id="toOrder-tab" data-toggle="tab" href="#toOrder" role="tab" aria-controls="toOrder" aria-selected="true"><h5>To Order/Schedule</h5></a>
 								</li>

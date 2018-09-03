@@ -164,9 +164,10 @@ class materials_action {
 			  FROM projects 
 			  JOIN status 
 				ON status.id = projects.job_status 
-			 WHERE projects.job_status > 11 
+			 WHERE (projects.job_status > 11 
 			   AND projects.job_status < 50 
-			   AND (!(install_date = '2200-01-01' AND template_date = '2200-01-01') OR projects.pre_order = 1)
+			   AND (!(install_date = '2200-01-01' AND template_date = '2200-01-01') OR projects.pre_order = 1))
+			    OR material_status > 1
 			   AND isActive = 1 
 		  ORDER BY projects.install_date ASC
 		  ");
@@ -227,17 +228,17 @@ class materials_action {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
 		$q = $conn->prepare("
-	  	 SELECT SUM(slabs) AS slab_count, color, job_status
-		   FROM installs
-		   JOIN projects ON projects.id = installs.pid
-		  WHERE install_date >= CURDATE() 
-			AND ((!(install_date = '2200-01-01') AND job_status > 24) OR pre_order = 1)
-			AND installs.material_status < 2
-			AND installs.color > ''
-			AND remnant = 0
-			AND mat_hold = 0
-            GROUP BY color
-	   ORDER BY slab_count DESC, color 
+	  	 SELECT SUM(i.slabs) AS slab_count, i.color, i.material AS matType
+		   FROM installs i
+		   JOIN projects p ON p.id = i.pid
+		  WHERE p.install_date >= CURDATE() 
+			AND ((!(p.install_date = '2200-01-01') AND p.job_status > 24) OR p.pre_order = 1)
+			AND i.material_status < 2
+			AND i.color > ''
+			AND i.remnant = 0
+			AND i.mat_hold = 0
+       GROUP BY i.color
+	   ORDER BY matType DESC, slab_count DESC, i.color ASC
 		 ");
 		$q->execute();
 		return $row = $q->fetchAll();
@@ -248,7 +249,7 @@ class materials_action {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);  
 		$sql = '
-	  	 SELECT lot, order_num, pid, projects.uid, profit, installs.id AS iid, install_name, job_status
+	  	 SELECT SUM(slabs) AS slab_ct, lot, order_num, pid, projects.uid, profit, installs.id AS iid, install_name, job_status, install_date, template_date
 		   FROM installs
 		   JOIN projects ON projects.id = installs.pid
 		  WHERE color LIKE "' . $a . '"
@@ -266,12 +267,26 @@ class materials_action {
 		return $row = $q->fetchAll();
 	}
 
+	public function get_vendor($a){
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+			$sql = 'SELECT c.brand AS matBrand FROM quartz2 JOIN category c ON c.id = cat_id WHERE name LIKE "' . $a . '"';
+			$q = $conn->prepare($sql);
+			$q->execute();
+			return $row = $q->fetchAll();
+		} catch(PDOException $e) {
+			$this->_message = "ERROR: " . $e->getMessage();
+		}
+		return $this->_message;
+	}
+  
 	public function update_pullstatus($a){
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-			$q = $conn->prepare("UPDATE install_sink SET pull_status = 2 WHERE sink_id IN (".$a.")");
-			//       $q->bindParam(':iid', $a);
+			$sql = "UPDATE install_sink SET pull_status = 2 WHERE sink_id IN (" . $a . ")";
+			$q = $conn->prepare($sql);
 			$q->execute();
 			$this->_message = "SUCCESS";
 		} catch(PDOException $e) {

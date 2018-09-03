@@ -97,8 +97,8 @@ include('includes.php');
 
 ?>
 
-    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 	  <script src="/js/jquery.validate.js" type="text/javascript"></script>
     <script src="js/projects.js"></script>
     <script src="js/printThis.js"></script>
@@ -200,7 +200,7 @@ if(isset($_GET['add'])){
 									<input class="form-control text-center" id="p-order_num" name="order_num" type="text">
 								</fieldset>
 								<fieldset class="form-check col-4 col-md-1">
-									<input id="p-isActive" class="form-check-input filled-in" name="isActive" type="checkbox" value="1">
+									<input id="p-isActive" class="form-check-input filled-in form-check-input" name="isActive" type="checkbox" value="1">
 									<label for="p-isActive" class="w-100">Active?</label>
 								</fieldset>
 
@@ -213,9 +213,9 @@ if(isset($_GET['add'])){
 						<div class="container pt-3 mb-3">
 							<div class="row">
 								<fieldset class="form-group col-4 col-md-2 ">
-									<input class="filled-in mr-4" name="urgent" id="p-urgent" type="checkbox" value="1">
+									<input class="filled-in form-check-input mr-4" name="urgent" id="p-urgent" type="checkbox" value="1">
 									<label for="p-urgent" class="w-100 ">911?:</label>
-									<input class="filled-in mr-4" name="tax_free" id="p-tax_free" type="checkbox" value="1">
+									<input class="filled-in form-check-input mr-4" name="tax_free" id="p-tax_free" type="checkbox" value="1">
 									<label for="p-tax_free" class="w-100 ">No Tax:</label>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
@@ -352,16 +352,16 @@ if(isset($_GET['add'])){
 									</div>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
-									<input class="filled-in" id="p-temp_am" name="temp_am" type="checkbox" value="1">
+									<input class="filled-in form-check-input" id="p-temp_am" name="temp_am" type="checkbox" value="1">
 									<label for="p-temp_am">AM?:</label>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
-									<input class="filled-in" id="p-temp_first_stop" name="temp_first_stop" type="checkbox" value="1">
+									<input class="filled-in form-check-input" id="p-temp_first_stop" name="temp_first_stop" type="checkbox" value="1">
 									<label for="p-temp_first_stop">1st Stop?:</label>
 								</fieldset>
 		
 								<fieldset class="form-group col-4 col-md-2">
-									<input class="filled-in" id="p-temp_pm" name="temp_pm" type="checkbox" value="1">
+									<input class="filled-in form-check-input" id="p-temp_pm" name="temp_pm" type="checkbox" value="1">
 									<label for="p-temp_pm">PM?:</label>
 								</fieldset>
 								<hr>
@@ -378,15 +378,15 @@ if(isset($_GET['add'])){
 									</div>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
-									<input class="filled-in" name="am" id="p-am" type="checkbox" value="1">
+									<input class="filled-in form-check-input" name="am" id="p-am" type="checkbox" value="1">
 									<label for="p-am">AM?:</label>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
-									<input class="filled-in" name="first_stop" id="p-first_stop" type="checkbox" value="1">
+									<input class="filled-in form-check-input" name="first_stop" id="p-first_stop" type="checkbox" value="1">
 									<label for="p-first_stop">1st Stop?:</label>
 								</fieldset>
 								<fieldset class="form-group col-4 col-md-2">
-									<input class="filled-in" name="pm" id="p-pm" type="checkbox" value="1">
+									<input class="filled-in form-check-input" name="pm" id="p-pm" type="checkbox" value="1">
 									<label for="p-pm">PM?:</label>
 								</fieldset>
                 <hr>
@@ -808,13 +808,13 @@ if(isset($_GET['add'])){
 						<fieldset class="col-3 col-md-2">
 							<div id="user_infoDIV" class="form-check" data-role="input-control">
 								
-								<input class="filled-in" type="checkbox" name="isActive" id="s-isActive" value="1" checked >
+								<input class="filled-in form-check-input" type="checkbox" name="isActive" id="s-isActive" value="1" checked >
 								<label style="padding-bottom:9px;" for="s-isActive">Active?</label>
 							</div>
 						</fieldset>
 						<fieldset class="col-3 col-md-2">
 							<div id="user_infoDIV" class="form-check" data-role="input-control">
-								<input class="filled-in" type="checkbox" name="mine" id="mine" value="1" <? if (!in_array($_SESSION['id'],array('1','13','14','985'),true)) {echo 'checked';}; ?> >
+								<input class="filled-in form-check-input" type="checkbox" name="mine" id="mine" value="1" <? if (!in_array($_SESSION['id'],array('1','13','14','985'),true)) {echo 'checked';}; ?> >
 								<label style="padding-bottom:9px;" for="mine">My Clients</label>
 							</div>
 						</fieldset>
@@ -1690,7 +1690,7 @@ if(isset($_GET['add'])){
 									<input type="text" class="form-control" id="sink_holes_other" name="sink_holes_other">
 								</fieldset>
 								<fieldset class="form-group col-2 d-inline">
-									<input type="checkbox" class="filled-in form-control" id="sink_soap" name="sink_soap" value="1">
+									<input type="checkbox" class="filled-in form-check-input form-control" id="sink_soap" name="sink_soap" value="1">
 									<label for="sink_soap"><u>Soap Hole</u>?</label>
 								</fieldset>
 								<fieldset class="form-group col-2 d-inline">

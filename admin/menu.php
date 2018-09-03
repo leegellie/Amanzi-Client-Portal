@@ -94,6 +94,13 @@ if ($access_level < 11) {
 						<a class="dropdown-item text-dark" href="projects.php?polishing">Polishing</a>
 						<a class="dropdown-item text-dark" href="projects.php?installs">Installs</a>
 						<a class="dropdown-item text-dark" href="projects.php?timeline">Timeline</a>
+<?
+	if ($_SESSION['id'] == 1448) {
+?>
+						<a class="dropdown-item text-dark" href="admin.php?pay">Installer Pay</a>
+<?
+	}
+?>
 					</div>
 				</li>
 				<li class="nav-item py-3 px-4 dropdown">

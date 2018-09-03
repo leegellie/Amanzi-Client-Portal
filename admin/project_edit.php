@@ -35,9 +35,9 @@
                                     </div>
                                     <div class="col-3 col-lg-3 mt-2">
                                     	<div id="isActiveDIV" class="input_control checkbox fg-white container" data-role="input-control">
-											<input class="filled-in" name="isActive" id="isActive" type="checkbox" value="1" checked>
+											<input class="filled-in form-check-input" name="isActive" id="isActive" type="checkbox" value="1" checked>
 											<label class="form-check-label container col-10" for="isActive"><p>Active</p></label>
-											<input class="filled-in" name="mine" id="mine" type="checkbox" value="1" <? if (!in_array($_SESSION['id'],array('1','2','13','14','985','2004','1541'),true)) {echo 'checked';}; ?> >
+											<input class="filled-in form-check-input" name="mine" id="mine" type="checkbox" value="1" <? if (!in_array($_SESSION['id'],array('1','2','13','14','985','2004','1541'),true)) {echo 'checked';}; ?> >
 											<label class="form-check-label container col-10" for="mine"><p>My Jobs</p></label>
 										</div>
                                     </div>
