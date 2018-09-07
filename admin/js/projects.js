@@ -854,6 +854,7 @@ function approval_reject() {
 // CLEANED TO HERE
 
 function mat_hold_modal(uid,iid,pid) {
+	$('#mat_holdBtn').show();
 	$('#mh-pid').val('');
 	$('#mh-iid').val('');
 	$('#mh-staff').val('');
@@ -865,6 +866,7 @@ function mat_hold_modal(uid,iid,pid) {
 }
 
 function mat_hold() {
+	$('#mat_holdBtn').hide();
 	if ($('#mh-hold_reason').val() == '') {
 		alert("You must enter a reason for placing the material on hold.");
 		return;
@@ -908,11 +910,15 @@ function mat_hold() {
 		},
 		error: function(data) {
 			console.log(data);
+		},
+		complete: function() {
+			$('#mat_holdBtn').show();
 		}
 	});
 }
 
 function mat_release_modal(uid,iid,pid) {
+	$('#mat_releaseBtn').show();
 	$('#mr-pid').val('');
 	$('#mr-iid').val('');
 	$('#mr-staff').val('');
@@ -924,6 +930,7 @@ function mat_release_modal(uid,iid,pid) {
 }
 
 function mat_release() {
+	$('#mat_releaseBtn').hide();
 	if ($('#mr-release_reason').val() == '') {
 		alert("You must enter a reason for releasing the material from hold.");
 		return;
@@ -967,6 +974,9 @@ function mat_release() {
 		},
 		error: function(data) {
 			console.log(data);
+		},
+		complete: function() {
+			$('#mat_releaseBtn').show();
 		}
 	});
 }

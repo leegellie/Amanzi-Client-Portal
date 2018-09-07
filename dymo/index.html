@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Dymo Label Editor</title>
+
+    <link rel="stylesheet" type="text/css" href="./GSDymo.css">
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+<h1>Dymo Label Editor</h1>
+<!-- http://developers.dymo.com/tag/xml/ -->
+
+    <b>Paper</b>
+    <button onClick="editor.toggleOrientation();">              Toggle Orientation</button>
+
+    <button onClick="editor.selectPaper(DYMO_PAPER_ADDRESS);">      Paper Address</button>
+    <button onClick="editor.selectPaper(DYMO_PAPER_SHIPPING);">     Paper Shipping</button>
+    <button onClick="editor.selectPaper(DYMO_PAPER_FILEFOLDER);">   Paper Filefolder</button>
+
+    <br>
+    <b>Export</b>
+    <button onClick="editor.exportXML();">  Export XML</button>
+    <button onClick="editor.exportJSON();"> Export JSON</button>
+
+    <br>
+    <b>Add</b>
+    <button onClick="editor.addObject('text');">            Text            </button>
+    <button onClick="editor.addObject('value');">           Value           </button>
+    <button onClick="editor.addObject('barcode');">         Barcode         </button>
+    <button onClick="editor.addObject('valueBarcode');">    Value Barcode   </button>
+
+    <br><br>
+    <div id="dymoEditor"></div>
+	<div id="barcodeYup"></div>
+    <br>
+    <button onClick="editor.print({'Id':10,'Name':'SuperAwesome product','Price':'10.00 €','Barcode':10121536});">Print</button>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <!--script src = "http://labelwriter.com/software/dls/sdk/js/DYMO.Label.Framework.latest.js" type="text/javascript" charset="UTF-8"> </script-->
+    <script src = "./DYMO.Label.Framework.latest.js" type="text/javascript" charset="UTF-8"> </script>
+    <script src = "./GSDymo.js" type="text/javascript" charset="UTF-8"> </script>
+    <script src = "jquery.qrcode.min.js" type="text/javascript" charset="UTF-8"> </script>
+
+    <script>
+		var editor;
+		$(document).ready(function() {
+            editor = $('#dymoEditor').dymoEditor(
+                    {'values'   :['Id','Name','Price','Barcode']} ,
+                    {"paper":"30252 Address","orientation":"Landscape","objects":[{"type":"text","x":10,"y":37.875,"width":180,"height":50,"bold":false,"fontSize":"14px","fontFamily":"Calibri","text":"another text"},{"type":"text","x":3,"y":5.875,"width":185,"height":30,"bold":false,"fontSize":"22px","fontFamily":"Calibri","text":"a text"},{"type":"text","x":180,"y":5.875,"width":90,"height":90,"bold":false,"fontSize":"22px","fontFamily":"Calibri","text":""}]}
+
+                    );
+			console.log('start');
+			$('#dymoEditor div#dymoEditorObject:nth-child(3) div:first-child()').qrcode({width: 90,height: 90,text: "123456"});
+			console.log('end');
+        });
+    </script>
+</body> 
+</html> 
+

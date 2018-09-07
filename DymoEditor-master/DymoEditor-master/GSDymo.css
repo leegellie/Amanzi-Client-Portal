@@ -1,0 +1,30 @@
+#dymoEditor{
+    padding:2px;
+    border:1px solid #aaa;
+    border-radius: 5px;
+}
+
+#dymoEditorPopup{
+    position:absolute;
+    background-color:white;
+    border:1px solid #aaa;
+    border-radius: 5px;
+    display:none;
+    padding:2px;
+}
+
+#dymoEditorPopup a{color:#3E8ACC;}
+#dymoEditorPopup a:hover{color: #37a3dd;}
+
+.dymoEditorObject{
+    border:1px dashed #ddd;
+    position:absolute;
+    display:inline-block;
+    position:absolute !important;
+    font-family:'Arial';
+}
+
+.dymoEditorBarcodeObject{
+    text-align:center;
+    font-size:24px;
+}

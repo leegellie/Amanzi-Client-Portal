@@ -2075,11 +2075,17 @@ class project_action {
 
 		$search_string = "SELECT projects.id, projects.job_name, projects.quote_num, projects.order_num, projects.uid, projects.job_status, projects.entry, status.name AS status FROM projects JOIN status ON projects.job_status = status.id WHERE projects." . $a['user_find'] . " LIKE :search AND projects.isActive = :isActive";
 		if ($a['mine'] > 0) {
-			if ($a['mine'] == 10 || $a['mine'] == 985) {
-				$search_string .= " AND (acct_rep = 13 || acct_rep = 14) ";
+
+			if ($a['mine'] == 10) {
+				$search_string .= " AND (acct_rep = 13 || acct_rep = 9 || acct_rep = 8 || acct_rep = 2054) ";
+			} else if ($a['mine'] == 985) {
+				$search_string .= " AND (acct_rep = 1778 || acct_rep = 12 || acct_rep = 14) ";
+			} else if ($a['mine'] == 2986) {
+				$search_string .= " AND (acct_rep = 6 || acct_rep = 1) ";
 			} else {
 				$search_string .= " AND acct_rep = :acct_rep";
 			}
+	
 		}
 
 		$search_string .= " ORDER BY projects.last_modified DESC LIMIT 40";
@@ -2534,8 +2540,8 @@ class project_action {
 				   AND NOT job_status = 29
 				   AND projects.isActive = 1
 				 ORDER BY 
-					   install_date ASC, 
-					outoftown DESC,
+					   install_date ASC,
+					   outoftown DESC,
 					   urgent DESC, 
 					   first_stop DESC, 
 					   am DESC, 
@@ -2569,7 +2575,7 @@ class project_action {
 			   AND projects.isActive = 1 
 			 ORDER BY 
 				   install_date ASC, 
-				outoftown DESC,
+				   outoftown DESC,
 				   urgent DESC, 
 				   users.access_level ASC, 
 				   first_stop DESC, 
@@ -2795,11 +2801,17 @@ class project_action {
 			   	 AND projects.template_date >= CURDATE()
 				 AND projects.isActive = 1
 				 ";
-			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13 || $a == 985 || $a == 10)) {
+			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13 || $a == 985 || $a == 10 || $a == 2986)) {
 				$sql .= "AND acct_rep = " . $a;
 			}
-			if ($a == 10 || $a == 985) {
-				$sql .= "AND (acct_rep = 13 OR  acct_rep = 14) ";
+			if ($a == 10) {
+				$sql .= "AND (acct_rep = 13 OR  acct_rep = 9 OR  acct_rep = 8 OR  acct_rep = 2054) ";
+			}
+			if ($a == 985) {
+				$sql .= "AND (acct_rep = 1778 OR  acct_rep = 14 OR  acct_rep = 12) ";
+			}
+			if ($a == 2986) {
+				$sql .= "AND (acct_rep = 6 OR  acct_rep = 11) ";
 			}
 			$sql .= "
 			ORDER BY projects.template_date ASC, 
@@ -2837,8 +2849,17 @@ class project_action {
 			   	 AND projects.job_status < 30
 				 AND projects.isActive = 1
 				 ";
-			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
+			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13 || $a == 985 || $a == 10 || $a == 2986)) {
 				$sql .= "AND acct_rep = " . $a;
+			}
+			if ($a == 10) {
+				$sql .= "AND (acct_rep = 13 OR  acct_rep = 9 OR  acct_rep = 8 OR  acct_rep = 2054) ";
+			}
+			if ($a == 985) {
+				$sql .= "AND (acct_rep = 1778 OR  acct_rep = 14 OR  acct_rep = 12) ";
+			}
+			if ($a == 2986) {
+				$sql .= "AND (acct_rep = 6 OR  acct_rep = 11) ";
 			}
 			$sql .= "
 			ORDER BY projects.install_date ASC,
@@ -2919,8 +2940,17 @@ class project_action {
 				 AND projects.job_status < 90
 				 AND projects.isActive = 1
 				 ";
-			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
+			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13 || $a == 985 || $a == 10 || $a == 2986)) {
 				$sql .= "AND acct_rep = " . $a;
+			}
+			if ($a == 10) {
+				$sql .= "AND (acct_rep = 13 OR  acct_rep = 9 OR  acct_rep = 8 OR  acct_rep = 2054) ";
+			}
+			if ($a == 985) {
+				$sql .= "AND (acct_rep = 1778 OR  acct_rep = 14 OR  acct_rep = 12) ";
+			}
+			if ($a == 2986) {
+				$sql .= "AND (acct_rep = 6 OR  acct_rep = 11) ";
 			}
 // LEE UPDATE
 			$sql .= "
@@ -2959,8 +2989,17 @@ class project_action {
 			   WHERE 
 					projects.job_status = 84
 				 ";
-			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13)) {
+			if (!($a == 1 || $a == 14 || $a == 1444 || $a == 1447 || $a == 1451 || $a == 13 || $a == 985 || $a == 10 || $a == 2986)) {
 				$sql .= "AND acct_rep = " . $a;
+			}
+			if ($a == 10) {
+				$sql .= "AND (acct_rep = 13 OR  acct_rep = 9 OR  acct_rep = 8 OR  acct_rep = 2054) ";
+			}
+			if ($a == 985) {
+				$sql .= "AND (acct_rep = 1778 OR  acct_rep = 14 OR  acct_rep = 12) ";
+			}
+			if ($a == 2986) {
+				$sql .= "AND (acct_rep = 6 OR  acct_rep = 11) ";
 			}
 			$sql .= "
 			ORDER BY projects.install_date ASC";

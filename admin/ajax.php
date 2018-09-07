@@ -7206,7 +7206,7 @@ if ($action=="view_selected_pjt") {
 
 		$html .= '<div class="col-12 d-print-none"><div class="btn btn-warning float-right" onClick="pjtBack()" style="cursor:pointer"><i class="fas fa-reply"></i>&nbsp;&nbsp; Back</div></div>';
 		$printThis = "instBack(); $('#pjtDetails').printThis()";
-		$html .= '<div class="col-12 d-print-none ' . $noProg . $noMoney. '">';
+		$html .= '<div class="col-12 d-print-none ' . $noProg . ' ' . $noMoney . '">';
 		$html .= '<div class="btn btn-primary float-right mr-3" onClick="' . $printThis . '" style="cursor:pointer"><i class="fas fa-print"></i>&nbsp;&nbsp; ';
 		if ($job_status < 22) {
 			$html .= 'ESTIMATE';
@@ -7229,7 +7229,7 @@ if ($action=="view_selected_pjt") {
 		if ($results['no_charge'] == 1) {
 			$html .= '<span class="text-danger">No Charge</span>';
 		} else {
-			$html .= '$' . $tax_print;
+			$html .= '<span class="' . $noProg . ' ' . $noMoney . '">$' . $tax_print . '</span>';
 		}
 		$html .= '</em>&emsp;</h2>';
 
@@ -8328,7 +8328,7 @@ if ($action=="view_selected_pjt") {
 					<?
 					if ($piecePrice > 0) {
 					?>
-						<div class="col-3 col-md-2 text-muted text-right"><h5><small>$<?= $piecePricePrint ?></small></h5></div>
+						<div class="col-3 col-md-2 text-muted text-right"><h5 class="<?= $noProg ?> <?= $noMoney ?>"><small>$<?= $piecePricePrint ?></small></h5></div>
 					<?
 					}
 					?>
@@ -8360,13 +8360,13 @@ if ($action=="view_selected_pjt") {
 				<?
 					echo $r['sink_name']; 
 				} elseif ($r['faucet_name'] > '') {
-					$accounting .= '<tr><td class="">' . $results['install_name'] . ' - ' . $r['faucet_name'] .'</td><td class="text-center">1</td><td class="text-right">$' . $sinkPricePrint . '</td><td class="text-right">$ ';
+					$accounting .= '<tr><td class="">' . $results['install_name'] . ' - ' . $r['faucet_name'] .'</td><td class="text-center">1</td><td class="text-right">$' . $sinkPricePrint . '</td><td class="text-right"><span  class="' . $noProg . ' ' . $noMoney . '">$ ';
 					if ($nc == 0) {
 						$accounting .= $sinkPricePrint;
 					} else {
 						$accounting .= '$ 0.00';
 					}
-					$accounting .= '</td></tr>';
+					$accounting .= '</span></td></tr>';
 				?>
 						Accessory: 
 				<? 
@@ -8374,16 +8374,16 @@ if ($action=="view_selected_pjt") {
 				}
 				?>
 					</small></h5></div>
-					<div class="col-3 col-md-2 text-muted text-right"><h5><small>$<?= $endSink ?></small></h5></div>
+					<div class="col-3 col-md-2 text-muted text-right"><h5 class="<?= $noProg ?> <?= $noMoney ?>"><small>$<?= $endSink ?></small></h5></div>
 				<?
 				if ($r['cutout_price'] > 0) {
-					$accounting .= '<tr><td class="">Cutout for ' . $r['sink_name'] .'</td><td class="text-center">1</td><td class="text-right">$'.$cutoutPricePrint.'</td><td class="text-right">$ ';
+					$accounting .= '<tr><td class="">Cutout for ' . $r['sink_name'] .'</td><td class="text-center">1</td><td class="text-right">$'.$cutoutPricePrint.'</td><td class="text-right"><span  class="' . $noProg . ' ' . $noMoney . '">$ ';
 					if ($nc == 0) {
 						$accounting .= $cutoutPricePrint;
 					} else {
 						$accounting .= '$ 0.00';
 					}
-					$accounting .= '</td></tr>';
+					$accounting .= '</span></td></tr>';
 				?>
 				<!--	<div class="col-9 text-dark"><h5><small> - Sink cutout fee</small></h5></div>
 					<div class="col-3 col-md-2 text-muted text-right"><h5><small>$<?= $cutoutPricePrint ?></small></h5></div> -->
@@ -8405,7 +8405,7 @@ if ($action=="view_selected_pjt") {
 				?>
 				<div class="row w-100 d-flex d-print-flex">
 					<div class="col-9 text-dark"><h5><small>Extra Costs</small></h5></div>
-					<div class="col-3 col-md-2 text-muted text-right"><h5><small>$<?= $extraPricePrint ?></small></h5></div>
+					<div class="col-3 col-md-2 text-muted text-right"><h5 class="<?= $noProg ?> <?= $noMoney ?>"><small>$<?= $extraPricePrint ?></small></h5></div>
 				</div>
 				<?
 			}
@@ -8421,7 +8421,7 @@ if ($action=="view_selected_pjt") {
 				?>
 				<div class="row w-100 d-flex d-print-flex">
 					<div class="col-9 text-dark"><h5><small>Extra Costs</small></h5></div>
-					<div class="col-3 col-md-2 text-muted text-right"><h5><small>$<?= $extraPricePrint ?></small></h5></div>
+					<div class="col-3 col-md-2 text-muted text-right"><h5 class="<?= $noProg ?> <?= $noMoney ?>"><small>$<?= $extraPricePrint ?></small></h5></div>
 				</div>
 				<?
 			}
