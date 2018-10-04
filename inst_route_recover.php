@@ -457,192 +457,194 @@ include('includes.php');
 					var plottedLong = [];
 					var time = 0;
 					$.each(extra_projects, function(key, value){
-						setTimeout(function() {
-							var orderText = '';					
-							var mText = {};
-							if (value['first_stop'] == 1) {
-								mText = {
-									icon: iconBase3,
-									text: value['install_date'] + ' 1st Stop',
-									bg: 'yellow'
-								}
+						if ($inFocus == true) {
+							setTimeout(function() {
+								var orderText = '';					
+								var mText = {};
+								if (value['first_stop'] == 1) {
+									mText = {
+										icon: iconBase3,
+										text: value['install_date'] + ' 1st Stop',
+										bg: 'yellow'
+									}
 
-							} else if (value['am'] == 1) {
-								mText = {
-									icon: iconBase3,
-									text: value['install_date'] + ' AM',
-									bg: 'yellow'
-								}
-							} else if (value['pm'] == 1) {
-								mText = {
-									icon: iconBase3,
-									text: value['install_date'] + ' PM',
-									bg: 'green'
-								}
-							} else {
-								mText = {
-									icon: iconBase3,
-									text: value['install_date'],
-									bg: 'yellow'
-								}
-							}
-
-							if (value['job_lat'] != 0 || value['job_lat'] != null) {
-								var latitude = parseFloat(value['job_lat']).toFixed(8);
-								var longitude = parseFloat(value['job_long']).toFixed(8);
-
-								if ($.inArray(latitude,plotLat) > -1) {
-									do {
-										var newLat = latitude - 0.001;
-										latitude = parseFloat(newLat).toFixed(8);
-										plotLat.push(parseFloat(latitude).toFixed(8));
-									} while ($.inArray(latitude,plottedLat) > -1);
-									do {
-										var newLong = parseFloat(longitude) + 0.001;
-										longitude = parseFloat(newLong).toFixed(8);
-										plotLong.push(parseFloat(longitude).toFixed(8));
-									} while ($.inArray(longitude,plottedLong) > -1);
+								} else if (value['am'] == 1) {
+									mText = {
+										icon: iconBase3,
+										text: value['install_date'] + ' AM',
+										bg: 'yellow'
+									}
+								} else if (value['pm'] == 1) {
+									mText = {
+										icon: iconBase3,
+										text: value['install_date'] + ' PM',
+										bg: 'green'
+									}
 								} else {
-									plotLat.push(parseFloat(latitude).toFixed(8));
-									plotLong.push(parseFloat(longitude).toFixed(8));
+									mText = {
+										icon: iconBase3,
+										text: value['install_date'],
+										bg: 'yellow'
+									}
 								}
 
+								if (value['job_lat'] != 0 || value['job_lat'] != null) {
+									var latitude = parseFloat(value['job_lat']).toFixed(8);
+									var longitude = parseFloat(value['job_long']).toFixed(8);
 
-								marker = new google.maps.Marker({
-									position: new google.maps.LatLng(latitude, longitude),
-									map: map,
-									label: {
-										text: ' ',
-										color: '#CCC',
-										fontSize: "12px",
-										overflow: "hidden",
-										fontWeight: "bold"
-									},
-									'bounds': true,
-									icon: mText['icon'],
-									title: mText['text'],
-									url: "/",
-									zIndex: 1.3,
-									animation:google.maps.Animation.DROP
-								});
-
-								(function (marker, value) {
-//                   $('.mdb-select').material_select('destroy');
-//                   $('.mdb-select').material_select();
-									google.maps.event.addListener(marker, "click", function (e) {
-										$('.mdb-select').material_select('destroy');
-										html_str = markerCreator1(value,latitude,longitude);
-										infoWindow.setContent(html_str);
-										infoWindow.open(map, marker);
-                    					$('.markersele').addClass('mdb-select');
-                    					$('.mdb-select').material_select();
-									});
-								})(marker, value);
-								var point_item1 = new google.maps.LatLng(latitude, longitude);
-								bounds.extend(point_item1);
-
-							} else {
-
-								var geocoder = new google.maps.Geocoder();
-								var address = value['address_1'] +' '+ value['city']+' '+value['state'];
-								geocoder.geocode( { 'address': address}, function(results, status) {
-									console.log(status);
-									if (status == 'OK') {
-										var latitude = results[0].geometry.location.lat();
-										var longitude = results[0].geometry.location.lng();
-										if ($.inArray(latitude,plottedLat) > -1) {
-											do {
-												latitude = latitude - 0.0001;
-											} while ($.inArray(latitude,plottedLat) > -1);
-											do {
-												longitude = longitude + 0.0001;
-											} while ($.inArray(longitude,plottedLong) > -1);
-										}
-										plottedLat.push(latitude);
-										plottedLong.push(longitude);
-										marker = new google.maps.Marker({
-											position: new google.maps.LatLng(latitude, longitude),
-											map: map,
-											label: {
-												text: ' ',
-												color: '#ccc',
-												//color: "#ffffff",
-												fontSize: "12px",
-												overflow: "hidden",
-												fontWeight: "bold"
-											},
-											'bounds': true,
-											icon: mText['icon'],
-											title: mText['text'],
-											url: "/",
-											zIndex: 1.3,
-											animation:google.maps.Animation.DROP
-										});
-										(function (marker, value) {
-//                       $('.mdb-select').material_select('destroy');
-//                       $('.mdb-select').material_select();
-											google.maps.event.addListener(marker, "click", function (e) {
-												$('.mdb-select').material_select('destroy');
-											  html_str = markerCreator1(value,latitude,longitude);
-												infoWindow.setContent(html_str);
-												infoWindow.open(map, marker);
-                        $('.markersele').addClass('mdb-select');
-                        $('.mdb-select').material_select();
-											});
-										})(marker, value);
-										var point_item1 = new google.maps.LatLng(latitude, longitude);
-										bounds.extend(point_item1);
-	
+									if ($.inArray(latitude,plotLat) > -1) {
+										do {
+											var newLat = latitude - 0.001;
+											latitude = parseFloat(newLat).toFixed(8);
+											plotLat.push(parseFloat(latitude).toFixed(8));
+										} while ($.inArray(latitude,plottedLat) > -1);
+										do {
+											var newLong = parseFloat(longitude) + 0.001;
+											longitude = parseFloat(newLong).toFixed(8);
+											plotLong.push(parseFloat(longitude).toFixed(8));
+										} while ($.inArray(longitude,plottedLong) > -1);
 									} else {
-		
-										var latitude = 36.1181642;
-										var longitude = -80.0626623;
-										if ($.inArray(latitude,plottedLat) > -1) {
-											do {
-												latitude = latitude - 0.001;
-											} while ($.inArray(latitude,plottedLat) > -1);
-											do {
-												longitude = longitude + 0.001;
-											} while ($.inArray(longitude,plottedLong) > -1);
-										}
-										plottedLat.push(latitude);
-										plottedLong.push(longitude);
-										marker = new google.maps.Marker({
-											position: new google.maps.LatLng(latitude, longitude),
-											map: map,
-											label: {
-												text: ' ',
-												color: '#ccc',
-												fontSize: "12px",
-												overflow: "hidden",
-												fontWeight: "bold"
-											},
-											'bounds': true,
-											icon: mText['icon'],
-											title: mText['text'],
-											url: "/",
-											zIndex: 1.3,
-											animation:google.maps.Animation.DROP
+										plotLat.push(parseFloat(latitude).toFixed(8));
+										plotLong.push(parseFloat(longitude).toFixed(8));
+									}
+
+
+									marker = new google.maps.Marker({
+										position: new google.maps.LatLng(latitude, longitude),
+										map: map,
+										label: {
+											text: ' ',
+											color: '#CCC',
+											fontSize: "12px",
+											overflow: "hidden",
+											fontWeight: "bold"
+										},
+										'bounds': true,
+										icon: mText['icon'],
+										title: mText['text'],
+										url: "/",
+										zIndex: 1.3,
+										animation:google.maps.Animation.DROP
+									});
+
+									(function (marker, value) {
+	//                   $('.mdb-select').material_select('destroy');
+	//                   $('.mdb-select').material_select();
+										google.maps.event.addListener(marker, "click", function (e) {
+											$('.mdb-select').material_select('destroy');
+											html_str = markerCreator1(value,latitude,longitude);
+											infoWindow.setContent(html_str);
+											infoWindow.open(map, marker);
+											$('.markersele').addClass('mdb-select');
+											$('.mdb-select').material_select();
 										});
-										(function (marker, value) {
-//                       $('.mdb-select').material_select('destroy');
-//                       $('.mdb-select').material_select();
-											google.maps.event.addListener(marker, "click", function (e) {
-												$('.mdb-select').material_select('destroy');
-											  var html_str = markerCreator1(value,latitude,longitude);
-												infoWindow.setContent(html_str);
-												infoWindow.open(map, marker);
-                        $('.markersele').addClass('mdb-select');
-                        $('.mdb-select').material_select();
+									})(marker, value);
+									var point_item1 = new google.maps.LatLng(latitude, longitude);
+									bounds.extend(point_item1);
+
+								} else {
+
+									var geocoder = new google.maps.Geocoder();
+									var address = value['address_1'] +' '+ value['city']+' '+value['state'];
+									geocoder.geocode( { 'address': address}, function(results, status) {
+										console.log(status);
+										if (status == 'OK') {
+											var latitude = results[0].geometry.location.lat();
+											var longitude = results[0].geometry.location.lng();
+											if ($.inArray(latitude,plottedLat) > -1) {
+												do {
+													latitude = latitude - 0.0001;
+												} while ($.inArray(latitude,plottedLat) > -1);
+												do {
+													longitude = longitude + 0.0001;
+												} while ($.inArray(longitude,plottedLong) > -1);
+											}
+											plottedLat.push(latitude);
+											plottedLong.push(longitude);
+											marker = new google.maps.Marker({
+												position: new google.maps.LatLng(latitude, longitude),
+												map: map,
+												label: {
+													text: ' ',
+													color: '#ccc',
+													//color: "#ffffff",
+													fontSize: "12px",
+													overflow: "hidden",
+													fontWeight: "bold"
+												},
+												'bounds': true,
+												icon: mText['icon'],
+												title: mText['text'],
+												url: "/",
+												zIndex: 1.3,
+												animation:google.maps.Animation.DROP
 											});
-										
-										})(marker, value);
-										var point_item1 = new google.maps.LatLng(latitude, longitude);
-										bounds.extend(point_item1);
-									} 
-								});
-							}
-						}, time);
+											(function (marker, value) {
+	//                       $('.mdb-select').material_select('destroy');
+	//                       $('.mdb-select').material_select();
+												google.maps.event.addListener(marker, "click", function (e) {
+													$('.mdb-select').material_select('destroy');
+												  html_str = markerCreator1(value,latitude,longitude);
+													infoWindow.setContent(html_str);
+													infoWindow.open(map, marker);
+							$('.markersele').addClass('mdb-select');
+							$('.mdb-select').material_select();
+												});
+											})(marker, value);
+											var point_item1 = new google.maps.LatLng(latitude, longitude);
+											bounds.extend(point_item1);
+
+										} else {
+
+											var latitude = 36.1181642;
+											var longitude = -80.0626623;
+											if ($.inArray(latitude,plottedLat) > -1) {
+												do {
+													latitude = latitude - 0.001;
+												} while ($.inArray(latitude,plottedLat) > -1);
+												do {
+													longitude = longitude + 0.001;
+												} while ($.inArray(longitude,plottedLong) > -1);
+											}
+											plottedLat.push(latitude);
+											plottedLong.push(longitude);
+											marker = new google.maps.Marker({
+												position: new google.maps.LatLng(latitude, longitude),
+												map: map,
+												label: {
+													text: ' ',
+													color: '#ccc',
+													fontSize: "12px",
+													overflow: "hidden",
+													fontWeight: "bold"
+												},
+												'bounds': true,
+												icon: mText['icon'],
+												title: mText['text'],
+												url: "/",
+												zIndex: 1.3,
+												animation:google.maps.Animation.DROP
+											});
+											(function (marker, value) {
+	//                       $('.mdb-select').material_select('destroy');
+	//                       $('.mdb-select').material_select();
+												google.maps.event.addListener(marker, "click", function (e) {
+													$('.mdb-select').material_select('destroy');
+												  var html_str = markerCreator1(value,latitude,longitude);
+													infoWindow.setContent(html_str);
+													infoWindow.open(map, marker);
+							$('.markersele').addClass('mdb-select');
+							$('.mdb-select').material_select();
+												});
+
+											})(marker, value);
+											var point_item1 = new google.maps.LatLng(latitude, longitude);
+											bounds.extend(point_item1);
+										} 
+									});
+								}
+							}, time);
+						}
 						time += 200;
 					});
 
@@ -713,7 +715,7 @@ include('includes.php');
 						}
 						joblist_html[teamID] += '" style="cursor:pointer" onClick="targetMap('+latitude+','+longitude+')"><i class="fas fa-bullseye"></i></div></div><div class="col-10"><a class="text-primary text-left p-0" style="cursor:pointer; line-height:1.2; text-shadow:none" target="_blank" onClick="' + modalFunct + '">' + value['job_sqft'] + '<sup>sf</sup> - ' + value['comp_name'] + '<br>' + orderText + ' <b>' + value['order_num'] + '</b> ' + value['job_name'] + '<br><span style="color:#555;text-shadow:none;font-weight:normal;cursor:pointer">' + value['address_1'] + ', ' + value['city'] + ', ' + value['state'] + ', ' + value['zip'] + '</span></a></div></div>';
 
-						joblist_html[teamID] += '	<div class="row"><div class="col-12"><select class="mdb-select col-9 mb-0" onchange="assign_new(' + value['id'] + ');">';
+						joblist_html[teamID] += '	<div class="row"><div class="col-12"><select class="mdb-select md-form colorful-select dropdown-primary col-9 mb-0" onchange="assign_new(' + value['id'] + ');">';
 						<?
 						foreach ($rows as $row){ ?>
 							var selectedTeam = <?php echo $row['inst_team_id']; ?>;
@@ -771,7 +773,7 @@ modalPull += 			"'><i class='fas fa-eye'></i></a>";
 								<?php 
 								if ($_SESSION['access_level'] == 1) {
 								?>
-modalPull += '						<select class="mdb-select col-9 border-0 mb-0" onchange="assign_new(' + value['id'] + ');">';
+modalPull += '						<select class="mdb-select md-form colorful-select dropdown-primary col-9 border-0 mb-0" onchange="assign_new(' + value['id'] + ');">';
 								<?
 								foreach ($rows as $row){ ?>
 

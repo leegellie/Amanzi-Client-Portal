@@ -21,7 +21,7 @@
 									</fieldset>
 									<fieldset class="form-group col text-left reprew" style="display: none">
 										<label for="p-responsible" class="text-left">Who is responsible</label>
-										<select class="mdb-select" name="responsible" id="p-responsible">
+										<select class="mdb-select md-form colorful-select dropdown-primary" name="responsible" id="p-responsible">
 											<option value="0">Select one</option>
 											<option value="11">Customer</option>
 											<option value="2">Sales</option>
@@ -74,7 +74,7 @@
 								</fieldset>
 								<fieldset class="form-group col-md-4">
 									<label for="account-rep">Account Rep:</label>
-									<select class="mdb-select" id="p-acct_rep" name="acct_rep">
+									<select class="mdb-select md-form colorful-select dropdown-primary" id="p-acct_rep" name="acct_rep">
 										<option value="0">Unspecified</option>
 <?
 	$uOptions = '';
@@ -154,7 +154,7 @@
 								</fieldset>
 								<fieldset class="form-group col-8 col-md-3">
 									<label for="site-address">State:</label>
-									<select class="mdb-select addChg" id="p-state" name="state">
+									<select class="mdb-select md-form colorful-select dropdown-primary addChg" id="p-state" name="state">
 										<option value="AL">Alabama</option>
 										<option value="AK">Alaska</option>
 										<option value="AZ">Arizona</option>
@@ -269,7 +269,7 @@
 										<div class="row">
 											<label class="col-md-4" for="install-date">Install Date:</label>
 											<div class="input-group mb-3 col-md-8">
-												<input class=" form-control datepicker" type="text" id="p-install_date" name="install_date" autocomplete="off">
+												<input class=" form-control datepicker1" type="text" id="p-install_date" name="install_date" autocomplete="off">
 												<div class="input-group-append" onClick="$('#p-install_date').val('')" style="cursor: pointer; height:38px">
 													<span class="input-group-text text-danger"><i class="fas fa-times"></i></span>
 												</div>

@@ -94,6 +94,7 @@ function updatePay(id) {
 			url: "ajax.php",
 			data: datastring,
 			success: function(data) {
+				//console.log(data);
 				viewThisDate();
 			},
 			error: function(data) {
@@ -107,6 +108,7 @@ function updatePay(id) {
 			url: "ajax.php",
 			data: datastring,
 			success: function(data) {
+				//console.log(data);
 				viewThisDate();
 			},
 			error: function(data) {
@@ -124,7 +126,7 @@ function viewThisDate() {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			console.log(data);
+			//console.log(data);
 			$('#pjtResults').html('');
 			$('#pjtResults').append(data);
 		},

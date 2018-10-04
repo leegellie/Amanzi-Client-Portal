@@ -27,7 +27,7 @@
 								</fieldset>
 								<fieldset class="form-group col-md-3">
 									<label for="account-rep">Account Rep:</label>
-									<select class="mdb-select" id="p-acct_rep" name="acct_rep">
+									<select class="mdb-select md-form colorful-select dropdown-primary" id="p-acct_rep" name="acct_rep">
 										<option value="0">Unspecified</option>
 <?
 	$uOptions = '';
@@ -105,7 +105,7 @@
 								</fieldset>
 								<fieldset class="form-group col-8 col-md-3">
 									<label for="site-address">State:</label>
-									<select class="mdb-select addChg" id="p-state" name="state">
+									<select class="mdb-select md-form colorful-select dropdown-primary addChg" id="p-state" name="state">
 										<option value="AL">Alabama</option>
 										<option value="AK">Alaska</option>
 										<option value="AZ">Arizona</option>

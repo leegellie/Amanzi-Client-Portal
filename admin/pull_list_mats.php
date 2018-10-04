@@ -26,11 +26,10 @@ USER'S EMAIL = <?= $user_email ?>
 <?
 // INCLUDE THE JS and CSS files needed on all ADMIN PAGES
 include('includes.php');
-
 ?>
 
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+	<script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 	<script src="/js/jquery.validate.js" type="text/javascript"></script>
     <script src="js/projects.js"></script>
     <script src="js/project_edit.js"></script>
@@ -77,25 +76,38 @@ include('includes.php');
 <!-- END BODY CONTENT AREA -->
 <? 
 include ('footer.php');
-include ('modal_install_edit.php');
-include ('modal_project_edit.php');
-include ('modal_comment_add.php');
-include ('modal_email_success.php');
-include ('modal_location.php');
-include ('modal_piece_add.php');
-include ('modal_sink_edit.php');
-//include ('modal_qr_reader.php');
-include ('modal_contact_verif.php');
-include ('modal_user_discount.php');
-include ('modal_entry_reject.php');
-include ('modal_material_select.php');
-include ('modal_material_assign.php');
-include ('modal_material_order.php');
-include ('modal_hold_notice.php');
-include ('modal_mat_hold.php');
-include ('modal_release_hold.php');
-include ('modal_sink_order.php');
 include ('modal_accessory_assign.php');
+include ('modal_accs_add.php');
+include ('modal_adjust_material.php');
+include ('modal_approval_reject.php');
+include ('modal_client_add.php');
+include ('modal_client_select.php');
+include ('modal_comment_add.php');
+include ('modal_contact_verif.php');
+include ('modal_email_success.php');
+include ('modal_entry_reject.php');
+include ('modal_hold_notice.php');
+include ('modal_install_edit.php');
+include ('modal_job_lookup.php');
+// include ('modal_job_material.php');
+include ('modal_location.php');
+include ('modal_mat_hold.php');
+include ('modal_material_assign.php');
+include ('modal_material_assign_bulk.php');
+include ('modal_material_order.php');
+include ('modal_material_order_bulk.php');
+include ('modal_material_select.php');
+include ('modal_piece_add.php');
+include ('modal_project_edit.php');
+include ('modal_release_hold.php');
+include ('modal_select_installers.php');
+include ('modal_shape_info.php');
+include ('modal_sink_add.php');
+include ('modal_sink_edit.php');
+include ('modal_sink_hold.php');
+include ('modal_sink_order.php');
+include ('modal_sink_release_hold.php');
+include ('modal_user_discount.php');
 ?>
 <script>
 $(document).ready(function(){

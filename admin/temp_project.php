@@ -178,7 +178,7 @@ if(isset($_GET['add'])){
 								</fieldset>
 								<fieldset class="form-group col-md-3">
 									<label for="account-rep">Account Rep:</label>
-									<select class="mdb-select" id="p-acct_rep" name="acct_rep">
+									<select class="mdb-select md-form colorful-select dropdown-primary" id="p-acct_rep" name="acct_rep">
 										<option value="0">Unspecified</option>
 <?
 	$uOptions = '';
@@ -256,7 +256,7 @@ if(isset($_GET['add'])){
 								</fieldset>
 								<fieldset class="form-group col-8 col-md-3">
 									<label for="site-address">State:</label>
-									<select class="mdb-select addChg" id="p-state" name="state">
+									<select class="mdb-select md-form colorful-select dropdown-primary addChg" id="p-state" name="state">
 										<option value="AL">Alabama</option>
 										<option value="AK">Alaska</option>
 										<option value="AZ">Arizona</option>
@@ -472,7 +472,7 @@ if(isset($_GET['add'])){
 						<div class="row">
 					<fieldset class="form-group col-3">
 						<label for="install_room">Room Type:</label>
-						<select class="mdb-select" id="i-install_room" name="install_room" type="text" data-required="true">
+						<select class="mdb-select md-form colorful-select dropdown-primary" id="i-install_room" name="install_room" type="text" data-required="true">
 						<?
 							$get_rooms = new project_action;
 							$rows = $get_rooms->get_rooms();
@@ -538,7 +538,7 @@ if(isset($_GET['add'])){
 
 					<fieldset class="form-group col-12 col-lg-6">
 						<label for="i-material">Material:</label>
-						<select class="mdb-select" id="i-material" name="material">
+						<select class="mdb-select md-form colorful-select dropdown-primary" id="i-material" name="material">
 							<option value="0">Not Selected</option>
 							<option value="marbgran">Marble/Granite</option>
 							<option value="quartz">Quartz/Quartzite</option>
@@ -585,7 +585,7 @@ if(isset($_GET['add'])){
 					<div class="container matHolder hidden border pt-2">
 						<div class="row">
 							<div class="col-12 col-md-5">
-								<select class="levelFilter mdb-select">
+								<select class="levelFilter mdb-select md-form colorful-select dropdown-primary">
 									<option value="0">Filter...</option>
 									<option value="1">Level 1</option>
 									<option value="2">Level 2</option>
@@ -663,7 +663,7 @@ if(isset($_GET['add'])){
 						<div class="row">
 							<fieldset class="form-group col-3">
 								<label for="edge">Default Edge:</label>
-								<select class="mdb-select" id="i-edge" name="edge">
+								<select class="mdb-select md-form colorful-select dropdown-primary" id="i-edge" name="edge">
 <?
 	$get_accs = new project_action;
 	$rows = $get_accs->get_edges();
@@ -675,7 +675,7 @@ if(isset($_GET['add'])){
 							</fieldset>
 							<fieldset class="form-group col-3">
 								<label for="range_type">Range Type:</label>
-								<select class="mdb-select" id="i-range_type" name="range_type">
+								<select class="mdb-select md-form colorful-select dropdown-primary" id="i-range_type" name="range_type">
 									<option value="0">None</option>
 									<option value="1">Free Standing</option>
 									<option value="2">Cooktop</option>
@@ -732,7 +732,7 @@ if(isset($_GET['add'])){
 								<div class="row">
 									<div class="form-group col-12">
 										<label for="holes">Faucet Spread / Holes:</label>
-										<select class="mdb-select holeOpt" id="i-holes" name="holes" readonly>
+										<select class="mdb-select md-form colorful-select dropdown-primary holeOpt" id="i-holes" name="holes" readonly>
 											<option value="0">None</option>
 											<option disabled value="1">1 Hole - Center</option>
 											<option disabled value="2">3 Hole - 4"</option>
@@ -796,7 +796,7 @@ if(isset($_GET['add'])){
 						</fieldset>
 						<fieldset class="col-6 col-md-2">
 							<div id="user_infoDIV" class="input-control select" data-role="input-control">
-								<select class="mdb-select" name="user_find" id="user_find" data-transform="input-control">
+								<select class="mdb-select md-form colorful-select dropdown-primary" name="user_find" id="user_find" data-transform="input-control">
 									<option value="username">Username</option>
 									<option value="email">Email</option>
 									<option value="company" selected>Company</option> 
@@ -864,7 +864,7 @@ if(isset($_GET['add'])){
 								</div>
 								<div class="col-7 p-0">
 									<div id="user_typeDIV" class="input-control select" data-role="input-control">
-										<select class="mdb-select" name="user_type" id="user_type" data-transform="input-control">
+										<select class="mdb-select md-form colorful-select dropdown-primary" name="user_type" id="user_type" data-transform="input-control">
 											<option value="0" selected>Select User Type</option> 
 	
 											<?
@@ -1035,7 +1035,7 @@ if(isset($_GET['add'])){
 								</div>
 								<div class="col-7 p-0">
 									<div id="stateDIV" class="input-control select" data-role="input-control">
-										<select class="mdb-select" name="state" id="state" value="" data-transform="input-control">
+										<select class="mdb-select md-form colorful-select dropdown-primary" name="state" id="state" value="" data-transform="input-control">
 											<option value="" selected>Choose a State</option>
 											<option value="AL">Alabama</option>
 											<option value="AK">Alaska</option>
@@ -1187,7 +1187,7 @@ if(isset($_GET['add'])){
 								</div>
 								<div class="col-7 p-0">
 									<div id="billing_stateDIV" class="input-control select" data-role="input-control">
-										<select class="mdb-select" name="billing_state" id="billing_state" value="" data-transform="input-control">
+										<select class="mdb-select md-form colorful-select dropdown-primary" name="billing_state" id="billing_state" value="" data-transform="input-control">
 											<option value="" selected>Choose a State</option>
 											<option value="AL">Alabama</option>
 											<option value="AK">Alaska</option>
@@ -1296,7 +1296,7 @@ if(isset($_GET['add'])){
 						<input type="hidden" id="cmt_type" name="cmt_type" value="">
 						<input type="hidden" id="cmt_user" name="cmt_user" value="">
 						<label for="cmt_priority" class="form-label col-12 col-md-4">Priority: </label>
-						<select name="cmt_priority" id="cmt_priority" class="mdb-select col-12 col-md-8">
+						<select name="cmt_priority" id="cmt_priority" class="mdb-select md-form colorful-select dropdown-primary col-12 col-md-8">
 							<option value="Normal" selected>Regular</option>
 							<option value="911">Important</option>
 						</select>
@@ -1407,7 +1407,7 @@ if(isset($_GET['add'])){
 
 								<fieldset class="form-group col-3 d-inline">
 									<label>Shape: </label>
-									<select class="mdb-select" id="shape" name="shape">
+									<select class="mdb-select md-form colorful-select dropdown-primary" id="shape" name="shape">
 										<option value="1">Rectangle</option>
 										<option value="2">L-Shape</option>
 										<option value="3" disabled>Beveled L</option>
@@ -1499,7 +1499,7 @@ if(isset($_GET['add'])){
 									<fieldset class="form-group col-4 px-4 py-2 border-bottom border-right rounded border-primary">
 										<div class="row">
 											<label class="col-12"><u>Edging</u></label>
-											<select class="mdb-select col-6" id="piece_edge" name="piece_edge">
+											<select class="mdb-select md-form colorful-select dropdown-primary col-6" id="piece_edge" name="piece_edge">
 									<?
 										$get_accs = new project_action;
 										$rows = $get_accs->get_edges();
@@ -1603,12 +1603,12 @@ if(isset($_GET['add'])){
 							<div class="row">
 								<fieldset class="form-group col-4 d-inline">
 									<label for="sink_part"><u>To which piece does the sink belong</u>: </label>
-									<select class="mdb-select" id="sink_part" name="sink_part">
+									<select class="mdb-select md-form colorful-select dropdown-primary" id="sink_part" name="sink_part">
 									</select>
 								</fieldset>
 								<fieldset class="form-group col-3 d-inline">
 									<label for="sink_provided"><u>Customer provided</u>? </label>
-									<select class="mdb-select" id="sink_provided" name="sink_provided">
+									<select class="mdb-select md-form colorful-select dropdown-primary" id="sink_provided" name="sink_provided">
 										<option value="0">No</option>
 										<option value="1">Yes</option>
 									</select>
@@ -1637,7 +1637,7 @@ if(isset($_GET['add'])){
 							<div class="row">
 <!--								<fieldset class="form-group col-3 d-inline">
 									<label for="sink_style"><u>Sink Type</u>: </label>
-									<select class="mdb-select" id="sink_style" name="sink_style">
+									<select class="mdb-select md-form colorful-select dropdown-primary" id="sink_style" name="sink_style">
 										<option value="None">None</option>
 										<option value="Drop-In">Drop-In</option>
 										<option value="Undermount">Undermount</option>
@@ -1666,7 +1666,7 @@ if(isset($_GET['add'])){
 								</fieldset>
 								<fieldset class="form-group col-3 d-inline">
 									<label for="sink_mount"><u>Cutout</u>: </label>
-									<select class="mdb-select" id="sink_mount" name="sink_mount">
+									<select class="mdb-select md-form colorful-select dropdown-primary" id="sink_mount" name="sink_mount">
 										<option value="0">None</option>
 										<option value="1">Undermount</option>
 										<option value="2">Drop-In</option>
@@ -1677,7 +1677,7 @@ if(isset($_GET['add'])){
 								</fieldset>
 								<fieldset class="form-group col-3 d-inline">
 									<label for="sink_holes"><u>Faucet Spread / Holes</u>:</label>
-									<select class="mdb-select holeOpt" id="sink_holes" name="sink_holes">
+									<select class="mdb-select md-form colorful-select dropdown-primary holeOpt" id="sink_holes" name="sink_holes">
 										<option value="0">None</option>
 										<option value="1">1 Hole - Center</option>
 										<option value="2">3 Hole - 4"</option>

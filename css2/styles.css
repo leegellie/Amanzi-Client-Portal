@@ -23,6 +23,9 @@ input[type="email"],
 input[type="date"] {
 	height: 2.375rem;
 }
+.mdb-select.md-form {
+    margin-top: 0 !important;
+}
 .lee-made-gradient {
 	background-image: linear-gradient(to top, #a18cd1 0%, #975c87 100%);
 }
@@ -240,6 +243,9 @@ button.toast-close-button {
 @media (min-width: 992px) {
     .modal-lg {
         max-width: 1000px !important;
+    }
+		.modal-md {
+        max-width: 700px !important;
     }
 }
 
@@ -990,4 +996,70 @@ label p {
 	.navbar-expand-md .navbar-collapse {
 		overflow-y: auto;
 	}
+}
+
+/********************************/
+/****  Added By Y 18/08/13   ****/
+/********************************/
+.inventory table.dataTable thead th, table.dataTable tfoot th {
+	font-size:10px;
+	vertical-align: middle;
+}
+.inventory table.dataTable tbody th, table.dataTable tbody td {
+	padding: 5px 10px!important;
+	vertical-align: middle;
+}
+.inventory .dataTables_wrapper .dataTables_filter {
+	float: none!important;
+	text-align: center!important;
+	padding-top: 15px;
+}
+#cur_addbtn {
+	right: 10px;
+	position: absolute;
+	z-index: 1;
+}
+#panel_report table.dataTable tbody th,#panel_report table.dataTable tbody td {
+    padding: 3px;
+    font-size: 10px;
+    color: black;
+}
+.income_f .dataTables_wrapper .dataTables_length,
+.income_f .dataTables_wrapper .dataTables_filter,
+.outgoing_f .dataTables_wrapper .dataTables_length,
+.outgoing_f .dataTables_wrapper .dataTables_filter,
+#panel_report .dataTables_wrapper .dataTables_length,
+#panel_report .dataTables_wrapper .dataTables_filter {
+    display:none;
+}
+.chartsec {
+	margin-top:auto;
+	margin-bottom: auto;
+}
+.income_f table.dataTable tbody th, .income_f table.dataTable tbody td,
+.outgoing_f table.dataTable tbody th, .outgoing_f table.dataTable tbody td,
+#panel_report table.table-sm th,#panel_report table.table-sm td{
+	font-size:12px;
+}
+.income_f, .outgoing_f {
+	margin-top: 40px;
+}
+
+#update_cat_btn {
+  width: 100%;
+}
+#del_cat_name {
+	color:#ff3547;
+	font-weight:500;
+}
+.adj-btn {
+	font-size: 10px!important;
+	padding: 10px!important;
+	margin: 0px 0px 0px 5px!important;
+}
+.flex {
+	display: flex;
+}
+.modal-sm {
+	top: 150px;
 }

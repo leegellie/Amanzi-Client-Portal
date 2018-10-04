@@ -10,7 +10,7 @@
 							</div>
 							<div class="col-7 ">
 								<div id="user_typeDIV" class="input-control select" data-role="input-control">
-									<select class="mdb-select" name="user_type" id="user_type" data-transform="input-control">
+									<select class="mdb-select md-form colorful-select dropdown-primary" name="user_type" id="user_type" data-transform="input-control">
 										<option value="0" selected>Select User Type</option> 
 
 <?
@@ -199,7 +199,7 @@
 							</div>
 							<div class="col-7 ">
 								<div id="stateDIV" class="input-control select" data-role="input-control">
-									<select class="mdb-select" name="state" id="state" value="" data-transform="input-control">
+									<select class="mdb-select md-form colorful-select dropdown-primary" name="state" id="state" value="" data-transform="input-control">
 										<option value="" selected>Choose a State</option>
 										<option value="AL">Alabama</option>
 										<option value="AK">Alaska</option>
@@ -352,7 +352,7 @@
 							</div>
 							<div class="col-7 ">
 								<div id="billing_stateDIV" class="input-control select" data-role="input-control">
-									<select class="mdb-select" name="billing_state" id="billing_state" value="" data-transform="input-control">
+									<select class="mdb-select md-form colorful-select dropdown-primary" name="billing_state" id="billing_state" value="" data-transform="input-control">
 										<option value="" selected>Choose a State</option>
 										<option value="AL">Alabama</option>
 										<option value="AK">Alaska</option>

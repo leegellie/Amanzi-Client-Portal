@@ -21,7 +21,7 @@
 						<input type="hidden" id="cmt_type" name="cmt_type" value="">
 						<input type="hidden" id="cmt_user" name="cmt_user" value="">
 						<label for="cmt_priority" class="form-label col-12 col-md-4">Priority: </label>
-						<select name="cmt_priority" id="cmt_priority" class="mdb-select col-12 col-md-8">
+						<select name="cmt_priority" id="cmt_priority" class="mdb-select md-form colorful-select dropdown-primary col-12 col-md-8">
 							<option value="Normal" selected>Regular</option>
 							<option value="911">Important</option>
 						</select>

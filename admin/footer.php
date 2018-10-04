@@ -47,6 +47,7 @@
 		</div>
 	</div>
 </div>
+<script src="../js/modules/lightbox.js"></script>
 
 <script>
 
@@ -54,6 +55,7 @@ $al = <? print_r($_SESSION['access_level']) ?>;
 //$al = <? print_r($_SESSION['token']) ?>;
 
 (function($) {
+	$("#mdb-lightbox-ui").load("/mdb-addons/mdb-lightbox-ui.html");
     $(document).ready(function() {
         $("input[name=zip]").keyup(function(element) {
 			if (this.value.length == 5) {

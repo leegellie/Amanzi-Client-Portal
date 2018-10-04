@@ -1,30 +1,40 @@
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<?
+$version = "v";
+$version .= date('mdY', time());
+?>
+<!-- VERSION: <?= $version ?> -->
 
-
-<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
-<link rel="stylesheet" type="text/css" href="/css2/bootstrap.min.css">
+<!-- ////////////////////////////////    CSS   /////////////////////////////////////////-->
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.10/css/mdb.min.css" rel="stylesheet">
 
 <link href="/styles/bootstrap/docs/css/iconFont.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="/css2/styles.css">
 <link rel="stylesheet" type="text/css" href="../css2/mdb.css">
-
 <link rel="stylesheet" type="text/css" href="/css2/ie10.css">
 <link rel="stylesheet" type="text/css" href="/css2/font-awesome-animation.min.css">
+	<style>
+	  .pika-button.pika-day{font-weight:bold!important;color:grey;}
+	</style>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-<!--
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
--->
 
-<script src="../js/popper.min.js"></script>
-<script src="../js/bootstrap.min.js"></script>
-
-<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-TXfwrfuHVznxCssTxWoPZjhcss/hp38gEOH8UPZG/JcXonvBQ6SlsIF49wUzsGno" crossorigin="anonymous">
+<!-- ////////////////////////////////    JS   /////////////////////////////////////////-->
 
 
 
-<script src="../js/mdb.min.js"></script>
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.10/js/mdb.min.js"></script>
+<script defer src="https://pro.fontawesome.com/releases/v5.3.1/js/all.js" integrity="sha384-eAVkiER0fL/ySiqS7dXu8TLpoR8d9KRzIYtG0Tz7pi24qgQIIupp0fn2XA1H90fP" crossorigin="anonymous"></script>
 <script src="../js/modules/toastr.js"></script>
 <script src="../js/modules/buttons.js"></script>
 <script src="../js/modules/cards.js"></script>
@@ -57,25 +67,38 @@
 <script src="../js/modules/smooth-scroll.js"></script>
 <!--<script src="../js/modules/waves.js"></script>-->
 <script src="../js/modules/wow.js"></script>
+<script src="../js/addons/datatables.min.js"></script>
+<!--<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>-->
 
 <script src="js/clipboard.min.js"></script>
 <script src="js/price_materials.js"></script>
 <script src="js/bootstrap-datepicker.js"></script>
-<script>
-(function(){
 
-    //var scripts = ["/static/general/bf-core.min.js", "/static/containers/OWI536.js"];
-	var scripts = ["/static/general/bf-core.min.js", "/static/containers/OWI536.js", "/static/general/push-init-code.js"]
 
-    for(var i = 0; i < scripts.length; i++) {
-        var script   = document.createElement("script");
-        script.src   = "//brandflow.net" + scripts[i] + "?ts=" + Date.now() + "#";
-        script.async = false;
-        document.head.appendChild(script);
-    }
-})();
-</script>
+<script src="js/pikaday.js"></script>
+<script src="js/pikaday.jquery.js"></script>
+<script src="js/bootstrap-combobox.js"></script>
 <script>
+
+	$("#searchBox").on("keyup", function() {
+		var value = $(this).val().toLowerCase();
+		$(".filter").filter(function() {
+			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		});
+	});
+//	$('.table').not( ".dynamic" ).DataTable({
+//		"pageLength": 100,
+//		"aoColumnDefs" : [{
+//			'bSortable' : false,
+//			'aTargets' : [ -1 ]
+//		}]
+//	});
+
+
+	$inFocus = true;
+	window.onfocus = function() { $inFocus = true; console.log('true'); };
+	window.onblur = function() { $inFocus = false; console.log('false'); };
+
 	var x = document.getElementById("location-div");
 	var isMobile = {
 		Android: function() {
@@ -145,27 +168,16 @@
 		}
 	}
 
-
-$(document).ready(function(){
-	$("#searchBox").on("keyup", function() {
-		var value = $(this).val().toLowerCase();
-		$(".filter").filter(function() {
-			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-		});
-	});
-	$('.table').DataTable({
-		"pageLength": 100,
-		"aoColumnDefs" : [{
-			'bSortable' : false,
-			'aTargets' : [ -1 ]
-		}]
-	});
-	$('.mdb-select').material_select('destroy');
-	$('select').addClass('mdb-select');
+$(document).ready(function() {
 	$("#mdb-lightbox-ui").load("/mdb-addons/mdb-lightbox-ui.html");
-	$('select[name=DataTables_Table_0_length]').addClass('mdb-select');
-	$('.mdb-select').material_select();
+
+
+	$('.addChg').change( function() {
+		$('.addVF').addClass('hidden');
+		$('.addFA').addClass('hidden');
+		$('.addLU').removeClass('hidden');
+		$('#address_verif').val(0);
+		$addChange = 1;
+	})
 });
-
-
-	</script>
+</script>

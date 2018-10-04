@@ -408,18 +408,21 @@ class project_action {
 							inst_log_installer,
 							inst_log_inst_id,
 							inst_log_sqft,
-							inst_log_date)
+							inst_log_date,
+							inst_log_rate)
 					VALUES (
 							:inst_log_pid,
 							:inst_log_installer,
 							:inst_log_inst_id,
 							:inst_log_sqft,
-							:inst_log_date)");
+							:inst_log_date,
+							:inst_log_rate)");
 		$q->bindParam('inst_log_pid',$a['inst_log_pid']);
 		$q->bindParam('inst_log_installer',$a['inst_log_installer']);
 		$q->bindParam('inst_log_inst_id',$a['inst_log_inst_id']);
 		$q->bindParam('inst_log_sqft',$a['inst_log_sqft']);
 		$q->bindParam('inst_log_date',$a['inst_log_date']);
+		$q->bindParam('inst_log_rate',$a['inst_log_rate']);
 		$q->execute();
 	}
 
@@ -1175,14 +1178,34 @@ class project_action {
 	public function compile_install_price($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$iid = $a['iid'];
+		$pid = $a['pid'];
+		$repair = 0;
+		$rework = 0;
+		$addition = 0;
+		$no_charge = 0;
+		$no_template = 0;
+		$pick_up = 0;
+		// Get project information
+		$sql = "SELECT repair, rework, addition, no_charge, no_template, pick_up FROM projects WHERE id = " . $pid;
+		$q = $conn->prepare($sql);
+		$q->execute();
+		$row = $q->fetchAll(PDO::FETCH_ASSOC);
+		foreach($row as $r) {
+			$repair = $r['repair'];
+			$rework = $r['rework'];
+			$addition = $r['addition'];
+			$no_charge = $r['no_charge'];
+			$no_template = $r['no_template'];
+			$pick_up = $r['pick_up'];
+		}
 
-		$sqFt = $conn->prepare("SELECT SUM(SqFt) AS sumSqFt FROM install_pieces WHERE iid = :iid AND piece_active = 1");
-		$sqFt->bindParam('iid',$a['iid']);
+		// Get the total amount of SqFt for the install.
+		$sql = "SELECT SUM(SqFt) AS sumSqFt FROM install_pieces WHERE iid = " . $iid . " AND piece_active = 1";
+		$sqFt = $conn->prepare($sql);
 		$sqFt->execute();
-
 		$sumSqFt = $sqFt->fetch();
 		$sumSqFt = $sumSqFt[0];
-
 		if (!(is_numeric($sumSqFt))) {
 			$sumSqFt = 0;
 		}
@@ -1190,13 +1213,12 @@ class project_action {
 			$sumSqFt = 0;
 		}
 
-		$sink = $conn->prepare("SELECT (SUM(cutout_price) + SUM(faucet_price) + SUM(sink_price)) as sinkTotal FROM install_sink WHERE sink_iid = :iid");
-		$sink->bindParam('iid',$a['iid']);
+		// Get all costing from accessories added to the install.
+		$sql = "SELECT (SUM(cutout_price) + SUM(faucet_price) + SUM(sink_price)) as sinkTotal FROM install_sink WHERE sink_iid = " . $iid;
+		$sink = $conn->prepare($sql);
 		$sink->execute();
-
 		$sinkPrice = $sink->fetch();
 		$sinkPrice = $sinkPrice['sinkTotal'];
-
 		if (!(is_numeric($sinkPrice))) {
 			$sinkPrice = 0;
 		}
@@ -1204,47 +1226,35 @@ class project_action {
 			$sinkPrice = 0.00;
 		}
 
+		// Get install pricing data
 		$price_extra = 0;
 		$matPrice = 0;
-		$install_discount = 0.00;
 		$price_tearout = 0.00;
-
-		$q = $conn->prepare("SELECT price_extra, cpSqFt, SqFt, install_discount, tear_out, tearout_sqft FROM installs WHERE id = :iid");
-		$q->bindParam('iid',$a['iid']);
+		$sql = "SELECT price_extra, cpSqFt, SqFt, tear_out, tearout_sqft FROM installs WHERE id = " . $iid;
+		$q = $conn->prepare($sql);
 		$q->execute();
 		$row = $q->fetchAll(PDO::FETCH_ASSOC);
-
 		foreach($row as $r) {
-//			if(!($sumSqFt > 1)) {
-//				$sumSqFt = $r['SqFt'];
-//			}
-
 			$matPrice = $r['cpSqFt'] * $sumSqFt;
 			if ($matPrice < 1) {
 				$matPrice = 0;
 			}
 			$price_extra = $r['price_extra'];
-			$install_discount = $r['install_discount'];
 			if ($r['tear_out'] == "Yes") {
 				$price_tearout = $r['tearout_sqft'] * 7.5;
 			}
 		}
 
-		$finalPrice = ($matPrice + $price_extra + $sinkPrice + $price_tearout) - $install_discount;
-
-		if ($finalPrice < 1) {
+		// Calculate all together
+		$finalPrice = ($matPrice + $price_extra + $sinkPrice + $price_tearout);
+		if ($finalPrice < 1 || $no_charge == 1) {
 			$finalPrice = 0.00;
 		}
 
-		$f = $conn->prepare("UPDATE installs SET install_price = :install_price, accs_prices = :accs_prices, SqFt = :SqFt, price_calc = :price_calc, tearout_cost = :tearout_cost WHERE id = :id");
-		$f->bindParam('id',$a['iid']);
-		$f->bindParam('price_calc',$matPrice);
-		$f->bindParam('accs_prices',$sinkPrice);
-		$f->bindParam('SqFt',$sumSqFt);
-		$f->bindParam('install_price',$finalPrice);
-		$f->bindParam('tearout_cost',$price_tearout);
+		// Save calculated date to db. 
+		$sql = "UPDATE installs SET install_price = " . $finalPrice . ", accs_prices = " . $sinkPrice . ", SqFt = " . $sumSqFt . ", price_calc = " . $matPrice . ", tearout_cost = " . $price_tearout . " WHERE id = " . $iid;
+		$f = $conn->prepare($sql);
 		$f->execute();
-
 	}
 
 	public function get_edges() {
@@ -2077,7 +2087,7 @@ class project_action {
 		if ($a['mine'] > 0) {
 
 			if ($a['mine'] == 10) {
-				$search_string .= " AND (acct_rep = 13 || acct_rep = 9 || acct_rep = 8 || acct_rep = 2054) ";
+				$search_string .= " AND (acct_rep = 13 || acct_rep = 9 || acct_rep = 8 || acct_rep = 2054 || acct_rep = 1854) ";
 			} else if ($a['mine'] == 985) {
 				$search_string .= " AND (acct_rep = 1778 || acct_rep = 12 || acct_rep = 14) ";
 			} else if ($a['mine'] == 2986) {
@@ -2805,7 +2815,7 @@ class project_action {
 				$sql .= "AND acct_rep = " . $a;
 			}
 			if ($a == 10) {
-				$sql .= "AND (acct_rep = 13 OR  acct_rep = 9 OR  acct_rep = 8 OR  acct_rep = 2054) ";
+				$sql .= "AND (acct_rep = 13 OR  acct_rep = 9 OR  acct_rep = 8 OR  acct_rep = 2054 OR acct_rep = 1854) ";
 			}
 			if ($a == 985) {
 				$sql .= "AND (acct_rep = 1778 OR  acct_rep = 14 OR  acct_rep = 12) ";
@@ -2853,7 +2863,7 @@ class project_action {
 				$sql .= "AND acct_rep = " . $a;
 			}
 			if ($a == 10) {
-				$sql .= "AND (acct_rep = 13 OR  acct_rep = 9 OR  acct_rep = 8 OR  acct_rep = 2054) ";
+				$sql .= "AND (acct_rep = 13 OR  acct_rep = 9 OR  acct_rep = 8 OR  acct_rep = 2054 OR acct_rep = 1854) ";
 			}
 			if ($a == 985) {
 				$sql .= "AND (acct_rep = 1778 OR  acct_rep = 14 OR  acct_rep = 12) ";
@@ -2944,7 +2954,7 @@ class project_action {
 				$sql .= "AND acct_rep = " . $a;
 			}
 			if ($a == 10) {
-				$sql .= "AND (acct_rep = 13 OR  acct_rep = 9 OR  acct_rep = 8 OR  acct_rep = 2054) ";
+				$sql .= "AND (acct_rep = 13 OR  acct_rep = 9 OR  acct_rep = 8 OR  acct_rep = 2054 OR acct_rep = 1854) ";
 			}
 			if ($a == 985) {
 				$sql .= "AND (acct_rep = 1778 OR  acct_rep = 14 OR  acct_rep = 12) ";
@@ -2993,7 +3003,7 @@ class project_action {
 				$sql .= "AND acct_rep = " . $a;
 			}
 			if ($a == 10) {
-				$sql .= "AND (acct_rep = 13 OR  acct_rep = 9 OR  acct_rep = 8 OR  acct_rep = 2054) ";
+				$sql .= "AND (acct_rep = 13 OR  acct_rep = 9 OR  acct_rep = 8 OR  acct_rep = 2054 OR acct_rep = 1854) ";
 			}
 			if ($a == 985) {
 				$sql .= "AND (acct_rep = 1778 OR  acct_rep = 14 OR  acct_rep = 12) ";
@@ -3266,13 +3276,11 @@ class project_action {
 // CLIENT PROJECT ACTIONS
 
 // GET LIST OF PROJECTS
-	public function client_get_projects($uid) 
-	{
+	public function client_get_projects($uid) {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-			
-				$q = $conn->prepare("SELECT * FROM projects WHERE uid = :uid");
+			$q = $conn->prepare("SELECT * FROM projects WHERE uid = :uid");
 			$q->bindParam(':uid',$uid);
 			$q->execute();
 			return $q->fetchall(PDO::FETCH_ASSOC);
@@ -3309,22 +3317,22 @@ class project_action {
 			echo "ERROR: " . $e->getMessage();
 		}
 	}
-  
+
 	public function get_inst_log($firstdate, $lastdate) {
 		try {
 			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
 			$sql = "
-			SELECT	installer_log.*,users.fname, users.lname, projects.id,projects.uid, projects.job_name,projects.order_num
-			FROM	installer_log
-			JOIN	projects ON	installer_log.inst_log_pid = projects.id
-			JOIN users ON installer_log.inst_log_inst_id = users.installer_id
-			WHERE installer_log.inst_log_inst_id > 0 
-			AND installer_log.inst_log_date >= '". $firstdate ."' 
-			AND installer_log.inst_log_date <= '". $lastdate . "' 
-			ORDER BY installer_log.inst_log_inst_id ASC, 
-			installer_log.inst_log_date ASC,
-			installer_log.inst_log_pid ASC";
+				SELECT	installer_log.*,users.fname, users.lname, projects.id,projects.uid, projects.job_name,projects.order_num
+				FROM	installer_log
+				JOIN	projects ON	installer_log.inst_log_pid = projects.id
+				JOIN users ON installer_log.inst_log_inst_id = users.installer_id
+				WHERE installer_log.inst_log_inst_id > 0 
+				AND installer_log.inst_log_date >= '". $firstdate ."' 
+				AND installer_log.inst_log_date <= '". $lastdate . "' 
+				ORDER BY installer_log.inst_log_inst_id ASC, 
+				installer_log.inst_log_date ASC,
+				installer_log.inst_log_pid ASC";
 			$q = $conn->prepare($sql);
 			$q->execute();
 			return $row = $q->fetchAll(PDO::FETCH_ASSOC);
@@ -3333,32 +3341,30 @@ class project_action {
 		}
 	}
   
-  public function update_payroll($id,$status) {
-      try {
-        $conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-        if($status === 'true'){
-          $q = $conn->prepare("UPDATE installer_log SET inst_log_payroll = 1, inst_log_total = IF(inst_log_sqft > 0,(inst_log_sqft*inst_log_rate), 0) WHERE inst_log_id = :id");
-        }
-        else{
-          $q = $conn->prepare("UPDATE installer_log SET inst_log_payroll = 0, inst_log_total = 0 WHERE inst_log_id = :id");
-        }
-        $q->bindParam('id',$id);
-        $q->execute();
-      } catch(PDOException $e) {
-        echo "ERROR: " . $e->getMessage();
-      }  
-  }
-  
-  public function mysql_escape($inp){ 
-      if(is_array($inp)) return array_map(__METHOD__, $inp);
-      
-      if(!empty($inp) && is_string($inp)) { 
-          return str_replace(array('\\', "\0", "\n", "\r", "'", '"', '`',"\x1a"), array('\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\`','\\Z'), $inp); 
-      } 
-      return $inp; 
-    
-  }
+	public function update_payroll($id,$status) {
+		try {
+			$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
+			$sql = '';
+			if($status === 'true') {
+				$sql = "UPDATE installer_log SET inst_log_payroll = 1, inst_log_total = (inst_log_sqft*inst_log_rate) WHERE inst_log_id = " . $id;
+			} else {
+				$sql = "UPDATE installer_log SET inst_log_payroll = 0, inst_log_total = 0 WHERE inst_log_id = " . $id;
+			}
+			$q = $conn->prepare($sql);
+			$q->execute();
+		} catch(PDOException $e) {
+			echo "ERROR: " . $e->getMessage();
+		}  
+	}
+
+	public function mysql_escape($inp) { 
+		if(is_array($inp)) return array_map(__METHOD__, $inp);
+		if(!empty($inp) && is_string($inp)) { 
+			return str_replace(array('\\', "\0", "\n", "\r", "'", '"', '`',"\x1a"), array('\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\`','\\Z'), $inp); 
+		} 
+		return $inp; 
+	}
 
 }
 ?>

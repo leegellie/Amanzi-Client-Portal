@@ -15,8 +15,8 @@
                                         </div>
                                     </div>
                                     <div class="col-6 col-lg-3">
-                                        <div id="user_findDIV" class="text select" data-role="input-control">
-                                            <select class="mdb-select" name="user_find" id="user_find" data-transform="input-control" >
+                                        <div id="user_findDIV" class="text select mt-2" data-role="input-control">
+                                            <select class="mdb-select md-form colorful-select dropdown-primary" name="user_find" id="user_find" data-transform="input-control" >
                                                 <option value="job_name">Job Name</option>
                                                 <option value="order_num">Order Number</option>
                                                 <option value="quote_num">Quote Number</option>

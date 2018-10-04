@@ -16,7 +16,7 @@
 						<div class="row">
 					<fieldset class="form-group col-3">
 						<label for="install_room">Room Type:</label>
-						<select class="mdb-select" id="i-install_room" name="install_room" type="text" data-required="true">
+						<select class="mdb-select md-form colorful-select dropdown-primary" id="i-install_room" name="install_room" type="text" data-required="true">
 						<?
 							$get_rooms = new project_action;
 							$rows = $get_rooms->get_rooms();
@@ -80,7 +80,7 @@
 
 					<fieldset class="form-group col-12 col-lg-6">
 						<label for="i-material">Material:</label>
-						<select class="mdb-select" id="i-material" name="material">
+						<select class="mdb-select md-form colorful-select dropdown-primary" id="i-material" name="material">
 							<option value="0">Not Selected</option>
 							<option value="marbgran">Marble/Granite</option>
 							<option value="quartz">Quartz/Quartzite</option>
@@ -147,7 +147,7 @@
 					<div class="container matHolder hidden border pt-2">
 						<div class="row">
 							<div class="col-12 col-md-5">
-								<select class="levelFilter mdb-select">
+								<select class="levelFilter mdb-select md-form colorful-select dropdown-primary">
 									<option value="0">Filter...</option>
 									<option value="1">Level 1</option>
 									<option value="2">Level 2</option>
@@ -225,19 +225,19 @@
 						<div class="row">
 							<fieldset class="form-group col-3">
 								<label for="edge">Default Edge:</label>
-								<select class="mdb-select" id="i-edge" name="edge">
+								<select class="mdb-select md-form colorful-select dropdown-primary" id="i-edge" name="edge">
 <?
 	$get_accs = new project_action;
 	$rows = $get_accs->get_edges();
 	foreach ($rows as $row) {
-		echo "<option value='" . $row['id'] . "' price='" . $row['edge_price'] . "'>" . $row['edge_name'] . "</option>";
+		echo "<option value='" . $row['id'] . "' price='" . $row['edge_price'] . "' data-icon='https://amanziportal.com/images/SVG/" . $row['edge_img'] . "'>" . $row['edge_name'] . "</option>";
 	}
 ?>
 								</select>
 							</fieldset>
 							<fieldset class="form-group col-3">
 								<label for="range_type">Range Type:</label>
-								<select class="mdb-select" id="i-range_type" name="range_type">
+								<select class="mdb-select md-form colorful-select dropdown-primary" id="i-range_type" name="range_type">
 									<option value="0">None</option>
 									<option value="1">Free Standing</option>
 									<option value="2">Cooktop</option>
@@ -294,7 +294,7 @@
 								<div class="row">
 									<div class="form-group col-12">
 										<label for="holes">Faucet Spread / Holes:</label>
-										<select class="mdb-select holeOpt" id="i-holes" name="holes" readonly>
+										<select class="mdb-select md-form colorful-select dropdown-primary holeOpt" id="i-holes" name="holes" readonly>
 											<option value="0">None</option>
 											<option disabled value="1">1 Hole - Center</option>
 											<option disabled value="2">3 Hole - 4"</option>

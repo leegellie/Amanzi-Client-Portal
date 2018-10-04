@@ -123,7 +123,7 @@
 							</div>
 						</fieldset>
 						<fieldset class="form-group col-2">
-							<select class="mdb-select" id="accs_code" name="accs_code" type="text" data-required="true">
+							<select class="mdb-select md-form colorful-select dropdown-primary" id="accs_code" name="accs_code" type="text" data-required="true">
 								<option>Select...</option>
 								<option value="1">Sink</option>
 								<option value="2">Faucet</option>

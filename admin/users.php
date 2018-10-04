@@ -43,7 +43,7 @@ include('includes.php');
     <script src="//cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.9/css/jquery.dataTables.min.css">
 	<script src="/js/jquery.validate.js" type="text/javascript"></script>
-    <script src="/admin/js/users.js"></script>
+    <script src="/admin/js/users.js?v=<?= $version ?>"></script>
 <script>
 <?PHP 
 if(isset($_GET['add'])){
@@ -105,7 +105,7 @@ POPUP EDIT BOX CODE START
 								<div class="row">
 									<div class="col-5">User Role:</div>
 									<div class="col-7">
-										<select class="mdb-select" name="access_level" id="access_level" data-transform="input-control">
+										<select class="mdb-select md-form colorful-select dropdown-primary" name="access_level" id="access_level" data-transform="input-control">
 											<option value="0">Select User Type</option> 
 											<option value="0" disabled>&nbsp;&nbsp;Internal Employees</option>
 								<!-- THE FOLLOWING PHP LOOPS THROUGH AND ECHOS INTERNAL "EMPLOYEE" USER ROLES -->
@@ -172,7 +172,7 @@ POPUP EDIT BOX CODE START
 								<div class="row">
 									<div class="col-5">Account Rep:</div>
 									<div class="col-7">
-										<select class="mdb-select" name="acct_rep" id="acct_rep" data-transform="input-control">
+										<select class="mdb-select md-form colorful-select dropdown-primary" name="acct_rep" id="acct_rep" data-transform="input-control">
 											<option value="0">Select Account Rep</option> 
 											<?
 	
@@ -291,7 +291,7 @@ POPUP EDIT BOX CODE START
 									</div>
 									<div class="col-7">
 										<div id="stateDIV" class="input-control select" data-role="input-control">
-											<select class="mdb-select" name="state" id="state" value="" tabindex="10" data-transform="input-control">
+											<select class="mdb-select md-form colorful-select dropdown-primary" name="state" id="state" value="" tabindex="10" data-transform="input-control">
 												<option value="">Choose a State</option>
 												<option value="AL">Alabama</option>
 												<option value="AK">Alaska</option>
@@ -460,7 +460,7 @@ POPUP EDIT BOX CODE START
 									</div>
 									<div class="col-7">
 										<div id="billing_stateDIV" class="input-control select" data-role="input-control">
-											<select class="mdb-select" name="billing_state" id="billing_state" value="" data-transform="input-control">
+											<select class="mdb-select md-form colorful-select dropdown-primary" name="billing_state" id="billing_state" value="" data-transform="input-control">
 												<option value="" selected>Choose a State</option>
 												<option value="AL">Alabama</option>
 												<option value="AK">Alaska</option>
@@ -602,7 +602,7 @@ POPUP EDIT BOX CODE START
 						<input type="hidden" id="cmt_type" name="cmt_type" value="">
 						<input type="hidden" id="cmt_user" name="cmt_user" value="">
 						<label for="cmt_priority" class="form-label col-12 col-md-4">Priority: </label>
-						<select name="cmt_priority" id="cmt_priority" class="mdb-select col-12 col-md-8">
+						<select name="cmt_priority" id="cmt_priority" class="mdb-select md-form colorful-select dropdown-primary col-12 col-md-8">
 							<option value="Normal" selected>Regular</option>
 							<option value="911">Important</option>
 						</select>

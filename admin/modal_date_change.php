@@ -12,7 +12,7 @@
 					<form id="date_change_form row">
 						<input type="hidden" name="action" value="date_change">
 						<input type="hidden" id="dc-pid" name="pid" value="">
-						<input type="hidden" id="dc-staff" name="staff" value="">
+						<input type="hidden" id="dc-staff" name="staff" value="<?= $_SESSION['id'] ?>">
 						<h3 class="text-danger">Why are you changing the install date?</h3>
 						<fieldset class="form-group col-12 d-inline">
 							<textarea class="form-control-lg w-100" rows="4" id="date_change_reason" name="date_change_reason"></textarea>

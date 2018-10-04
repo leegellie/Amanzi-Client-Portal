@@ -45,7 +45,7 @@
 										</fieldset>
 										<fieldset class="form-group col-4 col-md-2 text-left servoption reoption">
 											<label for="responsible" class="text-left">Who is responsible</label>
-											<select class="mdb-select" name="responsible" id="responsible">
+											<select class="mdb-select md-form colorful-select dropdown-primary" name="responsible" id="responsible">
 												<option value="0">Select one</option>
 												<option value="11">Customer</option>
 												<option value="2">Sales</option>
@@ -102,7 +102,7 @@
 											</fieldset>
 											<fieldset class="form-group col-md-6">
 												<label for="account-rep">Account Rep:</label>
-												<select class="mdb-select" id="acct_rep" name="acct_rep">
+												<select class="mdb-select md-form colorful-select dropdown-primary" id="acct_rep" name="acct_rep">
 													<option value="0">Unspecified</option>
 <?
 	$uOptions = ''; 
@@ -174,7 +174,7 @@
 											</fieldset>
 											<fieldset class="form-group col-8 col-md-3">
 												<label for="site-address">State:</label>
-												<select class="mdb-select" id="state" name="state">
+												<select class="mdb-select md-form colorful-select dropdown-primary" id="state" name="state">
 													<option value="AL">Alabama</option>
 													<option value="AK">Alaska</option>
 													<option value="AZ">Arizona</option>

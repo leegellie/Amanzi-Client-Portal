@@ -29,8 +29,8 @@ include('includes.php');
 
 ?>
 
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 	<script src="/js/jquery.validate.js" type="text/javascript"></script>
     <script src="js/projects.js"></script>
     <script src="js/project_edit.js"></script>
@@ -179,7 +179,7 @@ include('includes.php');
 
 						<div class=" col-9">
 							<label class="mb-3" for="cat_id">Company &amp; Category:</label>
-							<select class="mdb-select" id="cat_id">
+							<select class="mdb-select md-form colorful-select dropdown-primary" id="cat_id">
 <?
 	$uOptions = '';
 	$salesReps = new project_action;

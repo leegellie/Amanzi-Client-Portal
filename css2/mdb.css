@@ -1,6 +1,6 @@
 /*!
  * Material Design for Bootstrap 4
- * Version: MDB PRO 4.5.9
+ * Version: MDB PRO 4.5.10
  *
  *
  * Copyright: Material Design for Bootstrap
@@ -1909,7 +1909,7 @@ a.waves-effect, a.waves-light {
 
 /*!
  * animate.css -http://daneden.me/animate
- * Version - 3.6.0
+ * Version - 3.7.0
  * Licensed under the MIT license - http://opensource.org/licenses/MIT
  *
  * Copyright (c) 2018 Daniel Eden
@@ -1919,10 +1919,44 @@ a.waves-effect, a.waves-light {
   animation-duration: 1s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both; }
+  .animated.infinite {
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite; }
+  .animated.delay-1s {
+    -webkit-animation-delay: 1s;
+    animation-delay: 1s; }
+  .animated.delay-2s {
+    -webkit-animation-delay: 2s;
+    animation-delay: 2s; }
+  .animated.delay-3s {
+    -webkit-animation-delay: 3s;
+    animation-delay: 3s; }
+  .animated.delay-4s {
+    -webkit-animation-delay: 4s;
+    animation-delay: 4s; }
+  .animated.delay-5s {
+    -webkit-animation-delay: 5s;
+    animation-delay: 5s; }
+  .animated.fast {
+    -webkit-animation-duration: 800ms;
+    animation-duration: 800ms; }
+  .animated.faster {
+    -webkit-animation-duration: 500ms;
+    animation-duration: 500ms; }
+  .animated.slow {
+    -webkit-animation-duration: 2s;
+    animation-duration: 2s; }
+  .animated.slower {
+    -webkit-animation-duration: 3s;
+    animation-duration: 3s; }
 
-.animated.infinite {
-  -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite; }
+@media (prefers-reduced-motion) {
+  .animated {
+    -webkit-animation: unset !important;
+    animation: unset !important;
+    -webkit-transition: none !important;
+    -o-transition: none !important;
+    transition: none !important; } }
 
 @-webkit-keyframes fadeIn {
   from {
@@ -2072,6 +2106,14 @@ a.waves-effect, a.waves-light {
   -webkit-animation-name: fadeOutDown;
   animation-name: fadeOutDown; }
 
+@-webkit-keyframes fadeOutLeft {
+  from {
+    opacity: 1; }
+  to {
+    opacity: 0;
+    -webkit-transform: translate3d(-100%, 0, 0);
+    transform: translate3d(-100%, 0, 0); } }
+
 @keyframes fadeOutLeft {
   from {
     opacity: 1; }
@@ -2124,6 +2166,13 @@ a.waves-effect, a.waves-light {
   -webkit-animation-name: fadeOutUp;
   animation-name: fadeOutUp; }
 
+/*!
+ * animate.css -http://daneden.me/animate
+ * Version - 3.7.0
+ * Licensed under the MIT license - http://opensource.org/licenses/MIT
+ *
+ * Copyright (c) 2018 Daniel Eden
+ */
 @-webkit-keyframes bounce {
   from,
   20%,
@@ -2148,7 +2197,6 @@ a.waves-effect, a.waves-light {
   90% {
     -webkit-transform: translate3d(0, -4px, 0);
     transform: translate3d(0, -4px, 0); } }
-
 @keyframes bounce {
   from,
   20%,
@@ -2214,7 +2262,6 @@ a.waves-effect, a.waves-light {
   to {
     -webkit-transform: scale3d(1, 1, 1);
     transform: scale3d(1, 1, 1); } }
-
 @keyframes pulse {
   from {
     -webkit-transform: scale3d(1, 1, 1);
@@ -2482,7 +2529,6 @@ a.waves-effect, a.waves-light {
   to {
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0); } }
-
 @keyframes wobble {
   from {
     -webkit-transform: translate3d(0, 0, 0);
@@ -2572,6 +2618,48 @@ a.waves-effect, a.waves-light {
   -webkit-transform-origin: center;
   -ms-transform-origin: center;
   transform-origin: center; }
+
+@-webkit-keyframes heartBeat {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1); }
+  14% {
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3); }
+  28% {
+    -webkit-transform: scale(1);
+    transform: scale(1); }
+  42% {
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3); }
+  70% {
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+
+@keyframes heartBeat {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1); }
+  14% {
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3); }
+  28% {
+    -webkit-transform: scale(1);
+    transform: scale(1); }
+  42% {
+    -webkit-transform: scale(1.3);
+    transform: scale(1.3); }
+  70% {
+    -webkit-transform: scale(1);
+    transform: scale(1); } }
+
+.heartBeat {
+  -webkit-animation-name: heartBeat;
+  animation-name: heartBeat;
+  -webkit-animation-duration: 1.3s;
+  animation-duration: 1.3s;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out; }
 
 @-webkit-keyframes bounceIn {
   from,
@@ -3127,14 +3215,6 @@ a.waves-effect, a.waves-light {
   -webkit-animation-name: fadeOutDownBig;
   animation-name: fadeOutDownBig; }
 
-@-webkit-keyframes fadeOutLeft {
-  from {
-    opacity: 1; }
-  to {
-    opacity: 0;
-    -webkit-transform: translate3d(-100%, 0, 0);
-    transform: translate3d(-100%, 0, 0); } }
-
 @-webkit-keyframes fadeOutLeftBig {
   from {
     opacity: 1; }
@@ -3197,59 +3277,59 @@ a.waves-effect, a.waves-light {
 
 @-webkit-keyframes flip {
   from {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -360deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, -360deg);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);
+    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);
     -webkit-animation-timing-function: ease-out;
     animation-timing-function: ease-out; }
   40% {
-    -webkit-transform: perspective(400px) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);
-    transform: perspective(400px) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);
+    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);
     -webkit-animation-timing-function: ease-out;
     animation-timing-function: ease-out; }
   50% {
-    -webkit-transform: perspective(400px) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);
-    transform: perspective(400px) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);
+    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);
     -webkit-animation-timing-function: ease-in;
     animation-timing-function: ease-in; }
   80% {
-    -webkit-transform: perspective(400px) scale3d(0.95, 0.95, 0.95);
-    transform: perspective(400px) scale3d(0.95, 0.95, 0.95);
+    -webkit-transform: perspective(400px) scale3d(0.95, 0.95, 0.95) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
+    transform: perspective(400px) scale3d(0.95, 0.95, 0.95) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
     -webkit-animation-timing-function: ease-in;
     animation-timing-function: ease-in; }
   to {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
+    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
     -webkit-animation-timing-function: ease-in;
     animation-timing-function: ease-in; } }
 
 @keyframes flip {
   from {
-    -webkit-transform: perspective(400px) rotate3d(0, 1, 0, -360deg);
-    transform: perspective(400px) rotate3d(0, 1, 0, -360deg);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);
+    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, -360deg);
     -webkit-animation-timing-function: ease-out;
     animation-timing-function: ease-out; }
   40% {
-    -webkit-transform: perspective(400px) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);
-    transform: perspective(400px) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);
+    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -190deg);
     -webkit-animation-timing-function: ease-out;
     animation-timing-function: ease-out; }
   50% {
-    -webkit-transform: perspective(400px) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);
-    transform: perspective(400px) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);
+    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 150px) rotate3d(0, 1, 0, -170deg);
     -webkit-animation-timing-function: ease-in;
     animation-timing-function: ease-in; }
   80% {
-    -webkit-transform: perspective(400px) scale3d(0.95, 0.95, 0.95);
-    transform: perspective(400px) scale3d(0.95, 0.95, 0.95);
+    -webkit-transform: perspective(400px) scale3d(0.95, 0.95, 0.95) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
+    transform: perspective(400px) scale3d(0.95, 0.95, 0.95) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
     -webkit-animation-timing-function: ease-in;
     animation-timing-function: ease-in; }
   to {
-    -webkit-transform: perspective(400px);
-    transform: perspective(400px);
+    -webkit-transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
+    transform: perspective(400px) scale3d(1, 1, 1) translate3d(0, 0, 0) rotate3d(0, 1, 0, 0deg);
     -webkit-animation-timing-function: ease-in;
     animation-timing-function: ease-in; } }
 
-.animated.flip {
+.flip {
   -webkit-backface-visibility: visible;
   backface-visibility: visible;
   -webkit-animation-name: flip;
@@ -3438,12 +3518,10 @@ a.waves-effect, a.waves-light {
     opacity: 1; }
   80% {
     -webkit-transform: skewX(-5deg);
-    transform: skewX(-5deg);
-    opacity: 1; }
+    transform: skewX(-5deg); }
   to {
     -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    opacity: 1; } }
+    transform: translate3d(0, 0, 0); } }
 
 @keyframes lightSpeedIn {
   from {
@@ -3456,12 +3534,10 @@ a.waves-effect, a.waves-light {
     opacity: 1; }
   80% {
     -webkit-transform: skewX(-5deg);
-    transform: skewX(-5deg);
-    opacity: 1; }
+    transform: skewX(-5deg); }
   to {
     -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    opacity: 1; } }
+    transform: translate3d(0, 0, 0); } }
 
 .lightSpeedIn {
   -webkit-animation-name: lightSpeedIn;
@@ -3903,7 +3979,6 @@ a.waves-effect, a.waves-light {
     opacity: 1;
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0); } }
-
 @keyframes rollIn {
   from {
     opacity: 0;
@@ -3926,7 +4001,6 @@ a.waves-effect, a.waves-light {
     opacity: 0;
     -webkit-transform: translate3d(100%, 0, 0) rotate3d(0, 0, 1, 120deg);
     transform: translate3d(100%, 0, 0) rotate3d(0, 0, 1, 120deg); } }
-
 @keyframes rollOut {
   from {
     opacity: 1; }
@@ -6697,6 +6771,7 @@ body.scrollable {
       display: flex;
       margin: 0;
       width: 400px;
+      min-height: 100%;
       height: auto;
       min-height: 100%;
       top: 0;
@@ -7483,7 +7558,7 @@ table.table-sm td {
       margin-bottom: 15px;
       margin-left: auto;
       margin-right: auto;
-      z-index: -1; }
+      z-index: 0; }
     .fixed-action-btn ul a.btn-floating {
       opacity: 0;
       -webkit-transition-duration: 0.4s;
@@ -8790,6 +8865,75 @@ button, html [type="button"], [type="reset"], [type="submit"] {
   font-weight: 500; }
   .card.chart-card .classic-tabs .nav.tabs-white li a.active {
     color: #673ab7; }
+
+.card.chart-card .btn-deep-purple-accent {
+  background-color: #b388ff;
+  margin-top: -65px; }
+  .card.chart-card .btn-deep-purple-accent i {
+    color: #000 !important; }
+
+.card.chart-card .btn-teal-accent {
+  background-color: #1de9b6;
+  margin-top: -65px; }
+  .card.chart-card .btn-teal-accent i {
+    color: #000 !important; }
+
+.card.colorful-card .indigo-accent-text {
+  color: #304ffe; }
+
+.card.colorful-card .btn-indigo-accent {
+  background-color: #304ffe; }
+
+.card.colorful-card .yellow-darken-text {
+  color: #fdd835; }
+
+.card.colorful-card .testimonial-card .avatar {
+  width: 55px;
+  margin-top: -30px;
+  border: 3px solid #fff; }
+  .card.colorful-card .testimonial-card .avatar img {
+    width: 50px;
+    height: 50px; }
+
+.card.colorful-card .brown-darken-text {
+  color: #3e2723; }
+
+.card.colorful-card .btn-red-lighten {
+  background-color: #ffcdd2; }
+
+.card-wrapper.card-action {
+  min-height: 640px; }
+  @media (max-width: 450px) {
+    .card-wrapper.card-action {
+      min-height: 790px; } }
+
+.card-form .md-form input[type=text]:focus:not([readonly]),
+.card-form .md-form input[type=email]:focus:not([readonly]),
+.card-form .md-form input[type=password]:focus:not([readonly]) {
+  -webkit-box-shadow: 0 1px 0 0 #fff;
+  box-shadow: 0 1px 0 0 #fff;
+  border-bottom: 1px solid #fff; }
+
+.card-form .card-form-2 {
+  -webkit-border-top-left-radius: 21px;
+  border-top-left-radius: 21px;
+  -webkit-border-top-right-radius: 21px;
+  border-top-right-radius: 21px;
+  margin-top: -35px; }
+  .card-form .card-form-2 .form-check-input[type=checkbox].filled-in:checked + label:after,
+  .card-form .card-form-2 label.btn input[type=checkbox].filled-in:checked + label:after {
+    background-color: #e53935;
+    border: 2px solid #e53935; }
+  .card-form .card-form-2 .btn-outline-red-accent {
+    border: 2px solid #e53935;
+    background-color: transparent;
+    color: #e53935; }
+  .card-form .card-form-2 .pink-accent-text {
+    color: #c51162; }
+
+.z-depth-1-bottom {
+  -webkit-box-shadow: 0 5px 5px -2px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 5px 5px -2px rgba(0, 0, 0, 0.16); }
 
 .dropdown .dropdown-menu,
 .dropup .dropdown-menu,
@@ -10186,9 +10330,9 @@ label.btn input[type="checkbox"].filled-in + label:after {
   left: 0;
   position: absolute;
   /* .1s delay is for check animation */
-  -webkit-transition: border 0.25s, background-color 0.25s, width 0.2s 1s, height 0.2s 1s, top 0.2s 1s, left 0.2s 1s;
-  -o-transition: border 0.25s, background-color 0.25s, width 0.2s 1s, height 0.2s 1s, top 0.2s 1s, left 0.2s 1s;
-  transition: border 0.25s, background-color 0.25s, width 0.2s 1s, height 0.2s 1s, top 0.2s 1s, left 0.2s 1s;
+  -webkit-transition: border 0.25s, background-color 0.25s, width 0.2s 0.1s, height 0.2s 0.1s, top 0.2s 0.1s, left 0.2s 0.1s;
+  -o-transition: border 0.25s, background-color 0.25s, width 0.2s 0.1s, height 0.2s 0.1s, top 0.2s 0.1s, left 0.2s 0.1s;
+  transition: border 0.25s, background-color 0.25s, width 0.2s 0.1s, height 0.2s 0.1s, top 0.2s 0.1s, left 0.2s 0.1s;
   z-index: 1; }
 
 .form-check-input[type="checkbox"].filled-in:not(:checked) + label:before,
@@ -10282,14 +10426,13 @@ label.btn input[type="checkbox"]:disabled:checked + label:after {
     border: none;
     border-bottom: 1px solid #ced4da;
     outline: none;
-    height: 2.9rem;
+    height: 38px;
     line-height: 2.9rem;
     width: 100%;
     font-size: 1rem;
     margin: 0 0 0.94rem 0;
     padding: 0;
     display: block;
-    padding-right: 25px;
     -o-text-overflow: ellipsis;
     text-overflow: ellipsis; }
     .select-wrapper input.select-dropdown:disabled {
@@ -10316,19 +10459,27 @@ label.btn input[type="checkbox"]:disabled:checked + label:after {
     color: initial;
     position: absolute;
     right: 0;
-    top: 1rem;
+    top: .8rem;
     font-size: 0.63rem; }
     .select-wrapper span.caret.disabled {
       color: rgba(0, 0, 0, 0.46); }
   .select-wrapper + label {
     position: absolute;
-    top: -0.88rem;
+    top: 7px;
     font-size: 0.8rem; }
   .select-wrapper i {
     color: rgba(0, 0, 0, 0.3); }
   .select-wrapper ul {
     list-style-type: none;
     padding-left: 0; }
+  .select-wrapper.md-form > ul li label {
+    top: 0;
+    color: #4285f4;
+    font-size: .9rem; }
+  .select-wrapper.md-form > ul li.select-toggle-all label {
+    padding-left: 38px; }
+  .select-wrapper.md-form.colorful-select > ul li.select-toggle-all:hover label {
+    color: #fff; }
 
 select {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -10572,7 +10723,7 @@ select {
     height: 2.5rem; }
   .file-field input.file-path {
     width: 100%;
-    height: 2.1rem; }
+    height: 36px; }
   .file-field .btn {
     float: left; }
   .file-field span {
@@ -10789,10 +10940,9 @@ button.mdb-autocomplete-clear {
     color: #626262; }
 
 .accordion-gradient-bcg {
-  background: -webkit-gradient(linear, 45deg, from(rgba(234, 21, 129, 0.6)), to(rgba(10, 23, 187, 0.6)));
   background: -webkit-linear-gradient(45deg, rgba(234, 21, 129, 0.6), rgba(10, 23, 187, 0.6) 100%);
   background: -o-linear-gradient(45deg, rgba(234, 21, 129, 0.6), rgba(10, 23, 187, 0.6) 100%);
-  background: linear-gradient(to 45deg, rgba(234, 21, 129, 0.6), rgba(10, 23, 187, 0.6) 100%); }
+  background: linear-gradient(45deg, rgba(234, 21, 129, 0.6), rgba(10, 23, 187, 0.6) 100%); }
 
 .accordion.md-accordion.accordion-1 p, .accordion.md-accordion.accordion-2 p, .accordion.md-accordion.accordion-3 p, .accordion.md-accordion.accordion-4 p, .accordion.md-accordion.accordion-5 p {
   font-size: 1rem; }
@@ -16504,6 +16654,8 @@ section.team-section .avatar img {
       border-color: #e97d63; }
     .pricing-card .striped.purple-striped li {
       border-color: #963c94; }
+    .pricing-card .striped.darker-striped li {
+      border-bottom: 1px solid rgba(153, 153, 153, 0.298039); }
   .pricing-card .card-background {
     background-color: #28283f;
     -webkit-border-radius: 0 0 0.25rem 0.25rem;

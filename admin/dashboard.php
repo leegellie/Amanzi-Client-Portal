@@ -5,6 +5,7 @@ if(!session_id()) session_start();
 //session_set_cookie_params(0,'/','',true,true);
 require_once (__DIR__ . '/../include/class/user.class.php');
 require_once ('head_php.php');
+
 /*
 HERE ARE THE CODE SNIPPETS TO DISPLAY USER INFO.
 WHAT TO DISPLAY = CODE TO INSERT THE VALUE

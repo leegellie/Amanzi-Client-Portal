@@ -27,5 +27,10 @@ $(document).ready(function(){
     get_po_mats_needed();
 });
 </script>
+<style>
+.svg-inline--fa.fa-w-14 {
+width: auto!important;
+}
+</style>
 </body>
 </html>

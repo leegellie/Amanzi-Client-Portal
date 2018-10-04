@@ -1,4 +1,3 @@
-// // Lee
 matObj = [];
 $uid = '';
 $pid = '';
@@ -38,6 +37,475 @@ $order_num = '';
 $job_name = '';
 $completed = 0;
 $breakFunction = 0;
+$inFocus = true;
+
+
+var entityMap = {
+	'&': '&amp;',
+	'<': '&lt;',
+	'>': '&gt;',
+	'"': '&quot;',
+	"'": '&#39;',
+	'/': '&#x2F;',
+	'`': '&#x60;',
+	'=': '&#x3D;'
+};
+
+function escapeHtml(string) {
+	return String(string).replace(/[&<>"'`=\/]/g, function (s) {
+		return entityMap[s];
+	});
+}
+
+
+function dc_modal(pid) {
+	$('#dc-pid').val(pid);
+	$('#date_change').modal('show');
+}
+					   
+function date_change() {
+	if ($('#date_change_reason').val() == '') {
+		alert("You must enter a reason for changing the install date.");
+		return;
+	}
+	var user = $('#dc-staff').val();
+	var pjt = $('#dc-pid').val();
+	var cmt_comment = $('#date_change_reason').val();
+	var install_date = $('#dc-install_date').val();
+
+	var datastring = 'action=date_change&staffid=' + user + '&pid=' + pjt + '&cmt_comment=' + cmt_comment + '&install_date=' + install_date;
+	console.log(datastring);
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log(data);
+
+			var toRemove = '#list' + pjt;
+			$(toRemove).closest('li').remove();
+
+			Command: toastr["error"]("Install Date Changed.", "Projects")
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": false,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": 300,
+				"hideDuration": 1000,
+				"timeOut": 5000,
+				"extendedTimeOut": 1000,
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			};
+			$('#date_change').modal('hide');
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
+function ajustOptions(value) {
+	//console.log(value);
+	$('#am-adjust_status').val(value);
+}
+
+function adjust_material() {
+	var staff = $('#am-staff').val();
+	var pid = $('#am-pid').val();
+	var iid = $('#am-iid').val();
+	var lot = $('#am-lot').val();
+	var assigned_material = $('#am-location').val();
+	var material_status = $('#am-adjust_status').val();
+	var job_status = 0;
+	if (material_status == 1) {
+		job_status = 40;
+	} else if (material_status == 2) {
+		job_status = 41;
+	} else if (material_status == 3) {
+		job_status = 42;
+	} else if (material_status == 4) {
+		job_status = 44;
+	}
+	var datastring = 'action=adjust_material&staff=' + staff + '&iid=' + iid + '&pid=' + pid + '&lot=' + lot + '&assigned_material=' + assigned_material + '&material_status=' + material_status + '&job_status=' + job_status;
+	console.log(datastring);
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log('Success: ' + data);
+			$('#adjust_material').modal('hide');
+			Command: toastr["success"]("Materials Adjusted.")
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": false,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": 300,
+				"hideDuration": 1000,
+				"timeOut": 5000,
+				"extendedTimeOut": 1000,
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			};
+		},
+		error: function(data) {
+			console.log('Fail: ' + data);
+		},
+		complete: function() {
+			$('#am-pid').val('');
+			$('#am-iid').val('');
+			$('#am-staff').val('');
+			$('#am-lot').val('');
+			$('#am-location').val('');
+			$('#am-adjust_status').val('');
+			viewThisProject($pid, $uid);
+		}
+	});
+}
+
+function adjust_material_open(uid, iid, lot, loc) {
+	$('#am-iid').val('');
+	$('#am-staff').val('');
+	$('#am-lot').val('');
+	$('#am-location').val('');
+	$('#am-pid').val($pid);
+	$('#am-iid').val(iid);
+	$('#am-staff').val(uid);
+	$('#am-lot').val(lot);
+	$('#am-location').val(loc);
+	$('#adjust_material').modal('show');
+}
+
+function open_tie_modal() {
+	$('.mdb-select').material_select('destroy');
+	$("#inventory_request input[type=text], #inventory_request textarea, #inventory_request select").val('');
+	$('.inv_row').hide();
+	$('.select_stock').hide();
+	$('.select_hold').hide();
+	$('.selected_item').hide();
+	$('#sm-sink_provided').val(0);
+	$('input[type=radio][value=amanzi_sink]').prop('checked',true);
+	$('input[type=checkbox]').prop('checked',false);
+	$('#inv_request').modal('show');
+	var datastring = "action=get_pieces&iid=" + $iid;
+	$.ajax({
+		url: 'ajax.php',
+		async: false,
+		data: datastring,
+		cache: false,
+		type: 'POST',
+		success: function(data) {
+			$('#sm-sink_part').append('<option value="0">Unassigned</option>');
+			$('#sm-sink_part').append(data);
+			$('.mdb-select').material_select();
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
+function tie_mat() {
+	if ($('#sm-select_type option:selected').val() < 5) {
+		tie_slabs();
+	} else if ($('#sm-select_type option:selected').val() == 8) {
+		tie_sinks();
+	} else {
+		tie_accs();
+	}
+}
+
+function tie_slabs() {
+	var tie_category = $('select[name=tie_category] option:selected').val();
+	var tie_item_id = $('select[name=tie_item_id] option:selected').val();
+	var tie_qty = $('input[name=tie_qty]').val();
+	var tie_uid = $('input[name=tie_uid]').val();
+	var tie_notes = $('textarea[name=tie_notes]').val();
+	var tie_hold = $('input[name=tie_hold]').val();
+	var tie_supplier = $('select[name=tie_supplier] option:selected').val();
+	var tie_status = $('input[name=tie_status]').val();
+	var tie_price = 0;
+	if ($('#sm-tie_item_id').attr('price') > 1) {
+		tie_price = $('#sm-tie_item_id option:selected').attr('price');
+	} else {
+		tie_price = $('#sm-select_cat option:selected').attr('price');
+	}
+	var datastring = 'action=enter_tie_mats&tie_category=' + tie_category + '&tie_item_id=' + tie_item_id + '&tie_qty=' + tie_qty + '&tie_uid=' + tie_uid + '&tie_pid=' + $pid + '&tie_iid=' + $iid + '&tie_hold=' + tie_hold + '&tie_notes=' + tie_notes + '&tie_supplier=' + tie_supplier + '&tie_status=' + tie_status + '&tie_price=' + tie_price;
+	console.log(datastring);
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log('Success: ' + data);
+			$('#inv_request').modal('hide');
+			Command: toastr["success"]("Items requested.")
+			toastr.options = {
+				"closeButton": true,
+				"debug": false,
+				"newestOnTop": false,
+				"progressBar": false,
+				"positionClass": "toast-bottom-right",
+				"preventDuplicates": false,
+				"onclick": null,
+				"showDuration": 300,
+				"hideDuration": 1000,
+				"timeOut": 5000,
+				"extendedTimeOut": 1000,
+				"showEasing": "swing",
+				"hideEasing": "linear",
+				"showMethod": "fadeIn",
+				"hideMethod": "fadeOut"
+			};
+			viewThisProject($pid, $uid);
+			viewThisInstall($iid, $pid, $uid);
+		},
+		error: function(data) {
+			console.log('Fail: ' + data);
+		}
+	});
+}
+
+function tie_sinks() {
+	var $sink_id = $('#sm-select_cat option:selected').val();
+	var $part = $('#sm-sink_part').val();
+	var $provided = 0;
+	var $sink_name = $('#sm-select_cat option:selected').text();
+	var $mount = $('#sm-sink_mount').val();
+	if ($mount == null) {
+		$mount = 0;
+	}
+	var $holes = $('#sm-sink_holes').val();
+	if ($holes == null) {
+		$holes = 0;
+	}
+	var $other = $('#sm-sink_holes_other').val();
+	var $sink_location = $('#sm-sink_location').val();
+	var $sink_pickup = 0;
+	var $sink_onsite = 0;
+	var $delivery = 0;
+	if ($('input[value=sink_pickup]').prop("checked") == true) {
+		$sink_pickup = 1;
+		$provided = 1;
+	} else {
+		$sink_pickup = 0;
+	}
+	if ($('input[value=sink_onsite]').prop("checked") == true) {
+		$sink_onsite = 1;
+		$provided = 1;
+	} else {
+		$sink_onsite = 0;
+	}
+	if ($('input[value=sink_to_us]').prop("checked") == true) {
+		$provided = 1;
+	}
+	var $soap = 0;
+	if ($('#sm-sink_soap').prop("checked") == true) {
+		$soap = 1;
+	} else {
+		$soap = 0;
+	}
+	var $width = $('#sm-cutout_width').val();
+	var $depth = $('#sm-cutout_depth').val();
+	var $sPrice = 0;
+	var $cPrice = 0;
+	var $sCost = 0;
+	if ($provided == 1) {
+		if (($('#type_cost').text() * 1) == 1) {
+			$cPrice = 50;
+		} else if (($('#type_cost').text() * 1) == 2) {
+			$cPrice = 100;
+		}
+	}
+	var $sSelected = '#sm-select_cat option:selected';
+	var tie_category = $($sSelected).val();
+	var tie_qty = $('#sm-tie_qty').val();
+	var tie_uid = $('#sm-tie_uid').val();
+	var tie_hold = $('#sm-tie_hold').val();
+	var tie_notes = $('#sm-tie_notes').val();
+	var tie_notes = $('#sm-tie_notes').val();
+	var inv_cat_id = $('#sm-select_cat option:selected').val();
+	var inv_cat_id_name = $('#sm-select_cat option:selected').attr('item_model');
+	var tie_status = 1;
+	if ($provided == 0) {
+		$sPrice = $($sSelected).attr('price');
+		$sCost = $($sSelected).attr('cost');
+		if ($sPrice == 0) {
+			if (window.confirm('You have not entered a valid sink. Or the sink entered is not in the database. Are you sure you want to continue? Any charges for this sink will have to be added to the installs "Extra Costs"')) {} else {
+				return;
+			}
+		}
+	} else {
+		tie_status = 5;
+		$sCost = 0;
+		$sPrice = 0;
+	}
+	if ($('#sm-sink_model').val() == "") {
+		alert("You must provide a Sink Model.");
+		return;
+	}
+	$model = $($sSelected).attr('accs_id');
+	if ($model < 1 || $model == null) {
+		$model = 0;
+	}
+	if ($('#sm-delivery').prop("checked") == true) {
+		$delivery = 1;
+		$sCost = 0;
+		$sPrice = 0;
+		$cPrice = 0;
+	}
+	var datastring = 'action=enter_tie_mats&tie_category=' + tie_category + '&tie_item_id=&tie_qty=' + tie_qty + '&tie_uid=' + tie_uid + '&tie_pid=' + $pid + '&tie_iid=' + $iid + '&tie_hold=' + tie_hold + '&tie_notes=' + tie_notes + '&tie_supplier=&tie_status=' + tie_status + '&tie_price=' + $sPrice;
+	console.log(datastring);
+	$.ajax({
+		url: 'ajax.php',
+		data: datastring,
+		type: 'POST',
+		async: false,
+		success: function(data) {
+			console.log(data);
+		},
+		error: function(data) {
+			console.log(data);
+		},
+		complete: function() {}
+	});
+	var datastring = 'action=add_sink' + '&sink_pid=' + $pid + '&sink_iid=' + $iid + '&sink_part=' + $part + '&sink_provided=' + $provided + '&sink_model=' + $model + '&sink_mount=' + $mount + '&sink_holes=' + $holes + '&sink_holes_other=' + $other + '&sink_soap=' + $soap + '&cutout_width=' + $width + '&cutout_depth=' + $depth + '&sink_price=' + $sPrice + '&cutout_price=' + $cPrice + '&sink_cost=' + $sCost + '&sink_location=' + $sink_location + '&sink_pickup=' + $sink_pickup + '&sink_onsite=' + $sink_onsite + '&delivery=' + $delivery + '&sink_name=' + $sink_name + '&inv_cat_id=' + inv_cat_id + '&inv_cat_id_name=' + inv_cat_id_name + '&new_inv=1';
+	console.log(datastring);
+	$.ajax({
+		url: 'ajax.php',
+		data: datastring,
+		type: 'POST',
+		success: function(data) {
+			console.log(data);
+			$('#edit_sink').modal('hide');
+		},
+		error: function(data) {
+			console.log(data);
+			$('#updateSinkBtn').show();
+		},
+		complete: function() {
+			$('#inv_request').modal('hide');
+			$('#updateSinkBtn').show();
+			recalculateInstall($iid);
+		}
+	});
+}
+
+function showImage(image) {
+	if (!!image) {
+		var imageElement = '<img style="width:100%;max-width:700px;margin-right:auto;margin-left:auto;" src="' + image + '">';
+		$('#item_image').html(imageElement);
+	} else {
+		$('#item_image').html('');
+	}
+}
+
+function get_mats_available(category) {
+	$('.mdb-select').material_select('destroy');
+	var datastring = "action=get_mats_available&category=" + category;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			//console.log('Success: ' + data);
+			$('select#sm-tie_item_id').html(data);
+			$('.mdb-select').material_select();
+		},
+		error: function(data) {
+			console.log('Fail: ' + data);
+		}
+	});
+}
+
+function invOptions(value) {
+	//console.log(value);
+	if (value == "in_stock") {
+		$('.select_stock').show();
+		$('.select_hold').hide();
+		$('.selected_item').hide();
+		$('#sm-tie_item_id').val('');
+		$('#item_image').html('');
+		$('#sm-tie_supplier').val('');
+		$('#sm-tie_hold').val('');
+		$('#sm-tie_status').val(1);
+		$('#sm-tie_qty').prop('readonly', false);
+	}
+	if (value == "in_hold") {
+		$('.select_stock').hide();
+		$('.select_hold').show();
+		$('.selected_item').hide();
+		$('#sm-tie_item_id').val('');
+		$('#item_image').html('');
+		$('#sm-tie_status').val(2);
+		$('#sm-tie_qty').prop('readonly', false);
+	}
+	if (value == "in_select") {
+		$('.select_stock').hide();
+		$('.select_hold').hide();
+		$('.selected_item').show();
+		$('#sm-tie_qty').val(1);
+		$('#sm-tie_supplier').val('');
+		$('#sm-tie_hold').val('');
+		$('#sm-tie_status').val(3);
+		$('#sm-tie_qty').prop('readonly', 'readonly');
+	}
+}
+
+function sinkOptions(value) {
+	if (value == "amanzi_sink") {
+		$('#sm-sink_provided').val(0);
+	}
+	if (value == "sink_pickup") {
+		$('#sm-sink_provided').val(1);
+	}
+	if (value == "sink_onsite") {
+		$('#sm-sink_provided').val(1);
+	}
+	if (value == "sink_to_us") {
+		$('#sm-sink_provided').val(1);
+	}
+}
+
+function select_category_type(type) {
+	$('.select_opt_mat').hide();
+	$('.select_opt_sink').hide();
+	$('.mdb-select').material_select('destroy');
+	var datastring = "action=get_inv_cats&category_type=" + type;
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			//console.log('Success: ' + data);
+			$('select#sm-select_cat').html(data);
+			$('.mdb-select').material_select();
+			$('.select_options').show();
+			$('.select_cat').show();
+			if ($('#sm-select_type option:selected').val() < 5) {
+				$('.select_opt_mat').show();
+			} else if ($('#sm-select_type option:selected').val() == 8) {
+				$('.select_opt_sink').show();
+			} 
+		},
+		error: function(data) {
+			console.log('Fail: ' + data);
+		}
+	});
+}
 
 function change_job(pid) {
 	if (window.confirm('Making this job editable again will bring it back to "Preparing Quote" stage. Are you sure you want to edit?')) {
@@ -164,36 +632,40 @@ function check_firsts(toCheck,install_date,pid) {
 
 
 function marNoTemp(pid) {
-	var datastring = "action=no_template&id=" + pid;
-	console.log(datastring);
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			viewThisProject($pid, $uid);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
-	setTimeout(get_po_mats_needed, 5000);
+	if ($inFocus == true) {
+		var datastring = "action=no_template&id=" + pid;
+		console.log(datastring);
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				viewThisProject($pid, $uid);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
+	//setTimeout(get_po_mats_needed, 5000);
 }
 
 function get_po_mats_needed() {
-	var datastring = "action=get_po_to_order";
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			$('#toOrder').html(data);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
-	setTimeout(get_po_mats_needed, 5000);
+	if ($inFocus == true) {
+		var datastring = "action=get_po_to_order";
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				$('#toOrder').html(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
+	//setTimeout(get_po_mats_needed, 5000);
 }
 
 function CallPrint(strid) {
@@ -235,10 +707,11 @@ function select_installers() {
 			console.log(data);
 		}
 	});
+	// Set new installers
 	$('.installer').each(function() {
 		if ($(this).prop('checked') == true) {
 			var inst_log_installer = $(this).data('installer_name');
-			var inst_log_rate = $(this).data('installer_rate');
+			var inst_log_rate = $(this).data('installer_rate')*1;
 			var inst_log_inst_id = this.id;
 			installer_string += ' -- ' + inst_log_inst_id + ' : ' + inst_log_installer;
 			var datastring = 'action=select_installers&inst_log_inst_id=' + inst_log_inst_id + '&inst_log_pid=' + inst_log_pid + '&inst_log_installer=' + inst_log_installer + '&inst_log_sqft=' + inst_log_sqft + '&inst_log_date=' + inst_log_date + '&inst_log_rate=' + inst_log_rate;
@@ -298,19 +771,21 @@ function pre_order(user, pjt) {
 }
 
 function getJobsOn() {
-	var datastring = "action=jobson_list"
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			$('#jobsOn').html('');
-			$('#jobsOn').append(data);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
+	if ($inFocus == true) {
+		var datastring = "action=jobson_list"
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				$('#jobsOn').html('');
+				$('#jobsOn').append(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	setTimeout(getJobsOn, 5000);
 }
 
@@ -581,6 +1056,22 @@ function checkQuote(user, pjt, status, po_cost, po_num, contact_name, contact_nu
 }
 
 function statusChange(user, pjt, status) {
+	if (status == 25) {
+		var approvedTable = '<div class="row">Approved at: </div>' + $('.accountTable').html();
+		var datastring = 'action=submit_comment&cmt_ref_id=' + $pid + '&cmt_comment=' + approvedTable + '&cmt_user=' + cmt_user + '&cmt_type=pjt&cmt_priority=log';
+		$.ajax({
+			type: "POST",
+			async: false,
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				//console.log(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	var datastring = 'action=change_status&staffid=' + user + '&pid=' + pjt + '&status=' + status;
 	$.ajax({
 		type: "POST",
@@ -606,7 +1097,9 @@ function statusChange(user, pjt, status) {
 				"showMethod": "fadeIn",
 				"hideMethod": "fadeOut"
 			}
-			viewThisProject($pid, $uid);
+			if ($pid > 0) {
+				viewThisProject($pid, $uid);
+			}
 		},
 		error: function(data) {
 			console.log(data);
@@ -686,6 +1179,26 @@ function prog_complete(user, pjt, status) {
 				"hideMethod": "fadeOut"
 			}
 			viewThisProject($pid, $uid);
+		},
+		error: function(data) {
+			console.log(data);
+		}
+	});
+}
+
+function payroll_status(payroll) {
+	var datastring = '';
+	if (payroll == 0) {
+		datastring = 'action=no_payroll';
+	} else if (payroll == 1) {
+		datastring = 'action=yes_payroll';
+	}
+	$.ajax({
+		type: "POST",
+		url: "ajax.php",
+		data: datastring,
+		success: function(data) {
+			console.log('No Pay: ' + data);
 		},
 		error: function(data) {
 			console.log(data);
@@ -1189,7 +1702,7 @@ function check_address() {
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
-			//console.log(data);
+			console.log('Success: ' + data);
 			var res = data.split("::");
 
 			if (data == 'Failed') {
@@ -1209,7 +1722,7 @@ function check_address() {
 			}
 		},
 		error: function(data) {
-			console.log(data);
+			console.log('Fail: ' + data);
 		}
 	});
 }
@@ -1230,11 +1743,9 @@ function calcOutside() {
 	}
 	c = e - a;
 	b = f - d;
-
 	$('#size_b').val(b);
 	$('#size_c').val(c);
 	$('#size_d').val(d);
-
 }
 
 function calcInside() {
@@ -1253,11 +1764,9 @@ function calcInside() {
 	}
 	f = parseInt(b) + parseInt(d);
 	e = parseInt(a) + parseInt(c);
-
 	$('#size_d').val(d);
 	$('#size_e').val(e);
 	$('#size_f').val(f);
-
 }
 
 
@@ -1282,7 +1791,7 @@ function openQRCamera(node) {
 
 
 function recalculateInstall(iid) {
-	var datastring = 'action=recalculate_install&iid=' + iid;
+	var datastring = 'action=recalculate_install&pid=' + $pid + '&iid=' + iid;
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",
@@ -1297,6 +1806,7 @@ function recalculateInstall(iid) {
 	});
 }
 
+// In View Projects > Install > Delete Install and all accs, sinks and pieces attached
 function delete_install(iid,pid,instName) {
 	if (window.confirm("Are you sure you want to delete this Install from the Database?")) {
 		var datastring = 'action=delete_install&id=' + iid + '&pid=' + pid + '&install_name=' + instName;
@@ -1317,6 +1827,7 @@ function delete_install(iid,pid,instName) {
 	}
 }
 
+// In View Projects > Install > Delete Piece from Install
 function deletePiece(sid) {
 	if (window.confirm("Are you sure you want to delete this piece from the Database?")) {
 		var datastring = 'action=delete_piece&id=' + sid + '&iid=' + $iid;
@@ -1336,6 +1847,7 @@ function deletePiece(sid) {
 	}
 }
 
+// In View Projects > Install > Edit Sink for Install Modal Open
 function editSink(sink_id, sink_iid, sink_part, sink_model, sink_mount, sink_provided, sink_holes, sink_soap, cutout_width, cutout_depth, sink_cost, sink_price, cutout_price, sink_location, sink_onsite, sink_pickup, delivery) {
 	console.log("Hello");
 	$('#e-sink_soap').prop('checked',false);
@@ -1361,7 +1873,6 @@ function editSink(sink_id, sink_iid, sink_part, sink_model, sink_mount, sink_pro
 			console.log(data);
 		},
 		complete: function() {
-			$('.mdb-select').material_select('destroy');
 			$('#e-sink_part').val(sink_part);
 			$('.mdb-select').material_select();
 		}
@@ -1393,10 +1904,10 @@ function editSink(sink_id, sink_iid, sink_part, sink_model, sink_mount, sink_pro
 	if (delivery == 1) {
 		$('#e-delivery').prop('checked',true);
 	}
-	$('.mdb-select').material_select();
 	$('#edit_sink').modal('show');
 }
 
+// In View Projects > Install > Delete Sink from Install
 function deleteSink(isid) {
 	if (window.confirm("Are you sure you want to delete this sink from the Database?")) {
 		var datastring = 'action=delete_sink&isid=' + isid + '&iid=' + $iid;
@@ -1416,7 +1927,8 @@ function deleteSink(isid) {
 		return;
 	}
 }
-// Default Edge not working yet.
+
+// In View Projects > Install > Add Piece to Install Modal Open
 function pieceAdder() {
 	$('.mdb-select').material_select('destroy');
 	$('#piece_id').val(0);
@@ -1457,7 +1969,7 @@ function pieceAdder() {
 	$('.mdb-select').material_select();
 }
 
-// Default Edge not working yet.
+// In View Projects > Install > Add Sink to Install Modal Open
 function sinkAdder() {
 	$('.mdb-select').material_select('destroy');
 	$('#sink_part').html('');
@@ -1484,7 +1996,7 @@ function sinkAdder() {
 	$('#sink_holes_other').val('');
 }
 
-// Default Edge not working yet.
+// In View Projects > Install > Add Accessories to Install Modal Open
 function accsAdder() {
 	$('.mdb-select').material_select('destroy');
 	$('#f-sink_part').html('');
@@ -1507,33 +2019,37 @@ function accsAdder() {
 }
 
 
+// In View Projects > Install > Add Sink to Install Modal Save
 function add_sink(form) {
 	$('#addSinkBtn').hide();
 	var $form = '#' + form;
-	var $part = $('#sink_part').val();
-	var $provided = $('#sink_provided').val();
-	var $model = $($form).find('#sink_model').val();
+	var $part = $('#add_sink #sink_part').val();
+	var $provided = $('#add_sink #sink_provided').val();
+	var $model = $($form).find('#add_sink #sink_model').val();
 	var $sink_name = $model;
-	var $mount = $('#sink_mount').val();
-	var $holes = $('#sink_holes').val();
-	var $other = $('#sink_holes_other').val();
-	var $sink_location = $('#sink_location').val();
-
+	var $mount = $('#add_sink #sink_mount').val();
+	var $holes = $('#add_sink #sink_holes').val();
+	var $other = $('#add_sink #sink_holes_other').val();
+	var $sink_location = $('#add_sink #sink_location').val();
+	var $sink_status = 0;
+	if ($('#add_sink #sink_here').prop( "checked" ) == true) {
+		$sink_status = 3;
+	}
 	var $soap = 0;
 	var $sink_pickup = 0;
 	var $sink_onsite = 0;
 	var $delivery = 0;
-	if($( '#sink_soap' ).prop( "checked" ) == true) {
+	if($( '#add_sink #sink_soap' ).prop( "checked" ) == true) {
 		$soap = 1;
 	}
-	if($( '#sink_pickup' ).prop( "checked" ) == true) {
+	if($( '#add_sink #sink_pickup' ).prop( "checked" ) == true) {
 		$sink_pickup = 1;
 	}
-	if($( '#sink_onsite' ).prop( "checked" ) == true) {
+	if($( '#add_sink #sink_onsite' ).prop( "checked" ) == true) {
 		$sink_onsite = 1;
 	}
-	var $width = $('#cutout_width').val();
-	var $depth = $('#cutout_depth').val();
+	var $width = $('#add_sink #cutout_width').val();
+	var $depth = $('#add_sink #cutout_depth').val();
 	var $sPrice = 0;
 	var $cPrice = 0;
 
@@ -1559,7 +2075,7 @@ function add_sink(form) {
 			$cPrice = 100;
 		}
 	}
-	if ($('#sink_model').val() == "") {
+	if ($model == "") {
 		alert("You must provide a Sink Model.");
 		$('#addSinkBtn').show();
 		return;
@@ -1568,49 +2084,56 @@ function add_sink(form) {
 	if ($model < 1 || $model == null) {
 		$model = 0;
 	} 
-	if($( '#delivery' ).prop( "checked" ) == true) {
+	if($( '#add_sink #delivery' ).prop( "checked" ) == true) {
 		$delivery = 1;
 		$sCost = 0;
 		$sPrice = 0;
 		$cPrice = 0;
 	}
-	var datastring = 'action=add_sink' +
-					 '&sink_iid=' + $iid +
-					 '&sink_part=' + $part +
-					 '&sink_provided=' + $provided +
-					 '&sink_model=' + $model +
-					 '&sink_mount=' + $mount +
-					 '&sink_holes=' + $holes +
-					 '&sink_holes_other=' + $other +
-					 '&sink_soap=' + $soap +
-					 '&cutout_width=' + $width +
-					 '&cutout_depth=' + $depth +
-					 '&sink_price=' + $sPrice +
-					 '&cutout_price=' + $cPrice +
-					 '&sink_cost=' + $sCost +
-					 '&sink_location=' + $sink_location +
-					 '&sink_pickup=' + $sink_pickup +
-					 '&sink_onsite=' + $sink_onsite +
-					 '&delivery=' + $delivery +
-					 '&sink_name=' + $sink_name;
+	var datastring = 'action=add_sink' + 
+					 '&sink_iid=' + $iid + 
+					 '&sink_part=' + $part + 
+					 '&sink_provided=' + $provided + 
+					 '&sink_model=' + $model + 
+					 '&sink_mount=' + $mount + 
+					 '&sink_holes=' + $holes + 
+					 '&sink_holes_other=' + $other + 
+					 '&sink_soap=' + $soap + 
+					 '&cutout_width=' + $width + 
+					 '&cutout_depth=' + $depth + 
+					 '&sink_price=' + $sPrice + 
+					 '&cutout_price=' + $cPrice + 
+					 '&sink_cost=' + $sCost + 
+					 '&sink_location=' + $sink_location + 
+					 '&sink_pickup=' + $sink_pickup + 
+					 '&sink_onsite=' + $sink_onsite + 
+					 '&delivery=' + $delivery + 
+					 '&sink_name=' + $sink_name + 
+					 '&sink_status=' + $sink_status;
 	console.log(datastring);
 	$.ajax({
 		url: 'ajax.php',
 		data: datastring,
 		type: 'POST',
 		success: function(data) {
-			//console.log(data);
-			$('#sink_provided').val(0);
-			$('#sink_model').val('');
-			$('#sink_mount').val(0);
-			$('#sink_holes').val(0);
-			$('#sink_holes_other').val('');
-			$('#sink_soap').val(0);
-			$('#cutout_width').val(0);
-			$('#cutout_depth').val(0);
-			$('#sink_price').val('');
-			$('#cutout_price').val(0);
-			$('#addSinkBtn').show();
+			console.log(data);
+			$('#add_sink #sink_provided').val(0);
+			$('#add_sink #sink_model').val('');
+			$('#add_sink #sink_mount').val(0);
+			$('#add_sink #sink_holes').val(0);
+			$('#add_sink #sink_holes_other').val('');
+			$('#add_sink #sink_soap').val(0);
+			$('#add_sink #cutout_width').val(0);
+			$('#add_sink #cutout_depth').val(0);
+			$('#add_sink #sink_price').val('');
+			$('#add_sink #cutout_price').val(0);
+			$('#add_sink #addSinkBtn').show();
+			$('#add_sink #sink_soap').prop( "checked", false );
+			$('#add_sink #sink_onsite').prop( "checked", false );
+			$('#add_sink #sink_pickup').prop( "checked", false );
+			$('#add_sink #sink_here').prop( "checked", false );
+			$('#add_sink #delivery').prop( "checked", false );
+			$('#add_sink #delivery').prop( "checked", false );
 			$('#add_sink').modal('hide');
 		},
 		error: function(data) {
@@ -1625,6 +2148,7 @@ function add_sink(form) {
 	});
 }
 
+// In View Projects > Install > Add Accessory to Install Modal Save
 function add_accs(form) {
 	$('#addAccsBtn').hide();
 	var $form = '#' + form;
@@ -1691,6 +2215,7 @@ function add_accs(form) {
 }
 
 
+// In View Projects > Install > Update Sink for Install Modal Save
 function update_sink(form) {
 	$('#updateSinkBtn').hide();
 	var $form = '#' + form;
@@ -1713,8 +2238,6 @@ function update_sink(form) {
 	if($( '#e-sink_onsite' ).prop( "checked" ) == true) {
 		$sink_onsite = 1;
 	}
-
-
 	var $soap = 0;
 	if($( '#e-sink_soap' ).prop( "checked" ) == true) {
 		$soap = 1;
@@ -1722,12 +2245,16 @@ function update_sink(form) {
 	var $width = $('#e-cutout_width').val();
 	var $depth = $('#e-cutout_depth').val();
 	var $sPrice = 0;
-	var $cPrice = $('#e-cutout_price').val();
-
+	var $cPrice = 0;
+	if ($provided == 1) {
+		if (($('#type_cost').text() * 1) == 1) {
+			$cPrice = 50;
+		} else if (($('#type_cost').text() * 1) == 2) {
+			$cPrice = 100;
+		}
+	}
 	var $sSelected = '#edit_sink option:contains(' + $model + ')';
-
 	var $sCost = $($sSelected).attr('cost');
-
 	if ($provided == 0) {
 		$sPrice = $($sSelected).attr('price');
 		if ($sPrice == 0) {
@@ -1797,8 +2324,7 @@ function update_sink(form) {
 	});
 }
 
-
-
+// In View Projects > Install > Add piece to Install Modal Save
 function addPiece(form) {
 	$('input').removeClass('is-invalid');
 	var pForm = "form#" + form;
@@ -1852,6 +2378,7 @@ function addPiece(form) {
 		}
 		e = Math.ceil($(pForm).find('#size_e').val());
 		if (e<=0) {
+
 			$(pForm).find('#size_e').addClass('is-invalid');
 			$(pForm).find('#size_e').focus();
 			return;
@@ -1979,25 +2506,7 @@ function addPiece(form) {
 	});
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// In View Projects > Install > Edit Piece for Install Modal Open
 function edit_piece(ipid) {
 	var datastring = 'action=get_piece_for_edit&piece_id=' + ipid;
 	$.ajax({
@@ -2013,6 +2522,7 @@ function edit_piece(ipid) {
 	});
 }
 
+// In View Projects > Install > Edit Piece for Install Modal Save
 function compile_piece_edit(data) {
 	$('.mdb-select').material_select('destroy');
 	$('#piece_title').text('Edit Piece');
@@ -2138,200 +2648,201 @@ function entry_reject(pid) {
 }
 
 function loadEntries(){
-	var datastring = "action=entry_list"
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			$('#tableResults').html('');
-			$('#tableResults').append(data);
-		},
-		error: function(data) {
-			console.log(data);	
-		}
-	});
+	if ($inFocus == true) {
+		var datastring = "action=entry_list"
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				$('#tableResults').html('');
+				$('#tableResults').append(data);
+			},
+			error: function(data) {
+				console.log(data);	
+			}
+		});
+	}
 	setTimeout(loadEntries, 5000);
 }
 
 function loadApproval() {
-	var datastring = "action=approval_list"
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			$('#tableResults').html('');
-			$('#tableResults').append(data);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
+	var datastring = "action=approval_list";
+
+	if ($inFocus == true) {
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				$('#tableResults').html('');
+				$('#tableResults').append(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	setTimeout(loadApproval, 4000);
 }
 
 function loadHolds() {
-	var datastring = "action=hold_list"
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			console.log(data);
-			$('#tableResults').html('');
-			$('#tableResults').append(data);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
+	if ($inFocus == true) {
+		var datastring = "action=hold_list"
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				console.log(data);
+				$('#tableResults').html('');
+				$('#tableResults').append(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	setTimeout(loadHolds, 5000);
 }
 
 function loadTemplates() {
-	var datastring = "action=templates_list"
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			$('#tableResults').html('');
-			$('#tableResults').append(data);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
+	if ($inFocus == true) {
+		var datastring = "action=templates_list"
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				$('#tableResults').html('');
+				$('#tableResults').append(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	setTimeout(loadTemplates, 5000);
 }
 
 function loadProgramming() {
-	var datastring = "action=programming_list"
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			$('#tableResults').html('');
-			$('#tableResults').append(data);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
+	if ($inFocus == true) {
+		var datastring = "action=programming_list"
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				$('#tableResults').html('');
+				$('#tableResults').append(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	setTimeout(loadProgramming, 5000);
 }
 
 function loadSaw() {
-	var datastring = "action=saw_list"
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			$('#tableResults').html('');
-			$('#tableResults').append(data);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
+	if ($inFocus == true) {
+		var datastring = "action=saw_list"
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				$('#tableResults').html('');
+				$('#tableResults').append(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	setTimeout(loadSaw, 5000);
 }
 
 function loadCNC() {
-	var datastring = "action=cnc_list"
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			$('#tableResults').html('');
-			$('#tableResults').append(data);
-		},
-		error: function(data) {
-			console.log(data);
+	if ($inFocus == true) {
+		var datastring = "action=cnc_list"
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				$('#tableResults').html('');
+				$('#tableResults').append(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
 		}
-	});
 	setTimeout(loadCNC, 5000);
 }
 
 function loadPolishing() {
-	var datastring = "action=polishing_list"
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			$('#tableResults').html('');
-			$('#tableResults').append(data);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
+	if ($inFocus == true) {
+		var datastring = "action=polishing_list"
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				$('#tableResults').html('');
+				$('#tableResults').append(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	setTimeout(loadPolishing, 5000);
 }
 function loadInstalls() {
-	var datastring = "action=installs_list"
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			$('#tableResults').html('');
-			$('#tableResults').append(data);
-			setTimeout(loadInstalls, 4000);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
+	if ($inFocus == true) {
+		var datastring = "action=installs_list"
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				$('#tableResults').html('');
+				$('#tableResults').append(data);
+				setTimeout(loadInstalls, 4000);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	//setTimeout(loadInstalls, 5000);
 }
 
 function loadCompInstalls() {
-	var datastring = "action=installs_comp_list"
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			$('#tableResults').html('');
-			$('#tableResults').append(data);
-			setTimeout(loadCompInstalls, 10000);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
+	if ($inFocus == true) {
+		var datastring = "action=installs_comp_list"
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				$('#tableResults').html('');
+				$('#tableResults').append(data);
+				setTimeout(loadCompInstalls, 10000);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	//setTimeout(loadInstalls, 5000);
 }
 
 //For project_timeline.php
 function loadTimelines() {
-  var datastring = "action=timelines_list";
-  $.ajax({
-    type: "POST",
-    url: "ajax.php",
-    data: datastring,
-    success: function(data) {
-		$('#tableResults').html('');
-		$('#tableResults').append(data);
-		$('[data-toggle=popover]').popover();
-    },
-    error: function(data) {
-      console.log(data);
-			
-			
-			  
-    }
-  });
-}
-
-function loadPrecalls() {
-	var datastring = "action=precall_list"
+	var datastring = "action=timelines_list";
 	$.ajax({
 		type: "POST",
 		url: "ajax.php",
@@ -2339,55 +2850,78 @@ function loadPrecalls() {
 		success: function(data) {
 			$('#tableResults').html('');
 			$('#tableResults').append(data);
-			setTimeout(loadPrecalls, 60000);
+			$('[data-toggle=popover]').popover();
 		},
 		error: function(data) {
 			console.log(data);
 		}
 	});
+}
+
+function loadPrecalls() {
+	if ($inFocus == true) {
+		var datastring = "action=precall_list"
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				$('#tableResults').html('');
+				$('#tableResults').append(data);
+				setTimeout(loadPrecalls, 60000);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	//setTimeout(loadInstalls, 5000);
 }
 
 function loadPrecallsTemp() {
-	var datastring = "action=precall_temp_list"
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			$('#tableResults').html('');
-			$('#tableResults').append(data);
-			setTimeout(loadPrecallsTemp, 60000);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
+	if ($inFocus == true) {
+		var datastring = "action=precall_temp_list"
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				$('#tableResults').html('');
+				$('#tableResults').append(data);
+				setTimeout(loadPrecallsTemp, 60000);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	//setTimeout(loadInstalls, 5000);
 }
 
 function loadInvoices() {
-	var datastring = "action=invoice_list"
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			var divs = data.split(':::')
-			$('#panel_to_invoice').html(divs[0]);
-			$('#panel_outstanding').html(divs[1]);
-			$('#panel_disputed').html(divs[2]);
-			$('#panel_paid').html(divs[3]);
-			$('[data-toggle="tooltip"]').tooltip();
-		},
-		error: function(data) {
-			console.log(data);
-		},
-		complete: function() {
-			setTimeout(loadInvoices, 10000);
-		}
-	});
-	//setTimeout(loadInstalls, 5000);
+	if ($inFocus == true) {
+		var datastring = "action=invoice_list"
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				var divs = data.split(':::')
+				$('#panel_to_invoice').html(divs[0]);
+				$('#panel_outstanding').html(divs[1]);
+				$('#panel_disputed').html(divs[2]);
+				$('#panel_paid').html(divs[3]);
+				$('[data-toggle="tooltip"]').tooltip();
+			},
+			error: function(data) {
+				console.log(data);
+			},
+			complete: function() {
+				//setTimeout(loadInvoices, 10000);
+			}
+		});
+	}
+	setTimeout(loadInstalls, 10000);
 }
 
 function matModalOpen(element) {
@@ -2762,11 +3296,6 @@ function compilePjtEdit(data) {
 	$('#p-geo_lat').val(obj.job_lat);
 	$('#p-geo_long').val(obj.job_long);
 	$('#p-job_sqft').val(obj.job_sqft);
-  
-//   $('#p-geo-lat').val(obj.job_lat);
-// 	$('#p-geo-long').val(obj.job_long);
-// 	$('#p-job-sqft').val(obj.job_sqft);
-	//$('#p-isActive').val(obj.isActive);
 	if (obj.isActive == 1) {
 		$('#p-isActive').prop("checked", true);
 	} else {
@@ -2813,7 +3342,6 @@ function compilePjtEdit(data) {
 		$('#p-temp_pm').prop("checked", false);
 	}
 	$('.mdb-select').material_select();
-	//	setTimeout(function(){ setAcctRep(obj.acct_rep); }, 500);
 }
 
 function setAcctRep(repID) {
@@ -2827,7 +3355,6 @@ function pullEditPjt(pjtToEdit) {
 	var datastring = 'action=get_pjt_for_update&id=' + pjtToEdit;
 	$.ajax({
 		type: "POST",
-		async: false,
 		url: "ajax.php",
 		data: datastring,
 		success: function(data) {
@@ -2837,8 +3364,6 @@ function pullEditPjt(pjtToEdit) {
 		error: function(data) {
 			console.log(data);
 			successNote = "Error submitting form: "+xhr.responseText;
-			
-			
 		}
 	});
 }
@@ -2849,13 +3374,11 @@ function upload_multi(){
 	var fileSelect_fab = $('#multi_upload_input_fab')[0];
 	var fileSelect_cut = $('#multi_upload_input_cut')[0];
 	var fileSelect_inst = $('#multi_upload_input_inst')[0];
-
 	var files_temp = fileSelect_temp.files;
 	var files_fab = fileSelect_fab.files;
 	var files_cut = fileSelect_cut.files;
 	var files_inst = fileSelect_inst.files;
 	var myFormData = new FormData();
-
 	for (var i = 0; i < files_temp.length; i++){
 		var file = files_temp[i];
 		myFormData.append('multiFile_temp[]', file, file.name);  
@@ -2875,7 +3398,6 @@ function upload_multi(){
 	myFormData.append('uid', $uid);
 	myFormData.append('id', $pid);
 	//console.log(myFormData);
-
 	$.ajax({
 		url: 'ajax.php',
 		type: 'POST',
@@ -2915,22 +3437,20 @@ function upload_multi(){
 
 function updateInstall() {
 	if ($('#i-SqFt').val() == "") {
-		$('#i-SqFt').val(0)
+		$('#i-SqFt').val(0);
 	}
 	if ($('#i-slabs').val() == "") {
-		$('#i-slabs').val(0)
+		$('#i-slabs').val(0);
 	}
 	if ($('#i-cpSqFt_override').val() == "") {
-		$('#i-cpSqFt_override').val(0)
+		$('#i-cpSqFt_override').val(0);
 	}
 	if ($('#i-price_extra').val() == "" || $('#i-price_extra').val() < 0) {
-		$('#i-price_extra').val(0)
+		$('#i-price_extra').val(0);
 	}
-
 	$('#i-instUID').val($uid);
 	var form = $("form#updateInstall");
 	var formdata = false;
-
 	if (window.FormData) {
 		formdata = new FormData(form[0]);
 	}
@@ -2967,7 +3487,7 @@ function updateInstall() {
 				  "hideMethod": "fadeOut"
 				}
 			}
-			return false;
+			// return false;
 		},
 		complete: function() {
 			recalculateInstall($iid);
@@ -2984,7 +3504,6 @@ function updateInstall() {
 function approveLoss(mngr_approved,mngr_approved_price,mngr_approved_id) {
 	var approval_name = '';
 	var cmt_user = mngr_approved_id;
-
 	var datastring = 'action=loss_approval&id=' + $pid + '&mngr_approved=' + mngr_approved + '&mngr_approved_price=' + mngr_approved_price + '&mngr_approved_id=' + mngr_approved_id;
 	$.ajax({
 		type: "POST",
@@ -2998,7 +3517,6 @@ function approveLoss(mngr_approved,mngr_approved_price,mngr_approved_id) {
 			console.log(data);
 		}
 	});
-
 	var cmt_comment = '$' + mngr_approved_price + ' approved.'
 	var datastring = 'action=submit_comment&cmt_ref_id=' + $pid + '&cmt_comment=' + cmt_comment + '&cmt_user=' + cmt_user + '&cmt_type=pjt&cmt_priority=log';
 	$.ajax({
@@ -3030,7 +3548,6 @@ function mngrApproveLoss(pid,mngr_approved,mngr_approved_price,mngr_approved_id)
 		complete: function(data) {
 		}
 	});
-
 	var cmt_comment = '$' + mngr_approved_price + ' approved.'
 	var datastring = 'action=submit_comment&cmt_ref_id=' + pid + '&cmt_comment=' + cmt_comment + '&cmt_user=' + cmt_user + '&cmt_type=pjt&cmt_priority=log';
 	$.ajax({
@@ -3049,7 +3566,6 @@ function mngrApproveLoss(pid,mngr_approved,mngr_approved_price,mngr_approved_id)
 
 function request_approval(id,pid,uid) {
 	var cmt_user = id;
-
 	var datastring = 'action=request_approval&id=' + pid;
 	$.ajax({
 		type: "POST",
@@ -3079,18 +3595,7 @@ function request_approval(id,pid,uid) {
 	});
 }
 
-
-
-
-$(document).ready(function() {
-	$('.addChg').change( function() {
-		$('.addVF').addClass('hidden');
-		$('.addFA').addClass('hidden');
-		$('.addLU').removeClass('hidden');
-		$('#address_verif').val(0);
-		$addChange = 1;
-	})
-
+$(document).ready(function(){
 
 // Load links from External Source
 	var pLocation = document.location.search.split('&');
@@ -3308,6 +3813,7 @@ $(document).ready(function() {
 			var costing = parseFloat($SqFt) * parseFloat($cost);
 			$($instForm).find('input[name=materials_cost]').val(costing);
 		} else if ($material == 'quartz') {
+
 			quartzcalc($mat, $tPrice);
 			var costing = parseFloat($slabs) * parseFloat($cost);
 			$($instForm).find('input[name=materials_cost]').val(costing);
@@ -3415,7 +3921,6 @@ $(document).ready(function() {
         	}
     	});
 	});
-	
 	getLocation();
 
 	$('#p-install_date').focus(function(e){
@@ -3540,13 +4045,16 @@ $(document).ready(function() {
 	});
 
 	$('#i-remnant').prop("checked", true);
-
 	getJobsOn();
 	
 	var headHeight = $('.navbar.navbar-expand-md').outerHeight() + 'px';
 	
 	$('#jobsOn').css('top',headHeight);
 
+	$('select').addClass('mdb-select');
+	$('.table').DataTable();
 
-	
+	$('.mdb-select').material_select('destroy');
+	$('.mdb-select').material_select();
+
 });

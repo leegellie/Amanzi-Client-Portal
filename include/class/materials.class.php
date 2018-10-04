@@ -4,6 +4,162 @@ require_once(__DIR__ . '/../config.php');
 
 class materials_action {
 
+	public function get_tied_project($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "SELECT 
+						tie.*, 
+						cat.id_key, 
+						cat.category_id, 
+						cat.category_type, 
+						cat.category_name, 
+						cat.min_req, 
+						inst.install_name, 
+						items.lot, 
+						items.location, 
+						items.remnant, 
+						sup.company as supplier, 
+						COUNT(*) AS item_count 
+				FROM 
+						inventory_tied tie 
+				JOIN 
+						inventory_categories cat 
+					ON 
+						cat.id_key = tie.tie_category 
+				LEFT JOIN 
+						installs inst 
+					ON 
+						inst.id = tie.tie_iid 
+				LEFT JOIN 
+						inventory_items items 
+					ON 
+						items.item_id = tie.tie_item_id 
+				LEFT JOIN 
+						users sup 
+					ON 
+						tie.tie_supplier = sup.id 
+				WHERE 
+						tie_pid = " . $a . " 
+				GROUP BY 
+						lot, cat.category_name, tie_hold, tie.tie_iid  
+				ORDER BY 
+						tie.tie_iid,
+						cat.category_type,
+						cat.category_name";
+		$q = $conn->prepare($sql);
+		$q->execute();
+		return $row = $q->fetchAll();
+	}
+
+	public function get_install_tied($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "SELECT 
+						tie.*, 
+						cat.category_id, 
+						cat.id_key, 
+						cat.category_type, 
+						cat.category_name, 
+						inst.install_name, 
+						items.lot, 
+						items.location, 
+						items.remnant, 
+						sup.company as supplier, 
+						COUNT(*) AS item_count 
+				FROM 
+						inventory_tied tie 
+				JOIN 
+						inventory_categories cat 
+					ON 
+						cat.id_key = tie.tie_category 
+				JOIN 
+						installs inst 
+					ON 
+						inst.id = tie.tie_iid 
+				LEFT JOIN 
+						inventory_items items 
+					ON 
+						items.item_id = tie.tie_item_id 
+				LEFT JOIN 
+						users sup 
+					ON 
+						tie.tie_supplier = sup.id 
+				WHERE 
+						tie_iid = " . $a . " 
+				GROUP BY 
+						lot, tie_hold
+				ORDER BY
+						cat.category_name";
+		$q = $conn->prepare($sql);
+		$q->execute();
+		return $row = $q->fetchAll();
+	}
+
+	public function adjust_material($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "UPDATE installs SET pid = " . $a['pid'] . ", lot = " . $a['lot'] . ", assigned_material = " . $a['assigned_material'] . ", material_status = " . $a['material_status'] . " WHERE id = " . $a['iid'];
+		$q = $conn->prepare($sql);
+		$q->execute();
+
+		$sql = "UPDATE projects SET job_status = " . $a['job_status'];
+		if ($a['job_status'] <> 44) {
+			$sql .= ", mat_ready = 0, mat_selected = 0 ";
+		}
+		$sql .= " WHERE id = " . $a['pid'];
+		$q = $conn->prepare($sql);
+		$q->execute();
+	}
+
+	public function enter_tie_mats($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = 'INSERT INTO inventory_tied (tie_category, tie_item_id, tie_uid, tie_pid, tie_iid, tie_hold, tie_notes, tie_supplier, tie_status, tie_price) VALUES ';
+		$values = '("' . $a['tie_category'] . '",NULLIF("' . $a['tie_item_id'] . '",""),' . $a['tie_uid'] . ',' . $a['tie_pid'] . ',' . $a['tie_iid'] . ',"' . $a['tie_hold'] . '","' . $a['tie_notes'] . '",NULLIF("' . $a['tie_supplier'] . '",""),' . $a['tie_status'] . ',' . $a['tie_price'] . '),';
+		$values = str_repeat($values, $a['tie_qty']);
+		$values = rtrim($values, ',');
+		$sql .= $values;
+		$q = $conn->prepare($sql);
+		$q->execute();
+	}
+
+	public function get_suppliers() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("SELECT id, company FROM users WHERE access_level = 20 ORDER BY company ASC");
+		$q->execute();
+		return $row = $q->fetchAll();
+	}
+
+	public function get_inv_types() {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$q = $conn->prepare("SELECT * FROM inventory_cat_type WHERE 1");
+		$q->execute();
+		return $row = $q->fetchAll();
+	}
+
+	public function get_inv_cats($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = "SELECT * FROM inventory_categories WHERE category_type = " . $a . " ORDER BY category_name ASC";
+		$q = $conn->prepare($sql);
+		$q->execute();
+		return $row = $q->fetchAll();
+	}
+
+	public function get_mats_available($a) {
+		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$sql = 'SELECT *, sup.company FROM inventory_items LEFT OUTER JOIN users sup ON sup.id = supplier WHERE category_id LIKE "' . $a . '" AND NOT EXISTS (SELECT 1 FROM inventory_tied WHERE tie_item_id = item_id) ORDER BY remnant DESC, lot ASC';
+		$q = $conn->prepare($sql);
+		$q->execute();
+		return $row = $q->fetchAll();
+	}
+
+
+
+
 	public function add_marble($a) {
 		$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -164,10 +320,10 @@ class materials_action {
 			  FROM projects 
 			  JOIN status 
 				ON status.id = projects.job_status 
-			 WHERE (projects.job_status > 11 
+			 WHERE projects.job_status > 11 
 			   AND projects.job_status < 50 
-			   AND (!(install_date = '2200-01-01' AND template_date = '2200-01-01') OR projects.pre_order = 1))
-			    OR material_status > 1
+			   AND projects.job_status <> 26 
+			   AND (!(install_date = '2200-01-01' AND template_date = '2200-01-01') OR projects.pre_order = 1)
 			   AND isActive = 1 
 		  ORDER BY projects.install_date ASC
 		  ");
@@ -186,13 +342,19 @@ class materials_action {
 				JOIN status ON status.id = projects.job_status 
 				JOIN installs ON installs.pid = projects.id 
 				JOIN install_sink ON install_sink.sink_iid = installs.id 
-			   WHERE ( (pre_order = 1
-				 AND projects.job_status < 50 
-				 AND projects.job_status <> 44 )
-			   OR
-			   (projects.job_status > 24 
-				 AND projects.job_status < 50 
-				 AND projects.job_status <> 44 
+			   WHERE ( 
+			   			(
+						pre_order = 1
+						AND projects.job_status < 50 
+						AND projects.job_status <> 44 
+						)
+			   		OR
+						(
+						projects.job_status > 24 
+						AND projects.job_status < 50 
+						AND projects.job_status <> 44
+						) 
+					)
 				 AND isActive = 1 
 			ORDER BY projects.install_date ASC
 		");
@@ -215,6 +377,7 @@ class materials_action {
 			AND job_status > 24
 			AND install_sink.pull_status = 0
 			AND sink_onsite = 0 
+			AND isActive = 1 
 	   ORDER BY install_date ASC,
 	   			sink_name ASC,
 				faucet_name ASC
@@ -314,13 +477,17 @@ class materials_action {
       FROM projects 
       JOIN status ON status.id = projects.job_status 
       JOIN installs ON installs.pid = projects.id
-      WHERE ((pre_order = 1 
+      WHERE (
+	  	(pre_order = 1 
+        AND projects.job_status <> 26 
+        AND projects.job_status < 24)
+	  OR 
+	    (projects.job_status > 23 
         AND projects.job_status < 50 
-        AND projects.job_status <> 44)
-	  OR (projects.job_status > 23 
-        AND projects.job_status < 50 
+        AND projects.job_status <> 26 
         AND projects.job_status <> 44 
-        AND !(install_date = '2200-01-01' AND template_date = '2200-01-01')))
+        AND !(install_date = '2200-01-01' AND template_date = '2200-01-01'))
+		)
         AND isActive = 1 
       ORDER BY projects.install_date ASC
 		  ");
@@ -340,10 +507,12 @@ class materials_action {
 				JOIN install_sink ON install_sink.sink_iid = installs.id 
 			   WHERE ( (pre_order = 1
 				 AND projects.job_status < 50 
+				 AND projects.job_status <> 26 
 				 AND projects.job_status <> 44 )
 			   OR
 			   (projects.job_status > 24 
 				 AND projects.job_status < 50 
+				 AND projects.job_status <> 26 
 				 AND projects.job_status <> 44 
 				 AND !(install_date = '2200-01-01' AND template_date = '2200-01-01')))
 				 AND isActive = 1 
@@ -359,6 +528,7 @@ class materials_action {
 			$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			$q = $conn->prepare("
 				SELECT *,
+					   IF( projects.zip > 27500 OR projects.zip < 27000, 'yes', 'no' ) AS outoftown,
 					   status.name AS status
 				  FROM projects 
 				  JOIN status ON status.id = projects.job_status 
@@ -369,13 +539,17 @@ class materials_action {
 					ON materials.pid = projects.id
 				 WHERE projects.job_status > 11 
 				   AND projects.job_status < 50 
+				   AND projects.job_status <> 26 
 				   AND projects.job_status <> 44
 				   AND !(projects.install_date = '2200-01-01' AND projects.template_date = '2200-01-01')
 				   AND projects.isActive = 1 
-			  ORDER BY projects.install_date ASC,
-                 projects.first_stop DESC,
-                 projects.am DESC,
-                 projects.pm DESC
+			  ORDER BY
+					   install_date ASC,
+					   outoftown DESC,
+					   urgent DESC, 
+					   first_stop DESC, 
+					   am DESC, 
+					   pm ASC
 				");
 			$q->execute();
 			return $row = $q->fetchAll();

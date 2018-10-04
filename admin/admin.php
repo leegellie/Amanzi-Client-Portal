@@ -5,7 +5,7 @@ if(!session_id()) session_start();
 //session_set_cookie_params(0,'/','',true,true);
 require_once (__DIR__ . '/../include/class/user.class.php');
 require_once (__DIR__ . '/../include/class/project.class.php');
-//require_once (__DIR__ . '/../include/class/admin.class.php');
+require_once (__DIR__ . '/../include/class/materials.class.php');
 require_once ('head_php.php');
 
 /*
@@ -105,9 +105,9 @@ include('includes.php');
     <script src="js/printThis.js"></script>
 	<script src="bootgrid/jquery.bootgrid.min.js"></script>
 	<script src="bootgrid/jquery.bootgrid.fa.min.js"></script>
-	<script src="js/projects.js"></script>
-	<script src="js/project_edit.js"></script>
-	<script src="js/materials.js"></script>
+	<script src="js/projects.js?<?= $version ?>"></script>
+	<script src="js/project_edit.js?<?= $version ?>"></script>
+	<script src="js/materials.js?<?= $version ?>"></script>
 	<link rel="stylesheet" href="css/pikaday.css">
 	<link rel="stylesheet" href="css/site.css">
 	<script>
@@ -163,336 +163,40 @@ if(isset($_GET['marble'])){
 </div>
 <!-- END BODY CONTENT AREA -->
 <? 
-	include ('modal_install_edit.php');
-	include ('modal_project_edit.php');
-	include ('modal_client_select.php');
-	include ('modal_client_add.php');
-	include ('modal_comment_add.php');
-	include ('modal_email_success.php');
-	include ('modal_location.php');
-	include ('modal_piece_add.php');
-	include ('modal_sink_edit.php');
-	include ('modal_contact_verif.php');
-	include ('modal_user_discount.php');
-	include ('modal_entry_reject.php');
-	include ('modal_hold_notice.php');
-	include ('modal_release_hold.php');
-	include ('modal_job_lookup.php');
-	include ('modal_approval_reject.php');
-	include ('modal_select_installers.php');
-	include ('modal_material_select.php');
-	include ('modal_material_assign.php');
-	include ('modal_material_assign_bulk.php');
-	include ('modal_material_order_bulk.php');
-	include ('modal_material_order.php');
-	include ('modal_mat_hold.php');
-	include ('modal_sink_order.php');
-	include ('modal_accessory_assign.php');
-	include ('modal_sink_hold.php');
-	include ('modal_sink_release_hold.php');
-	include ('footer.php'); 
-	// echo $access_level 
+include ('footer.php');
+include ('modal_accessory_assign.php');
+include ('modal_accs_add.php');
+include ('modal_adjust_material.php');
+include ('modal_approval_reject.php');
+include ('modal_client_add.php');
+include ('modal_client_select.php');
+include ('modal_comment_add.php');
+include ('modal_contact_verif.php');
+include ('modal_email_success.php');
+include ('modal_entry_reject.php');
+include ('modal_hold_notice.php');
+include ('modal_install_edit.php');
+include ('modal_job_lookup.php');
+// include ('modal_job_material.php');
+include ('modal_location.php');
+include ('modal_mat_hold.php');
+include ('modal_material_assign.php');
+include ('modal_material_assign_bulk.php');
+include ('modal_material_order.php');
+include ('modal_material_order_bulk.php');
+include ('modal_material_select.php');
+include ('modal_piece_add.php');
+include ('modal_project_edit.php');
+include ('modal_release_hold.php');
+include ('modal_select_installers.php');
+include ('modal_shape_info.php');
+include ('modal_sink_add.php');
+include ('modal_sink_edit.php');
+include ('modal_sink_hold.php');
+include ('modal_sink_order.php');
+include ('modal_sink_release_hold.php');
+include ('modal_user_discount.php');
 ?>
-	<script src="js/pikaday.js"></script>
-	<script src="js/pikaday.jquery.js"></script>
-	<script src="js/bootstrap-combobox.js"></script>
-	<script>
-	var res = <?= json_encode($output); ?>; //for the template_date 
-	var resforinstall = <?= json_encode($outputforinstall); ?>; //for the install_date 
-	var holi = '<?php echo json_encode($holidays); ?>';
-	var currently_sqft = '<?php echo $limitinfo[0]['install_sqft']; ?>';
-	var template_num = '<?php echo $limitinfo[0]['templates_number']; ?>';
-	var access_level = '<?php echo $_SESSION['access_level']; ?>';
-	var session_id = '<?php echo $_SESSION['id']; ?>';
-	console.log("session id",session_id);
-
-	var holidays = jQuery.parseJSON(holi);
-	// for template date
-	var atr = 0;
-	var cur_day = [];
-	var approv_day = [];
-	var cur_mo = [];
-	var approv_mon = [];
-	// for install date  
-	var atr_ins = 0;
-	var cur_day_ins = [];
-	var approv_day_ins = [];
-	var cur_mo_ins = [];
-	var approv_mon_ins = [];
-	var disable = false;
-	var cur_d = new Date();
-	var _cur_day = cur_d.getDate();
-	var _cur_mon = cur_d.getMonth();
-	function distance(lat1, lon1, lat2, lon2) {
-		var radlat1 = Math.PI * lat1/180
-		var radlat2 = Math.PI * lat2/180
-		var theta = lon1-lon2
-		var radtheta = Math.PI * theta/180
-		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-		dist = Math.acos(dist)
-		dist = dist * 180/Math.PI
-		dist = dist * 60 * 1.1515;
-		return dist
-	}
-	var $datepicker = $('.datepicker').pikaday({
-		firstDay: 1,
-		minDate: new Date(),
-		maxDate: new Date(2020, 12, 31),
-		yearRange: [2000,2020],
-		disableDayFn: function(theDate) {
-			var formattedDate = new Date(theDate);
-			var jday = formattedDate.getDay();
-			var d = formattedDate.getDate();
-			var st_d = d;
-			var m =  formattedDate.getMonth();
-			var st_m = m;
-			m += 1;  // JavaScript months are 0-11
-			var y = formattedDate.getFullYear();
-			if (d < 10) {
-				d = "0" + d;
-			}
-			if (m < 10) {
-				m = "0" + m;
-			}
-			var job_day = formattedDate.getDay();
-			var curdate = y+'-'+m+'-'+d;
-			console.log("here --- ", curdate);
-			//console.log(curdate,"-----", jday); 
-			var flag = false;
-			if(jday == 0 || jday == 6) flag = true;
-			$.each(res, function(key, value){
-				if(value['template_date'] == curdate){
-					var jobs_num = value['detail'].length;
-					if (jobs_num >= template_num){
-						flag = true;
-					}else{  
-						var lat1 = 36.1181642;
-						var lon1 = -80.0626623;
-						var lat2 = $('#p-geo-lat').val();
-						var lon2 = $('#p-geo-long').val();
-						console.log(lat2,"************************", lon2);
-						var distan = distance(lat1,lon1,lat2,lon2);
-						if(distan > 25){
-							$.each(value['detail'], function(k,v){
-								var temp_lat = v['job_lat'];
-								var temp_lang = v['job_long'];
-								var each_dis = distance(lat2, lon2, temp_lat, temp_lang);
-								if(each_dis < 15){
-									atr = 1;
-								}
-							})
-							if ( atr == 1){
-								cur_day.push(st_d);
-								cur_mo.push(st_m);
-								atr = 0;
-							}else{
-								approv_day.push(st_d);
-								approv_mon.push(st_m);
-							}
-						}
-					}
-				}
-			});
-			$.each(holidays, function(k, v){
-				var f_day = new Date(v['start_date']);
-				var e_day = new Date(v['end_date']);
-				if(Date.parse(f_day) <= Date.parse(formattedDate) && Date.parse(e_day) >= Date.parse(formattedDate)){
-					flag = true;
-				}
-			});
-			if (session_id == 1 || session_id == 13 || session_id == 14  || session_id == 985 || session_id == 1444 || session_id == 4 || session_id == 1452)  flag = false;
-			return flag;
-		},
-		onDraw(){
-			var curmm = $('.pika-select').val();
-			var d = new Date();
-			var n = d.getMonth();
-			//console.log(cur_day);
-			//if(n == curmm){
-			for(var i=0;i<cur_day.length;i++){
-				if(curmm == cur_mo[i]){
-					var class_btn = ".pika-button[data-pika-day='"+cur_day[i]+"']";
-					$(class_btn).css({
-						"background":"rgb(144, 186, 255)",
-						"color":"black"
-					});
-				}
-			}
-			for(var i=0;i<approv_day.length;i++){
-				if(curmm == approv_mon[i]){
-					var class_btn = ".pika-button[data-pika-day='"+approv_day[i]+"']";
-					$(class_btn).css({
-						"background":"rgb(244, 151, 159)",
-						"color":"black"
-					}); 
-				}
-			}
-			//}
-		}
-	});
-	var $datepicker1 = $('.datepicker1').pikaday({
-		firstDay: 1,
-		minDate: new Date(),
-		maxDate: new Date(2020, 12, 31),
-		yearRange: [2000,2020],
-		disableDayFn: function(theDate) {
-			var formattedDate = new Date(theDate);
-			var jday = formattedDate.getDay();
-			var d = formattedDate.getDate();
-			var st_d = d;
-			var m =  formattedDate.getMonth();
-			var st_m = m;
-			m += 1;  // JavaScript months are 0-11
-			var y = formattedDate.getFullYear();
-			if (d < 10) {
-				d = "0" + d;
-			}
-			if (m < 10) {
-				m = "0" + m;
-			}
-			var job_day = formattedDate.getDay();
-
-			var curdate = y+'-'+m+'-'+d;
-			console.log("currenlty date = ",curdate);          
-			var flag = false;
-			if(jday == 0 || jday == 6) flag = true;
-	console.log("today: ", _cur_day, "currently month = ", _cur_mon);
-			//           if((access_level != 1 || access_level != 14 ) && st_d < _cur_day + 7 ) flag = true;
-			if(!(session_id == 1 || session_id == 13 || session_id == 14 || session_id == 985 || session_id == 1444 || session_id == 1448 || session_id == 1452) && (st_m == _cur_mon && st_d < _cur_day + 7 )) flag = true;
-			$.each(resforinstall, function(key, value){
-				if(value['install_date'] == curdate){
-					var sum_sqft = 0;
-					$.each(value['detail'], function(k,v){
-						console.log( parseInt(v['job_sqft']) );
-						sum_sqft += parseInt(v['job_sqft']);
-					})
-					var cur_sqft = $('#p-job-sqft').val();
-
-		sum_sqft += parseInt(cur_sqft*1);
-					console.log('sum_sqft=' + sum_sqft);
-					console.log('cur_sqft=' + cur_sqft);
-					console.log('currently_limit_sqft', currently_sqft);
-					console.log('current_day',curdate);
-					if (sum_sqft > currently_sqft){
-						flag = true;
-					}else{  
-						var lat1 = 36.1181642;
-						var lon1 = -80.0626623;
-						var lat2 = $('#p-geo-lat').val();
-						var lon2 = $('#p-geo-long').val();
-						//console.log(lat2,"************************", lon2);
-						var distan = distance(lat1,lon1,lat2,lon2);
-						if(distan > 25){
-							$.each(value['detail'], function(k,v){
-								var temp_lat = v['job_lat'];
-								var temp_lang = v['job_long'];
-								var each_dis = distance(lat2, lon2, temp_lat, temp_lang);
-								if(each_dis < 15){
-									atr_ins = 1;
-								}
-							})
-							if ( atr_ins == 1){
-								cur_day_ins.push(st_d);
-								cur_mo_ins.push(st_m);
-								atr_ins = 0;
-							}else{
-								approv_day_ins.push(st_d);
-								approv_mon_ins.push(st_m);
-							}
-						}
-					}
-				}
-			});
-			$.each(holidays, function(k, v){
-				var f_day = new Date(v['start_date']);
-				var e_day = new Date(v['end_date']);
-				if(Date.parse(f_day) <= Date.parse(formattedDate) && Date.parse(e_day) >= Date.parse(formattedDate)){
-					flag = true;
-				}
-			});
-			if(session_id == 1 || session_id == 13  || session_id == 14  || session_id == 985 || session_id == 1444 || session_id == 1448 || session_id == 1452)  flag = false;
-			return flag;
-		},
-		onDraw() {
-			var curmm = $('.pika-select').val();
-			var d = new Date();
-			var n = d.getMonth();
-			// console.log(cur_day);
-			// if(n == curmm) {
-			for (var i=0; i<cur_day_ins.length; i++) {
-				if(curmm == cur_mo_ins[i]){
-					var class_btn = ".pika-button[data-pika-day='"+cur_day_ins[i]+"']";
-					$(class_btn).css({
-						"background":"rgb(144, 186, 255)",
-						"color":"black"
-					});
-				}
-			}
-			for(var i=0;i<approv_day_ins.length;i++){
-				if(curmm == approv_mon_ins[i]){
-					var class_btn = ".pika-button[data-pika-day='"+approv_day_ins[i]+"']";
-					$(class_btn).css({
-						"background":"rgb(244, 151, 159)",
-						"color":"black"
-					}); 
-				}
-			}
-			//}
-		}
-	});
-	</script>
-	<style>
-	  .pika-button.pika-day{font-weight:bold!important;color:grey;}
-	</style>
-<div aria-hidden="true" aria-labelledby="contact_verificationLabel" class="modal fade" id="contact_verif" role="dialog" tabindex="-1">
-	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="margin-top: 7rem;">
-		<div class="modal-content">
-			<div class="modal-header">
-				<div class="modal-title">
-					<h2 class="d-inline text-primary"><i class="fas fa-phone-square h2 text-warning"></i> Has the customer confirmed the <span id="verif_type"></span>? - <span id="verif_date"></span> : <span id="verif_time"></span></h2>
-				</div><button aria-label="Close" class="close" data-dismiss="modal" type="button"><span aria-hidden="true">&#10008;</span></button>
-			</div>
-			<div class="modal-body">
-				<div class="container">
-					<div class="row">
-						<h2 class="col-12">Job: <span id="verif_customer"></span></h2>
-						<h3 class="col-6">Phone: <span id="verif_phone"></span></h3>
-						<h3 class="col-6">Email: <span id="verif_email"></span></h3>
-					</div>
-					<form id="customer_verif" class="row">
-						<input name="action" type="hidden" value="customer_verif"> <input name="cmt_ref_id" type="hidden" value="">
-						<fieldset class="form-group col-12">
-							<div class="row">
-								<legend class="col-form-legend col-12">Job Type:</legend>
-								<div class="form-check col-4">
-									<label class="w-100" for="not_confirmed">Not Conformed</label>
-									<input checked class="form-check-input with-font ml-4" id="not_confirmed" name="type" type="radio" value="0">
-									<p class="d-inline ml-4"></p>
-								</div>
-								<div class="form-check col-4">
-									<label class="w-100" for="confirmed">Confirmed</label>
-									<input class="form-check-input with-font ml-4" id="confirmed" name="type" type="radio" value="1">
-								</div>
-								<div class="form-check col-4">
-									<label class="w-100" for="reschedule">To be Rescheduled</label>
-									<input class="form-check-input with-font ml-4" id="reschedule" name="type" type="radio" value="2">
-								</div>
-							</div>
-						</fieldset>
-						<fieldset class="form-group col-12">
-							<label class="w-100" for="confirm_notes">Notes:</label> 
-							<textarea class="form-control" id="confirm_notes" name="confirm_notes" rows="4"></textarea>
-						</fieldset>
-					</form>
-				</div>
-				<hr>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-secondary" data-dismiss="modal" type="button">Close &#10008;</button>
-			</div>
-		</div>
-	</div>
-</div>
 
 <div aria-hidden="true" aria-labelledby="editMarbleLabel" class="modal fade" id="editMarble" role="dialog" tabindex="-1">
 	<div class="modal-dialog modal-dialog-centered modal-lg" role="document" style="margin-top: 7rem;">
@@ -613,8 +317,6 @@ if(isset($_GET['marble'])){
 		</div>
 	</div>
 </div>
-	
-
 
 <div class="modal fade" id="materialAddQuartz" tabindex="-1" role="dialog" aria-labelledby="materialAddQuartzLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document" style="margin-top: 7rem;">
@@ -636,7 +338,7 @@ if(isset($_GET['marble'])){
 
 						<div class=" col-9">
 							<label class="mb-3" for="cat_id">Company &amp; Category:</label>
-							<select class="mdb-select" id="cat_id">
+							<select class="mdb-select md-form colorful-select dropdown-primary" id="cat_id">
 <?
 	$uOptions = '';
 	$salesReps = new project_action;
@@ -709,7 +411,7 @@ if(isset($_GET['marble'])){
 						<input class="col-12 mb-3 form-control" type="text" id="q-name" name="name">
 						<div class=" col-9">
 							<label class="mb-3" for="q-cat_id">Company &amp; Category:</label>
-							<select class="mdb-select" id="q-cat_id" name="cat_id">
+							<select class="mdb-select md-form colorful-select dropdown-primary" id="q-cat_id" name="cat_id">
 <?
 	$uOptions = '';
 	$salesReps = new project_action;
@@ -755,6 +457,7 @@ if(isset($_GET['marble'])){
 		</div>
 	</div>
 </div>
+
 <div id="mdb-lightbox-ui"></div>
 
 
@@ -790,23 +493,7 @@ function editMarbModal(id,name,p0,p1,p2,p3,p4,p5,p6,p7,notes) {
 	$('#i-notes').val(notes);
 	$('#editMarble').modal('show');
 }
-var entityMap = {
-	'&': '&amp;',
-	'<': '&lt;',
-	'>': '&gt;',
-	'"': '&quot;',
-	"'": '&#39;',
-	'/': '&#x2F;',
-	'`': '&#x60;',
-	'=': '&#x3D;'
-};
 
-function escapeHtml(string) {
-  return String(string).replace(/[&<>"'`=\/]/g, function (s) {
-    return entityMap[s];
-  });
-}
-	
 function editAccsModal(string) {
 	$('.mdb-select').material_select('destroy'); 
 	var res = string.split('::');
@@ -821,7 +508,7 @@ function editAccsModal(string) {
 	var accs_depth = res[8];
 	var accs_count = res[9];
 
-	$('#add_accs #action').val('update_accs');
+	$('#add_accs input[name=action]').val('update_accs');
 	$('#edit-text').show();
 	$('#accsName').text(accs_name);
 	$('#accs_id').val(accs_id);
@@ -842,6 +529,7 @@ function editAccsModal(string) {
 	$('.mdb-select').material_select(); 
 	$('#addAccs').modal('show');
 }
+
 function delete_accessory(accs_id) {
 	if (confirm('Are you sure you want to delete this from the database?')) {
 		var datastring = 'action=delete_accs&accs_id=' + accs_id;
@@ -862,8 +550,9 @@ function delete_accessory(accs_id) {
 		return;
 	}
 }
+
 function addAccs() {
-	$('#add_accs #action').val('add_accs');
+	$('#add_accs input[name=action]').val('add_accs');
 	$('#edit-text').hide();
 	$('#accsName').text('accs_name');
 	$('#accs_id').val(0);
@@ -879,7 +568,7 @@ function addAccs() {
 	$('#addAccsBtn').text('Add to Database');
 	$('#addAccs').modal('show');
 }
-// 1	Sink	DURANGO TU-013	DURANGO TU-013 UNDERMOUNT STAINLESS STEEL SINK 18X14X6	79.00	316.00	Yes	18	14
+
 function update_accs(){
 	$('.is-invalid').removeClass('.is-invalid');
 	if ($('#add_accs #accs_name').val() == '') {
@@ -919,7 +608,7 @@ function update_accs(){
 		$('#add_accs #accs_code').addClass('.is-invalid');
 		return;
 	}
-	var datastring = 'action=' + $('#add_accs #action').val() + '&accs_id=' + $('#add_accs #accs_id').val() + '&accs_name=' + $('#add_accs #accs_name').val() + '&accs_code=' + $('#add_accs #accs_code option:selected').val() + '&accs_model=' + $('#add_accs #accs_model').val() + '&accs_cost=' + $('#add_accs #accs_cost').val() + '&accs_price=' + $('#add_accs #accs_price').val() + '&accs_width=' + $('#add_accs #accs_width').val() + '&accs_depth=' + $('#add_accs #accs_depth').val() + '&accs_count=' + $('#add_accs #accs_count').val() + '&accs_status=' + accs_status;
+	var datastring = 'action=' + $('#add_accs input[name=action]').val() + '&accs_id=' + $('#add_accs #accs_id').val() + '&accs_name=' + $('#add_accs #accs_name').val() + '&accs_code=' + $('#add_accs #accs_code option:selected').val() + '&accs_model=' + $('#add_accs #accs_model').val() + '&accs_cost=' + $('#add_accs #accs_cost').val() + '&accs_price=' + $('#add_accs #accs_price').val() + '&accs_width=' + $('#add_accs #accs_width').val() + '&accs_depth=' + $('#add_accs #accs_depth').val() + '&accs_count=' + $('#add_accs #accs_count').val() + '&accs_status=' + accs_status;
 
 	console.log(datastring);
 	$.ajax({
@@ -936,25 +625,6 @@ function update_accs(){
 	});
 }
 
-//$(document).ready(function(){
-//	$("#searchBox").on("keyup", function() {
-//		var value = $(this).val().toLowerCase();
-//		$(".filter").filter(function() {
-//			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-//		});
-//	});
-//	$('.table').DataTable({
-//		"pageLength": 50,
-//		"aoColumnDefs" : [{
-//			'bSortable' : false,
-//			'aTargets' : [ -2, -1 ]
-//		}]
-//	});
-//	$('.mdb-select').material_select('destroy'); 
-//	$('select[name=DataTables_Table_0_length]').addClass('mdb-select'); 
-//	$('.mdb-select').material_select(); 
-//	$("#mdb-lightbox-ui").load("https://amanziportal.com/mdb-addons/mdb-lightbox-ui.html"); 
-//});
 
 </script>
 </body>

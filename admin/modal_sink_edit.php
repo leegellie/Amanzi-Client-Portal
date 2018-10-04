@@ -21,18 +21,18 @@
 							<div class="row">
 								<fieldset class="form-group col-6 d-inline">
 									<label for="e-sink_part"><u>To which piece does the sink belong</u>: </label>
-									<select class="mdb-select" id="e-sink_part" name="sink_part"></select>
+									<select class="mdb-select md-form colorful-select dropdown-primary" id="e-sink_part" name="sink_part"></select>
 								</fieldset>
 								<fieldset class="form-group col-3 d-inline">
 									<label for="e-sink_provided"><u>Customer provided</u>? </label>
-									<select class="mdb-select" id="e-sink_provided" name="sink_provided">
+									<select class="mdb-select md-form colorful-select dropdown-primary" id="e-sink_provided" name="sink_provided">
 										<option value="0">No</option>
 										<option value="1">Yes</option>
 									</select>
 								</fieldset>
 								<fieldset class="form-group col-3 d-inline">
 									<label for="e-sink_mount"><u>Cutout</u>: </label>
-									<select class="mdb-select" id="e-sink_mount" name="sink_mount">
+									<select class="mdb-select md-form colorful-select dropdown-primary" id="e-sink_mount" name="sink_mount">
 										<option value="0">None</option>
 										<option value="1">Undermount</option>
 										<option value="2">Drop-In</option>
@@ -64,7 +64,7 @@
 								</fieldset>
 								<fieldset class="form-group col-3 d-inline">
 									<label for="e-sink_holes"><u>Faucet Spread / Holes</u>:</label>
-									<select class="mdb-select holeOpt" id="e-sink_holes" name="sink_holes">
+									<select class="mdb-select md-form colorful-select dropdown-primary holeOpt" id="e-sink_holes" name="sink_holes">
 										<option value="0">None</option>
 										<option value="1">1 Hole - Center</option>
 										<option value="2">3 Hole - 4"</option>

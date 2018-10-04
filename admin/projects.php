@@ -5,6 +5,7 @@ if(!session_id()) session_start();
 //session_set_cookie_params(0,'/','',true,true);
 require_once (__DIR__ . '/../include/class/user.class.php');
 require_once (__DIR__ . '/../include/class/project.class.php');
+require_once (__DIR__ . '/../include/class/materials.class.php');
 require_once ('head_php.php');
 
 /*
@@ -100,14 +101,14 @@ USER'S EMAIL = <?= $user_email ?>
 	<script>
 		$uAccess = <?= $_SESSION['access_level'] ?>;
 	</script>
-	<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+	
+	<?PHP include ('javascript.php'); ?>
 	<link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 	<script src="/js/jquery.validate.js" type="text/javascript"></script>
-	<script src="js/projects.js"></script>
+	<script src="js/projects.js?<?= $version ?>">a</script>
 	<script src="js/printThis.js"></script>
 	<link rel="stylesheet" href="css/pikaday.css">
 	<link rel="stylesheet" href="css/site.css">
-
 	<script>
 		<?PHP 
 		if(isset($_GET['add'])){
@@ -118,10 +119,11 @@ USER'S EMAIL = <?= $user_email ?>
 		?>
 	</script>
 
-	<?PHP include ('javascript.php'); ?>
+
 	<link rel="stylesheet" type="text/css" href="bootgrid/jquery.bootgrid.min.css">
 </head>
 <body class="metro" style="background-color: rgb(239, 234, 227);" >
+	<div id="mdb-lightbox-ui"></div>
 	<?PHP include('menu.php'); ?>
 	<?PHP include ('header.php'); ?>
 	<div id="loadOver"></div>
@@ -161,31 +163,41 @@ USER'S EMAIL = <?= $user_email ?>
 		require_once('project_test.php');
 	}
 
-	include ('footer.php');
-	include ('modal_install_edit.php');
-	include ('modal_project_edit.php');
-	include ('modal_client_select.php');
-	include ('modal_client_add.php');
-	include ('modal_comment_add.php');
-	include ('modal_email_success.php');
-	include ('modal_location.php');
-	include ('modal_piece_add.php');
-	include ('modal_sink_edit.php');
-	//include ('modal_qr_reader.php');
-	include ('modal_contact_verif.php');
-	include ('modal_user_discount.php');
-	include ('modal_entry_reject.php');
-	include ('modal_hold_notice.php');
-	include ('modal_release_hold.php');
-	include ('modal_approval_reject.php');
-	include ('modal_job_lookup.php');
-	include ('modal_select_installers.php');
+include ('footer.php');
+include ('modal_accessory_assign.php');
+include ('modal_accs_add.php');
+include ('modal_adjust_material.php');
+include ('modal_approval_reject.php');
+include ('modal_client_add.php');
+include ('modal_client_select.php');
+include ('modal_comment_add.php');
+include ('modal_contact_verif.php');
+include ('modal_email_success.php');
+include ('modal_entry_reject.php');
+include ('modal_hold_notice.php');
+include ('modal_install_edit.php');
+include ('modal_job_lookup.php');
+include ('modal_job_material.php');
+include ('modal_location.php');
+include ('modal_mat_hold.php');
+include ('modal_material_assign.php');
+include ('modal_material_assign_bulk.php');
+include ('modal_material_order.php');
+include ('modal_material_order_bulk.php');
+include ('modal_material_select.php');
+include ('modal_piece_add.php');
+include ('modal_project_edit.php');
+include ('modal_release_hold.php');
+include ('modal_select_installers.php');
+include ('modal_shape_info.php');
+include ('modal_sink_add.php');
+include ('modal_sink_edit.php');
+include ('modal_sink_hold.php');
+include ('modal_sink_order.php');
+include ('modal_sink_release_hold.php');
+include ('modal_user_discount.php');
+include ('modal_date_change.php');
 	?>
-
-	<script src="js/pikaday.js"></script>
-	<script src="js/pikaday.jquery.js"></script>
-	<script src="js/bootstrap-combobox.js"></script>
-
 	<script>
 	var res = <?= json_encode($output); ?>; //for the template_date 
 	var resforinstall = <?= json_encode($outputforinstall); ?>; //for the install_date 
@@ -224,6 +236,7 @@ USER'S EMAIL = <?= $user_email ?>
 		dist = dist * 60 * 1.1515;
 		return dist
 	}
+
 	var $datepicker = $('.datepicker').pikaday({
 		firstDay: 1,
 		minDate: new Date(),
@@ -260,7 +273,6 @@ USER'S EMAIL = <?= $user_email ?>
 						var lon1 = -80.0626623;
 						var lat2 = $('#p-geo-lat').val();
 						var lon2 = $('#p-geo-long').val();
-						console.log(lat2,"************************", lon2);
 						var distan = distance(lat1,lon1,lat2,lon2);
 						if(distan > 25){
 							$.each(value['detail'], function(k,v){
@@ -431,9 +443,13 @@ USER'S EMAIL = <?= $user_email ?>
 			//}
 		}
 	});
-	</script>
-	<style>
-	  .pika-button.pika-day{font-weight:bold!important;color:grey;}
-	</style>
+$(document).ready(function(){
+	$('.table').DataTable();
+
+	$('.mdb-select').material_select('destroy');
+	$('.mdb-select').material_select();
+});
+</script>
+
 </body>
 </html>

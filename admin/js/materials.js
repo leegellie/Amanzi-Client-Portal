@@ -407,83 +407,92 @@ function sinkReset(sink_id, pid, aname) {
 }
 
 function get_materials_pull_list() {
-	var datastring = "action=get_materials_pull_list";
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			$('#toDeliver').html(data);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
+	if ($inFocus == true) {
+		var datastring = "action=get_materials_pull_list";
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				$('#toDeliver').html(data);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	setTimeout(get_materials_pull_list, 5000);
 }
 
 function mat_list_pull() {
-	var datastring = "action=get_materials_needed";
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			var res = data.split(":::");
-			$('#toOrder').html(res[0]);
-			$('#mOrdered').html(res[1]);
-			$('#mOnHand').html(res[2]);
-			$('#toDeliver').html(res[3]);
+	if ($inFocus == true) {
+		var datastring = "action=get_materials_needed";
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				console.log(data);
+				var res = data.split(":::");
+				$('#toOrder').html(res[0]);
+				$('#mOrdered').html(res[1]);
+				$('#mOnHand').html(res[2]);
+				$('#toDeliver').html(res[3]);
 
-			$('#sAccsMat').html(res[4]);
-			$('#sAccsJob').html(res[5]);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
+				$('#sAccsMat').html(res[4]);
+				$('#sAccsJob').html(res[5]);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	setTimeout(mat_list_pull, 5000);
 }
 
 
 function mat_list_pull_accs() {
-	var datastring = "action=get_accessories_needed";
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			var res = data.split(":::");
-			$('#toOrder').html(res[0]);
-			$('#mOrdered').html(res[1]);
-			$('#mOnHand').html(res[2]);
-			$('#toDeliver').html(res[3]);
+	if ($inFocus == true) {
+		var datastring = "action=get_accessories_needed";
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				var res = data.split(":::");
+				$('#toOrder').html(res[0]);
+				$('#mOrdered').html(res[1]);
+				$('#mOnHand').html(res[2]);
+				$('#toDeliver').html(res[3]);
 
-			$('#sAccsMat').html(res[4]);
-			$('#sAccsJob').html(res[5]);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
+				$('#sAccsMat').html(res[4]);
+				$('#sAccsJob').html(res[5]);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	setTimeout(mat_list_pull_accs, 5000);
 }
 
 function get_pull_list() {
-	var datastring = "action=get_pull_list";
-	$.ajax({
-		type: "POST",
-		url: "ajax.php",
-		data: datastring,
-		success: function(data) {
-			var res = data.split(":::");
-			$('#sAccsMat').html(res[0]);
-			$('#sAccsJob').html(res[1]);
-		},
-		error: function(data) {
-			console.log(data);
-		}
-	});
+	if ($inFocus == true) {
+		var datastring = "action=get_pull_list";
+		$.ajax({
+			type: "POST",
+			url: "ajax.php",
+			data: datastring,
+			success: function(data) {
+				var res = data.split(":::");
+				$('#sAccsMat').html(res[0]);
+				$('#sAccsJob').html(res[1]);
+			},
+			error: function(data) {
+				console.log(data);
+			}
+		});
+	}
 	setTimeout(get_pull_list, 5000);
 }
 
@@ -583,7 +592,6 @@ $(document).ready(function() {
     $("form.mats_bulk").on("submit", function(event) {
         event.preventDefault();
         var datastring = $(this).serialize();
-		console.log(datastring);
 		$.ajax({
 			type: "POST",
 			url: "ajax.php",
@@ -597,7 +605,8 @@ $(document).ready(function() {
 				console.log('assignMat: ' + data);
 			}
 		});
-    });
+		get_po_mats_needed();
+	});
 
     $("#materialBtn").click(function() {
 		console.log("start");

@@ -29,8 +29,8 @@ include('includes.php');
 
 ?>
 
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
 	<script src="/js/jquery.validate.js" type="text/javascript"></script>
     <script src="js/projects.js"></script>
     <script src="js/project_edit.js"></script>
@@ -131,7 +131,7 @@ if ( $isManager == 1 ) {
 			</div>
 			<div class="modal-body">
 				<form id="pullSummaryByYear" class="d-flex">
-					<select name="summaryYear" class="col-6 mdb-select">
+					<select name="summaryYear" class="col-6 mdb-select md-form colorful-select dropdown-primary">
 						<option value="2017">2017</option>
 						<option value="2018" selected>2018</option>
 					</select>
@@ -167,7 +167,7 @@ if ( $isManager == 1 ) {
 
 						<fieldset class="form-group col-md-6">
 							<label for="quote-num">Staff Member:</label>
-							<select class="mdb-select" id="enter_staff" name="staff">
+							<select class="mdb-select md-form colorful-select dropdown-primary" id="enter_staff" name="staff">
 								<option value="0">Select Staff Member... </option>
 	<?
 
@@ -198,7 +198,7 @@ if ( $isManager == 1 ) {
 						</fieldset>
 						<fieldset class="form-group col-md-4">
 							<label for="respond_email">Time Off Type:</label>
-							<select class="mdb-select" id="enter_type" name="type">
+							<select class="mdb-select md-form colorful-select dropdown-primary" id="enter_type" name="type">
 								<option value="Sick">Sick Day(s)</option>
 								<option value="Vacation">Vacation</option>
 							</select>
@@ -245,7 +245,7 @@ if ( $isManager == 1 ) {
 
 						<fieldset class="form-group col-md-6">
 							<label for="quote-num">Staff Member:</label>
-							<select class="mdb-select" id="update_staff" name="staff" readonly >
+							<select class="mdb-select md-form colorful-select dropdown-primary" id="update_staff" name="staff" readonly >
 	<?
 	$_POST = array();
 	$_POST['division'] = $division;
@@ -271,7 +271,7 @@ if ( $isManager == 1 ) {
 						</fieldset>
 						<fieldset class="form-group col-md-4">
 							<label for="respond_email">Time Off Type:</label>
-							<select class="mdb-select" id="update_type" name="type">
+							<select class="mdb-select md-form colorful-select dropdown-primary" id="update_type" name="type">
 								<option value="Sick">Sick Day(s)</option>
 								<option value="Vacation">Vacation</option>
 							</select>
@@ -317,7 +317,7 @@ if ( $isManager == 1 ) {
 
 						<fieldset class="form-group col-md-6">
 							<label for="quote-num">Staff Member:</label>
-							<select class="mdb-select" id="request_staff" name="staff" readonly>
+							<select class="mdb-select md-form colorful-select dropdown-primary" id="request_staff" name="staff" readonly>
 							<?
 $staffOptions = '';
 $staffEmail = '';
@@ -336,7 +336,7 @@ echo $staffOptions;
 						</fieldset>
 						<fieldset class="form-group col-md-4">
 							<label for="respond_email">Time Off Type:</label>
-							<select class="mdb-select" id="request_type" name="type">
+							<select class="mdb-select md-form colorful-select dropdown-primary" id="request_type" name="type">
 								<option value="Vacation">Vacation</option>
 								<option value="Sick">Sick Day(s)</option>
 							</select>

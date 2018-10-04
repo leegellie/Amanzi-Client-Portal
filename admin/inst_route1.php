@@ -88,11 +88,11 @@ if( isset($_POST['date']) ){
 			am DESC,
 			pm ASC
 	");
-
-	$q->bindParam('install_date',$curDate);
+  
+  $q->bindParam('install_date',$curDate);
 	$q->execute();
 	$jobs = $q->fetchAll(PDO::FETCH_ASSOC);
-	$projects = getinfoByJob($jobs);
+// 	$projects = getinfoByJob($jobs);
 
 	$p = $conn->prepare("
 		SELECT projects.*, u.fname, u.lname, c.company AS comp_name, c.fname AS cFname, c.company AS cLname
@@ -119,7 +119,8 @@ if( isset($_POST['date']) ){
 
 	//$extra_projects = getinfoByJob($ex_jobs);
 
-	echo json_encode(array('projects'=>$projects,'extra_projects'=>$ex_jobs));
+// 	echo json_encode(array('projects'=>$projects,'extra_projects'=>$ex_jobs));
+  echo json_encode(array('projects'=>$jobs,'extra_projects'=>$ex_jobs));
 	exit;
 }
 
@@ -219,13 +220,13 @@ include('includes.php');
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker3.min.css">
 <script type='text/javascript' src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.min.js"></script>
 
-  <!--    Google Map Javascript API    -->
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBqPzFs8u8_yAC5N-nWXFp0eNz02xaGik4">   </script>
 <!--  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" type="text/javascript"></script> -->  
 <script src="js/bootstrap-datepicker.js"></script>
 <script src="js/markerclusterer.js"></script>
-  
-<script type="text/javascript">
+<!--    Google Map Javascript API    -->
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places&key=AIzaSyBqPzFs8u8_yAC5N-nWXFp0eNz02xaGik4"></script>
+<!-- <script src="https://maps.google.com/maps/api/js?sensor=false&v=3.5"></script> -->
+<script>
     var map;
     var directionsDisplay = null;
     var directionsService;
@@ -322,7 +323,7 @@ include('includes.php');
     }
 
     CustomMarker.prototype.draw = function() {
-		var self = this;
+		    var self = this;
         var div = this.div;
         if (!div) {
             div = this.div = $('' +
@@ -440,6 +441,7 @@ include('includes.php');
 				type: 'post',
 				data: {date: cur_date},
 				success: function(response){
+          console.log(response);
 					
 					$('.loading').addClass('hidden');
 					//var marker;
@@ -460,7 +462,7 @@ include('includes.php');
 					var iconBase3 = '/images/icon-future.png';
 	
 					var joblist_str = [];
-					for(var i=0;i<=1000;i++){
+					for(var i=0;i<=100;i++){
 						nodes_team[i] = [];
 						joblist_str[i] = '';
 						nodes_team[i].push(pointHOME);
@@ -692,8 +694,10 @@ include('includes.php');
 							}
 						}
 
-						var latitude = parseFloat(value['lat']);
-						var longitude = parseFloat(value['lng']);
+// 						var latitude = parseFloat(value['lat']);
+// 						var longitude = parseFloat(value['lng']);
+            var latitude = parseFloat(value['job_lat']);
+						var longitude = parseFloat(value['job_long']);
 
 						do {
 							latitude = latitude - 0.001;
@@ -775,7 +779,7 @@ modalPull += 			"'><i class='fas fa-eye'></i></a>";
 								<?php 
 								if ($_SESSION['access_level'] == 1) {
 								?>
-modalPull += '						<select class="mdb-select form-control col-9 border-0 select' + value['id'] + '" onchange="assign_select(' + value['id'] + ');">';
+modalPull += '						<select class="mdb-select md-form colorful-select dropdown-primary form-control col-9 border-0 select' + value['id'] + '" onchange="assign_select(' + value['id'] + ');">';
 								<?
 								foreach ($rows as $row){ ?>
 
@@ -867,9 +871,6 @@ modalPull += '</div>';
 				} 
 			}); 
 		}
-
-
-
 
 		// Add "my location" button
 		var myLocationDiv = document.createElement('div');
@@ -1655,7 +1656,7 @@ modalPull += '</div>';
 			$str += '<p class="text-muted mb-0">Addr. Notes: <b>' + value['address_notes'] + '</b></p>';
 		}
 
-		$str +=     "<select class='mdb-select border-0 select" + value['id'] + "' onchange='assign_list("+value['id']+");'>";
+		$str +=     "<select class='mdb-select md-form colorful-select dropdown-primary border-0 select" + value['id'] + "' onchange='assign_list("+value['id']+");'>";
 		<?
 			foreach ($rows as $row){ 
 		?>
@@ -1728,6 +1729,7 @@ function date_change() {
 }
 
 </script>
+<!-- <script src="https://maps.googleapis.com/maps/api/js?callback=initializeMap" async defer></script> -->
 <style>
 .side-nav {
 	width: 40%;

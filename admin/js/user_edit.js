@@ -63,6 +63,7 @@ function editThisUser(i) {
 	$('#uEditMod').modal('show');
 	$('#updateSuc').hide();
 	$('#billingSuc').hide();
+	getComments('usr');
 }
 
 function changePW() {

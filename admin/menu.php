@@ -112,7 +112,7 @@ if ($access_level < 11) {
 				</li>
 <?
 	}
-	if ($access_level == 6 || $access_level == 1 || ($division == "2B" && $department == 0)) {
+	if ($access_level == 6 || $access_level == 1 || $_SESSION['id'] == 1545 || ($division == "2B" && $department == 0)) {
 ?>
 				<li class="nav-item py-3 px-4 dropdown">
 					<a class="dropdown-toggle text-white" id="toolsdropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Materials</a>
@@ -128,6 +128,8 @@ if ($access_level < 11) {
 			if ($_SESSION['id'] == 1 || $_SESSION['id'] == 14 || $_SESSION['id'] == 1283) {
 ?>
 						<a class="dropdown-item text-dark" href="admin.php?order">Ordering</a>
+						<a class="dropdown-item text-dark" href="admin_inventory_manager.php">Inventory</a>
+						<a class="dropdown-item text-dark" href="admin_item_edit.php">Item Lookup</a>
 <?
 			}
 ?>

@@ -12,7 +12,7 @@
 				<div class="container">
 					<div class="row">
 						<input type="hidden" name="assign_installer_pjt" id="assign_installer_pjt" value="0">
-						<select class='mdb-select border-0 m-0' id='assign_installer_team' onchange='assign_installer();'>
+						<select class='mdb-select md-form colorful-select dropdown-primary border-0 m-0' id='assign_installer_team' onchange='assign_installer();'>
 							<?
 							$conn = new PDO("mysql:host=" . db_host . ";dbname=" . db_name . "",db_user,db_password);
 							$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

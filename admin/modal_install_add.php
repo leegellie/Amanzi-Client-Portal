@@ -20,7 +20,7 @@
 							<div class="row">
 								<fieldset class="form-group col-3">
 									<label for="install_room">Room Type:</label>
-									<select class="mdb-select" id="install_room" name="install_room" type="text" data-required="true">
+									<select class="mdb-select md-form colorful-select dropdown-primary" id="install_room" name="install_room" type="text" data-required="true">
 									<?
 										$get_rooms = new project_action;
 										$rows = $get_rooms->get_rooms();
@@ -68,7 +68,7 @@
 
                                 <fieldset class="input-group col-12 col-lg-4">
                                     <label for="material">Material:</label>
-                                    <select class="mdb-select" id="material" name="material">
+                                    <select class="mdb-select md-form colorful-select dropdown-primary" id="material" name="material">
                                         <option value="0">Not Selected</option>
                                         <option value="marbgran">Marble/Granite</option>
                                         <option value="quartz">Quartz/Quartzite</option>
@@ -140,7 +140,7 @@
 
 								<div class="container matHolder hidden">
 									<div class="row px-3">
-										<select class="levelFilter col-12 col-md-5 mb-3 mdb-select">
+										<select class="levelFilter col-12 col-md-5 mb-3 mdb-select md-form colorful-select dropdown-primary">
 											<option class="btn btn-lg btn-dark mx-1 px-4" value="0">Filter...</option>
 											<option class="btn btn-lg btn-dark mx-1 px-4" value="1">Level 1</option>
 											<option class="btn btn-lg btn-dark mx-1 px-4" value="2">Level 2</option>
@@ -176,7 +176,7 @@
 								</fieldset>
 								<fieldset class="form-group col-3">
 									<label for="edge">Default Edge:</label>
-									<select class="mdb-select" id="edge" name="edge">
+									<select class="mdb-select md-form colorful-select dropdown-primary" id="edge" name="edge">
 									<?
 										$get_accs = new project_action;
 										$rows = $get_accs->get_edges();
@@ -188,7 +188,7 @@
 								</fieldset>
 								<fieldset class="form-group col-3">
 									<label for="range_type">Range Type:</label>
-									<select class="mdb-select" id="range_type" name="range_type">
+									<select class="mdb-select md-form colorful-select dropdown-primary" id="range_type" name="range_type">
 										<option value="0">None</option>
 										<option value="1">Free Standing</option>
 										<option value="2">Cooktop</option>
